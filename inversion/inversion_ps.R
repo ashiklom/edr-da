@@ -1,7 +1,6 @@
 source("common.R")
 
-pft <- "late_hardwood"
-pft_pecan <- "temperate.Late_Hardwood"
+pft <- "temperate.Late_Hardwood"
 dbh <- 40
 lai <- getvar("LAI_CO", dbh, pft)
 
@@ -23,7 +22,7 @@ invert_model <- function(param, seed = 0) {
     b2Bl_large <- param[5]
 
     trait.values <- list()
-    trait.values[[pft_pecan]] <- list(orient_factor = orient_factor,
+    trait.values[[pft]] <- list(orient_factor = orient_factor,
                                       clumping_factor = clumping_factor,
                                       sla = sla,
                                       b1Bl_large = b1Bl_large,
