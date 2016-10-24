@@ -31,13 +31,10 @@ results := $(foreach c, $(cohorts), \
 	$(foreach p, $(pfts), \
 	ed-inputs/sites/US-WCr/rtm/$c/dens$s/dbh$d/$p/outputs/history.xml))))
 
-edlinks := $(foreach c, $(cohorts), \
-	$(foreach s, $(denss), \
-	$(foreach d, $(dbhs), \
-	$(foreach p, $(pfts), \
-	ed-inputs/sites/US-WCr/rtm/$c/dens$s/dbh$d/$p/ed_2.1))))
+all: $(testsites) $(results) inversion/edr_path
 
-all: $(testsites)
+inversion/edr_path: 
+	@echo $(EDR_EXE) > $@
 
 %.css:
 	$(eval dt := $(shell expr match "$@" '.*dbh\([0-9]\+\).*'))
@@ -45,14 +42,14 @@ all: $(testsites)
 	$(eval st := $(shell expr match "$@" '.*dens\([0-9.]\+\).*'))
 	Rscript generate_test.R $(dt) $(pt) $(st)
 
-%/ed_2.1:
-	ln -sf $(ED_EXE) $@
-
-%/outputs/history.xml: %/ED2IN %/ed_2.1
+run-ed/%/outputs/history.xml: %/ED2IN run-ed/template/ed_2.1
 	$(eval dt := $(shell expr match "$@" '.*dbh\([0-9]\+\).*'))
 	$(eval pt := $(shell expr match "$@" '.*/\(.*\).lat.*'))
 	$(eval st := $(shell expr match "$@" '.*dens\([0-9.]\+\).*'))
 	exec_ed_test.sh dt pt st
+
+run-ed/template/ed_2.1: 
+	ln -fs $(ED_EXE) $@
 
 clean:
 	rm -rf ed-inputs/sites/US-WCr/rtm/1cohort \
@@ -60,6 +57,3 @@ clean:
 
 %: %.temp
 	sed $(subst_dir) $< > $@
-
-#results: testsites
-	#./exec_ed_tests.sh

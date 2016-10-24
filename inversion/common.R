@@ -1,6 +1,8 @@
 library(PEcAnRTM)
 library(PEcAn.ED2)
 
+edr_exe_path <- readLines("edr_path")
+
 runpath <- function(dbh, pft) {
     file.path("../run-ed/1cohort/", paste0("dbh", dbh), pft)
 }
@@ -29,7 +31,7 @@ EDR.run <- function(prospect.param, trait.values, output.path,
 
 link_ed <- function(output.path, 
                     output.name = "ed_2.1",
-                    exe.path = "~/Projects/ED2/EDR/build/ed_2.1-opt") {
+                    exe.path = edr_exe_path) {
     file.symlink(exe.path, file.path(output.path, output.name))
 }
 

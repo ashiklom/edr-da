@@ -1,0 +1,8 @@
+inversion/
+inversion.*
+sensitivity/
+testdir/
+edr_path
+
+*.png
+*.pdf
