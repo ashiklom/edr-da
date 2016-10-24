@@ -5,7 +5,8 @@ subst_dir := 's|XXX_DIR_XXX|'${prefix}'|g'
 
 met_driver := ed-inputs/met3/US-WCr/ED_MET_DRIVER_HEADER
 ed2in_temp := run-ed/template/ED2IN
-templates := ${met_driver} ${ed2in_temp}
+ed2_link := run-ed/template/ed_2.1
+templates := $(met_driver) $(ed2in_temp) $(ed2_link)
 
 cohorts := 1cohort
 
@@ -36,24 +37,28 @@ all: $(testsites) $(results) inversion/edr_path
 inversion/edr_path: 
 	@echo $(EDR_EXE) > $@
 
-%.css:
+$(testsites) : $(templates)
+
+$(results) : $(testsites)
+
+%.css: 
 	$(eval dt := $(shell expr match "$@" '.*dbh\([0-9]\+\).*'))
 	$(eval pt := $(shell expr match "$@" '.*/\(.*\).lat.*'))
 	$(eval st := $(shell expr match "$@" '.*dens\([0-9.]\+\).*'))
 	Rscript generate_test.R $(dt) $(pt) $(st)
 
-run-ed/%/outputs/history.xml: %/ED2IN run-ed/template/ed_2.1
+%.xml: 
 	$(eval dt := $(shell expr match "$@" '.*dbh\([0-9]\+\).*'))
-	$(eval pt := $(shell expr match "$@" '.*/\(.*\).lat.*'))
+	$(eval pt := $(shell expr match "$@" '.*/dens.*/dbh.*/\(.*\)/outputs/.*'))
 	$(eval st := $(shell expr match "$@" '.*dens\([0-9.]\+\).*'))
-	exec_ed_test.sh dt pt st
+	./exec_ed_test.sh $(dt) $(pt) $(st)
 
-run-ed/template/ed_2.1: 
+$(ed2_link): 
 	ln -fs $(ED_EXE) $@
 
 clean:
 	rm -rf ed-inputs/sites/US-WCr/rtm/1cohort \
-	    run-ed/1cohort/*/*/outputs/*
+	    run-ed/1cohort
 
 %: %.temp
 	sed $(subst_dir) $< > $@
