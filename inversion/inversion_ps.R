@@ -5,17 +5,22 @@ pft_pecan <- "temperate.Late_Hardwood"
 dbh <- 40
 lai <- getvar("LAI_CO", dbh, pft)
 
-invert_model <- function(param, seed = 0) {
-    outdir <- paste("inversion", seed, sep = ".")
-    dir.create(outdir, showWarnings = FALSE)
-    try_link <- link_ed(outdir)
+prospect.param <- c('N' = 1.4,
+                    'Cab' = 40,
+                    'Car' = 10,
+                    'Cw' = 0.01,
+                    'Cm' = 0.01)
 
-    prospect.param <- c('N' = 1.4,
-                        'Cab' = 40,
-                        'Car' = 10,
-                        'Cw' = 0.01,
-                        'Cm' = 0.01)
+paths <- getpaths(dbh, pft)
+par.wl <- 400:800
+nir.wl <- 801:2500
+datetime <- ISOdate(2004, 07, 01, 16, 00, 00)
 
+outdir_path <- function(runID) {
+    paste("inversion", runID, sep = ".")
+}
+
+get_trait_values <- function(param) {
     orient_factor <- param[1]
     clumping_factor <- param[2]
     sla <- param[3]
@@ -28,12 +33,43 @@ invert_model <- function(param, seed = 0) {
                                       sla = sla,
                                       b1Bl_large = b1Bl_large,
                                       b2Bl_large = b2Bl_large)
+    return(trait.values)
+}
 
-    albedo <- EDR.run(prospect.param = prospect.param,
-                      trait.values = trait.values,
-                      output.path = outdir,
-                      dbh = dbh,
-                      pft = pft)
+run_first <- function(inputs) {
+    outdir <- outdir_path(inputs$runID)
+    dir.create(outdir, showWarnings = FALSE)
+    try_link <- link_ed(outdir)
+
+    albedo <- EDR.prospect(prospect.param = prospect.param,
+                           prospect.version = 5, 
+                           paths = paths,
+                           par.wl = par.wl,
+                           nir.wl = nir.wl,
+                           datetime = datetime,
+                           edr.exe.name = "ed_2.1",
+                           output.path = outdir)
+    return(albedo)
+}
+
+
+invert_model <- function(param, runID = 0) {
+
+    outdir <- outdir_path(runID)
+    paths_run <- list(ed2in = NA, history = outdir)
+
+    trait.values <- get_trait_values(param) 
+
+    albedo <- EDR.prospect(prospect.param = prospect.param,
+                           prospect.version = 5, 
+                           trait.values = trait.values,
+                           paths = paths_run,
+                           par.wl = par.wl,
+                           nir.wl = nir.wl,
+                           datetime = datetime,
+                           edr.exe.name = "ed_2.1",
+                           output.path = outdir, 
+                           change.history.time = FALSE)
 
     return(albedo)
 }
@@ -85,6 +121,7 @@ param.maxs <- c(orient_factor = 0.5,
 
 
 invert.options <- list(model = invert_model, 
+                       run_first = run_first,
                        nchains = 3,
                        inits.function = init_function,
                        prior.function = prior,
