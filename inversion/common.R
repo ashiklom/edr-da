@@ -3,8 +3,11 @@ library(PEcAn.ED2)
 
 edr_exe_path <- readLines("edr_path")
 
-runpath <- function(dbh, pft) {
-    file.path("../run-ed/1cohort/", paste0("dbh", dbh), pft)
+runpath <- function(dbh, pft, dens = 0.05) {
+    file.path("../run-ed/1cohort/", 
+              paste0("dens", dens),
+              paste0("dbh", dbh), 
+              pft)
 }
 
 

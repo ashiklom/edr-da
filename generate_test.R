@@ -72,6 +72,7 @@ generate_test_1cohort <- function(dbh, pft, dens = 0.05) {
 }
 
 arg <- commandArgs(trailingOnly = TRUE)
+print(arg)
 dbh <- as.numeric(arg[1])
 pft <- arg[2]
 dens <- ifelse(is.na(arg[3]), 0.05, arg[3])
