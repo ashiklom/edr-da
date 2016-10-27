@@ -1,2 +1,2 @@
 clean:
-	rm -rf inversion.*
+	rm -rf inversion.* logs/* output.log

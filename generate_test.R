@@ -1,10 +1,10 @@
 css_common <- data.frame(year = 2000,
                          patch = 1,
                          cohort = 1, 
-                         dbh = NA, 
+                         dbh = as.numeric(NA), 
                          ht = 0, 
-                         pft = NA, 
-                         den = NA, 
+                         pft = as.numeric(NA), 
+                         den = as.numeric(NA), 
                          bdead = 0,
                          balive = 0,
                          lai = -999)
@@ -51,7 +51,8 @@ generate_test_1cohort <- function(dbh, pft, dens = 0.05) {
                 file = paste0(prefix, ".css"), 
                 sep = "     ", 
                 row.names = FALSE, 
-                col.names = TRUE)
+                col.names = TRUE, 
+                quote = FALSE)
     file.symlink(site_path, paste0(prefix, ".site"))
     file.symlink(pss_path, paste0(prefix, ".pss"))
 

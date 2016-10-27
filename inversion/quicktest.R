@@ -4,8 +4,8 @@ outdir <- "testdir"
 dir.create(outdir, showWarnings = FALSE)
 link_ed(outdir)
 
-pft <- "late_hardwood"
-dbh <- 40
+pft <- "temperate.Late_Hardwood"
+dbh <- 20
 getvar("LAI_CO", dbh, pft)
 
 pp <- c(1.4, 30, 8, 0.01, 0.01)
@@ -20,4 +20,7 @@ alb <- EDR.run(prospect.param = pp,
                output.path = outdir,
                dbh = dbh,
                pft = pft)
-plot(alb, type='l')
+print(head(alb))
+print(tail(alb))
+print(range(alb))
+print(quantile(alb, c(0.025, 0.5, 0.975)))

@@ -16,7 +16,7 @@ nir.wl <- 801:2500
 datetime <- ISOdate(2004, 07, 01, 16, 00, 00)
 
 outdir_path <- function(runID) {
-    paste("inversion", runID, sep = ".")
+    paste("inversion_prior", runID, sep = ".")
 }
 
 get_trait_values <- function(param) {
@@ -85,9 +85,9 @@ obs <- invert_model(inits) + generate.noise()
 
 prior_def <- list(orient_factor = list("unif", list(-0.5, 0.5)),
                   clumping_factor = list("unif", list(0, 1)),
-                  sla = list("lnorm", list(log(20), 1)),
-                  b1Bl_large = list("lnorm", list(log(0.25), 0.3)),
-                  b2Bl_large = list("lnorm", list(log(0.95), 0.1)))
+                  sla = list("gamma", list(shape = 5.13, rate = 0.234)),
+                  b1Bl_large = list("lnorm", list(log(0.05), 0.1)),
+                  b2Bl_large = list("lnorm", list(log(1.45), 0.025)))
 
 prior <- function(params) {
     out <- 0
@@ -95,7 +95,7 @@ prior <- function(params) {
         func <- get(paste0("d", prior_def[[p]][[1]]))
         out <- out + do.call(func, c(unname(params[p]), 
                                      prior_def[[p]][[2]],
-                                     TRUE))
+                                     log = TRUE))
     }
     return(out)
 }
@@ -140,7 +140,7 @@ fname_prog <- paste("prog_samples", runtag, "rds", sep = ".")
 samples <- invert.auto(observed = obs, 
                        invert.options = invert.options,
                        parallel = TRUE,
-                       parallel.output = "output.log",
+                       parallel.output = "output_prior.log",
                        save.samples = fname_prog)
 saveRDS(samples, file = fname)
 samples.bt <- PEcAn.assim.batch::autoburnin(samples$samples)

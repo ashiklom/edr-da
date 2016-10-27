@@ -6,7 +6,6 @@ subst_dir := 's|XXX_DIR_XXX|'${prefix}'|g'
 met_driver := ed-inputs/met3/US-WCr/ED_MET_DRIVER_HEADER
 ed2in_temp := run-ed/template/ED2IN
 ed2_link := run-ed/template/ed_2.1
-templates := $(met_driver) $(ed2in_temp) $(ed2_link)
 
 cohorts := 1cohort
 
@@ -32,14 +31,22 @@ results := $(foreach c, $(cohorts), \
 	$(foreach p, $(pfts), \
 	ed-inputs/sites/US-WCr/rtm/$c/dens$s/dbh$d/$p/outputs/history.xml))))
 
-all: $(testsites) $(results) inversion/edr_path
+.PHONY: sites edruns
+
+all: sites edruns templates inversion/edr_path
+
+sites: $(testsites)
+
+edruns: $(results)
+
+templates : $(met_driver) $(ed2in_temp) $(ed2_link)
 
 inversion/edr_path: 
 	@echo $(EDR_EXE) > $@
 
-$(testsites) : $(templates)
+$(testsites) : templates
 
-$(results) : $(testsites)
+$(results) : sites
 
 %.css: 
 	$(eval dt := $(shell expr match "$@" '.*dbh\([0-9]\+\).*'))
