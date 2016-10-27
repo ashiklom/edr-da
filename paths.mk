@@ -1,2 +1,2 @@
-ED_EXE := ~/Projects/ED2/ED/build/ed_2.1-opt-modularize-3be531c
-EDR_EXE := ~/Projects/ED2/EDR/build/ed_2.1-opt
+ED_EXE := /data/sserbin/Modeling/ED2.git.modularize.EDR/ED/build/ed_2.1-opt
+EDR_EXE := /data/sserbin/Modeling/ED2.git.modularize.EDR/EDR/build/ed_2.1-opt
