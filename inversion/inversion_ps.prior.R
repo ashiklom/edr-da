@@ -213,12 +213,12 @@ dev.off()
 
 par(mfrow=c(1,1), mar=c(2,2,0.3,0.4), oma=c(0.1,0.1,0.1,0.1)) # B, L, T, R
 png(paste0(main_out,"/",paste("deviance", runtag, "png", sep = ".")), width = 1500, height = 1600, res=150)
-plot(PEcAn.assim.batch::makeMCMCList(input.pda.data$deviance))
+plot(PEcAn.assim.batch::makeMCMCList(samples$deviance))
 dev.off()
 
 par(mfrow=c(1,1), mar=c(2,2,0.3,0.4), oma=c(0.1,0.1,0.1,0.1)) # B, L, T, R
 png(paste0(main_out,"/",paste("n_eff", runtag, "png", sep = ".")), width = 1500, height = 1600, res=150)
-plot(PEcAn.assim.batch::makeMCMCList(input.pda.data$n_eff_list))
+plot(PEcAn.assim.batch::makeMCMCList(samples$n_eff_list))
 dev.off()
 
 ## send an email that the job is done
