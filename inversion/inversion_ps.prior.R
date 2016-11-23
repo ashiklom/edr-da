@@ -1,11 +1,36 @@
+#---------------- Close all devices and delete all variables. -------------------------------------#
+rm(list=ls(all=TRUE))   # clear workspace
+graphics.off()          # close any open graphics
+closeAllConnections()   # close any open connections to files
+dlm <- .Platform$file.sep # <--- What is the platform specific delimiter?
+#--------------------------------------------------------------------------------------------------#
+
+## Load functions
 source("common.R")
 
+## Set user email address
+email_add <- "sserbin@bnl.gov"
+
+## Setup tag
 dttag <- strftime(Sys.time(), "%Y%m%d_%H%M%S")
 
+## Define PFT and canopy structure
 pft <- "temperate.Late_Hardwood"
 dbh <- 40
 lai <- getvar("LAI_CO", dbh, pft)
 
+## Setup PDA options
+nchains <- 3
+ngibbs.max <- 100000
+ngibbs.min <- 500
+ngibbs.step <- 1000
+
+## Setup output
+main_out <- paste("PDA", format(Sys.time(), format="%Y%m%d_%H%M%S"), sep = "_")
+if (! file.exists(main_out)) dir.create(main_out,recursive=TRUE)
+PEcAn.utils::logger.info(paste0("Running inversion in dir: ",main_out))
+
+## Setup PROSPECT
 prospect.param <- c('N' = 1.4,
                     'Cab' = 40,
                     'Car' = 10,
@@ -18,7 +43,9 @@ nir.wl <- 801:2500
 datetime <- ISOdate(2004, 07, 01, 16, 00, 00)
 
 outdir_path <- function(runID) {
-    paste("inversion_prior", dttag, runID, sep = ".")
+  #paste("inversion_prior", dttag, runID, sep = ".")
+  paste0(main_out,"/inversion_prior.", dttag, ".",runID)
+  
 }
 
 get_trait_values <- function(param) {
@@ -30,10 +57,10 @@ get_trait_values <- function(param) {
 
     trait.values <- list()
     trait.values[[pft]] <- list(orient_factor = orient_factor,
-                                      clumping_factor = clumping_factor,
-                                      sla = sla)
-                                      #b1Bl_large = b1Bl_large,
-                                      #b2Bl_large = b2Bl_large)
+                                clumping_factor = clumping_factor,
+                                SLA = sla)
+                                #b1Bl_large = b1Bl_large,
+                                #b2Bl_large = b2Bl_large)
     return(trait.values)
 }
 
@@ -72,18 +99,36 @@ invert_model <- function(param, runID = 0) {
                            output.path = outdir, 
                            change.history.time = FALSE)
 
+    # Create quick figure
+    waves <- seq(400,2500,1)
+    png(paste(outdir,"/",'simulated_albedo.png',sep="/"),width=4900, height =2700,res=400)
+    par(mfrow=c(1,1), mar=c(4.3,4.5,1.0,1), oma=c(0.1,0.1,0.1,0.1)) # B L T R
+    plot(waves,unlist(albedo)*100,type="l",lwd=3,ylim=c(0,60),xlab="Wavelength (nm)",ylab="Reflectance (%)",
+         cex.axis=1.5, cex.lab=1.7,col="black")
+    rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col = 
+           "grey80")
+    lines(waves,unlist(albedo)*100,lwd=3, col="black")
+    dev.off()
+    
     return(albedo)
 }
 
 # Simulate observation
-inits <- c("orient_factor" = 0,
-           "clumping_factor" = 0.5,
-           "sla" = 40)
+inits <- c("orient_factor" = 0.25,
+           "clumping_factor" = 0.75,
+           "sla" = 18.85)
            #"b1Bl_large" = 0.05,
            #"b2Bl_large" = 1.45)
 
 alb <- run_first(list(runID = 0))
 obs <- invert_model(inits) + generate.noise()
+
+## Set initial conditions
+inits <- c("orient_factor" = 0.15,
+           "clumping_factor" = 0.9,
+           "sla" = 40)
+            #"b1Bl_large" = 0.05,
+            #"b2Bl_large" = 1.45)
 
 prior_def <- list(orient_factor = list("unif", list(-0.5, 0.5)),
                   clumping_factor = list("unif", list(0, 1)),
@@ -128,17 +173,18 @@ param.maxs <- c(orient_factor = 0.5,
 
 invert.options <- list(model = invert_model, 
                        run_first = run_first,
-                       nchains = 3,
+                       nchains = nchains,
                        inits.function = init_function,
                        prior.function = prior,
-                       ngibbs.max = 100000,
-                       ngibbs.min = 500,
-                       ngibbs.step = 1000,
+                       ngibbs.max = ngibbs.max,
+                       ngibbs.min = ngibbs.min,
+                       ngibbs.step = ngibbs.step,
                        param.mins = param.mins,
                        param.maxs = param.maxs,
                        adapt = 100,
                        adj_min = 0.1,
                        target = 0.234)
+invert.options$do.lsq <- FALSE # TRUE/FALSE
 
 runtag <- paste(paste0("dbh", dbh), pft, sep = ".")
 fname <- paste("samples", runtag, "rds", sep = ".")
@@ -147,15 +193,36 @@ logfile <- paste("output_prior", dttag, "log", sep = ".")
 samples <- invert.auto(observed = obs, 
                        invert.options = invert.options,
                        parallel = TRUE,
-                       parallel.output = logfile,
-                       save.samples = fname_prog)
-saveRDS(samples, file = fname)
+                       parallel.output = paste0(main_out,"/",logfile),
+                       save.samples = paste0(main_out,"/",fname_prog))
+
+## Output results
+saveRDS(samples, file = paste0(main_out,"/",fname))
 samples.bt <- PEcAn.assim.batch::autoburnin(samples$samples)
-png(paste("trace", runtag, "png", sep = "."))
+samples.bt <- PEcAn.assim.batch::makeMCMCList(samples.bt)
+par(mfrow=c(1,1), mar=c(2,2,0.3,0.4), oma=c(0.1,0.1,0.1,0.1)) # B, L, T, R
+png(paste0(main_out,"/",paste("trace", runtag, "png", sep = ".")), width = 1500, height = 1600, res=150)
 plot(samples.bt)
 dev.off()
 
 rawsamps <- do.call(rbind, samples.bt)
-png("pairs", runtag, "png", sep = ".")
+par(mfrow=c(1,1), mar=c(2,2,0.3,0.4), oma=c(0.1,0.1,0.1,0.1)) # B, L, T, R
+png(paste0(main_out,"/",paste("pairs", runtag, "png", sep = ".")), width = 1500, height = 1600, res=150)
 pairs(rawsamps)
 dev.off()
+
+par(mfrow=c(1,1), mar=c(2,2,0.3,0.4), oma=c(0.1,0.1,0.1,0.1)) # B, L, T, R
+png(paste0(main_out,"/",paste("deviance", runtag, "png", sep = ".")), width = 1500, height = 1600, res=150)
+plot(PEcAn.assim.batch::makeMCMCList(input.pda.data$deviance))
+dev.off()
+
+par(mfrow=c(1,1), mar=c(2,2,0.3,0.4), oma=c(0.1,0.1,0.1,0.1)) # B, L, T, R
+png(paste0(main_out,"/",paste("n_eff", runtag, "png", sep = ".")), width = 1500, height = 1600, res=150)
+plot(PEcAn.assim.batch::makeMCMCList(input.pda.data$n_eff_list))
+dev.off()
+
+## send an email that the job is done
+PEcAn.utils::sendmail(paste0(email_add),paste0(email_add),
+                      paste0('PDA inversion in: ',main_out,' is complete'),
+                      paste0("Log file can be found in: ", main_out,"/",logfile))
+#--------------------------------------------------------------------------------------------------#

@@ -7,7 +7,7 @@ dlm <- .Platform$file.sep # <--- What is the platform specific delimiter?
 
 source("common.R")
 
-outdir <- paste("SLA_Test", format(Sys.time(), format="%Y%m%d_%H%M%S"), sep = "_")
+outdir <- paste("Clumping_Test", format(Sys.time(), format="%Y%m%d_%H%M%S"), sep = "_")
 if (! file.exists(outdir)) dir.create(outdir,recursive=TRUE)
 link_ed(outdir)
 
@@ -16,9 +16,9 @@ dbh <- 40
 getvar("LAI_CO", dbh, pft)
 
 pp <- c(1.4, 30, 8, 0.01, 0.01)
-tv1 <- list(temperate.Late_Hardwood = list(SLA = 5))
-tv2 <- list(temperate.Late_Hardwood = list(SLA = 25))
-tv3 <- list(temperate.Late_Hardwood = list(SLA = 50))
+tv1 <- list(temperate.Late_Hardwood = list(clumping_factor = 0.60))
+tv2 <- list(temperate.Late_Hardwood = list(clumping_factor = 0.75))
+tv3 <- list(temperate.Late_Hardwood = list(clumping_factor = 0.90))
 
 alb1 <- EDR.run(prospect.param = pp,
                trait.values = tv1,
@@ -48,9 +48,9 @@ rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col =
 lines(waves,unlist(alb1)*100,lwd=3, col="green4")
 lines(waves,unlist(alb2)*100,lwd=3, col="green3")
 lines(waves,unlist(alb3)*100,lwd=3, col="green2")
-legend("topright",legend=c(paste0("SLA: ",tv1$temperate.Late_Hardwood$SLA),
-                           paste0("SLA: ",tv2$temperate.Late_Hardwood$SLA),
-                           paste0("SLA: ",tv3$temperate.Late_Hardwood$SLA)),bty="n",
+legend("topright",legend=c(paste0("CF: ",tv1$temperate.Late_Hardwood$clumping_factor),
+                           paste0("CF: ",tv2$temperate.Late_Hardwood$clumping_factor),
+                           paste0("CF: ",tv3$temperate.Late_Hardwood$clumping_factor)),bty="n",
        col=c("green4","green3","green2"),lty=1,lwd=4)
 dev.off()
 
