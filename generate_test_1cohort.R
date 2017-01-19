@@ -1,4 +1,8 @@
-generate_test_1cohort <- function(dbh, pft, dens = 0.05) {
+source('common.R')
+
+generate_test_1cohort <- function(dbh, pft,
+                                  dens = 0.05,
+                                  pecan_workflow_path = '~/Projects/pecan/pecan/web/workflow.R') {
 
     # Single cohort
     c1 <- "1cohort"
@@ -37,7 +41,9 @@ generate_test_1cohort <- function(dbh, pft, dens = 0.05) {
                              file_path = dirname(prefix),
                              site_id = site_id,
                              machine_id = machine_id,
-                             format_id = c('site' = 10, 'css' = 15, 'patch' = 11)) %>%
+                             format_id = c('site' = 10, 'css' = 15, 'patch' = 11),
+                             container_type = 'Input',
+                             stringsAsFactors = FALSE)
     new_inputs$file_name <- new_inputs$name
 
     inputs <- db_merge_into(db = db, 
@@ -46,16 +52,42 @@ generate_test_1cohort <- function(dbh, pft, dens = 0.05) {
                             by = 'name',
                             id_colname = 'id')
 
+    new_inputs <- left_join(new_inputs, select_(inputs, container_id = 'id', 'name'))
+
     dbfiles <- db_merge_into(db = db,
                              table = 'dbfiles',
                              values = new_inputs,
                              by = c('file_name', 'file_path'),
                              id_colname = 'id')
 
-    # TODO: Generate PEcAn XML
+    new_inputs <- left_join(new_inputs, select_(dbfiles, 
+                                                dbfile_id = 'id',
+                                                'file_name',
+                                                'file_path'))
+
+    base_outdir <- 'pecan-runs'
+    outdir <- file.path(base_outdir, relpath)
+    css_id <- new_inputs[new_inputs$format_id == 15, 'dbfile_id']
+    pss_id <- new_inputs[new_inputs$format_id == 11, 'dbfile_id']
+    site_id <- new_inputs[new_inputs$format_id == 10, 'dbfile_id']
+
+    # Generate PEcAn XML
+    settings <- new_settings(outdir = outdir,
+                             workflowid = '666666666',
+                             css = as.bigint(css_id),
+                             pss = as.bigint(pss_id),
+                             site = as.bigint(site_id),
+                             pft_list = list(pft = list(name = pft)),
+                             template_path = 'pecan_template.xml')
+
+    file.copy(pecan_workflow_path, outdir, overwrite = TRUE)
 }
 
-arg <- commandArgs(trailingOnly = TRUE)
+if (interactive()) {
+    arg <- c(40, 'temperate.Late_Hardwood', 0.05)
+} else {
+    arg <- commandArgs(trailingOnly = TRUE)
+}
 print(arg)
 dbh <- as.numeric(arg[1])
 pft <- arg[2]

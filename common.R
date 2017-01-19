@@ -1,6 +1,12 @@
 library(dbhelpers)
 library(dplyr)
 
+source('process_xml.R')
+
+as.bigint <- function(x) {
+  as.character(bit64::as.integer64(x))
+}
+
 db <- src_postgres(dbname = 'bety',
                    user = 'bety',
                    password = 'bety')
