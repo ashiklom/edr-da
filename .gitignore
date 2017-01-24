@@ -6,3 +6,5 @@ run-ed/template/ED2IN
 run-ed/template/ed_2.1
 .DS_Store
 ._*
+.RData
+.Rhistory

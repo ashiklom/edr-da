@@ -14,10 +14,8 @@ denss := 0.05
 dbhs := 20 30 40
 
 pfts := temperate.Early_Hardwood \
-	temperate.Mid_Hardwood \
-	temperate.Late_Hardwood \
-	temperate.North_Pine \
-	temperate.Late_Conifer
+	temperate.North_Mid_Hardwood \
+	temperate.Late_Hardwood
 
 testsites := $(foreach c, $(cohorts), \
 	$(foreach s, $(denss), \
@@ -29,7 +27,7 @@ results := $(foreach c, $(cohorts), \
 	$(foreach s, $(denss), \
 	$(foreach d, $(dbhs), \
 	$(foreach p, $(pfts), \
-	ed-inputs/sites/US-WCr/rtm/$c/dens$s/dbh$d/$p/outputs/history.xml))))
+	run-ed/$c/dens$s/dbh$d/$p/outputs/history.xml))))
 
 .PHONY: sites edruns
 
