@@ -1,3 +1,17 @@
+
+## Create 1 cohort test runs
+css_common <- data.frame(year = 2000,
+                         patch = 1,
+                         cohort = 1, 
+                         dbh = as.numeric(NA), 
+                         ht = 0, 
+                         pft = as.numeric(NA), 
+                         den = as.numeric(NA), 
+                         bdead = 0,
+                         balive = 0,
+                         lai = -999)
+
+## Create multi-cohort test runs
 css_common <- data.frame(year = 2000,
                          patch = 1,
                          cohort = 1, 
