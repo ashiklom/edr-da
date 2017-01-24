@@ -65,7 +65,7 @@ $(ed2_link):
 
 clean:
 	rm -rf ed-inputs/sites/US-WCr/rtm/1cohort \
-	    run-ed/1cohort
+	    run-ed/1cohort run-ed/template/ed_2.1 run-ed/template/ED2IN ed-inputs/met3/US-WCr/ED_MET_DRIVER_HEADER
 
 %: %.temp
 	sed $(subst_dir) $< > $@

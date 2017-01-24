@@ -11,7 +11,10 @@ dlm <- .Platform$file.sep # <--- What is the platform specific delimiter?
 ## !! cohorts is an input
 
 ## Generate test functions - 1 cohort 
-generate_test_1cohort <- function(dbh, pft, dens = 0.05) {
+generate_test_1cohort <- function(path, dbh, pft, dens = 0.05) {
+  
+  sites_dir <- path
+  print(paste0("Path: ",sites_dir))
   
   # Single cohort
   c1 <- "1cohort"
@@ -94,18 +97,28 @@ css_common.multicohort <- data.frame(year = 2000,
 
 #--------------------------------------------------------------------------------------------------#
 ## Sites
+test.sites <- c("US-WCr","US-Syv")
 
 # US-WCr
-sites_dir <- normalizePath("ed-inputs/sites/US-WCr/rtm")
+sites_dir <- normalizePath(paste0("ed-inputs/sites/",test.sites[1],"/rtm"))
 site_path <- file.path(sites_dir, "common.site")
 pss_path <- file.path(sites_dir, "common.pss")
 latlon.string <- "lat45.5lon-90.5"
 
 pfts <- c("temperate.Early_Hardwood" = 9,
           "temperate.North_Mid_Hardwood" = 10,
-          "temperate.Late_Hardwood" = 11,
-          "temperate.Northern_Pine" = 6,
-          "temperate.Late_Conifer" = 8)
+          "temperate.Late_Hardwood" = 11)
+
+# US-Syv
+#sites_dir <- normalizePath(paste0("ed-inputs/sites/",test.sites[2],"/rtm"))
+#site_path <- file.path(sites_dir, "common.site")
+#pss_path <- file.path(sites_dir, "common.pss")
+#latlon.string <- "lat46.5lon-89.5"
+#pfts <- c("temperate.Early_Hardwood" = 9,
+#          "temperate.North_Mid_Hardwood" = 10,
+#          "temperate.Late_Hardwood" = 11,
+#          "temperate.Northern_Pine" = 6,
+#          "temperate.Late_Conifer" = 8)
 #--------------------------------------------------------------------------------------------------#
 
 
@@ -120,7 +133,7 @@ dbh <- as.numeric(arg[1])
 pft <- arg[2]
 dens <- ifelse(is.na(arg[3]), 0.05, arg[3])
 
-generate_test_1cohort(dbh, pft, dens)
+generate_test_1cohort(sites_dir,dbh, pft, dens)
 #--------------------------------------------------------------------------------------------------#
 
 
