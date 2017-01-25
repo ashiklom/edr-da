@@ -7,9 +7,9 @@ met_driver := ed-inputs/met3/US-WCr/ED_MET_DRIVER_HEADER
 ed2in_temp := run-ed/template/ED2IN
 ed2_link := run-ed/template/ed_2.1
 
-cohorts := 1cohort
+#cohorts := 3cohort
 
-denss := 0.05
+denss := 0.01
 
 dbhs := 20 30 40
 
@@ -19,7 +19,7 @@ pfts := "temperate.Early_Hardwood temperate.North_Mid_Hardwood temperate.Late_Ha
 
 stand_type := EMLH
 
-testsites := ed-inputs/sites/$(site)/rtm/3cohort/dens0.05/dbh20/$(stand_type)/$(stand_type).lat45.5lon-90.5.css
+testsites := ed-inputs/sites/$(site)/rtm/3cohort/dens$(denss)/dbh30/$(stand_type)/$(stand_type).lat45.5lon-90.5.cs
 
 .PHONY: sites edruns
 
@@ -54,9 +54,9 @@ $(ed2_link):
 	ln -fs $(ED_EXE) $@
 
 clean:
-	rm -rf ed-inputs/sites/US-WCr/rtm/1cohort ed-inputs/sites/$(site)/rtm/Multi-cohort/ \
-	    run-ed/1cohort run-ed/Multi-cohort run-ed/template/ed_2.1 \
-	run-ed/template/ED2IN ed-inputs/met3/US-WCr/ED_MET_DRIVER_HEADER
+	rm -rf ed-inputs/sites/$(site)/rtm/Multi-cohort/ \
+	    run-ed/Multi-cohort run-ed/template/ed_2.1 \
+	run-ed/template/ED2IN 
 
 %: %.temp
 	sed $(subst_dir) $< > $@

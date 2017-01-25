@@ -7,27 +7,19 @@ met_driver := ed-inputs/met3/US-WCr/ED_MET_DRIVER_HEADER
 ed2in_temp := run-ed/template/ED2IN
 ed2_link := run-ed/template/ed_2.1
 
-cohorts := 1cohort
+cohorts := 3cohort
 
 denss := 0.05
 
 dbhs := 20 30 40
 
-pfts := temperate.Early_Hardwood \
-	temperate.North_Mid_Hardwood \
-	temperate.Late_Hardwood
+site := US-WCr
 
-testsites := $(foreach c, $(cohorts), \
-	$(foreach s, $(denss), \
-	$(foreach d, $(dbhs), \
-	$(foreach p, $(pfts), \
-	ed-inputs/sites/US-WCr/rtm/$c/dens$s/dbh$d/$p/$p.lat45.5lon-90.5.css))))
+pfts := "temperate.Early_Hardwood temperate.North_Mid_Hardwood temperate.Late_Hardwood"
 
-results := $(foreach c, $(cohorts), \
-	$(foreach s, $(denss), \
-	$(foreach d, $(dbhs), \
-	$(foreach p, $(pfts), \
-	run-ed/$c/dens$s/dbh$d/$p/outputs/history.xml))))
+stand_type := EMLH
+
+testsites := ed-inputs/sites/$(site)/rtm/3cohort/dens0.05/dbh20/$(stand_type)/$(stand_type).lat45.5lon-90.5.css
 
 .PHONY: sites edruns
 
@@ -50,20 +42,21 @@ $(results) : sites
 	$(eval dt := $(shell expr match "$@" '.*dbh\([0-9]\+\).*'))
 	$(eval pt := $(shell expr match "$@" '.*/\(.*\).lat.*'))
 	$(eval st := $(shell expr match "$@" '.*dens\([0-9.]\+\).*'))
-	Rscript generate_test.R $(dt) $(pt) $(st)
+	Rscript generate_testrun_multi_cohort.R $(dt) $(pfts) $(st) $(stand_type)
 
 %.xml: 
 	$(eval dt := $(shell expr match "$@" '.*dbh\([0-9]\+\).*'))
 	$(eval pt := $(shell expr match "$@" '.*/dens.*/dbh.*/\(.*\)/outputs/.*'))
 	$(eval st := $(shell expr match "$@" '.*dens\([0-9.]\+\).*'))
-	./exec_ed_test.sh $(dt) $(pt) $(st)
+	./exec_ed_testmulti.sh $(cohorts) $(dt) $(stand_type) $(st)
 
 $(ed2_link): 
 	ln -fs $(ED_EXE) $@
 
 clean:
-	rm -rf ed-inputs/sites/US-WCr/rtm/1cohort \
-	    run-ed/1cohort run-ed/template/ed_2.1 run-ed/template/ED2IN ed-inputs/met3/US-WCr/ED_MET_DRIVER_HEADER
+	rm -rf ed-inputs/sites/US-WCr/rtm/1cohort ed-inputs/sites/$(site)/rtm/3cohort/ \
+	    run-ed/1cohort run-ed/3cohort run-ed/template/ed_2.1 \
+	run-ed/template/ED2IN ed-inputs/met3/US-WCr/ED_MET_DRIVER_HEADER
 
 %: %.temp
 	sed $(subst_dir) $< > $@
