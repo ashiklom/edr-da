@@ -368,7 +368,7 @@ $ED_NL
    !              path+prefix will be used, as the history for every grid must have come   !
    !              from the same simulation.                                                !
    !---------------------------------------------------------------------------------------!
-   NL%SFILIN   = 'XXX_DIR_XXX/ed-inputs/sites/US-WCr/rtm/1cohort/XXX_DENS_XXX/XXX_DBH_XXX/XXX_PFT_XXX/XXX_PFT_XXX.'
+   NL%SFILIN   = 'XXX_DIR_XXX/ed-inputs/sites/XXX_SITE_XXX/rtm/XXX_NUMCOHORTS_XXX/XXX_DENS_XXX/XXX_DBH_XXX/XXX_PFT_XXX/XXX_PFT_XXX.'
    !---------------------------------------------------------------------------------------!
    !     History file information.  These variables are used to continue a simulation from !
    ! a point other than the beginning.  Time must be in UTC.                               !

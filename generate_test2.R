@@ -11,7 +11,7 @@ dlm <- .Platform$file.sep # <--- What is the platform specific delimiter?
 ## !! cohorts is an input
 
 ## Generate test functions - 1 cohort 
-generate_test_1cohort <- function(path, site, num.cohorts=1, dbh, pft, dens = 0.05) {
+generate_test_1cohort <- function(path, dbh, pft, dens = 0.05) {
   
   sites_dir <- path
   print(paste0("Path: ",sites_dir))
@@ -57,8 +57,6 @@ generate_test_1cohort <- function(path, site, num.cohorts=1, dbh, pft, dens = 0.
   ed2in_path <- file.path(runpath_pft, "ED2IN")
   fin <- readLines(ed2in_path)
   fout <- fin
-  fout <- gsub("XXX_SITE_XXX", site, fout)
-  fout <- gsub("XXX_NUMCOHORTS_XXX", site, fout)
   fout <- gsub("XXX_DENS_XXX", densstring, fout)
   fout <- gsub("XXX_PFT_XXX", pft, fout)
   fout <- gsub("XXX_DBH_XXX", dbhstring, fout)
@@ -66,7 +64,7 @@ generate_test_1cohort <- function(path, site, num.cohorts=1, dbh, pft, dens = 0.
 }
 
 ## Generate test functions - multi-cohort
-generate_test_multicohort <- function(path, num.cohorts, dbh, pft, stand_type, dens = 0.05) {
+generate_test_multicohort <- function(path, num.cohorts, dbh, pft, dens = 0.05) {
   
   sites_dir <- path
   print(paste0("Path: ",sites_dir))
@@ -85,7 +83,7 @@ generate_test_multicohort <- function(path, num.cohorts, dbh, pft, stand_type, d
   print(paste0("Sitepath: ",sitepath))
   dir.create(sitepath, showWarnings = FALSE, recursive = TRUE)
   pft_number <- pfts[pft]
-  sitepath_pft <- file.path(sitepath, "stand_type")
+  sitepath_pft <- file.path(sitepath, "test_multi")
   
   dir.create(sitepath_pft, showWarnings = FALSE)
   css <- css_common.multicohort
@@ -93,7 +91,7 @@ generate_test_multicohort <- function(path, num.cohorts, dbh, pft, stand_type, d
   css[,"pft"] <- pft_number
   css[,"den"] <- dens
   prefix <- file.path(sitepath_pft, 
-                      paste("stand_type", latlon.string, sep = ".")) # hacky!
+                      paste("EMLH", latlon.string, sep = ".")) # hacky!
   print(prefix)
   
   write.table(css, 
@@ -110,14 +108,14 @@ generate_test_multicohort <- function(path, num.cohorts, dbh, pft, stand_type, d
   print(runpath)
   dir.create(runpath, showWarnings = FALSE, recursive = TRUE)
   
-  runpath_pft <- file.path(runpath, stand_type) # hacky
+  runpath_pft <- file.path(runpath, "EMLH") # hacky
   dir.create(runpath_pft, showWarnings = FALSE)
   system2("cp", c("-r", paste0(template_dir, "/*"), runpath_pft))
   ed2in_path <- file.path(runpath_pft, "ED2IN")
   fin <- readLines(ed2in_path)
   fout <- fin
   fout <- gsub("XXX_DENS_XXX", densstring, fout)
-  fout <- gsub("XXX_PFT_XXX", stand_type, fout) # hacky
+  fout <- gsub("XXX_PFT_XXX", "EMLH", fout) # hacky
   fout <- gsub("XXX_DBH_XXX", dbhstring, fout)
   cat(fout, file = ed2in_path, sep = "\n")
 }
@@ -191,12 +189,10 @@ pft <- unlist(strsplit(arg[2], split=" "))
 print(pft)
 print(paste0("PFTs: ",pfts[pft]))
 dens <- ifelse(is.na(arg[3]), 0.05, arg[3])
-stand_type <- as.character(arg[4])
-print(stand_type)
 
-generate_test_1cohort(sites_dir, test.sites[1], dbh, pft, dens)
+#generate_test_1cohort(sites_dir,dbh, pft, dens)
 
-#generate_test_multicohort(sites_dir,length(css_common.multicohort$cohort),dbh, pft, stand_type, dens)
+generate_test_multicohort(sites_dir,length(css_common.multicohort$cohort),dbh, pft, dens)
 #--------------------------------------------------------------------------------------------------#
 
 
