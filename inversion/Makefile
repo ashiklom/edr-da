@@ -1,2 +1,2 @@
 clean:
-	rm -rf inversion.* inversion_prior.* logs/* output.log
+	rm -rf inversion.* inversion_prior.* logs/* output.log testdir
