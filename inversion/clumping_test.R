@@ -3,9 +3,10 @@ rm(list=ls(all=TRUE))   # clear workspace
 graphics.off()          # close any open graphics
 closeAllConnections()   # close any open connections to files
 dlm <- .Platform$file.sep # <--- What is the platform specific delimiter?
-#--------------------------------------------------------------------------------------------------#
 
 source("common.R")
+#--------------------------------------------------------------------------------------------------#
+
 
 outdir <- paste("Clumping_Test", format(Sys.time(), format="%Y%m%d_%H%M%S"), sep = "_")
 if (! file.exists(outdir)) dir.create(outdir,recursive=TRUE)
@@ -15,29 +16,42 @@ pft <- "temperate.Late_Hardwood"
 dbh <- 40
 getvar("LAI_CO", dbh, pft)
 
+data_dir <- normalizePath(paste0('../run-ed/1cohort/dens0.05/dbh',dbh,'/',pft))
+paths <- list(ed2in = file.path(data_dir, 'ED2IN'),
+              history = file.path(data_dir, 'outputs'))
+file.copy(from = edr_exe_path,
+          to = file.path(outdir, 'ed_2.1-opt'), 
+          overwrite = TRUE)
+
 pp <- c(1.4, 30, 8, 0.01, 0.01)
+spectra_list <- list(temperate.Late_Hardwood = prospect(pp, 5, TRUE))
 tv1 <- list(temperate.Late_Hardwood = list(clumping_factor = 0.60))
 tv2 <- list(temperate.Late_Hardwood = list(clumping_factor = 0.75))
 tv3 <- list(temperate.Late_Hardwood = list(clumping_factor = 0.90))
 
-alb1 <- EDR.run(prospect.param = pp,
-               trait.values = tv1,
-               output.path = outdir,
-               dbh = dbh,
-               pft = pft)
+alb1 <- EDR(paths = paths,
+            spectra_list = spectra_list,
+            par.wl = 400:2499,
+            nir.wl = 2500,
+            datetime = ISOdate(2004, 07, 01, 16, 00, 00),
+            trait.values = tv1,
+            output.path = outdir)
 
-alb2 <- EDR.run(prospect.param = pp,
-               trait.values = tv2,
-               output.path = outdir,
-               dbh = dbh,
-               pft = pft)
+alb2 <- EDR(paths = paths,
+            spectra_list = spectra_list,
+            par.wl = 400:2499,
+            nir.wl = 2500,
+            datetime = ISOdate(2004, 07, 01, 16, 00, 00),
+            trait.values = tv2,
+            output.path = outdir)
 
-alb3 <- EDR.run(prospect.param = pp,
-               trait.values = tv3,
-               output.path = outdir,
-               dbh = dbh,
-               pft = pft)
-
+alb3 <- EDR(paths = paths,
+            spectra_list = spectra_list,
+            par.wl = 400:2499,
+            nir.wl = 2500,
+            datetime = ISOdate(2004, 07, 01, 16, 00, 00),
+            trait.values = tv3,
+            output.path = outdir)
 waves <- seq(400,2500,1)
 png(paste(outdir,"/",'simulated_albedo.png',sep="/"),width=4900, height =2700,res=400)
 par(mfrow=c(1,1), mar=c(4.3,4.5,1.0,1), oma=c(0.1,0.1,0.1,0.1)) # B L T R
