@@ -96,7 +96,7 @@ run_first <- function(inputs) {
                   par.wl = par.wl,
                   nir.wl = nir.wl,
                   datetime = datetime,
-                  trait.values = list(),
+                  trait.values = list(temperate.Late_Hardwood = list()), # hard-coded...need to generalize
                   output.path = outdir)
     return(albedo)
 }
@@ -109,15 +109,15 @@ invert_model <- function(param, runID = 0) {
 
     trait.values <- get_trait_values(param) 
 
-    albedo <- EDR.prospect(spectra_list = spectra_list,
-                           trait.values = trait.values,
-                           paths = paths_run,
-                           par.wl = par.wl,
-                           nir.wl = nir.wl,
-                           datetime = datetime,
-                           edr.exe.name = "ed_2.1",
-                           output.path = outdir, 
-                           change.history.time = FALSE)
+    albedo <- EDR(spectra_list = spectra_list,
+                  trait.values = trait.values,
+                  paths = paths_run,
+                  par.wl = par.wl,
+                  nir.wl = nir.wl,
+                  datetime = datetime,
+                  edr.exe.name = "ed_2.1-opt", # OK to change this from ed_2.1 to ed_2.1-opt??
+                  output.path = outdir, 
+                  change.history.time = FALSE)
 
     # Create quick figure
     waves <- seq(400,2500,1)

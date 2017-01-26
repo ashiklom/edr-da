@@ -1,0 +1,1 @@
+qsub ./submit_scripts/submit.inversion.sh > qsub.log.txt 2>&1
