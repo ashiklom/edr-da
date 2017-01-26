@@ -52,6 +52,7 @@ alb3 <- EDR(paths = paths,
             datetime = ISOdate(2004, 07, 01, 16, 00, 00),
             trait.values = tv3,
             output.path = outdir)
+
 waves <- seq(400,2500,1)
 png(paste(outdir,"/",'simulated_albedo.png',sep="/"),width=4900, height =2700,res=400)
 par(mfrow=c(1,1), mar=c(4.3,4.5,1.0,1), oma=c(0.1,0.1,0.1,0.1)) # B L T R
