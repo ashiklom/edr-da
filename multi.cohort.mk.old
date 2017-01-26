@@ -7,11 +7,11 @@ met_driver := ed-inputs/met3/US-WCr/ED_MET_DRIVER_HEADER
 ed2in_temp := run-ed/template/ED2IN
 ed2_link := run-ed/template/ed_2.1
 
-cohorts := 3cohort
+#cohorts := 3cohort
 
-denss := 0.025
+denss := 0.01
 
-dbhs := 20
+dbhs := 20 30 40
 
 site := US-WCr
 
@@ -19,9 +19,7 @@ pfts := "temperate.Early_Hardwood temperate.North_Mid_Hardwood temperate.Late_Ha
 
 stand_type := EMLH
 
-testsites := ed-inputs/sites/$(site)/rtm/3cohort/dens0.05/dbh20/$(stand_type)/$(stand_type).lat45.5lon-90.5.css
-
-results := run-ed/$(cohorts)/dens$(denss)/dbh$(dbhs)/$(stand_type)/outputs/history.xml
+testsites := ed-inputs/sites/$(site)/rtm/3cohort/dens$(denss)/dbh30/$(stand_type)/$(stand_type).lat45.5lon-90.5.cs
 
 .PHONY: sites edruns
 
@@ -50,15 +48,15 @@ $(results) : sites
 	$(eval dt := $(shell expr match "$@" '.*dbh\([0-9]\+\).*'))
 	$(eval pt := $(shell expr match "$@" '.*/dens.*/dbh.*/\(.*\)/outputs/.*'))
 	$(eval st := $(shell expr match "$@" '.*dens\([0-9.]\+\).*'))
-	./exec_ed_test.sh $(cohorts) $(dt) $(stand_type) $(st)
+	./exec_ed_test.sh $(dt) $(pfts) $(st)
 
 $(ed2_link): 
 	ln -fs $(ED_EXE) $@
 
 clean:
-	rm -rf ed-inputs/sites/US-WCr/rtm/1cohort ed-inputs/sites/$(site)/rtm/3cohort/ \
-	    run-ed/1cohort run-ed/3cohort run-ed/template/ed_2.1 \
-	run-ed/template/ED2IN ed-inputs/met3/US-WCr/ED_MET_DRIVER_HEADER
+	rm -rf ed-inputs/sites/$(site)/rtm/Multi-cohort/ \
+	    run-ed/Multi-cohort run-ed/template/ed_2.1 \
+	run-ed/template/ED2IN 
 
 %: %.temp
 	sed $(subst_dir) $< > $@

@@ -64,7 +64,7 @@ dens <- ifelse(is.na(arg[3]), 0.05, arg[3])
 stand_type <- as.character(arg[4])
 print(stand_type)
 generate_test_multicohort(sites_dir, test.sites[1], length(css_common.multicohort$cohort),
-                          dbh, pft, stand_type, dens=0.01)
+                          dbh, pft, stand_type, dens=dens)
 #--------------------------------------------------------------------------------------------------#
 
 

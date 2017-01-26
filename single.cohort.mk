@@ -56,7 +56,7 @@ $(results) : sites
 	$(eval dt := $(shell expr match "$@" '.*dbh\([0-9]\+\).*'))
 	$(eval pt := $(shell expr match "$@" '.*/dens.*/dbh.*/\(.*\)/outputs/.*'))
 	$(eval st := $(shell expr match "$@" '.*dens\([0-9.]\+\).*'))
-	./exec_ed_test.sh $(dt) $(pt) $(st)
+	./exec_ed_test.sh $(cohorts) $(dt) $(pt) $(st)
 
 $(ed2_link): 
 	ln -fs $(ED_EXE) $@

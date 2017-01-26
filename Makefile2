@@ -9,9 +9,10 @@ ed2_link := run-ed/template/ed_2.1
 
 cohorts := 3cohort
 
-denss := 0.025
+denss := 0.015
 
-dbhs := 20
+dbhs := 20 30 40
+#dbhs := 20
 
 site := US-WCr
 
@@ -19,9 +20,11 @@ pfts := "temperate.Early_Hardwood temperate.North_Mid_Hardwood temperate.Late_Ha
 
 stand_type := EMLH
 
-testsites := ed-inputs/sites/$(site)/rtm/3cohort/dens0.05/dbh20/$(stand_type)/$(stand_type).lat45.5lon-90.5.css
+#testsites := ed-inputs/sites/$(site)/rtm/3cohort/dens0.05/dbh20/$(stand_type)/$(stand_type).lat45.5lon-90.5.css
+testsites := $(foreach d, $(dbhs), ed-inputs/sites/$(site)/rtm/$(cohorts)/dens$(denss)/dbh$d/$(stand_type)/$(stand_type).lat45.5lon-90.5.css)
 
-results := run-ed/$(cohorts)/dens$(denss)/dbh$(dbhs)/$(stand_type)/outputs/history.xml
+#results := run-ed/$(cohorts)/dens$(denss)/dbh$(dbhs)/$(stand_type)/outputs/history.xml
+results := $(foreach d, $(dbhs), run-ed/$(cohorts)/dens$(denss)/dbh$d/$(stand_type)/outputs/history.xml)
 
 .PHONY: sites edruns
 

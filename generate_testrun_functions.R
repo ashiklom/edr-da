@@ -88,7 +88,7 @@ generate_test_multicohort <- function(path, site, num.cohorts=3, dbh, pft, stand
   css[,"den"] <- dens
   prefix <- file.path(sitepath_pft, 
                       paste("EMLH", latlon.string, sep = ".")) # hacky!
-  print(prefix)
+  print(paste0("CSS file: ",prefix))
   
   write.table(css, 
               file = paste0(prefix, ".css"), 
@@ -101,10 +101,11 @@ generate_test_multicohort <- function(path, site, num.cohorts=3, dbh, pft, stand
   
   # Create runtime files (ED2IN, ED executable)
   runpath <- file.path(run_dir, relpath)
-  print(runpath)
+  #print(paste0("Run path: ",runpath))
   dir.create(runpath, showWarnings = FALSE, recursive = TRUE)
   
   runpath_pft <- file.path(runpath, paste(stand_type)) # hacky
+  print(paste0("Run path: ",runpath_pft))
   dir.create(runpath_pft, showWarnings = FALSE)
   system2("cp", c("-r", paste0(template_dir, "/*"), runpath_pft))
   ed2in_path <- file.path(runpath_pft, "ED2IN")
@@ -117,6 +118,7 @@ generate_test_multicohort <- function(path, site, num.cohorts=3, dbh, pft, stand
   fout <- gsub("XXX_PFT_XXX", stand_type, fout)
   fout <- gsub("XXX_DBH_XXX", dbhstring, fout)
   cat(fout, file = ed2in_path, sep = "\n")
+  #print("next")
 }
 #--------------------------------------------------------------------------------------------------#
 
