@@ -3,11 +3,13 @@ rm(list=ls(all=TRUE))   # clear workspace
 graphics.off()          # close any open graphics
 closeAllConnections()   # close any open connections to files
 dlm <- .Platform$file.sep # <--- What is the platform specific delimiter?
-#--------------------------------------------------------------------------------------------------#
 
 ## Load functions
 source("common.R")
+#--------------------------------------------------------------------------------------------------#
 
+
+#--------------------------------------------------------------------------------------------------#
 ## Set user email address
 email_add <- "sserbin@bnl.gov"
 
@@ -16,8 +18,13 @@ dttag <- strftime(Sys.time(), "%Y%m%d_%H%M%S")
 
 ## Define PFT and canopy structure
 pft <- "temperate.Late_Hardwood"
-dbh <- 40
+dens <- 0.05
+dbh <- 40 # 20, 30 or 40
 lai <- getvar("LAI_CO", dbh, pft)
+
+data_dir <- normalizePath(paste0('../run-ed/1cohort/dens',dens,'/dbh',dbh,'/',pft))
+paths <- list(ed2in = file.path(data_dir, 'ED2IN'),
+              history = file.path(data_dir, 'outputs'))
 
 ## Setup PDA options
 nchains <- 3
@@ -30,18 +37,32 @@ main_out <- paste("PDA", format(Sys.time(), format="%Y%m%d_%H%M%S"), sep = "_")
 if (! file.exists(main_out)) dir.create(main_out,recursive=TRUE)
 PEcAn.utils::logger.info(paste0("Running inversion in dir: ",main_out))
 
+## Link to ed_2.1-opt executable
+#file.copy(from = edr_exe_path,
+#          to = file.path(main_out, 'ed_2.1-opt'), 
+#          overwrite = TRUE)
+#--------------------------------------------------------------------------------------------------#
+
+
+#--------------------------------------------------------------------------------------------------#
 ## Setup PROSPECT
-prospect.param <- c('N' = 1.4,
-                    'Cab' = 40,
-                    'Car' = 10,
-                    'Cw' = 0.01,
-                    'Cm' = 0.01)
+#prospect.param <- c('N' = 1.4,
+#                    'Cab' = 40,
+#                    'Car' = 10,
+#                    'Cw' = 0.01,
+#                    'Cm' = 0.01)
 
-paths <- getpaths(dbh, pft)
-par.wl <- 400:800
-nir.wl <- 801:2500
+pp <- c(1.4, 30, 8, 0.01, 0.01)
+spectra_list <- list(temperate.Late_Hardwood = prospect(pp, 5, TRUE))
+
+#paths <- getpaths(dbh, pft)
+par.wl = 400:2499
+nir.wl = 2500
 datetime <- ISOdate(2004, 07, 01, 16, 00, 00)
+#--------------------------------------------------------------------------------------------------#
 
+
+#--------------------------------------------------------------------------------------------------#
 outdir_path <- function(runID) {
   #paste("inversion_prior", dttag, runID, sep = ".")
   paste0(main_out,"/inversion_prior.", dttag, ".",runID)
@@ -64,19 +85,19 @@ get_trait_values <- function(param) {
     return(trait.values)
 }
 
+# setup the output directories
 run_first <- function(inputs) {
     outdir <- outdir_path(inputs$runID)
     dir.create(outdir, showWarnings = FALSE)
     try_link <- link_ed(outdir)
 
-    albedo <- EDR.prospect(prospect.param = prospect.param,
-                           prospect.version = 5, 
-                           paths = paths,
-                           par.wl = par.wl,
-                           nir.wl = nir.wl,
-                           datetime = datetime,
-                           edr.exe.name = "ed_2.1",
-                           output.path = outdir)
+    albedo <- EDR(paths = paths,
+                  spectra_list = spectra_list,
+                  par.wl = par.wl,
+                  nir.wl = nir.wl,
+                  datetime = datetime,
+                  trait.values = list(),
+                  output.path = outdir)
     return(albedo)
 }
 
@@ -88,8 +109,7 @@ invert_model <- function(param, runID = 0) {
 
     trait.values <- get_trait_values(param) 
 
-    albedo <- EDR.prospect(prospect.param = prospect.param,
-                           prospect.version = 5, 
+    albedo <- EDR.prospect(spectra_list = spectra_list,
                            trait.values = trait.values,
                            paths = paths_run,
                            par.wl = par.wl,
