@@ -36,22 +36,11 @@ ngibbs.step <- 1000
 main_out <- paste("PDA", format(Sys.time(), format="%Y%m%d_%H%M%S"), sep = "_")
 if (! file.exists(main_out)) dir.create(main_out,recursive=TRUE)
 PEcAn.utils::logger.info(paste0("Running inversion in dir: ",main_out))
-
-## Link to ed_2.1-opt executable
-#file.copy(from = edr_exe_path,
-#          to = file.path(main_out, 'ed_2.1-opt'), 
-#          overwrite = TRUE)
 #--------------------------------------------------------------------------------------------------#
 
 
 #--------------------------------------------------------------------------------------------------#
 ## Setup PROSPECT
-#prospect.param <- c('N' = 1.4,
-#                    'Cab' = 40,
-#                    'Car' = 10,
-#                    'Cw' = 0.01,
-#                    'Cm' = 0.01)
-
 pp <- c(1.4, 30, 8, 0.01, 0.01)
 spectra_list <- list(temperate.Late_Hardwood = prospect(pp, 5, TRUE))
 
@@ -96,7 +85,7 @@ run_first <- function(inputs) {
                   par.wl = par.wl,
                   nir.wl = nir.wl,
                   datetime = datetime,
-                  trait.values = list(temperate.Late_Hardwood = list()), # hard-coded...need to generalize
+                  trait.values = list(temperate.Late_Hardwood = list()),  # hacky, need to allow this to be set by pft above
                   output.path = outdir)
     return(albedo)
 }
