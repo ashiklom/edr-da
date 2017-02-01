@@ -65,12 +65,13 @@ outdir_path <- function(runID) {
 get_trait_values <- function(param) {
   orient_factor <- param[1]
   #clumping_factor <- param[2]
-  #sla <- param[3]
+  sla <- param[2]
   #b1Bl_large <- param[4]
   #b2Bl_large <- param[5]
   
   trait.values <- list()
-  trait.values[[pft]] <- list(orient_factor = orient_factor)
+  #trait.values[[pft]] <- list(orient_factor = orient_factor)
+  trait.values[[pft]] <- list(orient_factor = orient_factor, SLA = sla)
   #trait.values[[pft]] <- list(orient_factor = orient_factor,
   #                            clumping_factor = clumping_factor,
   #                            SLA = sla)
@@ -128,7 +129,7 @@ invert_model <- function(param, runID = 0) {
 }
 
 # Simulate observation
-inits <- c("orient_factor" = 0.25)
+inits <- c("orient_factor" = 0.25, "sla" = 18.85)
 #           "clumping_factor" = 0.75,
 #           "sla" = 18.85)
 #"b1Bl_large" = 0.05,
@@ -138,16 +139,15 @@ alb <- run_first(list(runID = 0))
 obs <- invert_model(inits) + generate.noise()
 
 ## Set initial conditions
-inits <- c("orient_factor" = 0.15)
-prior_def <- list(orient_factor = list("unif", list(-0.5, 0.5)))
+#inits <- c("orient_factor" = 0.15)
+#prior_def <- list(orient_factor = list("unif", list(-0.5, 0.5)))
 
-init_function <- function() {
-  out <- sapply(prior_def, 
-                function(x) do.call(get(paste0("r", x[[1]])),
-                                    c(1, x[[2]])))
-  return(out)
-}
-
+#init_function <- function() {
+#  out <- sapply(prior_def, 
+#                function(x) do.call(get(paste0("r", x[[1]])),
+#                                    c(1, x[[2]])))
+#  return(out)
+#}
 
 
 priors <- priors_sun$means
@@ -174,17 +174,22 @@ prior_function <- function(params) {
   orient_factor_late <- dunif(params[7], -0.5, 0.5)
   return(sum(late_hardwood+orient_factor_late,na.rm=T))
 }
-prior_function(rep(0,7))                         
-                           
-                           
-param.mins <- c(orient_factor = -0.5)
-param.maxs <- c(orient_factor = 0.5)
+prior_function(rep(0,7))
+
+param.mins <- c(N = 0.1, Cab = 1, Car = 0, Cw = 0.001, Cm = 0.001, orient_factor = -0.5, #hack.  SLA should be based on mutli prior 
+                sla = 5)
+param.maxs <- c(N = 4, Cab = 200, Car = 50, Cw = 0.99, Cm = 0.99, orient_factor = 0.5,
+                sla = Inf)
+
+init_function <- function() {  # hack for testing
+  return(c(0,2,3,18,5,6,7))
+}
 
 invert.options <- list(model = invert_model, 
                        run_first = run_first,
                        nchains = nchains,
                        inits.function = init_function,
-                       prior.function = prior_function(rep(0,7)),
+                       prior.function = prior_function,
                        ngibbs.max = ngibbs.max,
                        ngibbs.min = ngibbs.min,
                        ngibbs.step = ngibbs.step,
