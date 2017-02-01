@@ -7,6 +7,9 @@ dlm <- .Platform$file.sep # <--- What is the platform specific delimiter?
 ## Load functions
 source("common.R")
 library(mvtnorm)
+
+## Load priors
+load(file = normalizePath('priors/stan_priors_sun.RData'))
 #--------------------------------------------------------------------------------------------------#
 
 
@@ -61,15 +64,16 @@ outdir_path <- function(runID) {
 
 get_trait_values <- function(param) {
   orient_factor <- param[1]
-  clumping_factor <- param[2]
-  sla <- param[3]
+  #clumping_factor <- param[2]
+  #sla <- param[3]
   #b1Bl_large <- param[4]
   #b2Bl_large <- param[5]
   
   trait.values <- list()
-  trait.values[[pft]] <- list(orient_factor = orient_factor,
-                              clumping_factor = clumping_factor,
-                              SLA = sla)
+  trait.values[[pft]] <- list(orient_factor = orient_factor)
+  #trait.values[[pft]] <- list(orient_factor = orient_factor,
+  #                            clumping_factor = clumping_factor,
+  #                            SLA = sla)
   #b1Bl_large = b1Bl_large,
   #b2Bl_large = b2Bl_large)
   return(trait.values)
@@ -124,9 +128,9 @@ invert_model <- function(param, runID = 0) {
 }
 
 # Simulate observation
-inits <- c("orient_factor" = 0.25,
-           "clumping_factor" = 0.75,
-           "sla" = 18.85)
+inits <- c("orient_factor" = 0.25)
+#           "clumping_factor" = 0.75,
+#           "sla" = 18.85)
 #"b1Bl_large" = 0.05,
 #"b2Bl_large" = 1.45)
 
@@ -134,33 +138,72 @@ alb <- run_first(list(runID = 0))
 obs <- invert_model(inits) + generate.noise()
 
 ## Set initial conditions
-#inits <- c("orient_factor" = 0.15,
-#           "clumping_factor" = 0.9,
-#           "sla" = 40)
-#"b1Bl_large" = 0.05,
-#"b2Bl_large" = 1.45)
+inits <- c("orient_factor" = 0.15)
+prior_def <- list(orient_factor = list("unif", list(-0.5, 0.5)))
+
+init_function <- function() {
+  out <- sapply(prior_def, 
+                function(x) do.call(get(paste0("r", x[[1]])),
+                                    c(1, x[[2]])))
+  return(out)
+}
+
+
 
 priors <- priors_sun$means
-prior_function <- function(params) {
-  early_hardwood <- dmvnorm(c(params[1:6]), 
-                            mean = priors$M[,'temperate.Early_Hardwood'], sigma = priors$Sigma[,,'temperate.Early_Hardwood'], log = TRUE)
-  mid_hardwood <- dmvnorm(c(params[7:12]), 
-                          mean = priors$M[,'temperate.North_Mid_Hardwood'], sigma = priors$Sigma[,,'temperate.North_Mid_Hardwood'], log = TRUE)
-  orient_factor_early <- dunif(params[13], -0.5, 0.5)
-  orient_factor_mid <- dunif(params[14], -0.5, 0.5)
+#prior_function <- function(params) {
+#  early_hardwood <- dmvnorm(c(params[1:6]), 
+#                            mean = priors$M[,'temperate.Early_Hardwood'], sigma = priors$Sigma[,,'temperate.Early_Hardwood'], log = TRUE)
+#  mid_hardwood <- dmvnorm(c(params[7:12]), 
+#                          mean = priors$M[,'temperate.North_Mid_Hardwood'], sigma = priors$Sigma[,,'temperate.North_Mid_Hardwood'], log = TRUE)
+#  orient_factor_early <- dunif(params[13], -0.5, 0.5)
+# orient_factor_mid <- dunif(params[14], -0.5, 0.5)
   
   #  mid_hardwood <- dmvnorm(params[6:10], params[12]), mean = ..., log = TRUE)
   #...
   #return(early_hardwood + mid_hardwood + late_hardwood)
   #return(early_hardwood)
   #return(early_hardwood + mid_hardwood)
-  return(sum(early_hardwood, mid_hardwood, orient_factor_early, orient_factor_mid))
+#  return(sum(early_hardwood, mid_hardwood, orient_factor_early, orient_factor_mid))
+#}
+#prior_function(rep(0,14))
+
+prior_function <- function(params) {
+  late_hardwood <- dmvnorm(c(params[1:6]),
+                           mean = priors$M[,'temperate.Late_Hardwood'], sigma = priors$Sigma[,,'temperate.Late_Hardwood'], log = TRUE)
+  orient_factor_late <- dunif(params[7], -0.5, 0.5)
+  return(sum(late_hardwood+orient_factor_late,na.rm=T))
 }
-prior_function(rep(0,14))
+prior_function(rep(0,7))                         
+                           
+                           
+param.mins <- c(orient_factor = -0.5)
+param.maxs <- c(orient_factor = 0.5)
+
+invert.options <- list(model = invert_model, 
+                       run_first = run_first,
+                       nchains = nchains,
+                       inits.function = init_function,
+                       prior.function = prior_function(rep(0,7)),
+                       ngibbs.max = ngibbs.max,
+                       ngibbs.min = ngibbs.min,
+                       ngibbs.step = ngibbs.step,
+                       param.mins = param.mins,
+                       param.maxs = param.maxs,
+                       adapt = 100,
+                       adj_min = 0.1,
+                       target = 0.234)
+invert.options$do.lsq <- FALSE # TRUE/FALSE
+
+runtag <- paste(paste0("dbh", dbh), pft, sep = ".")
+fname <- paste("samples", runtag, "rds", sep = ".")
+fname_prog <- paste("prog_samples", runtag, "rds", sep = ".")
+logfile <- paste("output_prior", dttag, "log", sep = ".")
+samples <- invert.auto(observed = obs, 
+                       invert.options = invert.options,
+                       parallel = TRUE,
+                       parallel.output = paste0(main_out,"/",logfile),
+                       save.samples = paste0(main_out,"/",fname_prog))
 
 
-
-#early_hardwood <- dmvnorm(rep(0,6), mean = priors$M[,'temperate.Early_Hardwood'], sigma = priors$Sigma[,,'temperate.Early_Hardwood'], log = TRUE)
-#pp <- c(1,2,3,4)
-#early_hardwood <- dmvnorm(rep(1,6), mean = priors$M[,'temperate.Early_Hardwood'], sigma = priors$Sigma[,,'temperate.Early_Hardwood'], log = TRUE)
 
