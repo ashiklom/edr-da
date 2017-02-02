@@ -25,10 +25,10 @@ echo Log number: $log
 ## Run R PDA script
 
 # original inversion_ps.prior.R
-R --vanilla < inversion_ps.prior.R > inversion_ps.prior.${log}.log 2> inversion_ps.prior.${log}.log
+#R --vanilla < inversion_ps.prior.R > inversion_ps.prior.${log}.log 2> inversion_ps.prior.${log}.log
 
 # updated multi-variate prior version
-
+R --vanilla < inversion_ps.singlePFT.multivariate.prior.R inversion_ps.singlePFT.multivariate.prior.${log}.log 2> inversion_ps.singlePFT.multivariate.prior.${log}.log
 ##
 
 
