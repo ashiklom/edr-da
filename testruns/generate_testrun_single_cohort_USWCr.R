@@ -1,10 +1,5 @@
-#---------------- Close all devices and delete all variables. -------------------------------------#
-rm(list=ls(all=TRUE))   # clear workspace
-graphics.off()          # close any open graphics
-closeAllConnections()   # close any open connections to files
-dlm <- .Platform$file.sep # <--- What is the platform specific delimiter?
-
-source('generate_testrun_functions.R')
+#--------------------------------------------------------------------------------------------------#
+source('testruns/generate_testrun_functions.R')
 #--------------------------------------------------------------------------------------------------#
 
 
@@ -36,17 +31,6 @@ latlon.string <- "lat45.5lon-90.5"
 pfts <- c("temperate.Early_Hardwood" = 9,
           "temperate.North_Mid_Hardwood" = 10,
           "temperate.Late_Hardwood" = 11)
-
-# US-Syv
-#sites_dir <- normalizePath(paste0("ed-inputs/sites/",test.sites[2],"/rtm"))
-#site_path <- file.path(sites_dir, "common.site")
-#pss_path <- file.path(sites_dir, "common.pss")
-#latlon.string <- "lat46.5lon-89.5"
-#pfts <- c("temperate.Early_Hardwood" = 9,
-#          "temperate.North_Mid_Hardwood" = 10,
-#          "temperate.Late_Hardwood" = 11,
-#          "temperate.Northern_Pine" = 6,
-#          "temperate.Late_Conifer" = 8)
 #--------------------------------------------------------------------------------------------------#
 
 

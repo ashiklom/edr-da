@@ -1,10 +1,5 @@
-#---------------- Close all devices and delete all variables. -------------------------------------#
-rm(list=ls(all=TRUE))   # clear workspace
-graphics.off()          # close any open graphics
-closeAllConnections()   # close any open connections to files
-dlm <- .Platform$file.sep # <--- What is the platform specific delimiter?
-
-source('generate_testrun_functions.R')
+#--------------------------------------------------------------------------------------------------#
+source('testruns/generate_testrun_functions.R')
 #--------------------------------------------------------------------------------------------------#
 
 

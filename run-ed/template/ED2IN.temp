@@ -501,7 +501,7 @@ $ED_NL
    NL%LU_DATABASE       = ''
    NL%PLANTATION_FILE   = ''
    NL%THSUMS_DATABASE   = 'XXX_DIR_XXX/ed-inputs/EDI/ed_inputs/'
-   NL%ED_MET_DRIVER_DB  = 'XXX_DIR_XXX/ed-inputs/met3/US-WCr/ED_MET_DRIVER_HEADER'
+   NL%ED_MET_DRIVER_DB  = 'XXX_DIR_XXX/ed-inputs/met3/XXX_SITE_XXX/ED_MET_DRIVER_HEADER'
    NL%SOILSTATE_DB      = ''
    NL%SOILDEPTH_DB      = ''
    !---------------------------------------------------------------------------------------!
