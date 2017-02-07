@@ -59,13 +59,14 @@ generate_test_1cohort <- function(path, site, num.cohorts=1, dbh, pft, dens = 0.
 }
 
 ## Generate test functions - multi-cohort
-generate_test_multicohort <- function(path, site, num.cohorts=3, dbh, pft, stand_type, dens = 0.05) {
+generate_test_multicohort <- function(path, site, num.cohorts=NULL, dbh, pft, stand_type, dens = 0.05) {
   
   sites_dir <- path
   #print(paste0("Site input path: ",sites_dir))
   
   # Multi cohort
   num.cohorts <- paste0(num.cohorts,"cohort")
+  print(paste0("Number of cohorts: ",num.cohorts))
   c1 <- num.cohorts
   
   densstring <- paste0("dens", dens)
@@ -87,7 +88,7 @@ generate_test_multicohort <- function(path, site, num.cohorts=3, dbh, pft, stand
   css[,"pft"] <- pft_number
   css[,"den"] <- dens
   prefix <- file.path(sitepath_pft, 
-                      paste("EMLH", latlon.string, sep = ".")) # hacky!
+                      paste(stand_type, latlon.string, sep = ".")) # hacky!
   print(paste0("CSS file: ",prefix))
   
   write.table(css, 

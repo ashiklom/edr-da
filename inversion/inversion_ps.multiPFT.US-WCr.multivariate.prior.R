@@ -18,7 +18,7 @@ library(mvtnorm)
 ## Load priors
 load(file = normalizePath('priors/stan_priors_sun.RData')) # for sun exposed leaves only
 priors <- priors_sun$means
-PEcAn.utils::logger.info(" *** Single PFT ***  Running with sun exposed priors only")
+PEcAn.utils::logger.info(" *** Multi PFT ***  Running with sun exposed priors only")
 
 #load(file = normalizePath('priors/prior_all.RData')) # based on leaves from sun/shaded positions
 #priors <- priors_all$means
@@ -34,13 +34,13 @@ email_add <- "sserbin@bnl.gov"
 dttag <- strftime(Sys.time(), "%Y%m%d_%H%M%S")
 
 ## Define PFT and canopy structure
-pft <- c("temperate.Early_Hardwood","temperate.North_Mid_Hardwood","temperate.Late_Hardwood")
+pft <- c("temperate.Late_Hardwood","temperate.North_Mid_Hardwood")
 #pft <- list("temperate.Early_Hardwood","temperate.North_Mid_Hardwood","temperate.Late_Hardwood")
 dens <- 0.015
 dbh <- 20 # 20, 30 or 40
 lai <- getvar("LAI_CO", dbh, pft)
-num.cohorts <- 3
-multi.pft <- "EMLH"
+num.cohorts <- 2
+multi.pft <- "MLH"
 
 data_dir <- normalizePath(paste0('../run-ed/',num.cohorts,'cohort/dens',dens,'/dbh',dbh,'/',multi.pft))
 paths <- list(ed2in = file.path(data_dir, 'ED2IN'),
@@ -63,13 +63,15 @@ PEcAn.utils::logger.info(paste0("Running inversion in dir: ",main_out))
 ## Setup PROSPECT for psuedo data
 prospect_ver <- 5
 pp <- list()
-pp[["temperate.Early_Hardwood"]] <- c("N" = 1.4, "Cab" = 30, "Car" = 8, "Cw" = 0.01, "Cm" = 0.01)
-pp[["temperate.North_Mid_Hardwood"]] <- c("N" = 1.8, "Cab" = 45, "Car" = 8, "Cw" = 0.01, "Cm" = 0.01)
+#pp[["temperate.Early_Hardwood"]] <- c("N" = 1.4, "Cab" = 30, "Car" = 8, "Cw" = 0.01, "Cm" = 0.01)
 pp[["temperate.Late_Hardwood"]] <- c("N" = 1.95, "Cab" = 65, "Car" = 8, "Cw" = 0.01, "Cm" = 0.01)
+pp[["temperate.North_Mid_Hardwood"]] <- c("N" = 1.8, "Cab" = 45, "Car" = 8, "Cw" = 0.01, "Cm" = 0.01)
+
 spectra_list <- list()
-spectra_list[["temperate.Early_Hardwood"]] <- prospect(pp$temperate.Early_Hardwood, prospect_ver, TRUE)
-spectra_list[["temperate.North_Mid_Hardwood"]] <- prospect(pp$temperate.North_Mid_Hardwood, prospect_ver, TRUE)
+#spectra_list[["temperate.Early_Hardwood"]] <- prospect(pp$temperate.Early_Hardwood, prospect_ver, TRUE)
 spectra_list[["temperate.Late_Hardwood"]] <- prospect(pp$temperate.Late_Hardwood, prospect_ver, TRUE)
+spectra_list[["temperate.North_Mid_Hardwood"]] <- prospect(pp$temperate.North_Mid_Hardwood, prospect_ver, TRUE)
+
 
 ## Setup EDR wavelengths and run date
 par.wl = 400:2499
@@ -89,6 +91,9 @@ outdir_path <- function(runID) {
 
 
 #--------------------------------------------------------------------------------------------------#
+
+## !! Currently getting an error here !!!
+
 # Setup the output directories
 run_first <- function(inputs) {
   outdir <- outdir_path(inputs$runID)
@@ -105,7 +110,6 @@ run_first <- function(inputs) {
                 par.wl = par.wl,
                 nir.wl = nir.wl,
                 datetime = datetime,
-                #trait.values = list(temperate.Late_Hardwood = list()),  
                 trait.values = trait.values,
                 output.path = outdir)
   return(albedo)
