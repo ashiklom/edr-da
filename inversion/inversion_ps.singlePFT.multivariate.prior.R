@@ -16,8 +16,13 @@ source("common.R")
 library(mvtnorm)
 
 ## Load priors
-load(file = normalizePath('priors/stan_priors_sun.RData')) # for sun exposed leaves only
-#load(file = normalizePath('priors/prior_all.RData')) # based on leaves from sun/shaded positions
+#load(file = normalizePath('priors/stan_priors_sun.RData')) # for sun exposed leaves only
+#priors <- priors_sun$means
+#PEcAn.utils::logger.info(" *** Single PFT ***  Running with sun exposed priors only")
+
+load(file = normalizePath('priors/prior_all.RData')) # based on leaves from sun/shaded positions
+priors <- priors_all$means
+PEcAn.utils::logger.info(" *** Single PFT ***  Running with priors using all leaves (sun and shade)")
 #--------------------------------------------------------------------------------------------------#
 
 
@@ -31,7 +36,7 @@ dttag <- strftime(Sys.time(), "%Y%m%d_%H%M%S")
 ## Define PFT and canopy structure
 pft <- "temperate.Late_Hardwood"
 dens <- 0.05
-dbh <- 40 # 20, 30 or 40
+dbh <- 20 # 20, 30 or 40
 lai <- getvar("LAI_CO", dbh, pft)
 
 data_dir <- normalizePath(paste0('../run-ed/1cohort/dens',dens,'/dbh',dbh,'/',pft))
@@ -53,9 +58,10 @@ PEcAn.utils::logger.info(paste0("Running inversion in dir: ",main_out))
 
 #--------------------------------------------------------------------------------------------------#
 ## Setup PROSPECT for psuedo data
+prospect_ver <- 5
 pp <- c("N" = 1.4, "Cab" = 30, "Car" = 8, "Cw" = 0.01, "Cm" = 0.01)
 spectra_list <- list()
-spectra_list[[pft]] <- prospect(pp, 5, TRUE)
+spectra_list[[pft]] <- prospect(pp, prospect_ver, TRUE)
 
 ## Setup EDR wavelengths and run date
 par.wl = 400:2499
@@ -106,12 +112,12 @@ invert_model <- function(param, runID = 0) {
   outdir <- outdir_path(runID)
   paths_run <- list(ed2in = NA, history = outdir)
   
-  prospect_params <- param[1:5]
-  sla <- param[6]
+  prospect_params <- param[1:prospect_ver]
+  sla <- param[6]         # number of params dependent on prospect version of traits
   orient_factor <- param[7]
   spectra_list <- list()
   trait.values <- list()
-  spectra_list[[pft]] <- prospect(pp, 5, TRUE)
+  spectra_list[[pft]] <- prospect(pp, prospect_ver, TRUE)
   trait.values[[pft]] <- list(SLA = sla, orient_factor = orient_factor)
   
   albedo <- EDR(spectra_list = spectra_list,
@@ -124,17 +130,24 @@ invert_model <- function(param, runID = 0) {
                 output.path = outdir, 
                 change.history.time = FALSE)
   
-  # Create quick figure
-  waves <- seq(400,2500,1)
-  png(paste(outdir,"/",'simulated_albedo.png',sep="/"),width=4900, height =2700,res=400)
-  par(mfrow=c(1,1), mar=c(4.3,4.5,1.0,1), oma=c(0.1,0.1,0.1,0.1)) # B L T R
-  plot(waves,unlist(albedo)*100,type="l",lwd=3,ylim=c(0,60),xlab="Wavelength (nm)",ylab="Reflectance (%)",
-       cex.axis=1.5, cex.lab=1.7,col="black")
-  rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col = 
-         "grey80")
-  lines(waves,unlist(albedo)*100,lwd=3, col="black")
-  dev.off()
-  
+  if (!file.exists(normalizePath(paste(outdir,'simulated_albedo.png',sep="/")))) {
+    # Create quick figure if none exists in output dir.  Just a check that albedo is generated correctly
+    # create figure only once to reduce speed issues (read/write)
+    waves <- seq(400,2500,1)
+    png(normalizePath(paste(outdir,'simulated_albedo.png',sep="/")),width=4900, height =2700,res=400)
+    
+    #PEcAn.utils::logger.info(!file.exists(normalizePath(paste0(outdir,"/",'simulated_albedo.png'))))
+    PEcAn.utils::logger.info("Example Albedo: ",normalizePath(paste0(outdir,"/",'simulated_albedo.png')))
+    
+    par(mfrow=c(1,1), mar=c(4.3,4.5,1.0,1), oma=c(0.1,0.1,0.1,0.1)) # B L T R
+    plot(waves,unlist(albedo)*100,type="l",lwd=3,ylim=c(0,60),xlab="Wavelength (nm)",ylab="Reflectance (%)",
+         cex.axis=1.5, cex.lab=1.7,col="black")
+    rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], 
+         col = "grey80")
+    lines(waves,unlist(albedo)*100,lwd=3, col="black")
+    dev.off()
+  }
+
   return(albedo)
 }
 #--------------------------------------------------------------------------------------------------#
@@ -142,7 +155,7 @@ invert_model <- function(param, runID = 0) {
 
 #--------------------------------------------------------------------------------------------------#
 ## Create pseudo data observation
-sim_obs_params <- c(pp, "sla" = 18.85, "orient_factor" = 0.25)
+sim_obs_params <- c(pp, "sla" = 18.85, "orient_factor" = 0.15)
 #"clumping_factor" = 0.75,
 #"b1Bl_large" = 0.05,
 #"b2Bl_large" = 1.45)
@@ -153,12 +166,12 @@ obs <- invert_model(sim_obs_params) + generate.noise()
 
 #--------------------------------------------------------------------------------------------------#
 ## Setup prior function
-priors <- priors_sun$means
+
 prior_function <- function(params) {
   pft_priors <- dmvnorm(c(params[1:6]),
                            mean = priors$M[,paste(pft)], sigma = priors$Sigma[,,paste(pft)], log = TRUE)
-  orient_factor_late <- dunif(params[7], -0.5, 0.5)
-  return(sum(pft_priors+orient_factor_late,na.rm=T))
+  orient_factor <- dunif(params[7], -0.5, 0.5)
+  return(sum(pft_priors+orient_factor,na.rm=T))
 }
 prior_function(rep(0,7))
 #--------------------------------------------------------------------------------------------------#
@@ -166,14 +179,27 @@ prior_function(rep(0,7))
 
 #--------------------------------------------------------------------------------------------------#
 ## Parameter ranges
-param.mins <- c(N = 1, Cab = 1, Car = 0, Cw = 0.0001, Cm = 0.0001, sla = 5, orient_factor = -0.5)
-param.maxs <- c(N = 6, Cab = 200, Car = 50, Cw = 0.99, Cm = 0.99, sla = Inf, orient_factor = 0.5)
+param.mins <- c(N = 1, Cab = 1, Car = 0, Cw = 0.0001, Cm = 0.0001, sla = 3, orient_factor = -0.5)
+param.maxs <- c(N = 6, Cab = 150, Car = 50, Cw = 0.99, Cm = 0.99, sla = Inf, orient_factor = 0.5)
 #--------------------------------------------------------------------------------------------------#
 
 
 #--------------------------------------------------------------------------------------------------#
 ## Initialization function - Initial conditions
-init_function <- function() return(c('N' = 1.5, 'Cab' = 30, 'Car' = 5, 'Cw' = 0.05, 'Cm' = 0.05, 'sla' = 20, 'orient_factor' = 0.2))
+#init_function <- function() return(c('N' = 1.5, 'Cab' = 30, 'Car' = 5, 'Cw' = 0.05, 'Cm' = 0.05, 'sla' = 20, 'orient_factor' = 0.2))
+#inits_function <- function() {rnorm(n_params, params, 0.0001)}
+
+### quick fix
+#init_function <- function() return(rnorm(7,c('N' = 1.5, 'Cab' = 30, 'Car' = 5, 'Cw' = 0.05, 'Cm' = 0.05, 'sla' = 20, 'orient_factor' = 0.2),0.001))
+
+#init_function <- function() return(rnorm(c("N","Cab","Car","A","B","C","D"),c('N' = 1.5, 'Cab' = 30, 'Car' = 5, 'Cw' = 0.05, 'Cm' = 0.05, 'sla' = 20, 'orient_factor' = 0.2),0.001))
+#init_function()
+
+init_function <- function() {
+  vals <- rnorm(7,c('N' = 1.5, 'Cab' = 30, 'Car' = 5, 'Cw' = 0.05, 'Cm' = 0.05, 'sla' = 20, 'orient_factor' = 0.2),0.001)
+  names(vals) <- c('N', 'Cab', 'Car', 'Cw', 'Cm', 'sla', 'orient_factor')
+  return(vals)
+}
 #--------------------------------------------------------------------------------------------------#
 
 
@@ -215,8 +241,21 @@ samples <- invert.auto(observed = obs,
 saveRDS(samples, file = paste0(main_out,"/",fname))
 samples.bt <- PEcAn.assim.batch::autoburnin(samples$samples)
 samples.bt <- PEcAn.assim.batch::makeMCMCList(samples.bt)
-par(mfrow=c(1,1), mar=c(2,2,0.3,0.4), oma=c(0.1,0.1,0.1,0.1)) # B, L, T, R
-png(paste0(main_out,"/",paste("trace", runtag, "png", sep = ".")), width = 1500, height = 1600, res=150)
+
+print("N iterations:")
+niter(samples.bt)
+print("N variables:")
+nvar(samples.bt)
+print("N chains:")
+nchain(samples.bt)
+
+#par(mfrow=c(1,1), mar=c(2,2,0.3,0.4), oma=c(0.1,0.1,0.1,0.1)) # B, L, T, R
+#png(paste0(main_out,"/",paste("trace", runtag, "png", sep = ".")), width = 1500, height = 1600, res=150)
+#plot(samples.bt)
+#dev.off()
+
+pdf(file = paste0(main_out,"/",paste("trace", runtag, "pdf", sep = ".")), width = 8, height = 6, onefile=T)
+par(mfrow=c(1,1), mar=c(2,2,2,2), oma=c(0.1,0.1,0.1,0.1)) # B, L, T, R
 plot(samples.bt)
 dev.off()
 
