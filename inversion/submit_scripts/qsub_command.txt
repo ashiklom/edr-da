@@ -1,0 +1,2 @@
+### Example. Change -M email@address to reflect your address. Change log=1 to increasing numbers to keep previous logs
+qsub -m abe -M sserbin@bnl.gov -v log=1 ./submit_scripts/submit.rtm.inversion.modex.sh > modex.qsub.log.txt 2>&1

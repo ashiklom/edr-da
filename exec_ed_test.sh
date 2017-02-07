@@ -1,9 +1,11 @@
 #!/bin/bash
 
-dbh=$1
-pft=$2
-dens=${3:-0.05}
+cohorts=$1
+dbh=$2
+pft=$3
+dens=${4:-0.05}
 
-pushd run-ed/1cohort/dens${dens}/dbh${dbh}/${pft}
-./ed_2.1
+pushd run-ed/${cohorts}/dens${dens}/dbh${dbh}/${pft}
+#./ed_2.1
+./ed_2.1-opt
 popd
