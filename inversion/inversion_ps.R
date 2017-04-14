@@ -40,14 +40,15 @@ run_first <- function(inputs) {
     dir.create(outdir, showWarnings = FALSE)
     try_link <- link_ed(outdir)
 
-    albedo <- EDR.prospect(prospect.param = prospect.param,
-                           prospect.version = 5, 
-                           paths = paths,
-                           par.wl = par.wl,
-                           nir.wl = nir.wl,
-                           datetime = datetime,
-                           edr.exe.name = "ed_2.1",
-                           output.path = outdir)
+    prospect_spec <- prospect(prospect.param, 5, include.wl = TRUE)
+    albedo <- EDR(paths = paths, 
+                  spectra_list = list(temperate.Late_Hardwood = prospect_spec),
+                  trait.values = list(temperate.Late_Hardwood = list()),
+                  par.wl = par.wl,
+                  nir.wl = nir.wl,
+                  datetime = datetime,
+                  edr.exe.name = "ed_2.1",
+                  output.path = outdir)
     return(albedo)
 }
 
@@ -59,16 +60,17 @@ invert_model <- function(param, runID = 0) {
 
     trait.values <- get_trait_values(param) 
 
-    albedo <- EDR.prospect(prospect.param = prospect.param,
-                           prospect.version = 5, 
-                           trait.values = trait.values,
-                           paths = paths_run,
-                           par.wl = par.wl,
-                           nir.wl = nir.wl,
-                           datetime = datetime,
-                           edr.exe.name = "ed_2.1",
-                           output.path = outdir, 
-                           change.history.time = FALSE)
+    prospect_spec <- prospect(prospect.param, 5, include.wl = TRUE)
+
+    albedo <- EDR(paths = paths_run, 
+                  spectra_list = list(temperate.Late_Hardwood = prospect_spec),
+                  trait.values = list(temperate.Late_Hardwood = list()),
+                  par.wl = par.wl,
+                  nir.wl = nir.wl,
+                  datetime = datetime,
+                  edr.exe.name = "ed_2.1",
+                  output.path = outdir,
+                  change.history.time = FALSE)
 
     return(albedo)
 }

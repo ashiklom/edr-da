@@ -33,7 +33,7 @@ EDR.run <- function(prospect.param, trait.values, output.path,
 }
 
 link_ed <- function(output.path, 
-                    output.name = "ed_2.1-opt",
+                    output.name = "ed_2.1",
                     exe.path = edr_exe_path) {
     file.symlink(exe.path, file.path(output.path, output.name))
 }
