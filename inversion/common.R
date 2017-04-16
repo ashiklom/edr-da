@@ -20,15 +20,15 @@ getpaths <- function(dbh, pft) {
 
 EDR.run <- function(prospect.param, trait.values, output.path, 
                     dbh, pft) {
-    out <- EDR.prospect(prospect.param = prospect.param,
-                        prospect.version = 5,
-                        trait.values = trait.values,
-                        paths = getpaths(dbh, pft), 
-                        par.wl = 400:800,
-                        nir.wl = 801:2500,
-                        datetime = ISOdate(2004, 07, 01, 16, 00, 00),
-                        edr.exe.name = "ed_2.1",
-                        output.path = output.path)
+    spectra_list <- lapply(prospect.param, prospect, version = 5, include.wl = TRUE)
+    out <- EDR(spectra_list = spectra_list,
+               trait.values = trait.values,
+               paths = getpaths(dbh, pft), 
+               par.wl = 400:800,
+               nir.wl = 801:2500,
+               datetime = ISOdate(2004, 07, 01, 16, 00, 00),
+               edr.exe.name = "ed_2.1",
+               output.path = output.path)
     return(out)
 }
 
