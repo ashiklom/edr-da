@@ -1,3 +1,5 @@
+source('common.R')
+
 edr.exe.name <- 'ed_2.1'
 pft <- list("temperate.Early_Hardwood","temperate.North_Mid_Hardwood","temperate.Late_Hardwood")
 dens <- 0.015
