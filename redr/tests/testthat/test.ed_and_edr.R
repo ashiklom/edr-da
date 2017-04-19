@@ -1,7 +1,11 @@
-library(redr)
+library(testthat)
 edr_da_dir <- '/home/ashiklom/Projects/nasa-rtm/edr-da'
 ed_exe_path <- '/home/ashiklom/Projects/ED2/ED/build/ed_2.1'
-#devtools::load_all(file.path(edr_da_dir, 'redr'))
+if (interactive()) {
+    devtools::load_all(file.path(edr_da_dir, 'redr'))
+} else {
+    library(redr)
+}
 
 test_outdir <- 'edr-testthat-outdir'
 
@@ -24,11 +28,12 @@ try_genrun <- generate_run(prefix = test_outdir,
                            common_inputs_dir = file.path(edr_da_dir, 'ed-inputs/EDI'),
                            site_met_dir = file.path(edr_da_dir, 'ed-inputs/met3/US-WCr/'),
                            ed_exe_path = ed_exe_path,
-                           ed2in_template = file.path(edr_da_dir, 'run-ed/template/ED2IN'),
                            ed2in_changes = ed2in_changes,
                            RMDIR = TRUE)
 
+message('Running ED...')
 test_run <- run_ed(test_outdir)
+message('Done!')
 
 # Test EDR
 dir <- 'edr-testthat-outdir'
@@ -38,5 +43,15 @@ edr_args <- list(spectra_list = list(temperate.Early_Hardwood =
                  trait.values = list(temperate.Early_Hardwood = list()),
                  datetime = as.POSIXlt('2004-06-29 12:00:00'))
 
-setup_edr(dir, edr_exe_path)
+setup <- setup_edr(dir, edr_exe_path)
+message('Running EDR...')
 albedo <- run_edr(dir, edr_args)
+message('Done! Albedo summary:')
+print(summary(albedo))
+
+test_that("Output albedo is sensible", {
+              expect_true(min(albedo) > 0)
+              expect_true(max(albedo) < 1)
+              expect_equal(length(albedo), 2101)
+              expect_true(max(diff(albedo)) < 0.2)
+                 })

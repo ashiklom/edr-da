@@ -10,13 +10,14 @@
 #' @param common_inputs_dir Path to directory containing `ed-inputs/{chd,dgd}` and `OGE2old`
 #' @param site_met_dir Path to directory containing `ED_MET_DRIVER_HEADER` and `{month}.h5` files
 #' @param ed_exe_path Path to ED executable, which will be linked to directory
-#' @param ed2in_template Path to template ED2IN file, which will be copied and modified
+#' @param ed2in_template Path to template ED2IN file, which will be copied and modified. Defaults to `inst/ED2IN` in package.
 #' @param ed2in_changes Optional list of additional changes to make to ED2IN, in the form `TAG = "value"`
 #' @param RMDIR If TRUE, remove output directory and contents before starting
 #' @export
 generate_run <- function(prefix, site_lat, site_lon, css_df, pss_df, site_df, 
                          output_dir, common_inputs_dir, site_met_dir, ed_exe_path,
-                         ed2in_template, ed2in_changes = NULL, RMDIR = FALSE) {
+                         ed2in_template = system.file('ED2IN', package = 'redr'), 
+                         ed2in_changes = NULL, RMDIR = FALSE) {
     if (RMDIR) {
         unlink(output_dir, recursive = TRUE)
     }

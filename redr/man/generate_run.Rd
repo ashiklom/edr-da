@@ -5,7 +5,8 @@
 \title{Prepare ED run inputs in a single location}
 \usage{
 generate_run(prefix, site_lat, site_lon, css_df, pss_df, site_df, output_dir,
-  common_inputs_dir, site_met_dir, ed_exe_path, ed2in_template,
+  common_inputs_dir, site_met_dir, ed_exe_path,
+  ed2in_template = system.file("ED2IN", package = "redr"),
   ed2in_changes = NULL, RMDIR = FALSE)
 }
 \arguments{
@@ -29,7 +30,7 @@ generate_run(prefix, site_lat, site_lon, css_df, pss_df, site_df, output_dir,
 
 \item{ed_exe_path}{Path to ED executable, which will be linked to directory}
 
-\item{ed2in_template}{Path to template ED2IN file, which will be copied and modified}
+\item{ed2in_template}{Path to template ED2IN file, which will be copied and modified. Defaults to `inst/ED2IN` in package.}
 
 \item{ed2in_changes}{Optional list of additional changes to make to ED2IN, in the form `TAG = "value"`}
 

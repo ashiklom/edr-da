@@ -11,7 +11,7 @@ run_edr <- function(dir, edr_args) {
                   history = file.path(dir, 'outputs'))
     edr_inputs <- list(paths = paths,
                        par.wl = 400:800,
-                       nir.wl = 801:2400,
+                       nir.wl = 801:2500,
                        edr.exe.name = 'edr',
                        change.history.time = TRUE,
                        output.path = file.path(dir, 'edr'),
@@ -20,6 +20,11 @@ run_edr <- function(dir, edr_args) {
     do.call(PEcAnRTM::EDR, edr_inputs)
 }
 
+#' Setup EDR directory
+#' 
+#' @param edr_exe_path Path to EDR executable, to be linked.
+#' @inheritParams exec_in_dir
+#' @export
 setup_edr <- function(dir, edr_exe_path) {
     edr_dir <- file.path(dir, 'edr')
     edr_exe_link <- file.path(edr_dir, 'edr')
