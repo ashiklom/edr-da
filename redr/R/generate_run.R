@@ -59,9 +59,13 @@ generate_run <- function(prefix, site_lat, site_lon, css_df, pss_df, site_df,
     # Write ED2IN file
     ed2in_text <- readLines(ed2in_template)
     ed2in_values <- list('VEG_DATABASE' = file.path(normalizePath(file.path(common_inputs_link, 'oge2OLD')), 'OGE2_'),
-                         'THSUMS_DATABASE' = paste0(normalizePath(file.path(common_inputs_link, 'EDI/ed_inputs')), '/'),
+                         'THSUMS_DATABASE' = paste0(normalizePath(file.path(common_inputs_link, 'ed_inputs')), '/'),
                          'ED_MET_DRIVER_DB' = normalizePath(file.path(site_met_link, 'ED_MET_DRIVER_HEADER')),
-                         'SFILIN' = file.path(normalizePath(sites_dir), paste0(prefix, '.')))
+                         'SFILIN' = file.path(normalizePath(sites_dir), paste0(prefix, '.')),
+                         'UNITFAST' = 1, 'UNITSTATE' = 1,
+                         'OUTFAST' = 0, 'OUTSTATE' = 0,
+                         'FRQFAST' = 1, 'FRQSTATE' = 1,
+                         'ISOUTPUT' = 3, 'IFOUTPUT' = 3, 'ITOUTPUT' = 3)
     if (!is.null(ed2in_changes)) {
         ed2in_values <- modifyList(ed2in_values, ed2in_changes)
     }
