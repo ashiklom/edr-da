@@ -4,8 +4,8 @@
 \alias{generate_run}
 \title{Prepare ED run inputs in a single location}
 \usage{
-generate_run(prefix, site_lat, site_lon, css_df, pss_df, site_df, output_dir,
-  common_inputs_dir, site_met_dir, ed_exe_path,
+generate_run(prefix, site_lat, site_lon, css_df, pss_df, site_df,
+  output_dir = prefix, common_inputs_dir, site_met_dir, ed_exe_path,
   ed2in_template = system.file("ED2IN", package = "redr"),
   ed2in_changes = NULL, RMDIR = FALSE)
 }
@@ -22,7 +22,7 @@ generate_run(prefix, site_lat, site_lon, css_df, pss_df, site_df, output_dir,
 
 \item{site_df}{`data.frame` containing site (.site) file}
 
-\item{output_dir}{Root directory where outputs are stored}
+\item{output_dir}{Root directory where outputs are stored. Defaults to value of `prefix`.}
 
 \item{common_inputs_dir}{Path to directory containing `ed-inputs/{chd,dgd}` and `OGE2old`}
 

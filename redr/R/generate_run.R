@@ -6,7 +6,7 @@
 #' @param css_df `data.frame` contianing cohort (.css) file
 #' @param pss_df `data.frame` containing patch (.pss) file
 #' @param site_df `data.frame` containing site (.site) file
-#' @param output_dir Root directory where outputs are stored
+#' @param output_dir Root directory where outputs are stored. Defaults to value of `prefix`.
 #' @param common_inputs_dir Path to directory containing `ed-inputs/{chd,dgd}` and `OGE2old`
 #' @param site_met_dir Path to directory containing `ED_MET_DRIVER_HEADER` and `{month}.h5` files
 #' @param ed_exe_path Path to ED executable, which will be linked to directory
@@ -15,7 +15,7 @@
 #' @param RMDIR If TRUE, remove output directory and contents before starting
 #' @export
 generate_run <- function(prefix, site_lat, site_lon, css_df, pss_df, site_df, 
-                         output_dir, common_inputs_dir, site_met_dir, ed_exe_path,
+                         output_dir = prefix, common_inputs_dir, site_met_dir, ed_exe_path,
                          ed2in_template = system.file('ED2IN', package = 'redr'), 
                          ed2in_changes = NULL, RMDIR = FALSE) {
     if (RMDIR) {
