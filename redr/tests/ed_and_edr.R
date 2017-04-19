@@ -1,19 +1,15 @@
-#library(redr)
+library(redr)
 edr_da_dir <- '/home/ashiklom/Projects/nasa-rtm/edr-da'
 ed_exe_path <- '/home/ashiklom/Projects/ED2/ED/build/ed_2.1'
-devtools::load_all(file.path(edr_da_dir, 'redr'))
+#devtools::load_all(file.path(edr_da_dir, 'redr'))
 
 test_outdir <- 'edr-testthat-outdir'
 
 css_df <- data.frame(year = 2000, patch = 1, cohort = 1, dbh = 20, ht = 0, pft = 9,
                      den = 0.05, bdead = 0, balive = 0, lai = -999)
 
-pss_df <- data.frame(site = 1, year = 2000, patch = 1, dst = 1, age = 70, area = 1,
-                     water = 0.1, fsc = 5, stsc = 2.15, stsl = 2.15, ssc = 0.03,
-                     psc = 0, msn = 0.16, fsn = 1.14)
-
-site_df <- data.frame(sitenum = 1, area = 1.0, TCI = -6.3, elev = 540.0, slope = 0,
-                      aspect = 0, soil1 = 3)
+data(pss_ex1)
+data(site_ex1)
 
 ed2in_changes <- list(IMONTHA = 06, IDATEA = 29, IYEARA = 2004,
                       IMONTHZ = 07, IDATEZ = 04, IYEARZ = 2004)
