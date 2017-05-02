@@ -3,9 +3,9 @@
 #' @param prefix Input file prefix, matched by ED2IN (full filename is `prefix.lat(-)DD.Dlon(-)DD.D.{css,pss,site}`
 #' @param site_lat Site latitude (decimal degrees)
 #' @param site_lon Site longitude (decimal degrees)
-#' @param css_df `data.frame` contianing cohort (.css) file
-#' @param pss_df `data.frame` containing patch (.pss) file
-#' @param site_df `data.frame` containing site (.site) file
+#' @param css_df `data.frame` contianing cohort (.css) file, or a path pointing to a complete css file, which will be copied to destination
+#' @param pss_df `data.frame` containing patch (.pss) file, or a path pointing to a complete pss file, which will be copied to destination
+#' @param site_df `data.frame` containing site (.site) file, or a path pointing to a complete site file, which will be copied to destination
 #' @param output_dir Root directory where outputs are stored. Defaults to value of `prefix`.
 #' @param common_inputs_dir Path to directory containing `ed-inputs/{chd,dgd}` and `OGE2old`
 #' @param site_met_dir Path to directory containing `ED_MET_DRIVER_HEADER` and `{month}.h5` files
@@ -36,23 +36,29 @@ generate_run <- function(prefix, site_lat, site_lon, css_df, pss_df, site_df,
     # Write PSS, CSS, and SITE files to output_dir/site_files
     dir.create(sites_dir)
     latlon_string <- sprintf('lat%.1flon%.1f', site_lat, site_lon)
+
     write_edfile <- function(df, extension, ...) {
         fname <- file.path(sites_dir, paste(prefix, latlon_string, extension, sep = '.'))
-        append <- FALSE
-        # Site file has special syntax
-        if (extension == 'site') {
-            site_header <- sprintf('nsite %d format 1', nrow(site_df))
-            writeLines(text = site_header, con = fname)
-            append <- TRUE
+        if (!is.data.frame(df) && is.character(df)) {
+            file.copy(from = df, to = fname)
+        } else {
+            append <- FALSE
+            # Site file has special syntax
+            if (extension == 'site') {
+                site_header <- sprintf('nsite %d format 1', nrow(site_df))
+                writeLines(text = site_header, con = fname)
+                append <- TRUE
+            }
+            write.table(x = df,
+                        file = fname,
+                        quote = FALSE,
+                        sep = "     ",
+                        row.names = FALSE,
+                        col.names = TRUE,
+                        append = append)
         }
-        write.table(x = df,
-                    file = fname,
-                    quote = FALSE,
-                    sep = "     ",
-                    row.names = FALSE,
-                    col.names = TRUE,
-                    append = append)
     }
+
     write_edfile(css_df, 'css')
     write_edfile(pss_df, 'pss')
     write_edfile(site_df, 'site')

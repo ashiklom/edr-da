@@ -16,11 +16,11 @@ generate_run(prefix, site_lat, site_lon, css_df, pss_df, site_df,
 
 \item{site_lon}{Site longitude (decimal degrees)}
 
-\item{css_df}{`data.frame` contianing cohort (.css) file}
+\item{css_df}{`data.frame` contianing cohort (.css) file, or a path pointing to a complete css file, which will be copied to destination}
 
-\item{pss_df}{`data.frame` containing patch (.pss) file}
+\item{pss_df}{`data.frame` containing patch (.pss) file, or a path pointing to a complete pss file, which will be copied to destination}
 
-\item{site_df}{`data.frame` containing site (.site) file}
+\item{site_df}{`data.frame` containing site (.site) file, or a path pointing to a complete site file, which will be copied to destination}
 
 \item{output_dir}{Root directory where outputs are stored. Defaults to value of `prefix`.}
 
