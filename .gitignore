@@ -11,3 +11,6 @@ run-ed/template/ed_2.1
 
 # redr tests
 redr/tests/testthat/edr-testthat-outdir/
+
+# Deprecated code
+.deprecated/
