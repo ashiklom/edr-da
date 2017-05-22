@@ -14,3 +14,10 @@ redr/tests/testthat/edr-testthat-outdir/
 
 # Deprecated code
 .deprecated/
+
+# Anything starting with .edr
+# (Use this is a prefix for EDR runtime directories)
+.edr*
+
+# System-specific configuration
+config.R
