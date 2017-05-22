@@ -2,12 +2,7 @@
 rm(list=ls(all=TRUE))   # clear workspace
 graphics.off()          # close any open graphics
 closeAllConnections()   # close any open connections to files
-library(redr)
-library(PEcAnRTM)
-
-edr_da_dir <- '/data/sserbin/Modeling/edr-da'
-ed_exe_path <- '/data/sserbin/Modeling/ED2.git/ED/build/ed_2.1-opt'
-edr_exe_path <- '/data/sserbin/Modeling/ED2.git/EDR/build/ed_2.1-opt'
+source('common.R')
 #--------------------------------------------------------------------------------------------------#
 
 
