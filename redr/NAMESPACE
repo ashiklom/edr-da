@@ -3,6 +3,8 @@
 export(exec_in_dir)
 export(extend_df)
 export(generate_run)
+export(params_df2list)
 export(run_ed)
 export(run_edr)
+export(set_param)
 export(setup_edr)
