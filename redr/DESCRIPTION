@@ -5,9 +5,12 @@ Authors@R: person("Alexey", "Shiklomanov", email = "ashiklom@bu.edu", role = c("
 Description: Facilitates running ED2 and EDR under certain test cases
 Depends: R (>= 3.3.3)
 Imports:
-    PEcAn.ED2
+    PEcAn.ED2,
+    dplyr,
+    purrr,
+    PEcAnRTM
 Suggests:
-    testthat
+    testthat,
 License: MIT License
 Encoding: UTF-8
 LazyData: true

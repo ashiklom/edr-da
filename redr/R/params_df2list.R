@@ -6,10 +6,10 @@ params_df2list <- function(params_df, prospect_version = 4, pftcol = 'pft', date
     stopifnot(length(prospect_cols) >= 4)
     edr_cols_rxp <- sprintf('^(%1$s|prospect_params|%2$s)', pftcol, prospect_params_rxp)
     edr_cols <- grep(edr_cols_rxp, colnames(params_df), value = TRUE, invert = TRUE)
-    edr_df <- params_df %>% 
-        mutate(prospect_params = pmap(.[prospect_cols], list),
-               spectra_list = map(prospect_params, PEcAnRTM::prospect, version = prospect_version, include.wl = TRUE),
-               trait.values = pmap(.[edr_cols], list))
+    edr_df <- dplyr::mutate(params_df,
+                            prospect_params = purrr::pmap(params_df[prospect_cols], list),
+                            spectra_list = purrr::map(prospect_params, PEcAnRTM::prospect, version = prospect_version, include.wl = TRUE),
+                            trait.values = purrr::pmap(params_df[edr_cols], list))
     spectra_list <- edr_df[['spectra_list']]
     trait.values <- edr_df[['trait.values']]
     names(spectra_list) <- names(trait.values) <- edr_df[[pftcol]]
