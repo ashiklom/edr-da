@@ -63,11 +63,12 @@ for (i in seq_len(nsamp)) {
     albedo[,i] <- run_edr(prefix, edr_args = arg_list)
 }
 
+wl <- 400:2500
 mu <- rowMeans(albedo)
 lo <- apply(albedo, 1, quantile, 0.025)
 hi <- apply(albedo, 1, quantile, 0.975)
 
-matplot(400:2500, albedo, type='l', lty = 'dashed', col = 'grey')
-lines(400:2500, hi, col = 'red', lwd = 2)
-lines(400:2500, mu, col = 'black', lwd = 2)
-lines(400:2500, lo, col = 'red', lwd = 2)
+matplot(wl, albedo, type='l', lty = 'dashed', col = 'grey')
+lines(wl, hi, col = 'red', lwd = 2)
+lines(wl, mu, col = 'black', lwd = 2)
+lines(wl, lo, col = 'red', lwd = 2)
