@@ -1,8 +1,13 @@
-source('common.R')
+source('config.R')
 
 library(tidyverse)
+library(redr)
 
-prefix <- 'bl_same_dbh'
+data(css_ex1)
+data(pss_ex1)
+data(site_ex1)
+
+prefix <- '.edr_sensitivity'
 
 css_bl_same_dbh <- extend_df(css_df, cohort = 1:3, dbh = 30, pft = c(9, 10, 11))
 genrun <- generate_run(prefix = prefix,
@@ -16,7 +21,10 @@ genrun <- generate_run(prefix = prefix,
                        ed_exe_path = ed_exe_path,
                        RMDIR = TRUE)
 
-run_ed(prefix)
+message('Running ED...')
+runed <- run_ed(prefix)
+tail(runed)
+message('Done!')
 
 edr_setup <- setup_edr(prefix, edr_exe_path = edr_exe_path)
 
@@ -25,22 +33,27 @@ params <- tribble(
     'temperate.Early_Hardwood', 1.4, 40, 0.01, 0.01, 0.5, 0.5, 
     'temperate.North_Mid_Hardwood', 1.4, 30, 0.01, 0.01, 0.5, 0.5,
     'temperate.Late_Hardwood', 1.4, 20, 0.01, 0.01, 0.5, 0.5
-                                   )
+    )
 
-# TODO: Sample from the prior distribution
-
-sensitivity <- function(base_params, pft, parameter, ...) {
-    param_seq <- seq(...)
+sensitivity <- function(base_params, pft, parameter, param_seq) {
     nparams <- length(param_seq)
     albedo_mat <- matrix(0, nrow = 2101, ncol = nparams)
     for (i in seq_len(nparams)) {
-        temp_params <- set_param(params, pft, parameter, param_seq[i])
+        # This changes the value of one parameter for one PFT from a properly 
+        # formatted parameter data.frame (like the `params` data.frame above)
+        temp_params <- set_param(base_params, pft, parameter, param_seq[i])
         albedo_mat[,i] <- run_edr(prefix, edr_args = params_df2list(temp_params))
     }
     return(albedo_mat)
 }
 
-# Some examples
-early_N <- sensitivity(params, 'temperate.Early_Hardwood', 'N', from = 1.1, to = 2.0, length.out = 10)
-mid_N <- sensitivity(params, 'temperate.North_Mid_Hardwood', 'N', from = 1.1, to = 2.0, length.out = 10)
+# Run sensitivity analysis for PROSPECT N parameter
+N_seq <- seq(from = 1.1, to = 2.0, length.out = 10)
+early_N <- sensitivity(params, 'temperate.Early_Hardwood', 'N', N_seq)
+mid_N <- sensitivity(params, 'temperate.North_Mid_Hardwood', 'N', N_seq)
+late_N <- sensitivity(params, 'temperate.North_Mid_Hardwood', 'N', N_seq)
 
+par(mfrow = c(1,3))
+matplot(early_N, type='l', main = 'Early Hardwood')
+matplot(mid_N, type='l', main = 'Mid Hardwood')
+matplot(late_N, type='l', main = 'Late Hardwood')
