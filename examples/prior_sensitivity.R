@@ -1,3 +1,4 @@
+#--------------------------------------------------------------------------------------------------#
 source('config.R')
 
 library(tidyverse)
@@ -7,7 +8,17 @@ data(css_ex1)
 data(pss_ex1)
 data(site_ex1)
 
-prefix <- '.edr_prior_sensitivity'
+save_plot <- FALSE #TRUE/FALSE
+hidden <- TRUE #TRUE/FALSE
+#--------------------------------------------------------------------------------------------------#
+
+
+#--------------------------------------------------------------------------------------------------#
+if (hidden) {
+  prefix <- '.edr_prior_sensitivity'
+} else {
+  prefix <- 'edr_prior_sensitivity'
+}
 
 css_bl_same_dbh <- extend_df(css_df, cohort = 1:3, dbh = 30, pft = c(9, 10, 11))
 genrun <- generate_run(prefix = prefix,
@@ -60,15 +71,36 @@ for (i in seq_len(nsamp)) {
     print(i)
     params <- sample_params_pft(pfts)
     arg_list <- params_df2list(params, prospect_version = 5)
+    #arg_list$par.wl <- 400:2499
+    #arg_list$nir.wl <- 2500
     albedo[,i] <- run_edr(prefix, edr_args = arg_list)
 }
+#--------------------------------------------------------------------------------------------------#
 
+
+#--------------------------------------------------------------------------------------------------#
 wl <- 400:2500
 mu <- rowMeans(albedo)
 lo <- apply(albedo, 1, quantile, 0.025)
 hi <- apply(albedo, 1, quantile, 0.975)
 
-matplot(wl, albedo, type='l', lty = 'dashed', col = 'grey')
-lines(wl, hi, col = 'red', lwd = 2)
-lines(wl, mu, col = 'black', lwd = 2)
-lines(wl, lo, col = 'red', lwd = 2)
+if (save_plot) {
+  png(file.path(prefix,'prior_sensitivity_test_albedo.png'),width=4900, height =2700,res=400)
+  par(mfrow=c(1,1), mar=c(4.3,4.5,1.0,1), oma=c(0.1,0.1,0.1,0.1)) # B L T R
+  matplot(wl, albedo, type='l', lty = 'dashed', col = 'grey')
+  lines(wl, hi, col = 'red', lwd = 2)
+  lines(wl, mu, col = 'black', lwd = 2)
+  lines(wl, lo, col = 'red', lwd = 2)
+  box(lwd=2.2)
+  dev.off()
+} else {
+  matplot(wl, albedo, type='l', lty = 'dashed', col = 'grey')
+  lines(wl, hi, col = 'red', lwd = 2)
+  lines(wl, mu, col = 'black', lwd = 2)
+  lines(wl, lo, col = 'red', lwd = 2)
+}
+#--------------------------------------------------------------------------------------------------#
+
+
+#--------------------------------------------------------------------------------------------------#
+### EOF

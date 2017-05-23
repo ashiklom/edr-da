@@ -1,4 +1,4 @@
-#' @export
+##' @export
 params_df2list <- function(params_df, prospect_version = 4, pftcol = 'pft', datetime = as.POSIXlt('2004-07-01 12:00:00')) {
     stopifnot(pftcol %in% colnames(params_df))
     prospect_params_rxp <- 'N|Cab|Cbrown|Canth|Car|Cw|Cm'

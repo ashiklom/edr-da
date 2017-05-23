@@ -1,3 +1,4 @@
+ed-inputs/met3/US-WCr/ED_MET_DRIVER_HEADER
 ed-inputs/sites/US-WCr/rtm/1cohort/
 ed-inputs/sites/US-Syv/rtm/1cohort/
 run-ed/1cohort/
@@ -11,6 +12,7 @@ run-ed/template/ed_2.1
 
 # redr tests
 redr/tests/testthat/edr-testthat-outdir/
+redr_*
 
 # Deprecated code
 .deprecated/
@@ -18,6 +20,9 @@ redr/tests/testthat/edr-testthat-outdir/
 # Anything starting with .edr
 # (Use this is a prefix for EDR runtime directories)
 .edr*
+edr_prior_sensitivity/
+edr_*
+edr-*
 
 # System-specific configuration
 config.R

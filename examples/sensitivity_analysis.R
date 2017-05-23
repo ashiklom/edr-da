@@ -1,3 +1,4 @@
+#--------------------------------------------------------------------------------------------------#
 source('config.R')
 
 library(tidyverse)
@@ -7,7 +8,17 @@ data(css_ex1)
 data(pss_ex1)
 data(site_ex1)
 
-prefix <- '.edr_sensitivity'
+save_plot <- FALSE #TRUE/FALSE
+hidden <- TRUE #TRUE/FALSE
+#--------------------------------------------------------------------------------------------------#
+
+
+#--------------------------------------------------------------------------------------------------#
+if (hidden) {
+  prefix <- '.edr_sensitivity'
+} else {
+  prefix <- 'edr_sensitivity'
+}
 
 css_bl_same_dbh <- extend_df(css_df, cohort = 1:3, dbh = 30, pft = c(9, 10, 11))
 genrun <- generate_run(prefix = prefix,
@@ -42,7 +53,10 @@ sensitivity <- function(base_params, pft, parameter, param_seq) {
         # This changes the value of one parameter for one PFT from a properly 
         # formatted parameter data.frame (like the `params` data.frame above)
         temp_params <- set_param(base_params, pft, parameter, param_seq[i])
-        albedo_mat[,i] <- run_edr(prefix, edr_args = params_df2list(temp_params))
+        arg_list <- params_df2list(temp_params)
+        #arg_list$par.wl <- 400:2499
+        #arg_list$nir.wl <- 2500
+        albedo_mat[,i] <- run_edr(prefix, edr_args = arg_list)
     }
     return(albedo_mat)
 }
@@ -52,8 +66,28 @@ N_seq <- seq(from = 1.1, to = 2.0, length.out = 10)
 early_N <- sensitivity(params, 'temperate.Early_Hardwood', 'N', N_seq)
 mid_N <- sensitivity(params, 'temperate.North_Mid_Hardwood', 'N', N_seq)
 late_N <- sensitivity(params, 'temperate.North_Mid_Hardwood', 'N', N_seq)
+#--------------------------------------------------------------------------------------------------#
 
-par(mfrow = c(1,3))
-matplot(early_N, type='l', main = 'Early Hardwood')
-matplot(mid_N, type='l', main = 'Mid Hardwood')
-matplot(late_N, type='l', main = 'Late Hardwood')
+
+#--------------------------------------------------------------------------------------------------#
+if (save_plot) { 
+  png(file.path(prefix,'Albedo_sensitivity_analysis_PROSPECT_N_param.png'),width=3100, height=1300, res=200)
+  par(mfrow=c(1,3), mar=c(4.3,4.5,1.0,1), oma=c(0.1,0.1,0.1,0.1)) # B L T R
+  matplot(early_N, type='l', main = 'Early Hardwood')
+  box(lwd=2.2)
+  matplot(mid_N, type='l', main = 'Mid Hardwood')
+  box(lwd=2.2)
+  matplot(late_N, type='l', main = 'Late Hardwood')
+  box(lwd=2.2)
+  dev.off()
+} else {
+  par(mfrow = c(1,3))
+  matplot(early_N, type='l', main = 'Early Hardwood')
+  matplot(mid_N, type='l', main = 'Mid Hardwood')
+  matplot(late_N, type='l', main = 'Late Hardwood')
+}
+#--------------------------------------------------------------------------------------------------#
+
+
+#--------------------------------------------------------------------------------------------------#
+### EOF
