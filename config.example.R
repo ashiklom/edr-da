@@ -23,7 +23,7 @@ common_inputs_dir <- normalizePath(common_inputs_dir)
 #   - Met driver header (complete, NOT a temp file) -- ED_MET_DRIVER_HEADER
 #   - Met data -- <site-tag>_2004{JUN,JUL,AUG}.h5
 site_met_dir <- file.path('ed-inputs', 'met3', 'US-WCr')
-common_inputs_dir <- normalizePath(site_met_dir)
+site_met_dir <- normalizePath(site_met_dir)
 
 # These are the paths to the executables for the full ED2 
 # model and EDR, respectively
