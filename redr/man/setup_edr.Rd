@@ -4,12 +4,14 @@
 \alias{setup_edr}
 \title{Setup EDR directory}
 \usage{
-setup_edr(dir, edr_exe_path)
+setup_edr(dir, edr_exe_path, edr_dir = "edr")
 }
 \arguments{
 \item{dir}{Directory in which to execute command}
 
 \item{edr_exe_path}{Path to EDR executable, to be linked.}
+
+\item{target_name}{Target directory name for EDR}
 }
 \description{
 Setup EDR directory
