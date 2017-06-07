@@ -49,13 +49,13 @@ generate_run <- function(prefix, site_lat, site_lon, css_df, pss_df, site_df,
                 writeLines(text = site_header, con = fname)
                 append <- TRUE
             }
-            write.table(x = df,
-                        file = fname,
-                        quote = FALSE,
-                        sep = "     ",
-                        row.names = FALSE,
-                        col.names = TRUE,
-                        append = append)
+            suppressWarnings(write.table(x = df,
+                                         file = fname,
+                                         quote = FALSE,
+                                         sep = "     ",
+                                         row.names = FALSE,
+                                         col.names = TRUE,
+                                         append = append))
         }
     }
 

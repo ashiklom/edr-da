@@ -4,7 +4,7 @@
 \alias{run_edr}
 \title{Run EDR in the current directory}
 \usage{
-run_edr(dir, edr_args)
+run_edr(dir, edr_args, edr_dir = "edr")
 }
 \arguments{
 \item{dir}{Directory in which to execute command}
