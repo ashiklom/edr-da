@@ -1,3 +1,4 @@
+#--------------------------------------------------------------------------------------------------#
 source('config.R')
 
 library(magrittr)
@@ -7,7 +8,22 @@ data(css_ex1)
 data(pss_ex1)
 data(site_ex1)
 
-prefix <- '.edr_inversion'
+plot_albedo <- TRUE #TRUE/FALSE
+generate_summary_figs <- TRUE #TRUE/FALSE
+hidden <- FALSE  #TRUE/FALSE
+
+nchains <- 5 #3
+#--------------------------------------------------------------------------------------------------#
+
+
+#--------------------------------------------------------------------------------------------------#
+if (hidden) {
+  prefix <- '.edr_inversion'
+} else {
+  prefix <- paste("edr_inversion", format(Sys.time(), format="%Y%m%d_%H%M%S"), sep = "_")
+  #prefix <- 'edr_inversion'
+}
+PEcAn.utils::logger.info(paste0("Running inversion in dir: ",prefix))
 
 css_bl_same_dbh <- extend_df(css_df, cohort = 1:3, dbh = 30, pft = c(9, 10, 11))
 genrun <- generate_run(prefix = prefix,
@@ -56,7 +72,7 @@ prior_function <- function(params) {
         pft <- names(pft_end)[i]
         param_sub <- param_sub(i, params)
         # PROSPECT prior
-        prior <- prior + mvtnorm::dmvnorm(c(param_sub[1:5], 1/param_sub[6]), means[pft,], covars[pft,,], 
+        prior <- prior + mvtnorm::dmvnorm(c(param_sub[1:5], (1/param_sub[6])*1000), means[pft,], covars[pft,,], 
                                           log = TRUE)
         # ED priors
         prior <- prior + dunif(param_sub[7], 0, 1, TRUE) + dunif(param_sub[8], -1, 1, TRUE)
@@ -68,9 +84,17 @@ prior_function <- function(params) {
 # Can be replaced with a function that draws these values from distributions
 inits_function <- function() {
     # N, Cab, Car, Cw, Cm, SLA, clumping, orient
-    c(1.8, 47, 8.7, 0.009, 0.007, 1/66.3, 0.5, 0,     # Early
-      1.4, 47, 8.8, 0.01, 0.009, 1/128.3, 0.5, 0,     # Mid
-      1.9, 45, 8.5, 0.007, 0.008, 1/65.35, 0.5, 0)    # Late
+    c(1, 35, 5, 0.006, 0.005, 15, 0.5, 0,     # Early
+      1, 35, 5, 0.006, 0.005, 15, 0.5, 0,     # Mid
+      1, 35, 5, 0.006, 0.005, 15, 0.5, 0)    # Late
+}
+
+# Test observation param values
+obs_params <- function() {
+     #N, Cab, Car, Cw, Cm, SLA, clumping, orient
+  c(1.8, 47, 8.7, 0.009, 0.007, (1/66.3)*1000, 0.8, 0.12,     # Early
+    1.4, 47, 8.8, 0.01, 0.009, (1/128.3)*1000, 0.82, 0.12,     # Mid
+    1.9, 45, 8.5, 0.007, 0.008, (1/65.35)*1000, 0.86, 0.12)    # Late
 }
 
 vec2list <- function(params, ...) {
@@ -80,7 +104,7 @@ vec2list <- function(params, ...) {
         pft <- names(pft_end)[i]
         param_sub <- param_sub(i, params)
         spectra_list[[pft]] <- PEcAnRTM::prospect(param_sub[1:5], 5, TRUE)
-        ed_list[[pft]] <- list(sla = param_sub[6],
+        ed_list[[pft]] <- list(SLA = param_sub[6],
                                clumping_factor = param_sub[7],
                                orient_factor = param_sub[8])
     }
@@ -118,6 +142,20 @@ model <- function(params, runID = 'test') {
                           change.history.time = FALSE)
     albedo <- run_edr(prefix, args_list, edr_dir)
     print(head(albedo))
+    
+    if (plot_albedo) {
+      # Create quick figure
+      waves <- seq(400,2500,1)
+      png(file.path(prefix,edr_dir,'simulated_albedo.png'),width=4900, height =2700,res=400)
+      par(mfrow=c(1,1), mar=c(4.3,4.5,1.0,1), oma=c(0.1,0.1,0.1,0.1)) # B L T R
+      plot(waves,unlist(albedo)*100,type="l",lwd=3,ylim=c(0,60),xlab="Wavelength (nm)",
+           ylab="Reflectance (%)",
+      cex.axis=1.5, cex.lab=1.7,col="black")
+      rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col = "grey80")
+      lines(waves,unlist(albedo)*100,lwd=3, col="black")
+      dev.off()
+    }
+    
     return(albedo)
 }
 
@@ -131,7 +169,7 @@ param_mins <- rep(c(1, rep(0, 7)), 3)
 
 invert_options <- list(model = model,
                        run_first = run_first,
-                       nchains = 3,
+                       nchains = nchains,
                        inits.function = inits_function,
                        prior.function = prior_function,
                        ngibbs.max = 1e6,
@@ -141,10 +179,47 @@ invert_options <- list(model = model,
 
 # Simulate observations
 # Add small amount of noise so first fit isn't perfect (this breaks neff calculation)
-observed <- model(inits_function(), runID = 'test') + PEcAnRTM::generate.noise()
+observation <- run_first(list(runID = 'observation'))
+observed <- model(obs_params(), runID = 'observation') + PEcAnRTM::generate.noise()
+#--------------------------------------------------------------------------------------------------#
 
+
+#--------------------------------------------------------------------------------------------------#
 samples <- PEcAnRTM::invert.auto(observed = observed,
                                  invert.options = invert_options,
                                  parallel = TRUE,
-                                 save.samples = 'inversion_samples_inprogress.rds')
-save(samples, file = 'inversion_samples_finished.RData')
+                                 save.samples = file.path(prefix,'inversion_samples_inprogress.rds'))
+save(samples, file = file.path(prefix,'inversion_samples_finished.RData'))
+#--------------------------------------------------------------------------------------------------#
+
+
+#--------------------------------------------------------------------------------------------------#
+if (generate_summary_figs) {
+
+  main_out <- prefix
+  samples.bt <- PEcAn.assim.batch::autoburnin(samples$samples)
+  samples.bt <- PEcAn.assim.batch::makeMCMCList(samples.bt)
+  
+  par(mfrow=c(1,1), mar=c(2,2,0.3,0.4), oma=c(0.1,0.1,0.1,0.1)) # B, L, T, R
+  png(file.path(main_out,"final_trace_plot.png"), width = 1500, height = 1600, res=150)
+  plot(samples.bt)
+  dev.off()
+  
+  rawsamps <- do.call(rbind, samples.bt)
+  par(mfrow=c(1,1), mar=c(2,2,0.3,0.4), oma=c(0.1,0.1,0.1,0.1)) # B, L, T, R
+  png(file.path(main_out,"final_pairs_plot.png"), width = 1500, height = 1600, res=150)
+  pairs(rawsamps)
+  dev.off()
+  
+  par(mfrow=c(1,1), mar=c(2,2,0.3,0.4), oma=c(0.1,0.1,0.1,0.1)) # B, L, T, R
+  png(file.path(main_out,"final_deviance_plot.png"), width = 1500, height = 1600, res=150)
+  plot(PEcAn.assim.batch::makeMCMCList(input.pda.data$deviance))
+  dev.off()
+  
+  par(mfrow=c(1,1), mar=c(2,2,0.3,0.4), oma=c(0.1,0.1,0.1,0.1)) # B, L, T, R
+  png(file.path(main_out,"finale_neff_plot.png"), width = 1500, height = 1600, res=150)
+  plot(PEcAn.assim.batch::makeMCMCList(input.pda.data$n_eff_list))
+  dev.off()
+}
+#--------------------------------------------------------------------------------------------------#
+### EOF

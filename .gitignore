@@ -26,3 +26,7 @@ edr-*
 
 # System-specific configuration
 config.R
+
+# Logs
+*.log
+*.log.txt
