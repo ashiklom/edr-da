@@ -75,26 +75,37 @@ prior_function <- function(params) {
         prior <- prior + mvtnorm::dmvnorm(c(param_sub[1:5], (1/param_sub[6])*1000), means[pft,], covars[pft,,], 
                                           log = TRUE)
         # ED priors
-        prior <- prior + dunif(param_sub[7], 0, 1, TRUE) + dunif(param_sub[8], -1, 1, TRUE)
+        #prior <- prior + dunif(param_sub[7], 0, 1, TRUE) + dunif(param_sub[8], -1, 1, TRUE)
+        prior <- prior + dunif(param_sub[7], 0, 1, TRUE) + dunif(param_sub[8], 0.5, 0.5, TRUE)
     }
     return(prior)
 }
 
 # Static initial conditions
 # Can be replaced with a function that draws these values from distributions
-inits_function <- function() {
+#inits_function <- function() {
     # N, Cab, Car, Cw, Cm, SLA, clumping, orient
-    c(1, 35, 5, 0.006, 0.005, 15, 0.5, 0,     # Early
-      1, 35, 5, 0.006, 0.005, 15, 0.5, 0,     # Mid
-      1, 35, 5, 0.006, 0.005, 15, 0.5, 0)    # Late
+#    c(1, 35, 5, 0.006, 0.005, 15, 0.5, 0,     # Early
+#      1, 35, 5, 0.006, 0.005, 15, 0.5, 0,     # Mid
+#      1, 35, 5, 0.006, 0.005, 15, 0.5, 0)    # Late
+#}
+inits_function <- function() {
+                  # N, Cab, Car, Cw, Cm, SLA, clumping, orient
+vals <- rnorm(24, c(1, 35, 5, 0.006, 0.005, 15, 0.5, 0,     # Early
+                    1, 35, 5, 0.006, 0.005, 15, 0.5, 0,     # Mid
+                    1, 35, 5, 0.006, 0.005, 15, 0.5, 0),0.001) # Late
+names(vals) <- rep(c('N', 'Cab', 'Car', 'Cw', 'Cm', 'SLA', 'clumping_factor', 'orient_factor'),3)
+return(vals)
 }
 
 # Test observation param values
 obs_params <- function() {
-     #N, Cab, Car, Cw, Cm, SLA, clumping, orient
-  c(1.8, 47, 8.7, 0.009, 0.007, (1/66.3)*1000, 0.8, 0.12,     # Early
+         #N, Cab, Car, Cw, Cm, SLA, clumping, orient
+vals<-  c(1.8, 47, 8.7, 0.009, 0.007, (1/66.3)*1000, 0.8, 0.12,     # Early
     1.4, 47, 8.8, 0.01, 0.009, (1/128.3)*1000, 0.82, 0.12,     # Mid
     1.9, 45, 8.5, 0.007, 0.008, (1/65.35)*1000, 0.86, 0.12)    # Late
+names(vals) <- rep(c('N', 'Cab', 'Car', 'Cw', 'Cm', 'SLA', 'clumping_factor', 'orient_factor'),3)
+return(vals)
 }
 
 vec2list <- function(params, ...) {
@@ -165,7 +176,9 @@ test_model <- model(inits_function(), runID = 'test')
 head(test_model)
 
 # Other inversion parameters
-param_mins <- rep(c(1, rep(0, 7)), 3)
+#param_mins <- rep(c(1, rep(0, 7)), 3)
+param_mins <- rep(c(N = 1, Cab = 1, Car = 0, Cw = 0.0001, Cm = 0.0001, SLA = 1, clumping_factor = 0.001, 
+		orient_factor = -0.5),3)
 
 invert_options <- list(model = model,
                        run_first = run_first,
@@ -185,9 +198,11 @@ observed <- model(obs_params(), runID = 'observation') + PEcAnRTM::generate.nois
 
 
 #--------------------------------------------------------------------------------------------------#
+logfile <- "invert.auto_log.txt"
 samples <- PEcAnRTM::invert.auto(observed = observed,
                                  invert.options = invert_options,
                                  parallel = TRUE,
+                                 parallel.output = file.path(prefix,logfile),
                                  save.samples = file.path(prefix,'inversion_samples_inprogress.rds'))
 save(samples, file = file.path(prefix,'inversion_samples_finished.RData'))
 #--------------------------------------------------------------------------------------------------#
