@@ -26,10 +26,10 @@ par(mfrow=c(1,1), mar=c(2,2,2,2), oma=c(0.1,0.1,0.1,0.1)) # B, L, T, R
 plot(samples.bt)
 dev.off()
 
-rawsamps <-do.call(rbind, samples.bt)
-png(filename="pairs.png", width = 2000, height = 1600, res=150)
-pairs(rawsamps)
-dev.off()
+#rawsamps <-do.call(rbind, samples.bt)
+#png(filename="pairs.png", width = 2000, height = 1600, res=150)
+#pairs(rawsamps)
+#dev.off()
 
 png(filename="deviance.png", width = 2000, height = 1600, res=150)
 plot(PEcAn.assim.batch::makeMCMCList(pda_output$deviance))
