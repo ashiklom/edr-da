@@ -8,11 +8,11 @@ data(css_ex1)
 data(pss_ex1)
 data(site_ex1)
 
-plot_albedo <- TRUE #TRUE/FALSE
+plot_albedo <- FALSE #TRUE/FALSE
 generate_summary_figs <- TRUE #TRUE/FALSE
-hidden <- FALSE  #TRUE/FALSE
+hidden <- TRUE  #TRUE/FALSE
 
-nchains <- 5 #3
+nchains <- 3 #3
 #--------------------------------------------------------------------------------------------------#
 
 
@@ -78,9 +78,9 @@ prior_function <- function(params) {
                                           log = TRUE)
         # ED priors
         #prior <- prior + dunif(param_sub[7], 0, 1, TRUE) + dunif(param_sub[8], -1, 1, TRUE)
-        prior <- prior + dunif(param_sub[7], 0, 1, TRUE) + dunif(param_sub[8], 0.5, 0.5, TRUE)
+        prior <- prior + dunif(param_sub[7], 0, 1, TRUE) + dunif(param_sub[8], -0.5, 0.5, TRUE)
 
-        names(prior) <- c('N', 'Cab', 'Car', 'Cw', 'Cm', 'SLA', 'clumping_factor', 'orient_factor')
+        #names(prior) <- c('N', 'Cab', 'Car', 'Cw', 'Cm', 'SLA', 'clumping_factor', 'orient_factor')
     }
     return(prior)
 }
@@ -95,7 +95,7 @@ prior_function <- function(params) {
 #}
 inits_function <- function() {
                   # N, Cab, Car, Cw, Cm, SLA, clumping, orient
-vals <- rnorm(8, c(1, 35, 5, 0.006, 0.005, 15, 0.5, 0),0.001) # Late
+vals <- rnorm(8, c(2, 35, 5, 0.006, 0.005, 15, 0.5, 0), c(0.2, 2, 1, 0.001, 0.001, 3, 0.1, 0.1)) # Late
 names(vals) <- rep(c('N', 'Cab', 'Car', 'Cw', 'Cm', 'SLA', 'clumping_factor', 'orient_factor'),1)
 return(vals)
 }
@@ -103,7 +103,7 @@ return(vals)
 # Test observation param values
 obs_params <- function() {
          #N, Cab, Car, Cw, Cm, SLA, clumping, orient
-vals<-  c(1.9, 45, 8.5, 0.007, 0.008, (1/65.35)*1000, 0.86, 0.12)    # Late
+vals <- c(1.9, 45, 8.5, 0.007, 0.008, (1/65.35)*1000, 0.86, 0.12)    # Late
 names(vals) <- rep(c('N', 'Cab', 'Car', 'Cw', 'Cm', 'SLA', 'clumping_factor', 'orient_factor'),1)
 return(vals)
 }
