@@ -26,6 +26,7 @@ if (hidden) {
 PEcAn.utils::logger.info(paste0("Running inversion in dir: ",prefix))
 
 css_bl_same_dbh <- extend_df(css_df, cohort = 1, dbh = 30, pft = c(11))
+PEcAn.utils::logger.info(css_bl_same_dbh)
 genrun <- generate_run(prefix = prefix,
                        site_lat = site_lat,
                        site_lon = site_lon,
@@ -57,6 +58,9 @@ load('priors/sunlit_meanjp.RData')
 # temperate.North_Mid_Hardwood: 9:16
 # temperate.Late_Hardwood: 17:24
 pft_end <- c(temperate.Late_Hardwood = 8)
+PEcAn.utils::logger.info(" pft_end ")
+PEcAn.utils::logger.info(pft_end)
+PEcAn.utils::logger.info(names(pft_end))
 
 param_sub <- function(i, params) {
         param_seq <- (pft_end[i] - 7):pft_end[i]

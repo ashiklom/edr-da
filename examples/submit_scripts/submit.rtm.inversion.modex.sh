@@ -26,5 +26,5 @@ echo Log number: $log
 
 ## Run R PDA script
 
-#R --vanilla < examples/inversion.R inversion.${log}.log 2> inversion.${log}.log
-R --vanilla < examples/inversion_single.R inversion.${log}.log 2> inversion.${log}.log
+R --vanilla < examples/inversion.R inversion.${log}.log 2> inversion.${log}.log
+#R --vanilla < examples/inversion_single.R inversion.${log}.log 2> inversion.${log}.log
