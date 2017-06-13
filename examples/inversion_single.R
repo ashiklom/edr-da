@@ -25,7 +25,8 @@ if (hidden) {
 }
 PEcAn.utils::logger.info(paste0("Running inversion in dir: ",prefix))
 
-css_bl_same_dbh <- extend_df(css_df, cohort = 1:3, dbh = 30, pft = c(9, 10, 11))
+css_bl_same_dbh <- extend_df(css_df, cohort = 1, dbh = 30, pft = c(11))
+PEcAn.utils::logger.info(css_bl_same_dbh)
 genrun <- generate_run(prefix = prefix,
                        site_lat = site_lat,
                        site_lon = site_lon,
@@ -49,16 +50,17 @@ edr_setup <- setup_edr(prefix, edr_exe_path = edr_exe_path)
 load('priors/sunlit_meanjp.RData')
 
 # Params vector
-# Temperate.Early_Hardwood: 1:8
+# temperate.Early_Hardwood: 1:8
 #   1:5 -- PROSPECT params
 #   6 -- sla
 #   7 -- clumping_factor
 #   8 -- orient_factor
-# Temperate.North_Mid_Hardwood: 9:16
-# Temperate.Late_Hardwood: 17:24
-pft_end <- c(temperate.Early_Hardwood = 8, 
-             temperate.North_Mid_Hardwood = 16,
-             temperate.Late_Hardwood = 24)
+# temperate.North_Mid_Hardwood: 9:16
+# temperate.Late_Hardwood: 17:24
+pft_end <- c(temperate.Late_Hardwood = 8)
+PEcAn.utils::logger.info(" pft_end ")
+PEcAn.utils::logger.info(pft_end)
+PEcAn.utils::logger.info(names(pft_end))
 
 param_sub <- function(i, params) {
         param_seq <- (pft_end[i] - 7):pft_end[i]
@@ -77,6 +79,8 @@ prior_function <- function(params) {
         # ED priors
         #prior <- prior + dunif(param_sub[7], 0, 1, TRUE) + dunif(param_sub[8], -1, 1, TRUE)
         prior <- prior + dunif(param_sub[7], 0, 1, TRUE) + dunif(param_sub[8], 0.5, 0.5, TRUE)
+
+        names(prior) <- c('N', 'Cab', 'Car', 'Cw', 'Cm', 'SLA', 'clumping_factor', 'orient_factor')
     }
     return(prior)
 }
@@ -91,20 +95,16 @@ prior_function <- function(params) {
 #}
 inits_function <- function() {
                   # N, Cab, Car, Cw, Cm, SLA, clumping, orient
-vals <- rnorm(24, c(1, 35, 5, 0.006, 0.005, 15, 0.5, 0,     # Early
-                    1, 35, 5, 0.006, 0.005, 15, 0.5, 0,     # Mid
-                    1, 35, 5, 0.006, 0.005, 15, 0.5, 0),0.001) # Late
-names(vals) <- rep(c('N', 'Cab', 'Car', 'Cw', 'Cm', 'SLA', 'clumping_factor', 'orient_factor'),3)
+vals <- rnorm(8, c(1, 35, 5, 0.006, 0.005, 15, 0.5, 0),0.001) # Late
+names(vals) <- rep(c('N', 'Cab', 'Car', 'Cw', 'Cm', 'SLA', 'clumping_factor', 'orient_factor'),1)
 return(vals)
 }
 
 # Test observation param values
 obs_params <- function() {
          #N, Cab, Car, Cw, Cm, SLA, clumping, orient
-vals<-  c(1.8, 47, 8.7, 0.009, 0.007, (1/66.3)*1000, 0.8, 0.12,     # Early
-    1.4, 47, 8.8, 0.01, 0.009, (1/128.3)*1000, 0.82, 0.12,     # Mid
-    1.9, 45, 8.5, 0.007, 0.008, (1/65.35)*1000, 0.86, 0.12)    # Late
-names(vals) <- rep(c('N', 'Cab', 'Car', 'Cw', 'Cm', 'SLA', 'clumping_factor', 'orient_factor'),3)
+vals<-  c(1.9, 45, 8.5, 0.007, 0.008, (1/65.35)*1000, 0.86, 0.12)    # Late
+names(vals) <- rep(c('N', 'Cab', 'Car', 'Cw', 'Cm', 'SLA', 'clumping_factor', 'orient_factor'),1)
 return(vals)
 }
 
@@ -178,7 +178,7 @@ head(test_model)
 # Other inversion parameters
 #param_mins <- rep(c(1, rep(0, 7)), 3)
 param_mins <- rep(c(N = 1, Cab = 1, Car = 0, Cw = 0.0001, Cm = 0.0001, SLA = 1, clumping_factor = 0.001, 
-		orient_factor = -0.5),3)
+		orient_factor = -0.5),1)
 
 invert_options <- list(model = model,
                        run_first = run_first,

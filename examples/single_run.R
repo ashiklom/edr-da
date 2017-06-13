@@ -1,11 +1,22 @@
+#--------------------------------------------------------------------------------------------------#
 source('config.R')
 
 library(redr)
 
+save_plot <- FALSE #TRUE/FALSE
+hidden <- TRUE #TRUE/FALSE
+#--------------------------------------------------------------------------------------------------#
+
+
+#--------------------------------------------------------------------------------------------------#
 # This is the directory for storing all required elements for a single run.
 # It provides a shortcut for executing related instances of ED2 and EDR.
 # NOTE: Any directories starting with `.edr` will be automatically gitignored
-prefix <- '.edr-single-run'
+if (hidden) {
+  prefix <- '.edr-single-run'
+} else {
+  prefix <- 'edr-single-run'
+}
 
 # Load default css, pss, and site files
 data(css_ex1)   # css_df
@@ -50,7 +61,10 @@ edr_params_df <- tibble::tribble(
     'temperate.Late_Hardwood', 1.4, 20, 0.01, 0.01, 0.5, 0.5
     )
 edr_params_list <- params_df2list(edr_params_df, prospect_version = 4, pftcol = "pft", datetime = datetime)
+edr_params_list$par.wl <- 400:2499
+edr_params_list$nir.wl <- 2500
 str(edr_params_list)
+
 
 # Alternatively, can just pass a list in directly.
 # The list needs to contain, at a minimum:
@@ -64,3 +78,24 @@ str(edr_params_list)
 # Run EDR
 albedo <- run_edr(prefix, edr_params_list)
 head(albedo)
+#--------------------------------------------------------------------------------------------------#
+
+
+#--------------------------------------------------------------------------------------------------#
+if (save_plot) { 
+  waves <- seq(400,2500,1)
+  png(file.path(prefix,'simulated_albedo.png'),width=4900, height =2700,res=400)
+  par(mfrow=c(1,1), mar=c(4.3,4.5,1.0,1), oma=c(0.1,0.1,0.1,0.1)) # B L T R
+  plot(waves,unlist(albedo)*100,type="l",lwd=3,ylim=c(0,65),xlab="Wavelength (nm)",ylab="Reflectance (%)",
+       cex.axis=1.5, cex.lab=1.7,col="black")
+  rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col = 
+         "grey80")
+  lines(waves,unlist(albedo)*100,lwd=5, col="black")
+  dev.off()
+}
+
+#--------------------------------------------------------------------------------------------------#
+
+
+#--------------------------------------------------------------------------------------------------#
+### EOF
