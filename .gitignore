@@ -25,6 +25,12 @@ edr_prior_sensitivity/
 edr_*
 edr-*
 
+# Tests
+.quicktest_*
+quicktest_*
+SLA_Test_*
+
+
 # System-specific configuration
 config.R
 

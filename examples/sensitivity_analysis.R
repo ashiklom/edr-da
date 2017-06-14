@@ -8,8 +8,8 @@ data(css_ex1)
 data(pss_ex1)
 data(site_ex1)
 
-save_plot <- FALSE #TRUE/FALSE
-hidden <- TRUE #TRUE/FALSE
+save_plot <- TRUE #TRUE/FALSE
+hidden <- FALSE #TRUE/FALSE
 #--------------------------------------------------------------------------------------------------#
 
 
@@ -41,9 +41,9 @@ edr_setup <- setup_edr(prefix, edr_exe_path = edr_exe_path)
 
 params <- tribble(
     ~pft, ~N, ~Cab, ~Cw, ~Cm, ~orient_factor, ~clumping_factor,
-    'temperate.Early_Hardwood', 1.4, 40, 0.01, 0.01, 0.5, 0.5, 
-    'temperate.North_Mid_Hardwood', 1.4, 30, 0.01, 0.01, 0.5, 0.5,
-    'temperate.Late_Hardwood', 1.4, 20, 0.01, 0.01, 0.5, 0.5
+    'temperate.Early_Hardwood', 1.4, 40, 0.01, 0.01, 0.5, 0.8, 
+    'temperate.North_Mid_Hardwood', 1.4, 30, 0.01, 0.01, 0.5, 0.8,
+    'temperate.Late_Hardwood', 1.4, 20, 0.01, 0.01, 0.5, 0.8
     )
 
 sensitivity <- function(base_params, pft, parameter, param_seq) {
@@ -62,7 +62,7 @@ sensitivity <- function(base_params, pft, parameter, param_seq) {
 }
 
 # Run sensitivity analysis for PROSPECT N parameter
-N_seq <- seq(from = 1.1, to = 2.0, length.out = 10)
+N_seq <- seq(from = 1.1, to = 3, length.out = 20)
 early_N <- sensitivity(params, 'temperate.Early_Hardwood', 'N', N_seq)
 mid_N <- sensitivity(params, 'temperate.North_Mid_Hardwood', 'N', N_seq)
 late_N <- sensitivity(params, 'temperate.North_Mid_Hardwood', 'N', N_seq)
@@ -71,7 +71,7 @@ late_N <- sensitivity(params, 'temperate.North_Mid_Hardwood', 'N', N_seq)
 
 #--------------------------------------------------------------------------------------------------#
 if (save_plot) { 
-  png(file.path(prefix,'Albedo_sensitivity_analysis_PROSPECT_N_param.png'),width=3100, height=1300, res=200)
+  png(file.path(prefix,'Albedo_sensitivity_analysis_PROSPECT_N_param.png'),width=3500, height=1300, res=200)
   par(mfrow=c(1,3), mar=c(4.3,4.5,1.0,1), oma=c(0.1,0.1,0.1,0.1)) # B L T R
   matplot(early_N, type='l', main = 'Early Hardwood')
   box(lwd=2.2)

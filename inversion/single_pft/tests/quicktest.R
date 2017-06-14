@@ -2,16 +2,25 @@
 rm(list=ls(all=TRUE))   # clear workspace
 graphics.off()          # close any open graphics
 closeAllConnections()   # close any open connections to files
+
+source('config.R')
 library(redr)
 
-edr_da_dir <- '/data/sserbin/Modeling/edr-da'
-ed_exe_path <- '/data/sserbin/Modeling/ED2.git/ED/build/ed_2.1-opt'
-edr_exe_path <- '/data/sserbin/Modeling/ED2.git/EDR/build/ed_2.1-opt'
+save_plot <- FALSE #TRUE/FALSE
+hidden <- TRUE #TRUE/FALSE
 #--------------------------------------------------------------------------------------------------#
 
 
 #--------------------------------------------------------------------------------------------------#
-outdir <- 'quicktest_outdir'
+if (hidden) {
+  outdir <- '.quicktest_outdir'
+} else {
+  outdir <- 'quicktest_outdir'
+}
+#--------------------------------------------------------------------------------------------------#
+
+
+#--------------------------------------------------------------------------------------------------#
 css_df <- data.frame(year = 2000, patch = 1, cohort = 1, dbh = 20, ht = 0, pft = 9,
                      den = 0.05, bdead = 0, balive = 0, lai = -999)
 data(pss_ex1)
@@ -26,10 +35,11 @@ try_genrun <- generate_run(prefix = outdir,
                            css_df = css_df, 
                            pss_df = pss_df, 
                            site_df = site_df,
-                           common_inputs_dir = file.path(edr_da_dir, 'ed-inputs/EDI'),
-                           site_met_dir = file.path(edr_da_dir, 'ed-inputs/met3/US-WCr/'),
+                           common_inputs_dir = common_inputs_dir,
+                           site_met_dir = site_met_dir,
                            ed_exe_path = ed_exe_path,
                            ed2in_changes = ed2in_changes,
+                           # Purge prefix directory if already exists (useful for debugging)
                            RMDIR = TRUE)
 
 message('Running ED...')
