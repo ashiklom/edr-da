@@ -93,15 +93,17 @@ inits_function <- function() {
                   # N, Cab, Car, Cw, Cm, SLA, clumping, orient
 vals <- rnorm(24, c(1, 35, 5, 0.006, 0.005, 15, 0.5, 0,     # Early
                     1, 35, 5, 0.006, 0.005, 15, 0.5, 0,     # Mid
-                    1, 35, 5, 0.006, 0.005, 15, 0.5, 0),0.001) # Late
+                    1, 35, 5, 0.006, 0.005, 15, 0.5, 0), 0.001) # Late
 names(vals) <- rep(c('N', 'Cab', 'Car', 'Cw', 'Cm', 'SLA', 'clumping_factor', 'orient_factor'),3)
 return(vals)
 }
 
+prior_bt <- BayesianTools::createPrior(density = prior_function, sampler = inits_function)
+
 # Test observation param values
 obs_params <- function() {
          #N, Cab, Car, Cw, Cm, SLA, clumping, orient
-vals<-  c(1.8, 47, 8.7, 0.009, 0.007, (1/66.3)*1000, 0.8, 0.12,     # Early
+vals <- c(1.8, 47, 8.7, 0.009, 0.007, (1/66.3)*1000, 0.8, 0.12,     # Early
     1.4, 47, 8.8, 0.01, 0.009, (1/128.3)*1000, 0.82, 0.12,     # Mid
     1.9, 45, 8.5, 0.007, 0.008, (1/65.35)*1000, 0.86, 0.12)    # Late
 names(vals) <- rep(c('N', 'Cab', 'Car', 'Cw', 'Cm', 'SLA', 'clumping_factor', 'orient_factor'),3)
@@ -127,24 +129,11 @@ vec2list <- function(params, ...) {
 testrun <- inits_function() %>%
     vec2list(datetime = datetime, par.wl = 400:2499, nir.wl = 2500) %>%
     run_edr(prefix, edr_args = .)
+
 head(testrun)
 
-run_first <- function(inputs) {
-    edr_dir <- paste('edr', inputs$runID, sep = '.')
-
-    # Setup chain-specific directory for EDR
-    setup_edr(prefix, edr_exe_path, edr_dir)
-
-    # Create dummy params from initial conditions
-    args_list <- vec2list(inits_function(), datetime = datetime)
-
-    # Run EDR
-    albedo <- run_edr(prefix, args_list, edr_dir)
-    return(albedo)
-}
-
-model <- function(params, runID = 'test') {
-    edr_dir <- paste('edr', runID, sep = '.')
+model <- function(params) {
+    edr_dir <- 'edr'
     args_list <- vec2list(params,
                           paths = list(ed2in = NA, history = file.path(prefix, 'outputs')),
                           par.wl = 400:2499,
@@ -171,39 +160,17 @@ model <- function(params, runID = 'test') {
 }
 
 # Test that the model works
-test_runfirst <- run_first(list(runID = 'test'))
-test_model <- model(inits_function(), runID = 'test')
+test_model <- model(inits_function())
 head(test_model)
-
-# Other inversion parameters
-#param_mins <- rep(c(1, rep(0, 7)), 3)
-param_mins <- rep(c(N = 1, Cab = 1, Car = 0, Cw = 0.0001, Cm = 0.0001, SLA = 1, clumping_factor = 0.001,
-		orient_factor = -0.5),3)
-
-invert_options <- list(model = model,
-                       run_first = run_first,
-                       nchains = nchains,
-                       inits.function = inits_function,
-                       prior.function = prior_function,
-                       ngibbs.max = 1e6,
-                       ngibbs.min = 500,
-                       ngibbs.step = 1000,
-                       param.mins = param_mins)
 
 # Simulate observations
 # Add small amount of noise so first fit isn't perfect (this breaks neff calculation)
-observation <- run_first(list(runID = 'observation'))
-observed <- model(obs_params(), runID = 'observation') + PEcAnRTM::generate.noise()
+observed <- model(obs_params()) + PEcAnRTM::generate.noise()
 #--------------------------------------------------------------------------------------------------#
 
 
 #--------------------------------------------------------------------------------------------------#
-logfile <- "invert.auto_log.txt"
-samples <- PEcAnRTM::invert.auto(observed = observed,
-                                 invert.options = invert_options,
-                                 parallel = TRUE,
-                                 parallel.output = file.path(prefix,logfile),
-                                 save.samples = file.path(prefix,'inversion_samples_inprogress.rds'))
+samples <- PEcAnRTM::invert_bt(observed = observed, model = model, prior = prior_bt)
 save(samples, file = file.path(prefix,'inversion_samples_finished.RData'))
 #--------------------------------------------------------------------------------------------------#
 
