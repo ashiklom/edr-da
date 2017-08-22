@@ -4,12 +4,16 @@
 \alias{exec_in_dir}
 \title{Execute a system command in a directory}
 \usage{
-exec_in_dir(dir, exe)
+exec_in_dir(dir, exe, precmd = "ulimit -s unlimited;")
 }
 \arguments{
 \item{dir}{Directory in which to execute command}
 
 \item{exe}{Name of command to execute}
+
+\item{precmd}{Single string of commands, separated by semicolons, to be
+issued before executing. The last command should end in a semicolon.
+Default is 'ulimit -s unlimited;'.}
 }
 \description{
 Execute a system command in a directory

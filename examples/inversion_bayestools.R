@@ -8,11 +8,10 @@ data(css_ex1)
 data(pss_ex1)
 data(site_ex1)
 
-plot_albedo <- TRUE #TRUE/FALSE
-generate_summary_figs <- TRUE #TRUE/FALSE
-hidden <- FALSE  #TRUE/FALSE
-
-nchains <- 5 #3
+plot_albedo <- FALSE #TRUE/FALSE
+generate_summary_figs <- FALSE #TRUE/FALSE
+hidden <- TRUE  #TRUE/FALSE
+PEcAn.logger::logger.setLevel("INFO")
 #--------------------------------------------------------------------------------------------------#
 
 
@@ -23,7 +22,7 @@ if (hidden) {
   prefix <- paste("edr_inversion", format(Sys.time(), format="%Y%m%d_%H%M%S"), sep = "_")
   #prefix <- 'edr_inversion'
 }
-PEcAn.utils::logger.info(paste0("Running inversion in dir: ",prefix))
+PEcAn.logger::logger.info(paste0("Running inversion in dir: ",prefix))
 
 css_bl_same_dbh <- extend_df(css_df, cohort = 1:3, dbh = 30, pft = c(9, 10, 11))
 genrun <- generate_run(prefix = prefix,
@@ -91,9 +90,9 @@ prior_function <- function(params) {
 #}
 inits_function <- function() {
                   # N, Cab, Car, Cw, Cm, SLA, clumping, orient
-vals <- rnorm(24, c(1, 35, 5, 0.006, 0.005, 15, 0.5, 0,     # Early
-                    1, 35, 5, 0.006, 0.005, 15, 0.5, 0,     # Mid
-                    1, 35, 5, 0.006, 0.005, 15, 0.5, 0), 0.001) # Late
+vals <- rnorm(24, c(1.4, 35, 5, 0.006, 0.005, 15, 0.5, 0,     # Early
+                    1.4, 35, 5, 0.006, 0.005, 15, 0.5, 0,     # Mid
+                    1.4, 35, 5, 0.006, 0.005, 15, 0.5, 0), 0.001) # Late
 names(vals) <- rep(c('N', 'Cab', 'Car', 'Cw', 'Cm', 'SLA', 'clumping_factor', 'orient_factor'),3)
 return(vals)
 }
@@ -141,7 +140,6 @@ model <- function(params) {
                           datetime = datetime,
                           change.history.time = FALSE)
     albedo <- run_edr(prefix, args_list, edr_dir)
-    print(head(albedo))
 
     if (plot_albedo) {
       # Create quick figure
@@ -168,9 +166,16 @@ head(test_model)
 observed <- model(obs_params()) + PEcAnRTM::generate.noise()
 #--------------------------------------------------------------------------------------------------#
 
+invert_options <- list(
+  init = list(iterations = 200),
+  loop = list(iterations = 100),
+  other = list(max_iter = 1e6,
+               save_progress = file.path(prefix, "inversion_samples_progress.rds"))
+  )
 
 #--------------------------------------------------------------------------------------------------#
-samples <- PEcAnRTM::invert_bt(observed = observed, model = model, prior = prior_bt)
+samples <- PEcAnRTM::invert_bt(observed = observed, model = model, prior = prior_bt,
+                               custom_settings = invert_options)
 save(samples, file = file.path(prefix,'inversion_samples_finished.RData'))
 #--------------------------------------------------------------------------------------------------#
 

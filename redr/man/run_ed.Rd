@@ -4,7 +4,7 @@
 \alias{run_ed}
 \title{Run ED from a given directory}
 \usage{
-run_ed(dir, edr_exe_name = "ed_2.1")
+run_ed(dir, edr_exe_name = "ed_2.1", ...)
 }
 \arguments{
 \item{dir}{Directory in which to execute command}
