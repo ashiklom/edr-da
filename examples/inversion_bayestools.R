@@ -108,8 +108,8 @@ inits_function <- function() {
     samples <- c(samples, runif(1, 0, 1), runif(1, -0.5, 0.5)) # clumping and orient factor
   }
   name_vec <- rep(c("N","Cab","Car","Cw","Cm","leaf_mass_per_area","clumping_factor","orient_factor"),length(pft_end))
-  #samples_2 <- 1/samples[which(name_vec=="leaf_mass_per_area")]*1000 # convert to SLA
   samples[which(name_vec=="leaf_mass_per_area")] <- 1/samples[which(name_vec=="leaf_mass_per_area")]*1000 # convert to SLA
+  names(samples) <- rep(c('N', 'Cab', 'Car', 'Cw', 'Cm', 'SLA', 'clumping_factor', 'orient_factor'),3)
   return(samples)
 }
 
@@ -186,8 +186,7 @@ invert_options <- list(
   init = list(iterations = 200),
   loop = list(iterations = 100),
   other = list(max_iter = 1e6,
-               save_progress = file.path(prefix, "inversion_samples_inprogress.rds"))
-  )
+               save_progress = file.path(prefix, "inversion_samples_inprogress.rds")))
 
 #--------------------------------------------------------------------------------------------------#
 samples <- PEcAnRTM::invert_bt(observed = observed, model = model, prior = prior_bt,
