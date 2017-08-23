@@ -7,7 +7,7 @@
 
 ## Check modules are loaded
 echo loading nescessary modules
-module load openmpi/2.0.1-gnu540 hdf5/1.8.17-gcc540
+module load openmpi/2.1.1-gnu540 hdf5/1.8.19-gcc540
 echo Checking loaded modules
 module list
 ##
@@ -26,5 +26,9 @@ echo Log number: $log
 
 ## Run R PDA script
 
-R --vanilla < examples/inversion.R inversion.${log}.log 2> inversion.${log}.log
+#R --vanilla < examples/inversion.R inversion.${log}.log 2> inversion.${log}.log
+
 #R --vanilla < examples/inversion_single.R inversion.${log}.log 2> inversion.${log}.log
+
+
+R --vanilla < examples/inversion_bayestools.R inversion_bayestools.${log}.log 2> inversion_bayestools.${log}.log

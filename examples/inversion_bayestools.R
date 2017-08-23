@@ -8,9 +8,9 @@ data(css_ex1)
 data(pss_ex1)
 data(site_ex1)
 
-plot_albedo <- FALSE #TRUE/FALSE
-generate_summary_figs <- FALSE #TRUE/FALSE
-hidden <- TRUE  #TRUE/FALSE
+plot_albedo <- TRUE #TRUE/FALSE
+generate_summary_figs <- TRUE #TRUE/FALSE
+hidden <- FALSE  #TRUE/FALSE
 PEcAn.logger::logger.setLevel("INFO")
 #--------------------------------------------------------------------------------------------------#
 
@@ -88,13 +88,29 @@ prior_function <- function(params) {
 #      1, 35, 5, 0.006, 0.005, 15, 0.5, 0,     # Mid
 #      1, 35, 5, 0.006, 0.005, 15, 0.5, 0)    # Late
 #}
+
+# inits_function <- function() {
+#                   ## N, Cab, Car, Cw, Cm, SLA, clumping, orient
+# vals <- rnorm(24, c(1.4, 35, 5, 0.006, 0.005, 15, 0.5, 0,     # Early
+#                     1.4, 35, 5, 0.006, 0.005, 15, 0.5, 0,     # Mid
+#                     1.4, 35, 5, 0.006, 0.005, 15, 0.5, 0), 0.001) # Late
+# names(vals) <- rep(c('N', 'Cab', 'Car', 'Cw', 'Cm', 'SLA', 'clumping_factor', 'orient_factor'),3)
+# return(vals)
+# }
+
 inits_function <- function() {
-                  # N, Cab, Car, Cw, Cm, SLA, clumping, orient
-vals <- rnorm(24, c(1.4, 35, 5, 0.006, 0.005, 15, 0.5, 0,     # Early
-                    1.4, 35, 5, 0.006, 0.005, 15, 0.5, 0,     # Mid
-                    1.4, 35, 5, 0.006, 0.005, 15, 0.5, 0), 0.001) # Late
-names(vals) <- rep(c('N', 'Cab', 'Car', 'Cw', 'Cm', 'SLA', 'clumping_factor', 'orient_factor'),3)
-return(vals)
+  samples <- numeric()
+  for (i in seq_along(pft_end)) {
+    pft <- names(pft_end)[i]
+    # PROSPECT prior
+    samples <- c(samples, mvtnorm::rmvnorm(1, means[pft,], covars[pft,,]))
+    # ED priors
+    samples <- c(samples, runif(1, 0, 1), runif(1, -0.5, 0.5)) # clumping and orient factor
+  }
+  name_vec <- rep(c("N","Cab","Car","Cw","Cm","leaf_mass_per_area","clumping_factor","orient_factor"),length(pft_end))
+  #samples_2 <- 1/samples[which(name_vec=="leaf_mass_per_area")]*1000 # convert to SLA
+  samples[which(name_vec=="leaf_mass_per_area")] <- 1/samples[which(name_vec=="leaf_mass_per_area")]*1000 # convert to SLA
+  return(samples)
 }
 
 prior_bt <- BayesianTools::createPrior(density = prior_function, sampler = inits_function)
@@ -170,7 +186,7 @@ invert_options <- list(
   init = list(iterations = 200),
   loop = list(iterations = 100),
   other = list(max_iter = 1e6,
-               save_progress = file.path(prefix, "inversion_samples_progress.rds"))
+               save_progress = file.path(prefix, "inversion_samples_inprogress.rds"))
   )
 
 #--------------------------------------------------------------------------------------------------#
@@ -182,31 +198,35 @@ save(samples, file = file.path(prefix,'inversion_samples_finished.RData'))
 
 #--------------------------------------------------------------------------------------------------#
 if (generate_summary_figs) {
-
+  
   main_out <- prefix
-  samples.bt <- PEcAn.assim.batch::autoburnin(samples$samples)
-  samples.bt <- PEcAn.assim.batch::makeMCMCList(samples.bt)
-
+  samples_mcmc <- BayesianTools::getSample(samples, coda = TRUE)
+  
+  coda::niter(samples_mcmc)
+  coda::nvar(samples_mcmc)
+  coda::nchain(samples_mcmc)
+  
+  
   par(mfrow=c(1,1), mar=c(2,2,0.3,0.4), oma=c(0.1,0.1,0.1,0.1)) # B, L, T, R
   png(file.path(main_out,"final_trace_plot.png"), width = 1500, height = 1600, res=150)
-  plot(samples.bt)
+  plot(samples_mcmc)
   dev.off()
-
-  rawsamps <- do.call(rbind, samples.bt)
+  
+  rawsamps <- do.call(rbind, samples_mcmc)
   par(mfrow=c(1,1), mar=c(2,2,0.3,0.4), oma=c(0.1,0.1,0.1,0.1)) # B, L, T, R
   png(file.path(main_out,"final_pairs_plot.png"), width = 1500, height = 1600, res=150)
   pairs(rawsamps)
   dev.off()
-
-  par(mfrow=c(1,1), mar=c(2,2,0.3,0.4), oma=c(0.1,0.1,0.1,0.1)) # B, L, T, R
-  png(file.path(main_out,"final_deviance_plot.png"), width = 1500, height = 1600, res=150)
-  plot(PEcAn.assim.batch::makeMCMCList(input.pda.data$deviance))
-  dev.off()
-
-  par(mfrow=c(1,1), mar=c(2,2,0.3,0.4), oma=c(0.1,0.1,0.1,0.1)) # B, L, T, R
-  png(file.path(main_out,"finale_neff_plot.png"), width = 1500, height = 1600, res=150)
-  plot(PEcAn.assim.batch::makeMCMCList(input.pda.data$n_eff_list))
-  dev.off()
+  
+  # par(mfrow=c(1,1), mar=c(2,2,0.3,0.4), oma=c(0.1,0.1,0.1,0.1)) # B, L, T, R
+  # png(file.path(main_out,"final_deviance_plot.png"), width = 1500, height = 1600, res=150)
+  # plot(PEcAn.assim.batch::makeMCMCList(input.pda.data$deviance))
+  # dev.off()
+  # 
+  # par(mfrow=c(1,1), mar=c(2,2,0.3,0.4), oma=c(0.1,0.1,0.1,0.1)) # B, L, T, R
+  # png(file.path(main_out,"finale_neff_plot.png"), width = 1500, height = 1600, res=150)
+  # plot(PEcAn.assim.batch::makeMCMCList(input.pda.data$n_eff_list))
+  # dev.off()
 }
 #--------------------------------------------------------------------------------------------------#
 ### EOF
