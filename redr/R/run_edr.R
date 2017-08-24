@@ -1,5 +1,5 @@
 #' Run EDR in the current directory
-#' 
+#'
 #' @details Required arguments (missing from the defaults) are `spectra_list`, `trait.values`, and `datetime`.
 #' Other arguments are set to sensible defaults, but can be changed by adding them to `edr_args`.
 #' @param edr_args Named list of arguments to EDR. See details.
@@ -22,7 +22,7 @@ run_edr <- function(dir, edr_args, edr_dir = 'edr') {
 }
 
 #' Setup EDR directory
-#' 
+#'
 #' @param edr_exe_path Path to EDR executable, to be linked.
 #' @param target_name Target directory name for EDR
 #' @inheritParams exec_in_dir

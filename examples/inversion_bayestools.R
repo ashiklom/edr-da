@@ -19,7 +19,7 @@ PEcAn.logger::logger.setLevel("INFO")
 if (hidden) {
   prefix <- '.edr_inversion'
 } else {
-  prefix <- paste("edr_inversion", format(Sys.time(), format="%Y%m%d_%H%M%S"), sep = "_")
+  prefix <- paste("edr_inversion", format(Sys.time(), format = "%Y%m%d_%H%M%S"), sep = "_")
   #prefix <- 'edr_inversion'
 }
 PEcAn.logger::logger.info(paste0("Running inversion in dir: ",prefix))
@@ -43,7 +43,6 @@ message('Done!')
 
 edr_setup <- setup_edr(prefix, edr_exe_path = edr_exe_path)
 
-############################################################
 # Load priors
 load('priors/sunlit_meanjp.RData')
 
@@ -74,27 +73,25 @@ prior_function <- function(params) {
         prior <- prior + mvtnorm::dmvnorm(c(param_sub[1:5], (1/param_sub[6])*1000), means[pft,], covars[pft,,],
                                           log = TRUE)
         # ED priors
-        #prior <- prior + dunif(param_sub[7], 0, 1, TRUE) + dunif(param_sub[8], -1, 1, TRUE)
         prior <- prior + dunif(param_sub[7], 0, 1, TRUE) + dunif(param_sub[8], -0.5, 0.5, TRUE)
     }
+    # Residual standard deviation
+    prior <- prior + dlnorm(params[length(params)], log(0.001), 2.5, TRUE)
     return(prior)
 }
 
-# Static initial conditions
-# Can be replaced with a function that draws these values from distributions
-#inits_function <- function() {
-    # N, Cab, Car, Cw, Cm, SLA, clumping, orient
-#    c(1, 35, 5, 0.006, 0.005, 15, 0.5, 0,     # Early
-#      1, 35, 5, 0.006, 0.005, 15, 0.5, 0,     # Mid
-#      1, 35, 5, 0.006, 0.005, 15, 0.5, 0)    # Late
-#}
+# Draw initial conditions from prior
 inits_function <- function() {
-                  # N, Cab, Car, Cw, Cm, SLA, clumping, orient
-vals <- rnorm(24, c(1.4, 35, 5, 0.006, 0.005, 15, 0.5, 0,     # Early
-                    1.4, 35, 5, 0.006, 0.005, 15, 0.5, 0,     # Mid
-                    1.4, 35, 5, 0.006, 0.005, 15, 0.5, 0), 0.001) # Late
-names(vals) <- rep(c('N', 'Cab', 'Car', 'Cw', 'Cm', 'SLA', 'clumping_factor', 'orient_factor'),3)
-return(vals)
+  vals <- numeric()
+  for (i in seq_along(pft_end)) {
+    pft <- names(pft_end)[i]
+    addvals <- c(mvtnorm::rmvnorm(1, means[pft,], covars[pft,,]), runif(1, 0, 1), runif(1, -0.5, 0.5))
+    names(addvals) <- c('N', 'Cab', 'Car', 'Cw', 'Cm', 'SLA', 'clumping_factor', 'orient_factor')
+    addvals['SLA'] <- 1 / addvals['SLA'] * 1000
+    vals <- c(vals, addvals)
+  }
+  vals <- c(vals, residual = rlnorm(1, log(0.001), 2.5))
+  return(vals)
 }
 
 prior_bt <- BayesianTools::createPrior(density = prior_function, sampler = inits_function)
@@ -137,6 +134,7 @@ model <- function(params) {
                           paths = list(ed2in = NA, history = file.path(prefix, 'outputs')),
                           par.wl = 400:2499,
                           nir.wl = 2500,
+                          edr.exe.name = 'edr 2> /dev/null',
                           datetime = datetime,
                           change.history.time = FALSE)
     albedo <- run_edr(prefix, args_list, edr_dir)
@@ -144,13 +142,13 @@ model <- function(params) {
     if (plot_albedo) {
       # Create quick figure
       waves <- seq(400,2500,1)
-      png(file.path(prefix,edr_dir,'simulated_albedo.png'),width=4900, height =2700,res=400)
-      par(mfrow=c(1,1), mar=c(4.3,4.5,1.0,1), oma=c(0.1,0.1,0.1,0.1)) # B L T R
-      plot(waves,unlist(albedo)*100,type="l",lwd=3,ylim=c(0,60),xlab="Wavelength (nm)",
-           ylab="Reflectance (%)",
-      cex.axis=1.5, cex.lab=1.7,col="black")
+      png(file.path(prefix,edr_dir,'simulated_albedo.png'),width = 4900, height = 2700,res = 400)
+      par(mfrow = c(1,1), mar = c(4.3,4.5,1.0,1), oma = c(0.1,0.1,0.1,0.1)) # B L T R
+      plot(waves, unlist(albedo)*100, type = "l", lwd = 3, ylim = c(0, 60),
+           xlab = "Wavelength (nm)", ylab = "Reflectance (%)",
+           cex.axis = 1.5, cex.lab = 1.7, col = "black")
       rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col = "grey80")
-      lines(waves,unlist(albedo)*100,lwd=3, col="black")
+      lines(waves, unlist(albedo)*100, lwd = 3, col = "black")
       dev.off()
     }
 
@@ -184,28 +182,19 @@ save(samples, file = file.path(prefix,'inversion_samples_finished.RData'))
 if (generate_summary_figs) {
 
   main_out <- prefix
-  samples.bt <- PEcAn.assim.batch::autoburnin(samples$samples)
+  samples_mcmc <- BayesianTools::getSample(samples, coda = TRUE)
+  samples.bt <- PEcAn.assim.batch::autoburnin(samples_mcmc)
   samples.bt <- PEcAn.assim.batch::makeMCMCList(samples.bt)
 
-  par(mfrow=c(1,1), mar=c(2,2,0.3,0.4), oma=c(0.1,0.1,0.1,0.1)) # B, L, T, R
-  png(file.path(main_out,"final_trace_plot.png"), width = 1500, height = 1600, res=150)
+  par(mfrow = c(1,1), mar = c(2,2,0.3,0.4), oma = c(0.1,0.1,0.1,0.1)) # B, L, T, R
+  png(file.path(main_out, "final_trace_plot.png"), width = 1500, height = 1600, res = 150)
   plot(samples.bt)
   dev.off()
 
   rawsamps <- do.call(rbind, samples.bt)
-  par(mfrow=c(1,1), mar=c(2,2,0.3,0.4), oma=c(0.1,0.1,0.1,0.1)) # B, L, T, R
-  png(file.path(main_out,"final_pairs_plot.png"), width = 1500, height = 1600, res=150)
+  par(mfrow = c(1,1), mar = c(2,2,0.3,0.4), oma = c(0.1, 0.1, 0.1, 0.1)) # B, L, T, R
+  png(file.path(main_out,"final_pairs_plot.png"), width = 1500, height = 1600, res = 150)
   pairs(rawsamps)
-  dev.off()
-
-  par(mfrow=c(1,1), mar=c(2,2,0.3,0.4), oma=c(0.1,0.1,0.1,0.1)) # B, L, T, R
-  png(file.path(main_out,"final_deviance_plot.png"), width = 1500, height = 1600, res=150)
-  plot(PEcAn.assim.batch::makeMCMCList(input.pda.data$deviance))
-  dev.off()
-
-  par(mfrow=c(1,1), mar=c(2,2,0.3,0.4), oma=c(0.1,0.1,0.1,0.1)) # B, L, T, R
-  png(file.path(main_out,"finale_neff_plot.png"), width = 1500, height = 1600, res=150)
-  plot(PEcAn.assim.batch::makeMCMCList(input.pda.data$n_eff_list))
   dev.off()
 }
 #--------------------------------------------------------------------------------------------------#

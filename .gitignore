@@ -31,4 +31,6 @@ config.R
 # Logs
 *.log
 *.log.txt
+*.pdf
+
 .Rproj.user
