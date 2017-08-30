@@ -39,7 +39,7 @@ message('Done!')
 edr_setup <- setup_edr(prefix, edr_exe_path = edr_exe_path)
 
 # Load priors
-load('priors/sunlit_meanjp.RData')
+load('priors/mvtraits_priors.RData')
 
 # Params vector
 # Temperate.Early_Hardwood: 1:8
@@ -59,20 +59,24 @@ param_sub <- function(i, params) {
         return(param_sub)
 }
 
+# Helper function for converting LMA (kg m-2) to SLA
+lma2sla <- function(lma, from = 'g m-2', to = 'm2 kg-1') {
+  udunits2::ud.convert(lma, u1 = from, u2 = to)
+}
+
 prior_function <- function(params) {
     prior <- numeric(1)
     for (i in seq_along(pft_end)) {
         pft <- names(pft_end)[i]
         param_sub <- param_sub(i, params)
         # PROSPECT prior
-        prior <- prior + mvtnorm::dmvnorm(c(param_sub[1:5], (1/param_sub[6])*1000), means[pft,], covars[pft,,],
-                                          log = TRUE)
+        prior <- prior + mvtnorm::dmvnorm(param_sub[1:6], means[pft,], covars[,,pft], log = TRUE)
         # ED priors
         prior <- prior + dunif(param_sub[7], 0, 1, TRUE) + dunif(param_sub[8], -0.5, 0.5, TRUE)
     }
     # Residual standard deviation
     prior <- prior + dlnorm(params[length(params)], log(0.001), 2.5, TRUE)
-    return(prior)
+    return(unname(prior))
 }
 
 # Draw initial conditions from prior
@@ -80,9 +84,8 @@ inits_function <- function() {
   vals <- numeric()
   for (i in seq_along(pft_end)) {
     pft <- names(pft_end)[i]
-    addvals <- c(mvtnorm::rmvnorm(1, means[pft,], covars[pft,,]), runif(1, 0, 1), runif(1, -0.5, 0.5))
+    addvals <- c(mvtnorm::rmvnorm(1, means[pft,], covars[,,pft]), runif(1, 0, 1), runif(1, -0.5, 0.5))
     names(addvals) <- c('N', 'Cab', 'Car', 'Cw', 'Cm', 'SLA', 'clumping_factor', 'orient_factor')
-    addvals['SLA'] <- 1 / addvals['SLA'] * 1000
     vals <- c(vals, addvals)
   }
   vals <- c(vals, residual = rlnorm(1, log(0.001), 2.5))
@@ -91,14 +94,19 @@ inits_function <- function() {
 
 prior_bt <- BayesianTools::createPrior(density = prior_function, sampler = inits_function)
 
+# Test that prior works
+prior_test_draw <- prior_bt$sampler()
+prior_test_density <- prior_bt$density(prior_test_draw)
+stopifnot(is.finite(prior_test_density))
+
 # Test observation param values
 obs_params <- function() {
-         #N, Cab, Car, Cw, Cm, SLA, clumping, orient
-vals <- c(1.8, 47, 8.7, 0.009, 0.007, (1/66.3)*1000, 0.8, 0.12,     # Early
-    1.4, 47, 8.8, 0.01, 0.009, (1/128.3)*1000, 0.82, 0.12,     # Mid
-    1.9, 45, 8.5, 0.007, 0.008, (1/65.35)*1000, 0.86, 0.12)    # Late
-names(vals) <- rep(c('N', 'Cab', 'Car', 'Cw', 'Cm', 'SLA', 'clumping_factor', 'orient_factor'),3)
-return(vals)
+  #N, Cab, Car, Cw, Cm, SLA, clumping, orient
+  vals <- c(1.8, 47, 8.7, 0.009, 0.007, lma2sla(66.3), 0.8, 0.12,     # Early
+            1.4, 47, 8.8, 0.01, 0.009, lma2sla(128.3), 0.82, 0.12,     # Mid
+            1.9, 45, 8.5, 0.007, 0.008, lma2sla(65.35), 0.86, 0.12)    # Late
+  names(vals) <- rep(c('N', 'Cab', 'Car', 'Cw', 'Cm', 'SLA', 'clumping_factor', 'orient_factor'),3)
+  return(vals)
 }
 
 vec2list <- function(params, ...) {
