@@ -140,7 +140,14 @@ model <- function(params) {
                           edr.exe.name = 'edr 2> /dev/null',
                           datetime = datetime,
                           change.history.time = FALSE)
-    albedo <- run_edr(prefix, args_list, edr_dir)
+    albedo <- try(run_edr(prefix, args_list, edr_dir), silent = TRUE)
+    if (class(albedo) == 'try-error') {
+      PEcAn.logger::logger.info('Error executing EDR. Returning all NA')
+      PEcAn.logger::logger.debug('Parameters: ', paste(names(params), params, sep = ' = ', collapse = '; '))
+      albedo <- rep(NA_real_, 2101)
+    } else {
+      PEcAn.logger::logger.debug('EDR ran successfully! First few wavelengths: ', paste(head(albedo), collapse = ', '))
+    }
 
     if (plot_albedo) {
       # Create quick figure
