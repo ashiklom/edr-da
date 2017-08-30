@@ -7,11 +7,6 @@ library(redr)
 data(css_ex1)
 data(pss_ex1)
 data(site_ex1)
-
-plot_albedo <- FALSE #TRUE/FALSE
-generate_summary_figs <- FALSE #TRUE/FALSE
-hidden <- TRUE  #TRUE/FALSE
-PEcAn.logger::logger.setLevel("INFO")
 #--------------------------------------------------------------------------------------------------#
 
 
