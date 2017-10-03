@@ -1,5 +1,5 @@
 ####################################################################################################
-#          
+#
 #   Generate forward EDR simulations to compare against AVIRIS observations
 #   Author: Shawn P. Serbin
 #
@@ -44,9 +44,9 @@ fft_plot <- "BH02"  # NC22, BH02
 #css_in <- '/data/sserbin/Modeling/edr-da/ed-inputs/sites/US-WCr/NASA_FFT/US-WCr.Inv2010.NC22.lat45.5lon-90.5.css'
 #pss_in <- '/data/sserbin/Modeling/edr-da/ed-inputs/sites/US-WCr/NASA_FFT/US-WCr.Inv2010.NC22.lat45.5lon-90.5.pss'
 #site_in <- '/data/sserbin/Modeling/edr-da/ed-inputs/sites/US-WCr/NASA_FFT/US-WCr.Inv2010.NC22.lat45.5lon-90.5.site'
-css_in <- '/data/sserbin/Modeling/edr-da/ed-inputs/sites/BH02_site_1-25665/FFT.2008.lat43.3724lon-89.9071.css'
-pss_in <- '/data/sserbin/Modeling/edr-da/ed-inputs/sites/BH02_site_1-25665/FFT.2008.lat43.3724lon-89.9071.pss'
-site_in <- '/data/sserbin/Modeling/edr-da/ed-inputs/sites/BH02_site_1-25665/FFT.2008.lat43.3724lon-89.9071.site'
+css_in <- 'ed-inputs/sites/BH02_site_1-25665/FFT.2008.lat43.3724lon-89.9071.css'
+pss_in <- 'ed-inputs/sites/BH02_site_1-25665/FFT.2008.lat43.3724lon-89.9071.pss'
+site_in <- 'ed-inputs/sites/BH02_site_1-25665/FFT.2008.lat43.3724lon-89.9071.site'
 
 site_lat <- 43.3724 #45.5 #43.3724
 site_lon <- -89.9071 #-90.5 #-89.9071
@@ -105,7 +105,11 @@ inits_function <- function() {
     pft <- names(pft_end)[i]
     # PROSPECT prior
     #samples <- c(samples, mvtnorm::rmvnorm(1, means[pft,], covars[pft,,]))
-    samples <- c(samples, mvtnorm::rmvnorm(1, means[pft,], covars[,,pft]))
+    draw <- -1
+    while (!any(draw < 0)) {
+      draw <- mvtnorm::rmvnorm(1, means[pft,], covars[,,pft])
+    }
+    samples <- c(samples, draw)
     # ED priors
     #samples <- c(samples, runif(1, 0, 1), runif(1, -0.5, 0.5)) # clumping and orient factor
     samples <- c(samples, runif(1, 0.8, 0.87), runif(1, 0.01, 0.15)) # clumping and orient factor
@@ -118,7 +122,6 @@ inits_function <- function() {
 }
 
 #--------------------------------------------------------------------------------------------------#
-
 
 #--------------------------------------------------------------------------------------------------#
 ## Setup EDR
@@ -151,7 +154,7 @@ model <- function(params) {
                         datetime = datetime,
                         change.history.time = FALSE)
   albedo <- run_edr(prefix, args_list, edr_dir)
-  
+
   if (plot_albedo) {
     # Create quick figure
     waves <- seq(400,2500,1)
@@ -164,7 +167,7 @@ model <- function(params) {
     lines(waves,unlist(albedo)*100,lwd=3, col="black")
     dev.off()
   }
-  
+
   return(albedo)
 }
 #--------------------------------------------------------------------------------------------------#
@@ -206,7 +209,7 @@ if (generate_summary_figs) {
   par(mfrow=c(1,1), mar=c(4.3,4.5,1.0,1), oma=c(0.1,0.1,0.1,0.1)) # B L T R
   plot(waves,unlist(edr_albedo_mean)*100,type="l",lwd=3,ylim=c(0,60),xlab="Wavelength (nm)",ylab="Reflectance (%)",
        cex.axis=1.5, cex.lab=1.7,col="black")
-  rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col = 
+  rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col =
          "grey80")
   polygon(c(waves ,rev(waves)),c(edr_albedo_quant[3,]*100, rev(edr_albedo_quant[2,]*100)),
           col="#99CC99",border=NA)
