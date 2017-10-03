@@ -107,8 +107,8 @@ inits_function <- function() {
     #samples <- c(samples, mvtnorm::rmvnorm(1, means[pft,], covars[pft,,]))
     samples <- c(samples, mvtnorm::rmvnorm(1, means[pft,], covars[,,pft]))
     # ED priors
-    #samples <- c(samples, runif(1, 0, 1), runif(1, -0.5, 0.5)) # clumping and orient factor
-    samples <- c(samples, runif(1, 0.8, 0.87), runif(1, 0.01, 0.15)) # clumping and orient factor
+    samples <- c(samples, runif(1, 0, 1), runif(1, -0.5, 0.5)) # clumping and orient factor
+    #samples <- c(samples, runif(1, 0.8, 0.87), runif(1, 0.01, 0.15)) # clumping and orient factor
     #samples <- c(samples, runif(1, 0.55, 0.98), runif(1, -0.5, 0.5)) # clumping and orient factor
   }
   name_vec <- rep(c("N","Cab","Car","Cw","Cm","SLA","clumping_factor","orient_factor"),length(pft_end))
