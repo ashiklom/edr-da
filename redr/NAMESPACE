@@ -2,6 +2,7 @@
 
 export(exec_in_dir)
 export(extend_df)
+export(filter_specfile)
 export(generate_run)
 export(params_df2list)
 export(run_ed)

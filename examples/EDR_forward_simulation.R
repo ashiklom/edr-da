@@ -40,16 +40,22 @@ PEcAn.logger::logger.info(paste0("Running simulation in dir: ",prefix))
 
 #--------------------------------------------------------------------------------------------------#
 ## Run ED2
-fft_plot <- "BH02"  # NC22, BH02
+fft_plot <- "GR08"  # NC22, BH02
 #css_in <- '/data/sserbin/Modeling/edr-da/ed-inputs/sites/US-WCr/NASA_FFT/US-WCr.Inv2010.NC22.lat45.5lon-90.5.css'
 #pss_in <- '/data/sserbin/Modeling/edr-da/ed-inputs/sites/US-WCr/NASA_FFT/US-WCr.Inv2010.NC22.lat45.5lon-90.5.pss'
 #site_in <- '/data/sserbin/Modeling/edr-da/ed-inputs/sites/US-WCr/NASA_FFT/US-WCr.Inv2010.NC22.lat45.5lon-90.5.site'
-css_in <- 'ed-inputs/sites/BH02_site_1-25665/FFT.2008.lat43.3724lon-89.9071.css'
-pss_in <- 'ed-inputs/sites/BH02_site_1-25665/FFT.2008.lat43.3724lon-89.9071.pss'
-site_in <- 'ed-inputs/sites/BH02_site_1-25665/FFT.2008.lat43.3724lon-89.9071.site'
 
-site_lat <- 43.3724 #45.5 #43.3724
-site_lon <- -89.9071 #-90.5 #-89.9071
+#css_in <- 'ed-inputs/sites/BH02_site_1-25665/FFT.2008.lat43.3724lon-89.9071.css'
+#pss_in <- 'ed-inputs/sites/BH02_site_1-25665/FFT.2008.lat43.3724lon-89.9071.pss'
+#site_in <- 'ed-inputs/sites/BH02_site_1-25665/FFT.2008.lat43.3724lon-89.9071.site'
+
+css_in <- 'ed-inputs/sites/GR08_site_1-25681/FFT.2008.lat39.695lon-78.4661.css'
+pss_in <- 'ed-inputs/sites/GR08_site_1-25681/FFT.2008.lat39.695lon-78.4661.pss'
+site_in <- 'ed-inputs/sites/GR08_site_1-25681/FFT.2008.lat39.695lon-78.4661.site'
+
+
+site_lat <- 39.695 #45.5 #43.3724
+site_lon <- -78.4661 #-90.5 #-89.9071
 
 ed2in_changes <- list(IMONTHA = 07, IDATEA = 15, IYEARA = 2006,
                       IMONTHZ = 08, IDATEZ = 31, IYEARZ = 2006)
@@ -89,9 +95,13 @@ load('priors/mvtraits_priors.RData')
 #   8 -- orient_factor
 # Temperate.North_Mid_Hardwood: 9:16
 # Temperate.Late_Hardwood: 17:24
+#pft_end <- c(temperate.North_Mid_Hardwood = 8,
+#             temperate.Late_Hardwood = 16,
+#             temperate.Late_Conifer = 24)
 pft_end <- c(temperate.North_Mid_Hardwood = 8,
              temperate.Late_Hardwood = 16,
-             temperate.Late_Conifer = 24)
+             temperate.Northern_Pine = 24)
+
 
 param_sub <- function(i, params) {
   param_seq <- (pft_end[i] - 7):pft_end[i]
@@ -106,7 +116,7 @@ inits_function <- function() {
     # PROSPECT prior
     #samples <- c(samples, mvtnorm::rmvnorm(1, means[pft,], covars[pft,,]))
     draw <- -1
-    while (!any(draw < 0)) {
+    while (any(draw < 0)) {
       draw <- mvtnorm::rmvnorm(1, means[pft,], covars[,,pft])
     }
     samples <- c(samples, draw)
@@ -181,7 +191,7 @@ model <- function(params) {
 #head(run_model)
 
 # run X times
-x <- 10
+x <- 100
 edr_albedo <- array(data=NA, c(x,2101))
 for (i in seq_along(1:dim(edr_albedo)[1])) {
   print(paste0(" Simulation: ",i))

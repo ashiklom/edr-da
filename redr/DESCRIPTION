@@ -8,7 +8,8 @@ Imports:
     PEcAn.ED2,
     dplyr,
     purrr,
-    PEcAnRTM
+    PEcAnRTM,
+    rlang
 Suggests:
     testthat,
 License: MIT License
