@@ -10,6 +10,7 @@ run-ed/template/ed_2.1
 ._*
 .RData
 .Rhistory
+.scratch.R
 
 # redr tests
 redr/tests/testthat/edr-testthat-outdir/
