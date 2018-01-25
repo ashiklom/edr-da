@@ -24,6 +24,7 @@ redr_*
 edr_prior_sensitivity/
 edr_*
 edr-*
+EDR_sim_output_*
 
 # Tests
 .quicktest_*
