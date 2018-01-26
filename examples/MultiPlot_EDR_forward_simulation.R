@@ -54,52 +54,6 @@ obs_LAI <- read_csv(here::here('other_site_data/NASA_FFT_LAI_FPAR_Data.csv'))
 #--------------------------------------------------------------------------------------------------#
 #--------------------------------------------------------------------------------------------------#
 
-param_sub <- function(i, params) {
-  param_seq <- (pft_ends[i] - 7):pft_ends[i]
-  param_sub <- params[param_seq]
-  return(param_sub)
-}
-
-inits_function <- function() {  # lots of hard coded param assumptions here.....
-  samples <- numeric()
-  for (i in seq_along(1:edr_run_pfts_length)) {
-    #pft <- names(pft_end)[i]
-    pft <- as.character(edr_run_pfts$pft_name[i])
-    
-    # PROSPECT prior
-    #samples <- c(samples, mvtnorm::rmvnorm(1, means[pft,], covars[pft,,]))
-
-    # Ensure all traits are positive
-    # If any are negative, draw again until all are positive
-    draw <- -1
-    while (any(draw < 0)) {
-      draw <- mvtnorm::rmvnorm(1, means[pft,], covars[,,pft])
-    }
-    samples <- c(samples, draw)
-    # ED priors
-    samples <- c(samples, runif(1, 0, 1), runif(1, -0.5, 0.5)) # clumping and orient factor
-  }
-  name_vec <- rep(c("N","Cab","Car","Cw","Cm","SLA","clumping_factor","orient_factor"),edr_run_pfts_length)
-  names(samples) <- name_vec
-  samples <- c(samples, residual = rlnorm(1, log(0.001), 2.5))
-  return(samples)
-}
-
-vec2list <- function(params, ...) {  # lots of hard-coded params here
-  spectra_list <- list()
-  ed_list <- list()
-  for (i in seq_along(1:edr_run_pfts_length)) {
-    pft <- as.character(edr_run_pfts$pft_name[i])
-    param_sub <- param_sub(i, params)
-    spectra_list[[pft]] <- PEcAnRTM::prospect(param_sub[1:5], 5)
-    ed_list[[pft]] <- list(SLA = param_sub[6],
-                           clumping_factor = param_sub[7],
-                           orient_factor = param_sub[8])
-  }
-  outlist <- list(spectra_list = spectra_list, trait.values = ed_list, ...)
-  return(outlist)
-}
-
 model <- function(params) {
   edr_dir <- 'edr'
   paths_list <- list(

@@ -3,15 +3,16 @@ Title: ED2 RTM testing functions
 Version: 0.0.0.9000
 Authors@R: person("Alexey", "Shiklomanov", email = "ashiklom@bu.edu", role = c("aut", "cre"))
 Description: Facilitates running ED2 and EDR under certain test cases
-Depends: R (>= 3.3.3)
+Depends: 
+    R (>= 3.3.3),
+    tidyverse,
+    PEcAnRTM
 Imports:
     PEcAn.ED2,
-    dplyr,
-    purrr,
-    PEcAnRTM,
-    rlang
+    rlang,
+    mvtnorm
 Suggests:
-    testthat,
+    testthat
 License: MIT License
 Encoding: UTF-8
 LazyData: true
