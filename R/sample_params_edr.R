@@ -13,7 +13,7 @@ sample_params_edr <- function(pft_vec, prospect_means, prospect_covars) {
       clumping_factor = runif(1, 0, 1),
       orient_factor = runif(1, -0.5, 0.5)
     )
-    names(draw) <- paste(pft, names.draw, sep = ".")
+    names(draw) <- paste(pft, names(draw), sep = ".")
     samples <- c(samples, draw)
   }
   samples <- c(samples, residual = rlnorm(1, log(0.001), 2.5))

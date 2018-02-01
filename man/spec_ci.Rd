@@ -14,5 +14,5 @@ spec_ci(refl_mat, wl = 400:2500, alpha = 0.05, ...)
 \item{alpha}{Quantile probability (e.g. 0.05 means 95% CI)}
 }
 \description{
-Based on empirical quantiles of reflectance spectra
+Based on empirical quantiles of reflectance spectra.
 }

@@ -6,14 +6,14 @@
 #' @inheritParams setup_edr
 #' @inheritParams exec_in_dir
 #' @export
-run_edr <- function(dir, edr_args, edr_dir = 'edr') {
+run_edr <- function(dir, edr_args, edr_dir = "edr") {
     # Set defaults
-    paths <- list(ed2in = file.path(dir, 'ED2IN'),
-                  history = file.path(dir, 'outputs'))
+    paths <- list(ed2in = file.path(dir, "ED2IN"),
+                  history = file.path(dir, "outputs"))
     edr_inputs <- list(paths = paths,
-                       par.wl = 400:800,
-                       nir.wl = 801:2500,
-                       edr.exe.name = 'edr',
+                       par.wl = 400:2499,
+                       nir.wl = 2500,
+                       edr.exe.name = "edr",
                        change.history.time = TRUE,
                        output.path = file.path(dir, edr_dir),
                        clean = FALSE)
@@ -27,15 +27,16 @@ run_edr <- function(dir, edr_args, edr_dir = 'edr') {
 #' @param target_name Target directory name for EDR
 #' @inheritParams exec_in_dir
 #' @export
-setup_edr <- function(dir, edr_exe_path, edr_dir = 'edr') {
+setup_edr <- function(dir, edr_exe_path, edr_dir = "edr") {
     edr_dir <- file.path(dir, edr_dir)
-    edr_exe_link <- file.path(edr_dir, 'edr')
-    edr_output_dir <- file.path(edr_dir, 'outputs')
-    input_ed2in_path <- file.path(dir, 'ED2IN')
+    edr_exe_link <- file.path(edr_dir, "edr")
+    edr_output_dir <- file.path(edr_dir, "outputs")
+    input_ed2in_path <- file.path(dir, "ED2IN")
 
     dir.create(edr_dir)
     dir.create(edr_output_dir)
 
     # Link to EDR executable
+    .z <- file.remove(edr_exe_link)
     file.symlink(from = edr_exe_path, to = edr_exe_link)
 }

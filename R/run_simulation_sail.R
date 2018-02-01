@@ -11,10 +11,10 @@
 #' @param n_sim Number of simulations
 #' @inheritParams sample_params_prior
 #' @return List of results (see description)
+#' @export
 run_simulation_sail <- function(setup, prospect_means, prospect_covar,
                                 n_sim = 500) {
   edr_setup <- setup_edr(setup$prefix, edr_exe_path = edr_exe_path)
-  stopifnot(edr_setup)
   ed_LAI_pft <- get_edvar(setup$prefix, "LAI_CO")
   ed_LAI_total <- sum(ed_LAI_pft)
   ed_pft_table <- get_pfts(setup$css)

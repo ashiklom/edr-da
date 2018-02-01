@@ -16,7 +16,7 @@ ribbon <- function(x, low, hi, ...) {
 
 #' Draw spectra confidence interval
 #'
-#' Based on empirical quantiles of reflectance spectra
+#' Based on empirical quantiles of reflectance spectra.
 #'
 #' @param refl_mat Matrix of reflectance values (wavelengths in rows)
 #' @param wl Vector of wavelengths

@@ -10,7 +10,7 @@
 #' @return List, containing prefix path and paths to css, pss, and site files
 #' @export
 setup_fft <- function(fft_plot, meas_year, clobber = TRUE) {
-  ed_inputs_dir <- normalizePath(Sys.glob(here::here('ed-inputs/sites', paste0(fft_plot, "_*"))) )
+  ed_inputs_dir <- Sys.glob(here::here("ed-inputs/sites", paste0(fft_plot, "_*")))
   ed_inputs <- list.files(ed_inputs_dir)
   edr_dir <- strsplit(ed_inputs_dir, "ed-inputs")[[1]][1]
 
@@ -30,7 +30,7 @@ setup_fft <- function(fft_plot, meas_year, clobber = TRUE) {
   site_in <- lsf(pattern = "*.site")
 
   ### create output prefix
-  prefix <- paste("EDR_sim_output", fft_plot, meas_year, sep = "_")
+  prefix <- paste("ed-outputs/EDR_sim_output", fft_plot, meas_year, sep = "_")
   if (file.exists(paste0(edr_dir, prefix)) && clobber) {
     PEcAn.logger::logger.info("*** Removing previous simulation results ***")
     unlink(paste0(edr_dir, prefix), recursive = TRUE)
@@ -42,17 +42,20 @@ setup_fft <- function(fft_plot, meas_year, clobber = TRUE) {
                           IMONTHZ = 08, IDATEZ = 31, IYEARZ = 2006)
     datetime <- ISOdate(2006, 08, 15, 16, 00, 00)
 
-    genrun <- generate_run(prefix = prefix,
-                          site_lat = site_lat,
-                          site_lon = site_lon,
-                          site_df = site_in,
-                          pss_df = pss_in,
-                          css_df = css_in,
-                          common_inputs_dir = common_inputs_dir,
-                          site_met_dir = site_met_dir,
-                          ed_exe_path = ed_exe_path,
-                          ed2in_changes = ed2in_changes,
-                          RMDIR = TRUE)
+    genrun <- generate_run(
+      prefix = basename(prefix),
+      site_lat = site_lat,
+      site_lon = site_lon,
+      site_df = site_in,
+      pss_df = pss_in,
+      css_df = css_in,
+      output_dir = prefix,
+      common_inputs_dir = common_inputs_dir,
+      site_met_dir = site_met_dir,
+      ed_exe_path = ed_exe_path,
+      ed2in_changes = ed2in_changes,
+      RMDIR = TRUE
+    )
 
     message("Running ED...")
     runed <- run_ed(prefix)

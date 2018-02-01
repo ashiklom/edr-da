@@ -4,10 +4,14 @@
 \alias{vec2list}
 \title{Convert EDR parameter vector to EDR input list}
 \usage{
-vec2list(params, pft_vec, ...)
+vec2list(params, pft_vec, pft_ends, ...)
 }
 \arguments{
-\item{params}{Vector of EDR parameters (see [sample_params_edr()])}
+\item{params}{Full vector of parameter values}
+
+\item{pft_vec}{Vector of PFT names}
+
+\item{pft_ends}{Vector of PFT index ends}
 }
 \description{
 Convert EDR parameter vector to EDR input list
