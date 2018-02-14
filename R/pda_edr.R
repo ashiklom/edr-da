@@ -3,6 +3,7 @@
 #' @inheritParams run_simulation_edr
 #' @param observed Observation vector or matrix (see [PEcAnRTM::invert_bt()])
 #' @param observation_operator Function for aligning EDR output with observation
+#' @param custom_settings Custom settings list for [PEcAnRTM::invert_bt()]
 #' @return Output of [PEcAnRTM::invert_bt()]
 #' @export
 run_pda_edr <- function(setup,
@@ -10,7 +11,8 @@ run_pda_edr <- function(setup,
                         observation_operator,
                         prospect_means,
                         prospect_covar,
-                        num_of_edr_params = 3) {
+                        num_of_edr_params = 3,
+                        custom_settings = list()) {
   stopifnot(is.function(observation_operator))
   edr_setup <- setup_edr(setup$prefix, edr_exe_path = edr_exe_path)
   edr_run_pfts <- get_pfts(setup$css)
@@ -46,6 +48,7 @@ run_pda_edr <- function(setup,
     prior <- numeric(1)
     for (i in seq_along(pft_ends)) {
       param_sub <- param_sub(i, params, pft_ends)
+      pft <- edr_run_pfts$pft_name[i]
       # PROSPECT prior
       prior <- prior + mvtnorm::dmvnorm(param_sub[1:6], means[pft,], covars[,,pft], log = TRUE)
       # ED priors
@@ -61,6 +64,6 @@ run_pda_edr <- function(setup,
     sampler = function() sample_params_edr(edr_run_pfts$pft_name, prospect_means, prospect_covar)
   )
 
-  samples <- invert_bt(observed, invert_model, prior)
+  samples <- invert_bt(observed, invert_model, prior, custom_settings)
   samples
 }

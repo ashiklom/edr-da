@@ -15,9 +15,10 @@ n_sim <- 500
 meas_year <- 2008
 fft_plot <- fft_plots[1]
 aviris_specfile <- here("aviris/aviris.h5")
-#run_simulation <- function(fft_plot,
-                           #meas_year = 2008,
-                           #aviris_specfile = here("aviris/aviris.h5")) {
+
+run_pda <- function(fft_plot,
+                    meas_year = 2008,
+                    aviris_specfile = here("aviris/aviris.h5")) {
 
   aviris_h5 <- hdf5r::H5File$new(aviris_specfile)
   ## Aviris spectra
@@ -27,22 +28,28 @@ aviris_specfile <- here("aviris/aviris.h5")
   ) / 10000
   aviris_h5$close_all()
   aviris_interp_wl <- round(wavelengths(aviris_refl))
-  aviris_keep <- aviris_interp_wl > 400 & rowSums(is.na(aviris_refl)) == 0
-  observed <- aviris_refl[aviris_keep,] %>% as.matrix()
+  aviris_keep <- aviris_interp_wl > 400 &
+    rowSums(is.na(aviris_refl)) == 0 &
+    aviris_interp_wl <= 1300   # Use only VIS and NIR spectra
+  observed <- aviris_refl[aviris_keep,]
   aviris_ind <- aviris_interp_wl[aviris_keep] - 399
   observation_operator <- function(x) x[aviris_ind]
   
   setup <- setup_fft(fft_plot, meas_year = 2008, clobber = FALSE)
 
-  prospect_means <- means
-  prospect_covar <- covars
-  num_of_edr_params <- 3
+  custom_settings <- list(
+    #init = list(iterations = 25),
+    #loop = list(iterations = 25),
+    #other = list(max_iter = 50)
+  )
 
-  edr_result <- run_simulation_edr(setup, means, covars, n_sim = 100)
+  samples <- run_pda_edr(setup, observed, observation_operator,
+                         means, covars, custom_settings = custom_settings)
 
+  results_dir <- here("pda_results")
+  dir.create(results_dir, showWarnings = FALSE)
+  fname <- paste("PDA", "EDR", fft_plot, meas_year, "rds", sep = ".")
+  saveRDS(samples, file.path(results_dir, fname))
 }
 
-
-pdf("ed_sail_sims.pdf")
-walk(fft_plots, possibly(run_simulation, NULL))
-dev.off()
+walk(fft_plots, possibly(run_pda, NULL))

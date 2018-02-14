@@ -5,7 +5,7 @@
 \title{Run EDR parameter data assimilation}
 \usage{
 run_pda_edr(setup, observed, observation_operator, prospect_means,
-  prospect_covar, num_of_edr_params = 3)
+  prospect_covar, num_of_edr_params = 3, custom_settings = list())
 }
 \arguments{
 \item{setup}{FFT setup object (see [setup_fft()])}
@@ -17,6 +17,8 @@ run_pda_edr(setup, observed, observation_operator, prospect_means,
 \item{prospect_means}{Matrix of PROSPECT parameter prior means}
 
 \item{num_of_edr_params}{Number of EDR params (default = 3)}
+
+\item{custom_settings}{Custom settings list for [PEcAnRTM::invert_bt()]}
 }
 \value{
 Output of [PEcAnRTM::invert_bt()]
