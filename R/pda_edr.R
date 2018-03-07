@@ -21,15 +21,29 @@ run_pda_edr <- function(setup,
   pft_vec_length <- 5 + num_of_edr_params
   pft_ends <- seq(pft_vec_length, edr_run_pfts_length * pft_vec_length, pft_vec_length)
   test_params <- sample_params_edr(edr_run_pfts$pft_name, prospect_means, prospect_covar)
-  testrun <- test_params %>%
-    vec2list(
-      pft_vec = edr_run_pfts$pft_name,
-      pft_ends = pft_ends,
-      datetime = datetime,
-      par.wl = 400:2499,
-      nir.wl = 2500
-    ) %>%
-    run_edr(setup$prefix, edr_args = .)
+  itest <- 1
+  while (itest <= 20) {
+    testrun <- try({
+      test_params %>%
+        vec2list(
+          pft_vec = edr_run_pfts$pft_name,
+          pft_ends = pft_ends,
+          datetime = datetime,
+          par.wl = 400:2499,
+          nir.wl = 2500
+        ) %>%
+        run_edr(setup$prefix, edr_args = .)
+    })
+    if (class(testrun) == "try-error") {
+      itest <- itest + 1
+      message("Bad parameter draw for test run. Trying again with attempt #", itest)
+    } else {
+      break
+    }
+  }
+  if (itest > 20) {
+    stop("Could not run EDR after 20 attempts.")
+  }
   ed_LAI_pft <- get_edvar(setup$prefix, "LAI_CO")
   ed_LAI_total <- sum(ed_LAI_pft)
   ed_pft_co <- get_edvar(setup$prefix, "PFT")

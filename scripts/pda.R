@@ -3,30 +3,50 @@
 library(redr)
 library(hdf5r)
 library(here)
+library(PEcAn.logger)
+
+logger.setLevel("INFO")   # This prevents the annoying "history" file debug messages
 
 source("config.R")
 
-fft_plots <- c("BH02","NC22","BI01","BI02","BI03","GR08", "OF04", "OF05", "PB03", "PB09","PB10",
-               "PB13","SF01")
+data(fft_plots)
+fft_plots$plot_code <- as.character(fft_plots$plot_code)
+
 load("priors/mvtraits_priors.RData")
 
-n_sim <- 500
+cmd_args <- commandArgs(trailingOnly = TRUE)
+if (length(cmd_args) == 0) {
+  ind <- 1
+} else {
+  ind <- as.numeric(cmd_args)
+}
 
-meas_year <- 2008
-fft_plot <- fft_plots[1]
-aviris_specfile <- here("aviris/aviris.h5")
+stopifnot(
+  all(!is.na(ind)),
+  all(ind <= nrow(fft_plots))
+)
+
+fft_plots_sub <- fft_plots[ind, ]
+message(
+  "Running FFT plot ", fft_plots_sub$plot_code,
+  " for year ", fft_plots_sub$meas_year,
+  " (index ", ind, ")"
+)
 
 run_pda <- function(fft_plot,
-                    meas_year = 2008,
+                    meas_year,
                     aviris_specfile = here("aviris/aviris.h5")) {
 
   aviris_h5 <- hdf5r::H5File$new(aviris_specfile)
   ## Aviris spectra
   aviris_refl <- filter_specfile(
     aviris_h5,
-    iPLOT == fft_plot
+    iPLOT == !!fft_plot
   ) / 10000
   aviris_h5$close_all()
+  if (any(dim(aviris_refl) == 0)) {
+    stop("Missing AVIRIS spectra. Not running PDA.")
+  }
   aviris_interp_wl <- round(wavelengths(aviris_refl))
   aviris_keep <- aviris_interp_wl > 400 &
     rowSums(is.na(aviris_refl)) == 0 &
@@ -35,21 +55,24 @@ run_pda <- function(fft_plot,
   aviris_ind <- aviris_interp_wl[aviris_keep] - 399
   observation_operator <- function(x) x[aviris_ind]
   
-  setup <- setup_fft(fft_plot, meas_year = 2008, clobber = FALSE)
+  setup <- setup_fft(fft_plot, clobber = TRUE)
+
+  results_dir <- here("pda_results")
+  progress_dir <- here("pda_progress")
+  dir.create(results_dir, showWarnings = FALSE)
+  dir.create(progress_dir, showWarnings = FALSE)
+  fname <- paste("PDA", "EDR", fft_plot, meas_year, "rds", sep = ".")
 
   custom_settings <- list(
-    #init = list(iterations = 25),
-    #loop = list(iterations = 25),
-    #other = list(max_iter = 50)
+    init = list(iterations = 500),
+    loop = list(iterations = 500),
+    other = list(save_progress = file.path(progress_dir, fname))
   )
 
   samples <- run_pda_edr(setup, observed, observation_operator,
                          means, covars, custom_settings = custom_settings)
 
-  results_dir <- here("pda_results")
-  dir.create(results_dir, showWarnings = FALSE)
-  fname <- paste("PDA", "EDR", fft_plot, meas_year, "rds", sep = ".")
   saveRDS(samples, file.path(results_dir, fname))
 }
 
-walk(fft_plots, possibly(run_pda, NULL))
+walk2(fft_plots_sub$plot_code, fft_plots_sub$meas_year, run_pda)

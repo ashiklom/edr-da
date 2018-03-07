@@ -4,9 +4,7 @@ library(here)
 
 source("config.R")
 
-fft_plots <- c("BH02","NC22","BI01","BI02","BI03","GR08", "OF04", "OF05", "PB03", "PB09","PB10",
-               "PB13","SF01")
-meas_year <- 2008
+data(fft_plots)
 
 n_sim <- 500
 
@@ -14,11 +12,8 @@ load("priors/mvtraits_priors.RData")
 obs_LAI_dat <- read_csv(here("other_site_data/NASA_FFT_LAI_FPAR_Data.csv"))
 aviris_specfile <- H5File$new("aviris/aviris.h5")
 
-fft_plot <- fft_plots[1]
-aviris_specfile <- here("aviris/aviris.h5")
-
 run_simulation <- function(fft_plot,
-                           meas_year = 2008,
+                           meas_year,
                            aviris_specfile = here("aviris/aviris.h5")) {
 
   obs_LAI <- obs_LAI_dat %>%
@@ -32,10 +27,10 @@ run_simulation <- function(fft_plot,
   ## Aviris spectra
   aviris_refl <- filter_specfile(
     aviris_h5,
-    iPLOT == fft_plot
+    iPLOT == !!fft_plot
   ) / 10000
 
-  setup <- setup_fft(fft_plot, meas_year = 2008, clobber = TRUE)
+  setup <- setup_fft(fft_plot, clobber = TRUE)
 
   edr_result <- run_simulation_edr(setup, means, covars, n_sim = 100)
   sail_result <- run_simulation_sail(setup, means, covars)
@@ -53,6 +48,6 @@ run_simulation <- function(fft_plot,
 }
 
 
-pdf("ed_sail_sims.pdf")
-walk(fft_plots, possibly(run_simulation, NULL))
-dev.off()
+#pdf("ed_sail_sims.pdf")
+walk2(fft_plots$plot_code, fft_plots$meas_year, run_simulation)
+#dev.off()

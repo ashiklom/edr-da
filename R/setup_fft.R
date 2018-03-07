@@ -5,11 +5,10 @@
 #' - Run ED at that site
 #'
 #' @param fft_plot FFT plot code, as character
-#' @param meas_year Measurement year, as integer or character
 #' @param clobber Overwrite existing ED run if present (default = TRUE)
 #' @return List, containing prefix path and paths to css, pss, and site files
 #' @export
-setup_fft <- function(fft_plot, meas_year, clobber = TRUE) {
+setup_fft <- function(fft_plot, clobber = TRUE) {
   ed_inputs_dir <- Sys.glob(here::here("ed-inputs/sites", paste0(fft_plot, "_*")))
   ed_inputs <- list.files(ed_inputs_dir)
   edr_dir <- strsplit(ed_inputs_dir, "ed-inputs")[[1]][1]
