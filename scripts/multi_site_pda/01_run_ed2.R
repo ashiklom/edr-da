@@ -12,7 +12,7 @@ PEcAn.logger::logger.setLevel("DEBUG")
 ############################################################
 # User configuration
 root <- here()
-site_dir <- normalizePath("~/Dropbox/NASA_TE_PEcAn-RTM_Project/Data/NASA_FFT_Project/site_pss_css/")
+site_dir <- normalizePath("sites")
 #root <- normalizePath("~/Projects/nasa-rtm/edr-da")
 
 ############################################################
@@ -43,28 +43,27 @@ sites <- tibble(files = list.files(site_dir)) %>%
 start_run <- "2006-07-01"
 end_run <- "2006-07-14"
 
-gfdl_dat <- distinct(sites, GFDL_lat, GFDL_lon, GFDL_dir) %>%
-  mutate(
-    GFDL_dat = pmap(
-      list(
-        lat.in = GFDL_lat,
-        lon.in = GFDL_lon,
-        outfolder = GFDL_dir
-      ),
-      download.GFDL,
-      start_date = start_run,
-      end_date = end_run,
-      site_id = NULL
-    )
-  )
+#gfdl_dat <- distinct(sites, GFDL_lat, GFDL_lon, GFDL_dir) %>%
+  #mutate(
+    #GFDL_dat = pmap(
+      #list(
+        #lat.in = GFDL_lat,
+        #lon.in = GFDL_lon,
+        #outfolder = GFDL_dir
+      #),
+      #download.GFDL,
+      #start_date = start_run,
+      #end_date = end_run,
+      #site_id = NULL
+    #)
+  #)
 
 ############################################################
 # Convert met to ED format
-ed_met_dat <- gfdl_dat %>%
-  full_join(sites) %>%
+ed_met_dat <- sites %>%
   mutate(
     rundir = file.path(pda_dir, files),
-    full_name = map_chr(GFDL_dat, "file"),
+    full_name = map_chr(GFDL_dir, ~list.files(match_file(.), full.names = TRUE)),
     ed_met = pmap(
       list(
         outfolder = rundir,
@@ -118,5 +117,6 @@ walk2(site_ed2in$ed2in, site_ed2in$ed2in_path, write_ed2in)
 
 ############################################################
 # Run ED at each site
-img_path <- "~/Projects/ED2/ed2.simg"
-walk(site_ed2in$ed2in_path, ~run_ed_singularity(img_path, ed2in_path = .))
+#img_path <- "~/Projects/ED2/ed2.simg"
+walk(site_ed2in$ed2in_path, ~system2("/projectnb/dietzelab/ashiklom/ED2/ED/build/ed_2.1-dbg", c("-f", .)))
+#walk(site_ed2in$ed2in_path, ~run_ed_singularity(img_path, ed2in_path = .))
