@@ -165,8 +165,9 @@ prior_sample <- function() {
   allom_draws <- map2(
     allom_mu,
     allom_Sigma,
-    ~exp(mvtnorm::rmvnorm(1, .x, .y)[1, ])
-  )
+    ~mvtnorm::rmvnorm(1, .x, .y)[1, ]
+  ) %>%
+    map(~c(exp(.[1]), .[2]))
   all_draws <- pmap(
     list(
       mv_draws,
@@ -177,7 +178,7 @@ prior_sample <- function() {
     c
   )
   names(all_draws) <- pfts
-  c(unlist(all_draws), residual = rgamma(1, 0.01, 0.01))
+  c(unlist(all_draws), residual = rgamma(1, prior_residual[1], prior_residual[2]))
 }
 
 prior_density <- function(params) {
@@ -200,24 +201,25 @@ prior_density <- function(params) {
   }
   allom_dens <- imap_dbl(
     traits,
-    ~mvtnorm::dmvnorm(.x[allom_names], allom_mu[[.y]], allom_Sigma[[.y]], log = TRUE)
+    ~mvtnorm::dmvnorm(c(log(.x[allom_names[1]]), .x[allom_names[2]]),
+                      allom_mu[[.y]], allom_Sigma[[.y]], log = TRUE)
   )
   if (any(!is.finite(allom_dens))) {
     return(-Inf)
   }
-  cf_dens <- dunif(map_dbl(traits, "clumping_factor"), 0, 1, log = TRUE)
+  cf_dens <- dclumping(map_dbl(traits, "clumping_factor"), log = TRUE)
   if (any(!is.finite(cf_dens))) {
     #message("Clumping factor density not finite.")
     #print(map_dbl(traits, "clumping_factor")[!is.finite(cf_dens)])
     return(-Inf)
   }
-  of_dens <- dunif(map_dbl(traits, "orient_factor"), -0.5, 0.5, log = TRUE)
+  of_dens <- dorient(map_dbl(traits, "orient_factor"), log = TRUE)
   if (any(!is.finite(of_dens))) {
     #message("Orient factor density not finite.")
     #print(map_dbl(traits, "orient_factor")[!is.finite(of_dens)])
     return(-Inf)
   }
-  logdens <- sum(mvdens, cf_dens, of_dens, res_dens)
+  logdens <- sum(mvdens, allom_dens, cf_dens, of_dens, res_dens)
   if (!is.finite(logdens)) {
     #message("Log density is not finite.")
     return(-Inf)
@@ -235,8 +237,9 @@ prior <- BayesianTools::createPrior(
 ############################################################
 message("Testing prior sampler and density functions.")
 for (i in 1:100) {
-  test_priors <- prior$density(prior$sampler())
-  stopifnot(is.numeric(test_priors))
+  test_params <- prior$sampler()
+  test_priors <- prior$density(test_params)
+  stopifnot(is.numeric(test_priors), is.finite(test_priors))
 }
 message("Priors seem reliable")
 
