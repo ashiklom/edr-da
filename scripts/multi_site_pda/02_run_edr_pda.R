@@ -16,8 +16,10 @@ edr_exe_path <- "/projectnb/dietzelab/ashiklom/ED2/EDR/build/ed_2.1-dbg"
   #edr_exe_path <- NULL
 #}
 
-pda_dir <- here("ed-outputs", "multi_site_pda")
+pda_dir <- here("ed-outputs", "multi_site_pda_allom")
+stopifnot(file.exists(pda_dir))
 all_sites <- list.files(pda_dir, "_site_")
+stopifnot(length(all_sites) > 0)
 
 ############################################################
 # Load observations
@@ -29,7 +31,8 @@ site_tags <- gsub("([[:alnum:]]+)_.*", "\\1", all_sites)
 av_inds <- map(site_tags, ~which(aviris_h5[["iPLOT"]][] == .))
 # Subset sites to those that have observations
 # Problem sites were causing trouble with the inversion
-problem_sites <- c("BH02_site_1-25665", "IDS05_site_1-25682")
+#problem_sites <- c("BH02_site_1-25665", "IDS05_site_1-25682")
+problem_sites <- c("IDS05_site_1-25682")
 keep_sites <- map_lgl(av_inds, ~length(.) > 0) &
   !(all_sites %in% problem_sites)
 
@@ -80,11 +83,6 @@ message("Creating cluster with ", ncores, " cores.")
 cl <- makeCluster(ncores)
 registerDoParallel(cl)
 
-#p <- defparam("prospect_5")
-#m <- foreach(i = 1:5, .packages = "PEcAnRTM") %dopar% {
-  #prospect(p, 5)
-#}
-
 # Returns a matrix of spectra
 model <- function(params) {
   edr_in <- params2edr(params, prospect = TRUE, version = 5)
@@ -130,6 +128,7 @@ mv_priors <- c(
 )
 colnames(means) <- rownames(covars) <- colnames(covars) <- mv_priors
 
+# Draw only positive values from multivariate prior
 rmvnorm_positive <- function(mu, Sigma) {
   draw <- -1
   while(any(draw < 0)) {
@@ -138,17 +137,42 @@ rmvnorm_positive <- function(mu, Sigma) {
   draw
 }
 
+# Load allometry priors
+allom_stats <- readRDS(here("priors/allometry_stats.rds")) %>%
+  map(list(18, "statistics"))
+
+allom_names <- c("b1Bl", "b2Bl")
+allom_mu <- map(allom_stats, ~.[c("mu0", "mu1"), "Mean"] %>% setNames(allom_names))
+allom_Sigma <- map(allom_stats, ~solve(matrix(.[c("tau11", "tau12", "tau12", "tau22"), "Mean"], 2, 2)))
+
+# Define priors for other parameters
+prior_clumping <- c(0, 1)
+rclumping <- function(n) runif(length(pfts), prior_clumping[1], prior_clumping[2])
+dclumping <- function(x, log = TRUE) dunif(x, prior_clumping[1], prior_clumping[2], log = log)
+
+prior_orient <- c(6, 4) * 3
+rorient <- function(n) 2 * rbeta(n, prior_orient[1], prior_orient[2]) - 1
+dorient <- function(x, log = TRUE) dbeta((x + 1) / 2, prior_orient[1], prior_orient[2], log = log)
+
+prior_residual <- c(0.01, 0.01)
+
 prior_sample <- function() {
   mv_draws <- -1
   mv_draws <- map(
     pfts,
     ~rmvnorm_positive(means[.,], covars[, , .]) %>% setNames(mv_priors)
   )
+  allom_draws <- map2(
+    allom_mu,
+    allom_Sigma,
+    ~exp(mvtnorm::rmvnorm(1, .x, .y)[1, ])
+  )
   all_draws <- pmap(
     list(
       mv_draws,
-      clumping_factor = runif(length(pfts), 0, 1),
-      orient_factor = runif(length(pfts), -0.5, 0.5)
+      allom_draws,
+      clumping_factor = rclumping(length(pfts)),
+      orient_factor = rorient(length(pfts))
     ),
     c
   )
@@ -158,10 +182,10 @@ prior_sample <- function() {
 
 prior_density <- function(params) {
   residual <- params["residual"]
-  res_dens <- dgamma(residual, 0.01, 0.01, log = TRUE)
+  res_dens <- dgamma(residual, prior_residual[1], prior_residual[2], log = TRUE)
   if (!is.finite(res_dens)) {
-    message("Residual density is not finite.")
-    print(residual)
+    #message("Residual density is not finite.")
+    #print(residual)
     return(-Inf)
   }
   traits <- params2edr(params, prospect = FALSE)$trait.values
@@ -170,25 +194,32 @@ prior_density <- function(params) {
     ~mvtnorm::dmvnorm(.x[mv_priors], means[.y, ], covars[, , .y], log = TRUE)
   )
   if (any(!is.finite(mvdens))) {
-    message("Multivariate density is not finite.")
-    print(params)
+    #message("Multivariate density is not finite.")
+    #print(params)
+    return(-Inf)
+  }
+  allom_dens <- imap_dbl(
+    traits,
+    ~mvtnorm::dmvnorm(.x[allom_names], allom_mu[[.y]], allom_Sigma[[.y]], log = TRUE)
+  )
+  if (any(!is.finite(allom_dens))) {
     return(-Inf)
   }
   cf_dens <- dunif(map_dbl(traits, "clumping_factor"), 0, 1, log = TRUE)
   if (any(!is.finite(cf_dens))) {
-    message("Clumping factor density not finite.")
-    print(map_dbl(traits, "clumping_factor")[!is.finite(cf_dens)])
+    #message("Clumping factor density not finite.")
+    #print(map_dbl(traits, "clumping_factor")[!is.finite(cf_dens)])
     return(-Inf)
   }
   of_dens <- dunif(map_dbl(traits, "orient_factor"), -0.5, 0.5, log = TRUE)
   if (any(!is.finite(of_dens))) {
-    message("Orient factor density not finite.")
-    print(map_dbl(traits, "orient_factor")[!is.finite(of_dens)])
+    #message("Orient factor density not finite.")
+    #print(map_dbl(traits, "orient_factor")[!is.finite(of_dens)])
     return(-Inf)
   }
   logdens <- sum(mvdens, cf_dens, of_dens, res_dens)
   if (!is.finite(logdens)) {
-    message("Log density is not finite.")
+    #message("Log density is not finite.")
     return(-Inf)
   }
   logdens
@@ -202,8 +233,12 @@ prior <- BayesianTools::createPrior(
 ############################################################
 # Test
 ############################################################
-test_priors <- prior$density(prior$sampler())
-stopifnot(!is.na(test_priors))
+message("Testing prior sampler and density functions.")
+for (i in 1:100) {
+  test_priors <- prior$density(prior$sampler())
+  stopifnot(is.numeric(test_priors))
+}
+message("Priors seem reliable")
 
 #debugonce(model)
 #debugonce(EDR)
@@ -232,8 +267,8 @@ custom_settings <- list(
   init = list(iterations = 50),
   loop = list(iterations = 50),
   other = list(
-    save_progress = here("ed-outputs/multi_site_pda/progress.rds")
+    save_progress = file.path(pda_dir, "progress.rds")
   )
 )
 samples <- invert_bt(observed, model, prior, custom_settings = custom_settings)
-saveRDS(samples, here("ed-outputs/multi_site_pda/results.rds"))
+saveRDS(samples, file.path(pda_dir, "results.rds"))
