@@ -1,5 +1,6 @@
 load(here("priors/mvtraits_priors.RData"))
 pfts <- rownames(means)
+pfts <- pfts[!grepl("Southern_Pine", pfts)]
 
 # Fix row and column names of means and covariances
 mv_priors <- c(
@@ -19,7 +20,8 @@ rmvnorm_positive <- function(mu, Sigma) {
 
 # Load allometry priors
 allom_stats <- readRDS(here("priors/allometry_stats.rds")) %>%
-  map(list(18, "statistics"))
+  map(list(18, "statistics")) %>%
+  .[pfts]
 
 allom_names <- c("b1Bl", "b2Bl")
 allom_mu <- map(allom_stats, ~.[c("mu0", "mu1"), "Mean"] %>% setNames(allom_names))

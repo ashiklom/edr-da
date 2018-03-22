@@ -73,12 +73,25 @@ source("scripts/multi_site_pda/priors.R")
 # Test
 ############################################################
 message("Testing prior sampler and density functions.")
-for (i in 1:100) {
+n_testprior <- 1000
+p1 <- prior$sampler()
+n_prior <- length(p1)
+prior_samps <- matrix(0, n_testprior, n_prior)
+colnames(prior_samps) <- names(p1)
+for (i in seq_len(n_testprior)) {
   test_params <- prior$sampler()
   test_priors <- prior$density(test_params)
+  prior_samps[i, ] <- test_params
   stopifnot(is.numeric(test_priors), is.finite(test_priors))
 }
 message("Priors seem reliable")
+message("Generating diagnostic prior plots")
+pdf(here("ed-outputs/multi_site_pda/priors.pdf"))
+for (j in seq_len(n_prior)) {
+  hist(prior_samps[, j], main = names(p1)[j])
+}
+dev.off()
+message("Done generating diagnostic prior plots")
 
 #debugonce(model)
 #debugonce(EDR)
