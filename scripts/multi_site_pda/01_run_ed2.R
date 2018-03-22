@@ -28,14 +28,15 @@ sites <- tibble(files = list.files(site_dir)) %>%
   mutate(
     years = map(file.path(site_dir, files), list.files) %>%
       map(~str_match(., "^FFT.([[:digit:]]+)")[,2]) %>%
-      map_dbl(~unique(as.numeric(.))),
+      map_dbl(~unique(as.numeric(.)) %>% tail(1)),
     prefixes = file.path(site_dir, files, paste0("FFT.", years, ".")),
     veg = map(prefixes, read_ed_veg),
     latitude = map_dbl(veg, "latitude"),
     longitude = map_dbl(veg, "longitude"),
     GFDL_lat = floor(floor(latitude) / 2) + 45 + 1,
     GFDL_lon = floor(floor(longitude) / 2.5) + 1,
-    GFDL_dir = file.path(pda_dir, paste("met", GFDL_lat, GFDL_lon, "GFDL", sep = "_"))
+    GFDL_dir = file.path(pda_dir, paste("met", GFDL_lat, GFDL_lon, "GFDL", sep = "_")),
+    CRUNCEP_dir = file.path(pda_dir, paste("met", latitude, longitude, "CRUNCEP", sep = "_"))
   )
 
 ############################################################
@@ -43,20 +44,19 @@ sites <- tibble(files = list.files(site_dir)) %>%
 start_run <- "2006-07-01"
 end_run <- "2006-07-14"
 
-#gfdl_dat <- distinct(sites, GFDL_lat, GFDL_lon, GFDL_dir) %>%
-  #mutate(
-    #GFDL_dat = pmap(
-      #list(
-        #lat.in = GFDL_lat,
-        #lon.in = GFDL_lon,
-        #outfolder = GFDL_dir
-      #),
-      #download.GFDL,
-      #start_date = start_run,
-      #end_date = end_run,
-      #site_id = NULL
-    #)
-  #)
+source("scripts/multi_site_pda/met_funs.r")
+
+met_data <- sites %>%
+  mutate(
+    met = pmap(
+      list(
+        lat.in = latitude,
+        lon.in = longitude,
+        outfolder = CRUNCEP_dir
+      ),
+      get_cruncep
+    )
+  )
 
 ############################################################
 # Convert met to ED format
