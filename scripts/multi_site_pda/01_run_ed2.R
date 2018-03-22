@@ -60,21 +60,31 @@ met_data <- sites %>%
 
 ############################################################
 # Convert met to ED format
-ed_met_dat <- sites %>%
+met2ed <- function(rundir, full_name, latitude, longitude, overwrite = TRUE) {
+  met2model.ED2(
+    in.path = dirname(full_name),
+    in.prefix = gsub("\\.[[:digit:]]{4}\\.nc$", "", basename(full_name)),
+    start_date = start_run,
+    end_date = end_run,
+    outfolder = rundir,
+    lat = latitude,
+    lon = longitude,
+    overwrite = overwrite
+  )
+}
+
+ed_met_dat <- met_data %>%
   mutate(
     rundir = file.path(pda_dir, files),
-    full_name = map_chr(GFDL_dir, ~list.files(match_file(.), full.names = TRUE)),
+    full_name = map_chr(met, "file"),
     ed_met = pmap(
       list(
-        outfolder = rundir,
-        in.path = dirname(full_name),
-        in.prefix = gsub("\\.[[:digit:]]{4}\\.nc$", "", basename(full_name)),
-        start_date = start_run,
-        end_date = end_run,
-        lat = latitude,
-        lon = longitude
+        rundir = rundir,
+        full_name = full_name,
+        latitude = latitude,
+        longitude = longitude
       ),
-      met2model.ED2,
+      met2ed,
       overwrite = TRUE
     )
   )
