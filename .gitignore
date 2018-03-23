@@ -11,6 +11,17 @@ run-ed/template/ed_2.1
 .RData
 .Rhistory
 .scratch.R
+*.sh.o*
+*.sh.po*
+
+# ED outputs
+ed-outputs
+inversion
+logs
+pda_progress*
+pda_results*
+priors/allometry
+ed-inputs/ed-inputs
 
 # redr tests
 redr/tests/testthat/edr-testthat-outdir/
