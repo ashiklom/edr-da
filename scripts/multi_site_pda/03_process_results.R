@@ -10,11 +10,20 @@ source(here("scripts/multi_site_pda/priors.R"))
 
 message("Drawing priors")
 prior_draws <- map(1:1000, ~prior$sampler()) %>% invoke(rbind, .)
+message("Done drawing priors")
 
-message("Processing allom")
-results_allom <- readRDS(here("pda_results/multi_site_pda_allom_2018-03-14.rds"))
-summarize_results(results_allom, "multi_site_pda_allom")
+prior_summary <- tibble(
+  params = colnames(prior_draws),
+  `Mean` = colMeans(prior_draws),
+  `2.5%` = apply(prior_draws, 2, quantile, 0.025),
+  `97.5%` = apply(prior_draws, 2, quantile, 0.975),
+  type = "prior"
+) %>%
+  split_params("params")
 
-message("Processing noallom")
-results_noallom <- readRDS(here("pda_results/multi_site_pda_noallom_2018-03-14.rds"))
-summarize_results(results_noallom, "multi_site_pda_noallom")
+message("Processing results")
+samples <- readRDS(here("ed-outputs/multi_site_pda/progress.rds"))
+prefix <- "multi_site_pda"
+burnin <- 1
+
+summarize_results(samples, prefix, burnin)

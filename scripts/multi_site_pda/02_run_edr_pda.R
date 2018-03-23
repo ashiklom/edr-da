@@ -14,7 +14,7 @@ edr_exe_path <- "/projectnb/dietzelab/ashiklom/ED2/EDR/build/ed_2.1-dbg"
   #edr_exe_path <- NULL
 #}
 
-pda_dir <- here("ed-outputs", "multi_site_pda_allom")
+pda_dir <- here("ed-outputs", "multi_site_pda")
 source("scripts/multi_site_pda/setup_sites.R")
 
 ############################################################
@@ -82,7 +82,10 @@ for (i in seq_len(n_testprior)) {
   test_params <- prior$sampler()
   test_priors <- prior$density(test_params)
   prior_samps[i, ] <- test_params
-  stopifnot(is.numeric(test_priors), is.finite(test_priors))
+  if (!is.numeric(test_priors) || !is.finite(test_priors)) {
+    warning("Problem with priors at index ", i)
+  }
+  #stopifnot(is.numeric(test_priors), is.finite(test_priors))
 }
 message("Priors seem reliable")
 message("Generating diagnostic prior plots")

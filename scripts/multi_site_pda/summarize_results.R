@@ -1,8 +1,30 @@
 summarize_results <- function(samples, prefix, burnin = 30000) {
 
   samples_burned <- getSample(samples, start = burnin, coda = TRUE)
-
   params <- coda::varnames(samples_burned)
+
+  subparams <- params[params != "residual"] %>%
+    str_split("\\.")
+  pft <- map_chr(subparams, 2)
+  upft <- unique(pft)
+  variable <- map_chr(subparams, 3)
+  uvariable <- unique(variable)
+
+  samples_mat <- as.matrix(samples_burned)[, params != "residual"]
+  samples_bypft <- map(upft, ~samples_mat[, pft == .]) %>%
+    map(`colnames<-`, uvariable)
+  samples_byvar <- map(uvariable, ~samples_mat[, variable == .]) %>%
+    map(`colnames<-`, upft)
+
+  message("Generating pairs plots grouped by PFT")
+  pdf(paste(prefix, "pairs", "bypft", "pdf", sep = "."))
+  walk2(upft, samples_bypft, ~pairs(.y, main = .x, pch = "."))
+  dev.off()
+
+  message("Generating pairs plots grouped by variable")
+  pdf(paste(prefix, "pairs", "byvariable", "pdf", sep = "."))
+  walk2(uvariable, samples_byvar, ~pairs(.y, main = .x, pch = "."))
+  dev.off()
 
   samples_summary_raw <- summary(samples_burned)
 
@@ -10,22 +32,25 @@ summarize_results <- function(samples, prefix, burnin = 30000) {
     .[c("quantiles", "statistics")] %>%
     map(~as_tibble(., rownames = "parameter")) %>%
     reduce(left_join) %>%
-    separate(parameter, c("biome", "pft", "param"), sep = "\\.", fill = "left")
+    split_params("parameter") %>%
+    mutate(type = "posterior")
 
-  # Summary of parameter estimates
-  summary_plot <- samples_summary %>%
-    filter(
-      param != "residual"
-    ) %>%
+  all_summary <- bind_rows(samples_summary, prior_summary) %>%
+    filter(variable != "residual") %>%
     mutate(
       pft = factor(pft, levels = unique(pft)),
-      param = factor(param, levels = unique(param))
-    ) %>%
-    ggplot() +
-    aes(x = pft, y = Mean, ymin = `2.5%`, ymax = `97.5%`, color = pft) +
+      variable = factor(variable, levels = unique(variable)),
+      pft_type = interaction(type, pft)
+    )
+
+  # Summary of parameter estimates
+  summary_plot <- ggplot(all_summary) +
+    aes(x = pft_type, y = Mean, ymin = `2.5%`, ymax = `97.5%`,
+        color = pft, linetype = type) +
     geom_pointrange() +
-    facet_wrap(~ param, scales = "free") +
+    facet_wrap(~ variable, scales = "free") +
     theme(axis.text.x = element_blank())
+
   ggsave(paste(prefix, "summary", "pdf", sep = "."), summary_plot)
 
   # Density plot
@@ -51,4 +76,9 @@ prior_posterior_density <- function(post, pri, param, ...) {
   lines(pri$x, pri$y, col = "red")
   legend("topright", legend = c("posterior", "prior"),
          lty = "solid", col = c("black", "red"))
+}
+
+split_params <- function(.data, param_col, ...) {
+  separate(.data, !!param_col, c("biome", "pft", "variable"),
+           sep = "\\.", fill = "left", ...)
 }
