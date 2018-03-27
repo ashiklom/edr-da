@@ -15,7 +15,7 @@ site_sensitivity <- function(samples, sites, burnin = 10000, n = 500) {
   out_list <- list()
   for (si in seq_along(sites)) {
     s <- sites[si]
-    message("Simulating site ", si, ": ", names(s))
+    message("Simulating site ", si, " of ", length(sites), ": ", names(s))
     out <- matrix(0, 2101, n)
     pb <- dplyr::progress_estimated(n)
     for (i in seq_len(n)) {
@@ -51,4 +51,13 @@ get_obs <- function(site, use_wl = seq(400, 1300, by = 10)) {
   observed
 }
 
-plot_sens <- function(result) {}
+plot_sens <- function(result, obs, ...) {
+  rmu <- rowMeans(result, na.rm = TRUE)
+  rlo <- apply(result, 1, quantile, 0.025, na.rm = TRUE)
+  rhi <- apply(result, 1, quantile, 0.975, na.rm = TRUE)
+  y_lims <- range(rmu, rlo, rhi, obs)
+  plot(0, 0, type = "n", xlim = c(400, 2500), ylim = y_lims, ...)
+  polygon(c(400:2500, 2500:400), c(rlo, rev(rhi)), col = "green")
+  lines(400:2500, rmu, col = "green4")
+  matplot(obs_list[[1]], col = "black", lty = "solid", add = TRUE)
+}

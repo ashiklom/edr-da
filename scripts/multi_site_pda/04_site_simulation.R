@@ -2,32 +2,52 @@ library(PEcAnRTM)
 library(PEcAn.ED2)
 library(here)
 library(purrr)
-library(foreach)
-library(doParallel)
 
 img_path <- NULL
 edr_exe_path <- "/projectnb/dietzelab/ashiklom/ED2/EDR/build/ed_2.1-dbg"
+prefix <- "multi_site_pda"
+
+n_sim <- 1000
+
+if (interactive()) n_sim <- 5
+
+if (system2("hostname", stdout = TRUE) == "ashiklom") {
+  img_path <- "~/Projects/ED2/ed2.simg"
+  edr_exe_path <- NULL
+}
+
 source("scripts/multi_site_pda/site_sensitivity.R")
 
 pda_dir <- here("ed-outputs", "multi_site_pda")
 
 site_dirs <- list.files(pda_dir, "_site_")
 ed2in_paths <- list.files(file.path(pda_dir, site_dirs, "edr"), "ED2IN", full.names = TRUE)
-names(ed2in_paths) <- strsplit(ed2in_paths, "/") %>% map_chr(8)
+names(ed2in_paths) <- strsplit(ed2in_paths, "/") %>% map_chr(9)
 
 samples <- readRDS(file.path(pda_dir, "progress.rds"))
 burnin <- 1000
-ssites <- ed2in_paths[1]
 waves <- seq(400, 1300, by = 10)
-print(ssites)
 
 message("Loading observations")
-obs_list <- map(names(ssites), get_obs, use_wl = waves)
+obs_list_full <- map(names(ed2in_paths), possibly(get_obs, NULL), use_wl = waves)
+names(obs_list_full) <- names(ed2in_paths)
+has_aviris <- !map_lgl(obs_list_full, is.null)
+obs_list <- obs_list_full[has_aviris]
+sim_sites <- ed2in_paths[names(obs_list)]
+
+message("Running simulations for sites: \n", paste(names(sim_sites), collapse = "\n"))
 
 PEcAn.logger::logger.setLevel("INFO")
-result <- site_sensitivity(samples, ssites, burnin, n = 50)
+message("Running site simulations")
+result <- site_sensitivity(samples, sim_sites, burnin, n = n_sim)
 
-r1 <- result[[1]]
-rmu <- rowMeans(r1)
-rlo <- apply(r1, 1, quantile, 0.025)
-rhi <- apply(r1, 1, quantile, 0.975)
+pdf(paste(prefix, "refl_valid", "pdf", sep = "."))
+pwalk(
+  list(
+    result = result,
+    obs = obs_list,
+    main = names(obs_list)
+  ),
+  possibly(plot_sens, NULL)
+)
+dev.off()
