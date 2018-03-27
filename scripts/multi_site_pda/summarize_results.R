@@ -1,4 +1,8 @@
-summarize_results <- function(samples, prefix, burnin = 30000) {
+summarize_results <- function(samples, prefix, burnin = 30000, sites = character(), site_iter = 50) {
+
+  pdf(paste(prefix, "traces", "pdf", sep = "."))
+  BayesianTools::tracePlot(samples)
+  dev.off()
 
   samples_burned <- getSample(samples, start = burnin, coda = TRUE)
   params <- coda::varnames(samples_burned)
@@ -10,7 +14,8 @@ summarize_results <- function(samples, prefix, burnin = 30000) {
   variable <- map_chr(subparams, 3)
   uvariable <- unique(variable)
 
-  samples_mat <- as.matrix(samples_burned)[, params != "residual"]
+  samples_mat_full <- as.matrix(samples_burned)
+  samples_mat <- samples_mat_full[, params != "residual"]
   samples_bypft <- map(upft, ~samples_mat[, pft == .]) %>%
     map(`colnames<-`, uvariable)
   samples_byvar <- map(uvariable, ~samples_mat[, variable == .]) %>%
@@ -26,6 +31,7 @@ summarize_results <- function(samples, prefix, burnin = 30000) {
   walk2(uvariable, samples_byvar, ~pairs(.y, main = .x, pch = "."))
   dev.off()
 
+  message("Summarizing samples")
   samples_summary_raw <- summary(samples_burned)
 
   samples_summary <- samples_summary_raw %>%
@@ -44,6 +50,7 @@ summarize_results <- function(samples, prefix, burnin = 30000) {
     )
 
   # Summary of parameter estimates
+  message("Generating summary plot")
   summary_plot <- ggplot(all_summary) +
     aes(x = pft_type, y = Mean, ymin = `2.5%`, ymax = `97.5%`,
         color = pft, linetype = type) +
@@ -54,6 +61,7 @@ summarize_results <- function(samples, prefix, burnin = 30000) {
   ggsave(paste(prefix, "summary", "pdf", sep = "."), summary_plot)
 
   # Density plot
+  message("Generating density plots")
   samples_matrix <- as.matrix(samples_burned)
   densities <- apply(samples_matrix, 2, density)
   prior_densities <- apply(prior_draws[, params], 2, density)
@@ -64,7 +72,6 @@ summarize_results <- function(samples, prefix, burnin = 30000) {
     prior_posterior_density
   )
   dev.off()
-
 }
 
 prior_posterior_density <- function(post, pri, param, ...) {

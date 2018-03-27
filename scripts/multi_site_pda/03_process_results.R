@@ -24,6 +24,6 @@ prior_summary <- tibble(
 message("Processing results")
 samples <- readRDS(here("ed-outputs/multi_site_pda/progress.rds"))
 prefix <- "multi_site_pda"
-burnin <- 1
+burnin <- 10000
 
 summarize_results(samples, prefix, burnin)
