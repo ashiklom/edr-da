@@ -69,26 +69,26 @@ check_prior <- function(prior, n_test = 500, error = FALSE, progress = TRUE) {
   n_prior <- length(samp)
   prior_samps <- matrix(0, n_test, n_prior)
   colnames(prior_samps) <- names(samp)
-  invalid <- list()
   n_invalid <- 0
   if (progress) pb <- txtProgressBar()
   for (i in seq_len(n_test)) {
     if (progress) setTxtProgressBar(pb, i / n_test)
     test_params <- prior$sampler()
-    test_priors <- prior$density(test_params)
     prior_samps[i, ] <- test_params
+    test_priors <- try(prior$density(test_params))
     if (!is.numeric(test_priors) || !is.finite(test_priors)) {
       msg <- paste0("Problem with priors at index ", i)
       if (error) {
         print(test_params)
         stop(msg)
       } else {
+        print(test_params)
         warning(msg)
         n_invalid <- n_invalid + 1
-        invalid[[n_invalid]] <- test_params
       }
     }
     #stopifnot(is.numeric(test_priors), is.finite(test_priors))
   }
-  invisible(invalid)
+  attr(prior_samps, "n_invalid") <- n_invalid
+  prior_samps
 }
