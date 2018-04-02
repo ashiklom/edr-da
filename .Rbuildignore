@@ -4,7 +4,7 @@ aviris
 multi_site_pda_results
 old_*
 other_site_data
-priors
+^priors$
 scripts
 sites
 data-raw
