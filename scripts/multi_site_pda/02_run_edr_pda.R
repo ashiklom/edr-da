@@ -12,14 +12,14 @@ parser <- OptionParser() %>%
   add_option("--fix_allom2", action = "store_true", default = FALSE) %>%
   add_option("--geo", action = "store_true", default = FALSE) %>%
   add_option("--ncores", action = "store", default = 1, type = "double") %>%
-  add_option("--prefix", action = "store", default = "multi_site_pda_default", type = "character")
+  add_option("--prefix", action = "store", default = "multi_site_pda_test", type = "character")
 
-argl <- parse_args(parser)
+argl <- parse_args(parser, args = "--geo")
 
 # Configuration for geo
 if (argl$geo) {
   img_path <- NULL
-  edr_exe_path <- "/projectnb/dietzelab/ashiklom/ED2/EDR/build/ed_2.1-dbg"
+  edr_exe_path <- "/projectnb/dietzelab/ashiklom/ED2/EDR/build/ed_2.1-opt"
 } else {
   img_path <- "~/Projects/ED2/ed2.simg"
   edr_exe_path <- NULL
@@ -27,15 +27,18 @@ if (argl$geo) {
 
 orig_pda_dir <- here("ed-outputs", "multi_site_pda")
 pda_dir <- here("ed-outputs", argl$prefix)
+dir.create(pda_dir, showWarnings = FALSE)
 
 message("Copying run data to: ", pda_dir)
-stopifnot(file.copy(orig_pda_dir, pda_dir, recursive = TRUE))
+system2("rsync", c("-az", paste0(orig_pda_dir, "/"), pda_dir))
 message("Done!")
 
 sites <- readLines(here("other_site_data", "site_list"))
 
 observed <- load_observations(sites)
+waves <- wavelengths(observed)
 site_setup <- setup_edr_multisite(sites, pda_dir)
+aviris_inds <- match(colnames(observed), sites)
 
 ############################################################
 # Define RTM inversion model
@@ -44,12 +47,14 @@ message("Creating cluster with ", argl$ncores, " cores.")
 cl <- makeCluster(argl$ncores)
 registerDoParallel(cl)
 
-lai_files <- file.path(dirname(site_setup), "lai_store")
+lai_files <- map_chr(site_setup, dirname) %>% file.path(., "lai_store")
+spec_files <- map_chr(site_setup, dirname) %>% file.path(., "spec_store")
 
 # Returns a matrix of spectra
 model <- function(params) {
   edr_in <- params2edr(params, prospect = TRUE, version = 5)
-  walk(lai_files, ~cat("\n", file = .))   # always move to next line so file lines up with iterations
+  walk(lai_files, ~cat("\n", file = ., append = TRUE))   # always move to next line so file lines up with iterations
+  walk(spec_files, ~cat("\n", file = ., append = TRUE))
   pkgs <- c("PEcAnRTM", "PEcAn.ED2")
   exports <- c("img_path", "edr_in", "edr_exe_path")
   result <- tryCatch({
@@ -59,12 +64,14 @@ model <- function(params) {
         ed2in_path = s,
         spectra_list = edr_in$spectra_list,
         trait.values = edr_in$trait.values,
-        verbose_error = FALSE,
+        verbose_error = TRUE,
         edr_exe_path = edr_exe_path
       )
+      spec_file <- file.path(dirname(s), "spec_store")
+      cat(outspec, sep = ",", file = spec_file, append = TRUE)
       lai <- attr(outspec, "LAI")
       lai_file <- file.path(dirname(s), "lai_store")
-      cat(lai, file = lai_file, append = TRUE)
+      cat(lai, sep = ",", file = lai_file, append = TRUE)
       outspec
     }
   }, error = function(e) {
@@ -74,7 +81,7 @@ model <- function(params) {
   # Make result match the dimensions of the aviris spectra
   if (!is.null(result)) {
     colnames(result) <- sites
-    result[use_wl - 399, aviris_inds]
+    result[waves - 399, aviris_inds]
   } else {
     -1e10
   }
@@ -86,20 +93,22 @@ model <- function(params) {
 message("Setting up prior")
 prior <- create_prior(fix_allom2 = argl$fix_allom2, heteroskedastic = argl$hetero)
 message("Testing prior sampler and density functions.")
-invalid <- check_prior(prior, error = TRUE, progress = FALSE)
+prior_samps <- check_prior(prior, error = FALSE, progress = FALSE)
+if (attr(prior_samps, "n_invalid") > 15) {
+  stop("More than 15 invalid priors. Something is probably wrong...")
+}
 message("Priors seem reliable")
 
 message("Generating diagnostic prior plots")
 pdf(here("ed-outputs", argl$prefix, "priors.pdf"))
-for (j in seq_len(n_prior)) {
-  hist(prior_samps[, j], main = names(p1)[j])
+for (j in seq_len(ncol(prior_samps))) {
+  hist(prior_samps[, j], main = colnames(prior_samps)[j])
 }
 dev.off()
 
 ############################################################
 # Test
 ############################################################
-message("Done generating diagnostic prior plots")
 
 #debugonce(model)
 #debugonce(EDR)
@@ -117,8 +126,10 @@ while(length(tm) == 1){
   tm <- model(prior$sampler())
 }
 message("At least one run of EDR was successful!")
-# Remove old LAI files
+
+# Remove old LAI and spec files
 invisible(walk(lai_files, file.remove))
+invisible(walk(spec_files, file.remove))
 
 ############################################################
 # Run PDA
