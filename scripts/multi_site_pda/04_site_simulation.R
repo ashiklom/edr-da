@@ -7,9 +7,13 @@ img_path <- NULL
 edr_exe_path <- "/projectnb/dietzelab/ashiklom/ED2/EDR/build/ed_2.1-dbg"
 prefix <- "multi_site_pda"
 
-n_sim <- 1000
+args <- commandArgs(trailingOnly = TRUE)
+if (length(args) == 0) {
+  args <- c("20", 1:5)
+}
 
-if (interactive()) n_sim <- 5
+n_sim <- as.numeric(args[1])
+site_index <- as.numeric(args[-1])
 
 if (system2("hostname", stdout = TRUE) == "ashiklom") {
   img_path <- "~/Projects/ED2/ed2.simg"
@@ -21,8 +25,8 @@ source("scripts/multi_site_pda/site_sensitivity.R")
 pda_dir <- here("ed-outputs", "multi_site_pda")
 
 site_dirs <- list.files(pda_dir, "_site_")
-ed2in_paths <- list.files(file.path(pda_dir, site_dirs, "edr"), "ED2IN", full.names = TRUE)
-names(ed2in_paths) <- strsplit(ed2in_paths, "/") %>% map_chr(9)
+ed2in_paths <- list.files(file.path(pda_dir, site_dirs, "edr"), "ED2IN", full.names = TRUE)[site_index]
+names(ed2in_paths) <- strsplit(ed2in_paths, "/") %>% map_chr(8)
 
 samples <- readRDS(file.path(pda_dir, "progress.rds"))
 burnin <- 1000
@@ -41,7 +45,9 @@ PEcAn.logger::logger.setLevel("INFO")
 message("Running site simulations")
 result <- site_sensitivity(samples, sim_sites, burnin, n = n_sim)
 
-pdf(paste(prefix, "refl_valid", "pdf", sep = "."))
+suffix <- paste(site_index, collapse = "_")
+
+pdf(paste(prefix, "refl_valid", suffix, "pdf", sep = "."))
 pwalk(
   list(
     result = result,

@@ -53,3 +53,6 @@ config.R
 *.pdf
 
 .Rproj.user
+
+ss_*.o*
+ss_*.po*
