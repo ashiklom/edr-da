@@ -1,4 +1,4 @@
-load(here("priors/mvtraits_priors.RData"))
+load(here::here("priors/mvtraits_priors.RData"))
 pfts <- rownames(means)
 pfts <- pfts[!grepl("Southern_Pine", pfts)]
 
@@ -29,17 +29,18 @@ allom_Sigma <- map(allom_stats, ~matrix(.[c("tau11", "tau12", "tau12", "tau22"),
 
 # Define priors for other parameters
 prior_clumping <- c(0, 1)
-rclumping <- function(n) runif(length(pfts), prior_clumping[1], prior_clumping[2])
+rclumping <- function(n = 1) runif(length(pfts) * n, prior_clumping[1], prior_clumping[2])
 dclumping <- function(x, log = TRUE) dunif(x, prior_clumping[1], prior_clumping[2], log = log)
 
 prior_orient <- c(6, 4) * 3
-rorient <- function(n) 2 * rbeta(n, prior_orient[1], prior_orient[2]) - 1
+rorient <- function(n = 1) 2 * rbeta(length(pfts) * n, prior_orient[1], prior_orient[2]) - 1
 dorient <- function(x, log = TRUE) dbeta((x + 1) / 2, prior_orient[1], prior_orient[2], log = log)
 
 prior_residual <- c(0.01, 0.01)
+rresidual <- function(n = 1) rgamma(n, prior_residual[1], prior_residual[2])
+dresidual <- function(x, log = TRUE) dgamma(x, prior_residual[1], prior_residual[2], log = log)
 
 prior_sample <- function() {
-  mv_draws <- -1
   mv_draws <- map(
     pfts,
     ~rmvnorm_positive(means[.,], covars[, , .]) %>% setNames(mv_priors)

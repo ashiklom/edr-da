@@ -44,8 +44,6 @@ sites <- tibble(files = list.files(site_dir)) %>%
 start_run <- "2006-07-01"
 end_run <- "2006-07-14"
 
-source("scripts/multi_site_pda/met_funs.r")
-
 met_data <- sites %>%
   mutate(
     met = pmap(
@@ -54,25 +52,14 @@ met_data <- sites %>%
         lon.in = longitude,
         outfolder = CRUNCEP_dir
       ),
-      get_cruncep
+      get_cruncep,
+      start_run = start_run,
+      end_run = end_run
     )
   )
 
 ############################################################
 # Convert met to ED format
-met2ed <- function(rundir, full_name, latitude, longitude, overwrite = TRUE) {
-  met2model.ED2(
-    in.path = dirname(full_name),
-    in.prefix = gsub("\\.[[:digit:]]{4}\\.nc$", "", basename(full_name)),
-    start_date = start_run,
-    end_date = end_run,
-    outfolder = rundir,
-    lat = latitude,
-    lon = longitude,
-    overwrite = overwrite
-  )
-}
-
 ed_met_dat <- met_data %>%
   mutate(
     rundir = file.path(pda_dir, files),

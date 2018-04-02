@@ -11,3 +11,7 @@ Copy the `config.example.R` to `config.R` and modify the paths as necessary.
 The only paths you should _have_ to change for things to work are the executable paths, as the other paths are relative to this repository, and the default should work out of the box.
 
 See the `examples` directory for some example analysis scripts.
+
+## Reload priors
+
+To refresh the internal package priors, re-run the `data-raw/generate_priors.R` script and re-install the package.

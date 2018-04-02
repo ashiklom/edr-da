@@ -10,7 +10,8 @@ Depends:
 Imports:
     PEcAn.ED2,
     rlang,
-    mvtnorm
+    mvtnorm,
+    purrr
 Suggests:
     testthat
 License: MIT License
