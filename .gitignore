@@ -56,3 +56,7 @@ config.R
 
 ss_*.o*
 ss_*.po*
+
+old_pdfs
+old_rdata
+multi_site_pda_results
