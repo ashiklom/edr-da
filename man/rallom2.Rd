@@ -7,7 +7,7 @@
 \usage{
 rallom2()
 
-dallom2(traits, log = log)
+dallom2(traits, log = TRUE)
 }
 \arguments{
 \item{traits}{Traits list}

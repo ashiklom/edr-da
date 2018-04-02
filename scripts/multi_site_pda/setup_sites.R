@@ -42,7 +42,6 @@ ed2in_paths <- map(
   sites,
   ~list.files(file.path(pda_dir, .), "ED2IN", full.names = TRUE)
 )
-
 ed2in_sites <- map(ed2in_paths, read_ed2in)
 edr_paths <- file.path(pda_dir, sites, "edr")
 site_setup <- map2(ed2in_sites, edr_paths, setup_edr)

@@ -23,7 +23,7 @@ dorient(traits, log = TRUE)
 
 rresidual()
 
-dresidual(x, log = TRUE)
+dresidual(params, log = TRUE)
 
 rresidual2()
 

@@ -1,17 +1,18 @@
 Package: redr
 Title: ED2 RTM testing functions
-Version: 0.0.0.9000
+Version: 0.0.0.9001
 Authors@R: person("Alexey", "Shiklomanov", email = "ashiklom@bu.edu", role = c("aut", "cre"))
 Description: Facilitates running ED2 and EDR under certain test cases
 Depends: 
-    R (>= 3.3.3),
-    tidyverse,
-    PEcAnRTM
+    R (>= 3.3.3)
 Imports:
+    PEcAnRTM,
     PEcAn.ED2,
     rlang,
     mvtnorm,
-    purrr
+    purrr,
+    magrittr,
+    tibble
 Suggests:
     testthat
 License: MIT License

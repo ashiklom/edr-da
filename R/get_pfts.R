@@ -13,7 +13,7 @@ get_pfts <- function(css_file_path, delim = " ", reference = pft_lookup) {
 #' ED PFT lookup table
 #'
 #' @export
-pft_lookup <- tribble(
+pft_lookup <- tibble::tribble(
   ~pft_num, ~pft_name,
   6, "temperate.Northern_Pine",
   7, "temperate.Southern_Pine",

@@ -1,59 +1,3 @@
-#' Create prior functions
-#'
-#' @param fix_allom2 Logical. If `TRUE`, fix allometry exponent to prior mean. 
-#' If `FALSE`, use full multivariate prior.
-#' @param heteroskedastic Logical. If `TRUE`, use heteroskedastic error model 
-#' (with residual slope and intercept). If `FALSE`, use scalar residual.
-#' @export
-create_prior <- function(fix_allom2 = TRUE, heteroskedastic = TRUE) {
-  BayesianTools::createPrior(
-    density = create_prior_density(fix_allom2, heteroskedastic),
-    sampler = create_prior_sampler(fix_allom2, heteroskedastic)
-  )
-}
-
-#' @rdname create_prior
-#' @export
-create_prior_sampler <- function(fix_allom2 = TRUE, heteroskedastic = TRUE) {
-  function(n = 1) {
-    out <- numeric()
-    for (i in seq_len(n)) {
-      prospect_params <- rprospect()
-      alloms <- if (fix_allom2) rallom1() else rallom2()
-      if (fix_allom2) allom_names <- allom_names[1]
-      alloms <- purrr::map(alloms, setNames, allom_names)
-      cf <- rclumping() %>% purrr::map(setNames, "clumping_factor")
-      of <- rorient() %>% purrr::map(setNames, "orient_factor")
-      resid <- if (heteroskedastic) rresidual2() else rresidual()
-      curr_params <- purrr::pmap(
-        list(
-          prospect_params,
-          alloms,
-          cf,
-          of
-        ),
-        c
-      ) %>% unlist()
-      out <- c(out, curr_params, resid)
-    }
-    out
-  }
-}
-
-#' @rdname create_prior
-#' @export
-create_prior_density <- function(fix_allom2 = TRUE, heteroskedastic = TRUE) {
-  function(params) {
-    ld_resid <- if (heteroskedastic) dresidual2(params) else dresidual(params)
-    traits <- PEcAnRTM::params2edr(params, prospect = FALSE)$trait.values
-    ld_allom <- if (fix_allom2) dallom1(traits) else dallom2(traits)
-    ld_prosp <- dprospect(traits)
-    ld_clumping <- dclumping(traits)
-    ld_orient <- dorient(traits)
-    sum(ld_resid, ld_allom, ld_prosp, ld_clumping, ld_orient)
-  }
-}
-
 #' Multivariate allometry prior (varying both base and exponent)
 #'
 #' @param traits Traits list
@@ -69,11 +13,13 @@ rallom2 <- function() {
 
 #' @rdname rallom2
 #' @export
-dallom2 <- function(traits, log = log) {
-  purrr::imap_dbl(
-    traits,
-    ~mvtnorm::dmvnorm(c(log(.x[allom_names[1]]), .x[allom_names[2]]),
-                      allom_mu[[.y]], allom_Sigma[[.y]], log = log)
+dallom2 <- function(traits, log = TRUE) {
+  b1Bl <- purrr::map_dbl(traits, allom_names[1]) %>% log()
+  b2Bl <- purrr::map_dbl(traits, allom_names[2])
+  pfts <- names(traits)
+  purrr::pmap_dbl(
+    list(b1Bl, b2Bl, pfts),
+    ~mvtnorm::dmvnorm(c(..1, ..2), allom_mu[[..3]], allom_Sigma[[..3]], log = log)
   )
 }
 
@@ -146,7 +92,8 @@ rresidual <- function() {
 
 #' @rdname rclumping
 #' @export
-dresidual <- function(x, log = TRUE) {
+dresidual <- function(params, log = TRUE) {
+  x <- params["residual"]
   dgamma(x, prior_residual[1], prior_residual[2], log = log) %>%
     setNames("residual")
 }
