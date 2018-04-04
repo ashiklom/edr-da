@@ -16,6 +16,7 @@ run-ed/template/ed_2.1
 
 # ED outputs
 ed-outputs
+ed-outputs-remote
 inversion
 logs
 pda_progress*
