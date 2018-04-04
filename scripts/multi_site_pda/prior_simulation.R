@@ -11,7 +11,8 @@ parser <- OptionParser() %>%
   add_option("--prefix", action = "store", type = "character", default = "multi_site_pda") %>%
   add_option("--geo", action = "store_true", default = FALSE) %>%
   add_option("--hetero", action = "store_true", default = FALSE) %>%
-  add_option("--fix_allom2", action = "store_true", default = FALSE)
+  add_option("--fix_allom2", action = "store_true", default = FALSE) %>%
+  add_option("--nprior", action = "store", type = "integer", default = 5000L)
 
 argl <- parse_args(parser)
 print(argl)
@@ -34,10 +35,11 @@ stopifnot(site_index <= length(site_list))
 site <- site_list[site_index]
 
 pda_dir <- here("ed-outputs", prefix)
+stopifnot(file.exists(pda_dir))
 
 prior <- create_prior(fix_allom2 = argl$fix_allom2, heteroskedastic = argl$hetero)
 message("Drawing priors")
-sims <- map(seq_len(1000), ~prior$sampler()) %>% do.call(rbind, .)
+sims <- map(seq_len(argl$nprior), ~prior$sampler()) %>% do.call(rbind, .)
 
 message("Running simulations for site: ", site)
 PEcAn.logger::logger.setLevel("INFO")
