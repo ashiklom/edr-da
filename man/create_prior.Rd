@@ -6,11 +6,12 @@
 \alias{create_prior_density}
 \title{Create prior functions}
 \usage{
-create_prior(fix_allom2 = TRUE, heteroskedastic = TRUE)
+create_prior(fix_allom2 = TRUE, heteroskedastic = TRUE, verbose = TRUE)
 
 create_prior_sampler(fix_allom2 = TRUE, heteroskedastic = TRUE)
 
-create_prior_density(fix_allom2 = TRUE, heteroskedastic = TRUE)
+create_prior_density(fix_allom2 = TRUE, heteroskedastic = TRUE,
+  verbose = TRUE)
 }
 \arguments{
 \item{fix_allom2}{Logical. If `TRUE`, fix allometry exponent to prior mean. 
@@ -18,6 +19,9 @@ If `FALSE`, use full multivariate prior.}
 
 \item{heteroskedastic}{Logical. If `TRUE`, use heteroskedastic error model 
 (with residual slope and intercept). If `FALSE`, use scalar residual.}
+
+\item{verbose}{Logical. If `TRUE`, print verbose error messages for invalid 
+prior densities}
 }
 \description{
 Create prior functions

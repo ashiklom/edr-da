@@ -4,10 +4,12 @@
 #' If `FALSE`, use full multivariate prior.
 #' @param heteroskedastic Logical. If `TRUE`, use heteroskedastic error model 
 #' (with residual slope and intercept). If `FALSE`, use scalar residual.
+#' @param verbose Logical. If `TRUE`, print verbose error messages for invalid 
+#' prior densities
 #' @export
-create_prior <- function(fix_allom2 = TRUE, heteroskedastic = TRUE) {
+create_prior <- function(fix_allom2 = TRUE, heteroskedastic = TRUE, verbose = TRUE) {
   BayesianTools::createPrior(
-    density = create_prior_density(fix_allom2, heteroskedastic),
+    density = create_prior_density(fix_allom2, heteroskedastic, verbose),
     sampler = create_prior_sampler(fix_allom2, heteroskedastic)
   )
 }
@@ -42,14 +44,38 @@ create_prior_sampler <- function(fix_allom2 = TRUE, heteroskedastic = TRUE) {
 
 #' @rdname create_prior
 #' @export
-create_prior_density <- function(fix_allom2 = TRUE, heteroskedastic = TRUE) {
+create_prior_density <- function(fix_allom2 = TRUE, heteroskedastic = TRUE, verbose = TRUE) {
   function(params) {
     ld_resid <- if (heteroskedastic) dresidual2(params) else dresidual(params)
+    if (!all(is.finite(ld_resid))) {
+      if (verbose) message("Invalid residual prior")
+      return(-Inf)
+    }
     traits <- PEcAnRTM::params2edr(params, prospect = FALSE)$trait.values
     ld_allom <- if (fix_allom2) dallom1(traits) else dallom2(traits)
+    if (!all(is.finite(ld_allom))) {
+      if (verbose) {
+        message("Invalid allometry prior")
+        print(purrr::map_dbl(traits, allom_names[1]))
+        print(purrr::map_dbl(traits, allom_names[2]))
+      }
+      return(-Inf)
+    }
     ld_prosp <- dprospect(traits)
+    if (!all(is.finite(ld_prosp))) {
+      if (verbose) message("Invalid prospect prior")
+      return(-Inf)
+    }
     ld_clumping <- dclumping(traits)
+    if (!all(is.finite(ld_clumping))) {
+      if (verbose) message("Invalid clumping prior")
+      return(-Inf)
+    }
     ld_orient <- dorient(traits)
+    if (!all(is.finite(ld_orient))) {
+      if (verbose) message("Invalid orient prior")
+      return(-Inf)
+    }
     sum(ld_resid, ld_allom, ld_prosp, ld_clumping, ld_orient)
   }
 }
