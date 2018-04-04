@@ -13,7 +13,8 @@ Imports:
     purrr,
     magrittr,
     tibble,
-    progress
+    progress,
+    data.table
 Suggests:
     testthat
 License: MIT License

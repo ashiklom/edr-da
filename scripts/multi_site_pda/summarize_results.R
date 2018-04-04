@@ -85,7 +85,3 @@ prior_posterior_density <- function(post, pri, param, ...) {
          lty = "solid", col = c("black", "red"))
 }
 
-split_params <- function(.data, param_col, ...) {
-  separate(.data, !!param_col, c("biome", "pft", "variable"),
-           sep = "\\.", fill = "left", ...)
-}
