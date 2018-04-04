@@ -1,9 +1,6 @@
 #!/bin/bash
-#$ -pe omp 16
-#$ -j y
-#$ -o logs
-#$ -l h_rt=96:00:00
 
-mkdir -p logs
-#/usr3/graduate/ashiklom/.singularity/Rscript scripts/multi_site_pda/01_run_ed2.R
-/usr3/graduate/ashiklom/.singularity/Rscript scripts/multi_site_pda/02_run_edr_pda.R 16
+qsub -N msp_hf qsub_multi_pda.sh --hetero --fix_allom2 --prefix=msp_hf$(date +%Y%m%d)
+qsub -N msp_f qsub_multi_pda.sh --fix_allom2 --prefix=msp_f$(date +%Y%m%d)
+qsub -N msp_h qsub_multi_pda.sh --hetero --prefix=msp_h$(date +%Y%m%d)
+qsub -N msp qsub_multi_pda.sh --prefix=msp$(date +%Y%m%d)

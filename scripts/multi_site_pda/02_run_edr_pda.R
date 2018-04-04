@@ -14,7 +14,8 @@ parser <- OptionParser() %>%
   add_option("--ncores", action = "store", default = 1, type = "double") %>%
   add_option("--prefix", action = "store", default = "multi_site_pda_test", type = "character")
 
-argl <- parse_args(parser, args = "--geo")
+argl <- parse_args(parser)
+print(argl)
 
 # Configuration for geo
 if (argl$geo) {
@@ -91,7 +92,7 @@ model <- function(params) {
 # Set up prior
 ############################################################
 message("Setting up prior")
-prior <- create_prior(fix_allom2 = argl$fix_allom2, heteroskedastic = argl$hetero)
+prior <- create_prior(fix_allom2 = argl$fix_allom2, heteroskedastic = argl$hetero, verbose = TRUE)
 message("Testing prior sampler and density functions.")
 prior_samps <- check_prior(prior, error = FALSE, progress = FALSE)
 if (attr(prior_samps, "n_invalid") > 15) {
@@ -141,7 +142,9 @@ custom_settings <- list(
   init = list(iterations = 500),
   loop = list(iterations = 200),
   other = list(
-    save_progress = file.path(pda_dir, "progress.rds")
+    save_progress = file.path(pda_dir, "progress.rds"),
+    heteroskedastic = argl$hetero,
+    threshold = 1.15
   )
 )
 samples <- invert_bt(observed, model, prior, custom_settings = custom_settings)
