@@ -12,7 +12,8 @@ Imports:
     mvtnorm,
     purrr,
     magrittr,
-    tibble
+    tibble,
+    progress
 Suggests:
     testthat
 License: MIT License
