@@ -9,4 +9,5 @@ mkdir -p logs
 /usr3/graduate/ashiklom/.singularity/Rscript scripts/multi_site_pda/02_run_edr_pda.R \
     --geo \
     --ncores=16 \
+    --resume \
     $@

@@ -7,14 +7,16 @@ library(foreach)
 library(doParallel)
 library(optparse)
 
-parser <- OptionParser() %>%
+argl <- OptionParser() %>%
   add_option("--hetero", action = "store_true", default = FALSE) %>%
   add_option("--fix_allom2", action = "store_true", default = FALSE) %>%
   add_option("--geo", action = "store_true", default = FALSE) %>%
   add_option("--ncores", action = "store", default = 1, type = "double") %>%
-  add_option("--prefix", action = "store", default = "multi_site_pda_test", type = "character")
+  add_option("--prefix", action = "store", default = "multi_site_pda_test", type = "character") %>%
+  add_option("--resume", action = "store_true", default = FALSE) %>%
+  parse_args()
+  #parse_args(c("--hetero", "--fix_allom2", "--resume", "--geo", "--ncores=16"))
 
-argl <- parse_args(parser)
 print(argl)
 
 # Configuration for geo
@@ -26,13 +28,15 @@ if (argl$geo) {
   edr_exe_path <- NULL
 }
 
-orig_pda_dir <- here("ed-outputs", "multi_site_pda")
 pda_dir <- here("ed-outputs", argl$prefix)
-dir.create(pda_dir, showWarnings = FALSE)
 
-message("Copying run data to: ", pda_dir)
-system2("rsync", c("-az", paste0(orig_pda_dir, "/"), pda_dir))
-message("Done!")
+if (!argl$resume) {
+  orig_pda_dir <- here("ed-outputs", "multi_site_pda")
+  dir.create(pda_dir, showWarnings = FALSE)
+  message("Copying run data to: ", pda_dir)
+  system2("rsync", c("-az", paste0(orig_pda_dir, "/"), pda_dir))
+  message("Done!")
+}
 
 sites <- readLines(here("other_site_data", "site_list"))
 
@@ -147,5 +151,22 @@ custom_settings <- list(
     threshold = 1.15
   )
 )
-samples <- invert_bt(observed, model, prior, custom_settings = custom_settings)
+
+if (argl$resume) {
+  tstamp <- strftime(Sys.time(), "%Y%m%d_%H%M%S")
+  old_resultfile <- custom_settings$other$save_progress
+  file.copy(old_resultfile, paste0(old_resultfile, ".", tstamp))
+  old_samples <- readRDS(old_resultfile)
+  samples <- sample_until_converged(
+    bt_input = old_samples,
+    first_settings = custom_settings$init,
+    loop_settings = custom_settings$loop,
+    threshold = 1.2,
+    min_samples = 1,
+    save_progress = old_resultfile
+  )
+} else {
+  samples <- invert_bt(observed, model, prior, custom_settings = custom_settings)
+}
+
 saveRDS(samples, file.path(pda_dir, "results.rds"))
