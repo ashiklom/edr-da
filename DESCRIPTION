@@ -1,6 +1,6 @@
 Package: redr
 Title: ED2 RTM testing functions
-Version: 0.0.0.9001
+Version: 0.0.0.9002
 Authors@R: person("Alexey", "Shiklomanov", email = "ashiklom@bu.edu", role = c("aut", "cre"))
 Description: Facilitates running ED2 and EDR under certain test cases
 Depends: 
