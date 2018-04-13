@@ -10,6 +10,15 @@ setup_edr_multisite <- function(sites, pda_dir) {
   )
   ed2in_sites <- purrr::map(ed2in_paths, read_ed2in)
   edr_paths <- file.path(pda_dir, sites, "edr")
-  site_setup <- purrr::map2(ed2in_sites, edr_paths, setup_edr)
+  met_paths <- file.path(pda_dir, sites, "ED_MET_DRIVER_HEADER")
+  stopifnot(all(file.exists(met_paths)))
+  site_setup <- purrr::pmap(
+    list(
+      ed2in = ed2in_sites,
+      output_dir = edr_paths,
+      ED_MET_DRIVER_DB = met_paths
+    ),
+    setup_edr
+  )
   site_setup
 }
