@@ -41,6 +41,7 @@ dallom1 <- function(traits, log = TRUE) {
   ld
 }
 
+#' @export
 prior_clumping <- c(0, 1)
 
 #' Priors on other EDR parameters
@@ -62,6 +63,7 @@ dclumping <- function(traits, log = TRUE) {
   out
 }
 
+#' @export
 prior_orient <- c(6, 4) * 3
 
 #' @rdname rclumping
@@ -81,6 +83,7 @@ dorient <- function(traits, log = TRUE) {
   out
 }
 
+#' @export
 prior_residual <- c(0.01, 0.01)
 
 #' @rdname rclumping
@@ -98,6 +101,7 @@ dresidual <- function(params, log = TRUE) {
     setNames("residual")
 }
 
+#' @export
 prior_residual2 <- list(
   intercept = c(0, 0.5),
   slope = c(0, 10)
