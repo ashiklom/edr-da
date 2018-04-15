@@ -41,14 +41,16 @@ avgs <- site_df3 %>%
   mutate(site_label = str_extract(site_name, "^.*?_") %>% str_remove("_")) %>%
   ungroup()
 
-select_labels <- c("NC17", "PB11", "OF05", "SF01", "BI08", "BI02")
-
+select_labels <- readLines("other_site_data/selected_sites")
 avgs_select <- avgs %>%
-  mutate(selected = site_label %in% select_labels)
-
-ggplot(avgs_select) +
+  mutate(
+    selected = site_label %in% select_labels,
+    fontface = if_else(selected, "bold", "plain")
+  )
+plt <- ggplot(avgs_select) +
   aes(x = tot_dens, y = mean_dbh, color = frac_evergreen, label = site_label) +
   geom_point(aes(size = selected)) +
-  geom_text_repel(max.iter = 2000, min.segment.length = 0.2) +
+  geom_text_repel(aes(fontface = fontface), max.iter = 2000, min.segment.length = 0.2) +
   scale_color_continuous(high = "brown", low = "green4") +
-  scale_size_manual(values = c(`TRUE` = 3, `FALSE` = 1))
+  scale_size_manual(values = c(`TRUE` = 4, `FALSE` = 0.8))
+ggsave("figures/selected_sites.pdf", plt)
