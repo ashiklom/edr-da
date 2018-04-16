@@ -1,0 +1,237 @@
+sites,latitude,longitude,depth_top_cm,depth_bottom_cm,texture_code,texture_description,horizon_name
+AK06_site_1-25663,44.3211,-73.8991,0,3,HPM,Highly decomposed plant material,Oa
+AK06_site_1-25663,44.3211,-73.8991,3,8,FSL,Fine sandy loam,E
+AK06_site_1-25663,44.3211,-73.8991,8,13,FSL,Fine sandy loam,Bh
+AK06_site_1-25663,44.3211,-73.8991,13,36,FSL,Fine sandy loam,Bs1
+AK06_site_1-25663,44.3211,-73.8991,36,69,CB-FSL,Cobbly fine sandy loam,Bs2
+AK06_site_1-25663,44.3211,-73.8991,69,94,CBV-FSL,Very cobbly fine sandy loam,Cd1
+AK06_site_1-25663,44.3211,-73.8991,94,183,CBV-LS,Very cobbly loamy sand,Cd2
+AK60_site_1-25674,43.5821,-74.5107,0,15,L,Loam,A
+AK60_site_1-25674,43.5821,-74.5107,15,25,SL,Sandy loam,E
+AK60_site_1-25674,43.5821,-74.5107,25,74,SL,Sandy loam,H3
+AK60_site_1-25674,43.5821,-74.5107,74,99,SL,Sandy loam,Cd
+AK60_site_1-25674,43.5821,-74.5107,99,119,UWB,Unweathered bedrock,R
+BH02_site_1-25665,43.3724,-89.9071,0,10,UWB,Unweathered bedrock,H1
+BH03_site_1-25666,43.3919,-89.8454,0,15,ST-SIL,Stony silt loam,H1
+BH03_site_1-25666,43.3919,-89.8454,15,86,CB-SIL,Cobbly silt loam,H2
+BH03_site_1-25666,43.3919,-89.8454,86,97,UWB,Unweathered bedrock,H3
+BH05_site_1-25667,43.408,-89.8231,0,15,ST-SIL,Stony silt loam,H1
+BH05_site_1-25667,43.408,-89.8231,15,86,CB-SIL,Cobbly silt loam,H2
+BH05_site_1-25667,43.408,-89.8231,86,97,UWB,Unweathered bedrock,H3
+BH06_site_1-25668,43.4288,-89.8293,0,15,ST-SIL,Stony silt loam,H1
+BH06_site_1-25668,43.4288,-89.8293,15,86,CB-SIL,Cobbly silt loam,H2
+BH06_site_1-25668,43.4288,-89.8293,86,97,UWB,Unweathered bedrock,H3
+BH07_site_1-25669,43.4199,-89.8011,0,15,ST-SIL,Stony silt loam,H1
+BH07_site_1-25669,43.4199,-89.8011,15,86,CB-SIL,Cobbly silt loam,H2
+BH07_site_1-25669,43.4199,-89.8011,86,97,UWB,Unweathered bedrock,H3
+BH10_site_1-25670,43.4052,-89.7619,0,15,ST-SIL,Stony silt loam,H1
+BH10_site_1-25670,43.4052,-89.7619,15,86,CB-SIL,Cobbly silt loam,H2
+BH10_site_1-25670,43.4052,-89.7619,86,97,UWB,Unweathered bedrock,H3
+BH12_site_1-25671,43.3935,-89.7401,0,15,ST-SIL,Stony silt loam,H1
+BH12_site_1-25671,43.3935,-89.7401,15,86,CB-SIL,Cobbly silt loam,H2
+BH12_site_1-25671,43.3935,-89.7401,86,97,UWB,Unweathered bedrock,H3
+BH14_site_1-25672,43.4157,-89.7235,0,15,ST-SIL,Stony silt loam,H1
+BH14_site_1-25672,43.4157,-89.7235,15,86,CB-SIL,Cobbly silt loam,H2
+BH14_site_1-25672,43.4157,-89.7235,86,97,UWB,Unweathered bedrock,H3
+BI01_site_1-25676,43.6519,-89.7885,0,23,SIL,Silt loam,Ap
+BI01_site_1-25676,43.6519,-89.7885,23,71,L,Loam,"Bt1, Bt2"
+BI01_site_1-25676,43.6519,-89.7885,71,81,L,Loam,2Bt3
+BI01_site_1-25676,43.6519,-89.7885,81,99,CN-S,Channery sand,3C
+BI01_site_1-25676,43.6519,-89.7885,99,152,WB,Weathered bedrock,3Cr
+BI02_site_1-25673,43.652,-89.7916,0,23,SIL,Silt loam,Ap
+BI02_site_1-25673,43.652,-89.7916,23,71,L,Loam,"Bt1, Bt2"
+BI02_site_1-25673,43.652,-89.7916,71,81,L,Loam,2Bt3
+BI02_site_1-25673,43.652,-89.7916,81,99,CN-S,Channery sand,3C
+BI02_site_1-25673,43.652,-89.7916,99,152,WB,Weathered bedrock,3Cr
+BI03_site_1-25677,43.6507,-89.79,0,23,SIL,Silt loam,Ap
+BI03_site_1-25677,43.6507,-89.79,23,71,L,Loam,"Bt1, Bt2"
+BI03_site_1-25677,43.6507,-89.79,71,81,L,Loam,2Bt3
+BI03_site_1-25677,43.6507,-89.79,81,99,CN-S,Channery sand,3C
+BI03_site_1-25677,43.6507,-89.79,99,152,WB,Weathered bedrock,3Cr
+BI04_site_1-25678,43.6514,-89.7955,0,23,SL,Sandy loam,Ap
+BI04_site_1-25678,43.6514,-89.7955,23,69,SL,Sandy loam,Bt
+BI04_site_1-25678,43.6514,-89.7955,69,79,LS,Loamy sand,2BC
+BI04_site_1-25678,43.6514,-89.7955,79,99,S,Sand,2C
+BI04_site_1-25678,43.6514,-89.7955,99,152,WB,Weathered bedrock,2Cr
+BI05_site_1-25679,43.6499,-89.8001,0,20,MUCK,Muck,Oa1
+BI05_site_1-25679,43.6499,-89.8001,20,69,MUCK,Muck,Oa2
+BI05_site_1-25679,43.6499,-89.8001,69,200,S,Sand,C
+BI06_site_1-25680,43.6491,-89.7962,0,5,FSL,Fine sandy loam,A
+BI06_site_1-25680,43.6491,-89.7962,5,71,FSL,Fine sandy loam,"Bw1,Bw2"
+BI06_site_1-25680,43.6491,-89.7962,71,91,FSL,Fine sandy loam,Bw3
+BI06_site_1-25680,43.6491,-89.7962,91,152,WB,Weathered bedrock,Cr
+BI07_site_1-25732,43.6523,-89.7945,0,15,L,Loam,Ap
+BI07_site_1-25732,43.6523,-89.7945,15,30,CN-L,Channery loam,2Bw
+BI07_site_1-25732,43.6523,-89.7945,30,200,BR,Bedrock,2Cr
+BI08_site_1-25733,43.6526,-89.7971,0,5,FSL,Fine sandy loam,A
+BI08_site_1-25733,43.6526,-89.7971,5,71,FSL,Fine sandy loam,"Bw1,Bw2"
+BI08_site_1-25733,43.6526,-89.7971,71,91,FSL,Fine sandy loam,Bw3
+BI08_site_1-25733,43.6526,-89.7971,91,152,WB,Weathered bedrock,Cr
+BI09_site_1-25734,43.6531,-89.7899,0,23,SIL,Silt loam,Ap
+BI09_site_1-25734,43.6531,-89.7899,23,107,SIL,Silt loam,Bt
+BI09_site_1-25734,43.6531,-89.7899,107,137,SL,Sandy loam,2Bt
+BI09_site_1-25734,43.6531,-89.7899,107,137,L,Loam,2Bt
+BI09_site_1-25734,43.6531,-89.7899,137,163,S,Sand,3C
+BI09_site_1-25734,43.6531,-89.7899,163,203,WB,Weathered bedrock,3Cr
+BI10_site_1-25735,43.6511,-89.7871,0,23,SIL,Silt loam,Ap
+BI10_site_1-25735,43.6511,-89.7871,23,71,L,Loam,"Bt1, Bt2"
+BI10_site_1-25735,43.6511,-89.7871,71,81,L,Loam,2Bt3
+BI10_site_1-25735,43.6511,-89.7871,81,99,CN-S,Channery sand,3C
+BI10_site_1-25735,43.6511,-89.7871,99,152,WB,Weathered bedrock,3Cr
+GR08_site_1-25681,39.695,-78.4661,0,15,CN-SIL,Channery silt loam,A
+GR08_site_1-25681,39.695,-78.4661,15,30,CNV-SIL,Very channery silt loam,Bw
+GR08_site_1-25681,39.695,-78.4661,30,38,CNX-SIL,Extremely channery silt loam,C
+GR08_site_1-25681,39.695,-78.4661,38,63,BR,Bedrock,R
+IDS05_site_1-25682,39.6533,-78.4968,0,3,SPM,Slightly decomposed plant material,Oi
+IDS05_site_1-25682,39.6533,-78.4968,3,13,CN-SIL,Channery silt loam,A
+IDS05_site_1-25682,39.6533,-78.4968,13,25,CNV-SIL,Very channery silt loam,Bw
+IDS05_site_1-25682,39.6533,-78.4968,25,33,CNX-SIL,Extremely channery silt loam,C
+IDS05_site_1-25682,39.6533,-78.4968,33,58,BR,Bedrock,R
+IDS10_site_1-25683,39.6731,-78.423,0,15,GR-SL,Gravelly sandy loam,A
+IDS10_site_1-25683,39.6731,-78.423,15,38,CNV-SL,Very channery sandy loam,Bw
+IDS10_site_1-25683,39.6731,-78.423,38,61,FLX-SL,Extremely flaggy sandy loam,C
+IDS10_site_1-25683,39.6731,-78.423,61,86,BR,Bedrock,R
+IDS34_site_1-25684,39.6651,-78.9711,0,15,STX-L,Extremely stony loam,H1
+IDS35_site_1-25685,39.6117,-79.0838,0,13,STX-L,Extremely stony loam,H1
+IDS36_site_1-25686,39.6119,-79.0854,0,20,CN-L,Channery loam,H1
+IDS40_site_1-25687,39.5572,-79.2098,0,20,STV-SL,Very stony sandy loam,H1
+NC07_site_1-25693,45.9758,-90.2195,0,8,SL,Sandy loam,A
+NC07_site_1-25693,45.9758,-90.2195,8,20,SL,Sandy loam,E
+NC07_site_1-25693,45.9758,-90.2195,20,38,GR-SL,Gravelly sandy loam,Bs
+NC07_site_1-25693,45.9758,-90.2195,38,53,GR-COS,Gravelly coarse sand,2BC
+NC07_site_1-25693,45.9758,-90.2195,53,152,SR- S GRV-COS,Stratified sand to very gravelly coarse sand,2C
+NC09_site_1-25695,45.9714,-90.284,0,165,MUCK,Muck,Oa
+NC10_site_1-25696,45.9583,-90.2257,0,165,MUCK,Muck,Oa
+NC12_site_1-25698,45.9518,-90.2509,0,8,SL,Sandy loam,A
+NC12_site_1-25698,45.9518,-90.2509,8,20,SL,Sandy loam,E
+NC12_site_1-25698,45.9518,-90.2509,20,38,GR-SL,Gravelly sandy loam,Bs
+NC12_site_1-25698,45.9518,-90.2509,38,53,GR-COS,Gravelly coarse sand,2BC
+NC12_site_1-25698,45.9518,-90.2509,53,152,SR- S GRV-COS,Stratified sand to very gravelly coarse sand,2C
+NC16_site_1-25700,45.9586,-90.244,0,5,LS,Loamy sand,A
+NC16_site_1-25700,45.9586,-90.244,5,10,LS,Loamy sand,E
+NC16_site_1-25700,45.9586,-90.244,10,18,LS,Loamy sand,Bs1
+NC16_site_1-25700,45.9586,-90.244,18,36,S,Sand,Bs2
+NC16_site_1-25700,45.9586,-90.244,36,56,GR-S,Gravelly sand,BC
+NC16_site_1-25700,45.9586,-90.244,56,152,SR- S GRV-COS,Stratified sand to very gravelly coarse sand,C
+NC17_site_1-25701,45.9448,-90.2591,0,10,FSL,Fine sandy loam,A
+NC17_site_1-25701,45.9448,-90.2591,10,23,FSL,Fine sandy loam,Bhs
+NC17_site_1-25701,45.9448,-90.2591,23,36,FSL,Fine sandy loam,Bs
+NC17_site_1-25701,45.9448,-90.2591,36,64,FSL,Fine sandy loam,B/E
+NC17_site_1-25701,45.9448,-90.2591,64,84,SL,Sandy loam,2Bt
+NC17_site_1-25701,45.9448,-90.2591,84,147,GR-LS,Gravelly loamy sand,3BCd
+NC17_site_1-25701,45.9448,-90.2591,147,203,GR-LS,Gravelly loamy sand,3Cd
+NC18_site_1-25702,45.9593,-90.2645,0,3,MPM,Moderately decomposed plant material,Oe
+NC18_site_1-25702,45.9593,-90.2645,3,5,LS,Loamy sand,A
+NC18_site_1-25702,45.9593,-90.2645,5,13,LS,Loamy sand,E
+NC18_site_1-25702,45.9593,-90.2645,13,56,LS,Loamy sand,Bs1
+NC18_site_1-25702,45.9593,-90.2645,56,86,S,Sand,"Bs2,Bs3"
+NC18_site_1-25702,45.9593,-90.2645,86,99,S,Sand,E'
+NC18_site_1-25702,45.9593,-90.2645,99,196,S LS,"Sand, loamy sand",E and Bt
+NC18_site_1-25702,45.9593,-90.2645,196,203,S,Sand,C
+NC19_site_1-25703,45.9364,-90.199700000000007,0,3,LS,Loamy sand,A
+NC19_site_1-25703,45.9364,-90.199700000000007,3,18,LS,Loamy sand,E
+NC19_site_1-25703,45.9364,-90.199700000000007,18,41,LS,Loamy sand,Bs
+NC19_site_1-25703,45.9364,-90.199700000000007,41,99,S,Sand,BC
+NC19_site_1-25703,45.9364,-90.199700000000007,99,152,S,Sand,C
+NC21_site_1-25704,45.9706,-90.2676,0,5,HPM,Highly decomposed plant material,Oa
+NC21_site_1-25704,45.9706,-90.2676,5,13,LS,Loamy sand,E
+NC21_site_1-25704,45.9706,-90.2676,13,20,LS,Loamy sand,Bhs
+NC21_site_1-25704,45.9706,-90.2676,20,41,LS,Loamy sand,Bs
+NC21_site_1-25704,45.9706,-90.2676,41,71,S,Sand,BC
+NC21_site_1-25704,45.9706,-90.2676,71,152,S,Sand,C
+NC22_site_1-25705,45.8053,-90.0805,0,10,FSL,Fine sandy loam,A
+NC22_site_1-25705,45.8053,-90.0805,10,13,FSL,Fine sandy loam,E
+NC22_site_1-25705,45.8053,-90.0805,13,33,FSL,Fine sandy loam,Bs
+NC22_site_1-25705,45.8053,-90.0805,33,43,GR-SL,Gravelly sandy loam,E'
+NC22_site_1-25705,45.8053,-90.0805,43,74,GR-SL,Gravelly sandy loam,E/B
+NC22_site_1-25705,45.8053,-90.0805,74,94,GR-SL,Gravelly sandy loam,B/E
+NC22_site_1-25705,45.8053,-90.0805,94,117,GR-SL,Gravelly sandy loam,Bt
+NC22_site_1-25705,45.8053,-90.0805,117,147,SL,Sandy loam,BCd
+NC22_site_1-25705,45.8053,-90.0805,147,152,SL,Sandy loam,Cd
+NC23_site_1-25706,45.8027,-90.0797,0,10,FSL,Fine sandy loam,A
+NC23_site_1-25706,45.8027,-90.0797,10,13,FSL,Fine sandy loam,E
+NC23_site_1-25706,45.8027,-90.0797,13,33,FSL,Fine sandy loam,Bs
+NC23_site_1-25706,45.8027,-90.0797,33,43,GR-SL,Gravelly sandy loam,E'
+NC23_site_1-25706,45.8027,-90.0797,43,74,GR-SL,Gravelly sandy loam,E/B
+NC23_site_1-25706,45.8027,-90.0797,74,94,GR-SL,Gravelly sandy loam,B/E
+NC23_site_1-25706,45.8027,-90.0797,94,117,GR-SL,Gravelly sandy loam,Bt
+NC23_site_1-25706,45.8027,-90.0797,117,147,SL,Sandy loam,BCd
+NC23_site_1-25706,45.8027,-90.0797,147,152,SL,Sandy loam,Cd
+OF01_site_1-25707,46.1935,-89.2415,0,51,MUCK,Muck,Oa1
+OF01_site_1-25707,46.1935,-89.2415,51,203,MUCK,Muck,Oa2
+OF02_site_1-25708,46.3468,-89.1812,0,5,HPM,Highly decomposed plant material,Oa
+OF02_site_1-25708,46.3468,-89.1812,5,10,LS,Loamy sand,E
+OF02_site_1-25708,46.3468,-89.1812,10,18,LS,Loamy sand,Bs1
+OF02_site_1-25708,46.3468,-89.1812,18,43,LS,Loamy sand,Bs2
+OF02_site_1-25708,46.3468,-89.1812,43,56,COS,Coarse sand,Bs3
+OF02_site_1-25708,46.3468,-89.1812,56,89,S,Sand,BC
+OF02_site_1-25708,46.3468,-89.1812,89,203,COS,Coarse sand,C
+OF04_site_1-25709,46.2674,-89.3014,0,2,MPM,Moderately decomposed plant material,Oe
+OF04_site_1-25709,46.2674,-89.3014,2,15,LFS,Loamy fine sand,E
+OF04_site_1-25709,46.2674,-89.3014,15,21,LFS,Loamy fine sand,Bhs
+OF04_site_1-25709,46.2674,-89.3014,21,38,LFS,Loamy fine sand,Bs1
+OF04_site_1-25709,46.2674,-89.3014,38,45,FS,Fine sand,Bs2
+OF04_site_1-25709,46.2674,-89.3014,45,70,FS,Fine sand,BC
+OF04_site_1-25709,46.2674,-89.3014,70,203,FS,Fine sand,C
+OF05_site_1-25710,46.3023,-89.2381,0,3,SPM,Slightly decomposed plant material,Oi
+OF05_site_1-25710,46.3023,-89.2381,3,13,FSL,Fine sandy loam,A
+OF05_site_1-25710,46.3023,-89.2381,13,20,SIL,Silt loam,E
+OF05_site_1-25710,46.3023,-89.2381,20,30,SIL,Silt loam,Bhs
+OF05_site_1-25710,46.3023,-89.2381,30,51,FSL,Fine sandy loam,Bs
+OF05_site_1-25710,46.3023,-89.2381,51,84,GR-FSL,Gravelly fine sandy loam,2E/Bx
+OF05_site_1-25710,46.3023,-89.2381,84,124,FSL,Fine sandy loam,2B/Ex
+OF05_site_1-25710,46.3023,-89.2381,124,137,FSL,Fine sandy loam,2Bt
+OF05_site_1-25710,46.3023,-89.2381,137,173,FSL,Fine sandy loam,2BC
+OF05_site_1-25710,46.3023,-89.2381,173,203,GR-S,Gravelly sand,3C
+PB03_site_1-25711,46.7961,-90.9486,0,10,SIL,Silt loam,A
+PB03_site_1-25711,46.7961,-90.9486,10,23,SIL,Silt loam,E/B
+PB03_site_1-25711,46.7961,-90.9486,23,81,C,Clay,Bt
+PB03_site_1-25711,46.7961,-90.9486,81,130,C,Clay,Btk
+PB03_site_1-25711,46.7961,-90.9486,130,203,SR- VFS SI,Stratified very fine sand to silt,2C
+PB05_site_1-25712,46.3524,-91.6614,0,3,S,Sand,A
+PB05_site_1-25712,46.3524,-91.6614,3,15,S,Sand,E
+PB05_site_1-25712,46.3524,-91.6614,15,46,S,Sand,Bs
+PB05_site_1-25712,46.3524,-91.6614,46,91,S,Sand,BC
+PB05_site_1-25712,46.3524,-91.6614,91,152,S,Sand,C
+PB07_site_1-25713,46.4402,-91.4676,0,3,S,Sand,A
+PB07_site_1-25713,46.4402,-91.4676,3,15,S,Sand,E
+PB07_site_1-25713,46.4402,-91.4676,15,46,S,Sand,Bs
+PB07_site_1-25713,46.4402,-91.4676,46,91,S,Sand,BC
+PB07_site_1-25713,46.4402,-91.4676,91,152,S,Sand,C
+PB08_site_1-25714,46.4427,-91.4905,0,3,S,Sand,A
+PB08_site_1-25714,46.4427,-91.4905,3,15,S,Sand,E
+PB08_site_1-25714,46.4427,-91.4905,15,46,S,Sand,Bs
+PB08_site_1-25714,46.4427,-91.4905,46,91,S,Sand,BC
+PB08_site_1-25714,46.4427,-91.4905,91,152,S,Sand,C
+PB09_site_1-25715,46.4325,-91.5199,0,3,S,Sand,A
+PB09_site_1-25715,46.4325,-91.5199,3,15,S,Sand,E
+PB09_site_1-25715,46.4325,-91.5199,15,46,S,Sand,Bs
+PB09_site_1-25715,46.4325,-91.5199,46,91,S,Sand,BC
+PB09_site_1-25715,46.4325,-91.5199,91,152,S,Sand,C
+PB10_site_1-25716,46.4331,-91.5476,0,3,S,Sand,A
+PB10_site_1-25716,46.4331,-91.5476,3,15,S,Sand,E
+PB10_site_1-25716,46.4331,-91.5476,15,46,S,Sand,Bs
+PB10_site_1-25716,46.4331,-91.5476,46,91,S,Sand,BC
+PB10_site_1-25716,46.4331,-91.5476,91,152,S,Sand,C
+PB11_site_1-25717,45.6914,-92.8316,0,10,S,Sand,A
+PB11_site_1-25717,45.6914,-92.8316,10,74,S,Sand,Bw
+PB11_site_1-25717,45.6914,-92.8316,74,152,S,Sand,C
+PB12_site_1-25718,45.9405,-92.478,0,8,LS,Loamy sand,A
+PB12_site_1-25718,45.9405,-92.478,8,76,LS,Loamy sand,Bw
+PB12_site_1-25718,45.9405,-92.478,76,114,SL,Sandy loam,2Bt
+PB12_site_1-25718,45.9405,-92.478,114,203,SL,Sandy loam,2BCd
+PB13_site_1-25719,46.1367,-91.9892,0,15,S,Sand,A
+PB13_site_1-25719,46.1367,-91.9892,15,84,S,Sand,Bw
+PB13_site_1-25719,46.1367,-91.9892,84,152,S,Sand,C
+PB14_site_1-25736,46.4307,-91.5292,0,3,S,Sand,A
+PB14_site_1-25736,46.4307,-91.5292,3,15,S,Sand,E
+PB14_site_1-25736,46.4307,-91.5292,15,46,S,Sand,Bs
+PB14_site_1-25736,46.4307,-91.5292,46,91,S,Sand,BC
+PB14_site_1-25736,46.4307,-91.5292,91,152,S,Sand,C
+SF03_site_1-25721,47.7745,-92.4586,0,5,LS,Loamy sand,A
+SF03_site_1-25721,47.7745,-92.4586,5,94,LS,Loamy sand,Bw
+SF03_site_1-25721,47.7745,-92.4586,94,122,S,Sand,E and Bt
+SF03_site_1-25721,47.7745,-92.4586,122,203,COS,Coarse sand,C
+SF04_site_1-25722,47.7529,-92.4692,0,25,PEAT,Peat,Oi
+SF04_site_1-25722,47.7529,-92.4692,25,61,MPT,Mucky peat,Oe1
+SF04_site_1-25722,47.7529,-92.4692,61,203,MPT,Mucky peat,Oe2
