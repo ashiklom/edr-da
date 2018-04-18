@@ -1,0 +1,4 @@
+#!/bin/bash
+
+grep "execution ends" logs_ed/* > runs_finished
+grep -i "fatal error" logs_ed/* > runs_errors
