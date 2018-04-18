@@ -2,7 +2,8 @@ library(tidyverse)
 library(redr)
 library(PEcAn.ED2)
 import::from(here, here)
-import::from(ggrepel, geom_text_repel)
+import::from(ggrepel, geom_text_repel, geom_label_repel)
+import::from(maps, geogmap = map)
 
 site_dir <- here("sites")
 site_list <- list.files(site_dir)
@@ -73,3 +74,31 @@ plt <- ggplot(avgs_select) +
     legend.justification = c(1, 1)
   )
 ggsave("figures/selected_sites.pdf", plt)
+
+mapdat <- geogmap("state", plot = FALSE, fill = TRUE) %>%
+  tidy() %>%
+  as_tibble()
+
+avgs_select %>%
+  arrange(selected) %>%
+  ggplot() +
+  aes(x = longitude, y = latitude, color = frac_evergreen) +
+  geom_polygon(aes(x = long, y = lat, group = group), data = mapdat,
+               color = "grey50", fill = NA) +
+  geom_point() +
+  geom_label_repel(
+    aes(label = site_label),
+    max.iter = 2000, min.segment.length = 0.2,
+    point.padding = 0.5,
+    label.padding = 0.1,
+    data = filter(avgs_select, selected)
+  ) +
+  coord_map("sinusoidal", xlim = c(-100, -70), ylim = c(35, 50)) +
+  scale_color_continuous(high = "brown", low = "green4") +
+  scale_size_manual(values = c(`TRUE` = 3, `FALSE` = 1.2)) +
+  guides(color = FALSE) +
+  theme_bw() +
+  theme(
+    axis.title = element_blank()
+  ) -> plt2
+ggsave("figures/sitemap.pdf", plt2, width = 7, height = 5)
