@@ -18,7 +18,7 @@ run-ed/template/ed_2.1
 ed-outputs
 ed-outputs-remote
 inversion
-logs
+logs*
 pda_progress*
 pda_results*
 priors/allometry
@@ -61,3 +61,14 @@ ss_*.po*
 old_pdfs
 old_rdata
 multi_site_pda_results
+
+# Automatically generated scripts
+qsub_ed_*_site*.sh
+
+# Met data
+NARR
+ED_NARR
+NARR_info.rds
+
+# Other data
+ed-inputs/istem-posteriors/temperate.*
