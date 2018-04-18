@@ -33,7 +33,10 @@ avgs <- site_df3 %>%
   summarize(
     mean_dbh = mean(dbh, na.rm = TRUE),
     tot_dens = sum(n, na.rm = TRUE),
-    frac_evergreen = weighted.mean(
+    frac_evergreen = mean(
+      grepl("conifer|pine", pft_name, ignore.case = TRUE)
+    ),
+    frac_evergreen_wtd = weighted.mean(
       grepl("conifer|pine", pft_name, ignore.case = TRUE),
       dbh
     )
@@ -50,7 +53,23 @@ avgs_select <- avgs %>%
 plt <- ggplot(avgs_select) +
   aes(x = tot_dens, y = mean_dbh, color = frac_evergreen, label = site_label) +
   geom_point(aes(size = selected)) +
-  geom_text_repel(aes(fontface = fontface), max.iter = 2000, min.segment.length = 0.2) +
+  geom_text_repel(
+    aes(fontface = fontface),
+    max.iter = 2000, min.segment.length = 1,
+    point.padding = 0.5,
+    data = filter(avgs_select, selected)
+  ) +
   scale_color_continuous(high = "brown", low = "green4") +
-  scale_size_manual(values = c(`TRUE` = 4, `FALSE` = 0.8))
+  scale_size_manual(values = c(`TRUE` = 3, `FALSE` = 1.2)) +
+  labs(
+    color = "Frac. evergreen",
+    size = "Site of interest",
+    x = expression("Stem density" ~ ("trees"~"ha"^-1)),
+    y = "Mean DBH (cm)"
+  ) +
+  theme_bw() +
+  theme(
+    legend.position = c(0.98, 0.98),
+    legend.justification = c(1, 1)
+  )
 ggsave("figures/selected_sites.pdf", plt)
