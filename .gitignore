@@ -24,6 +24,7 @@ pda_progress*
 pda_results*
 priors/allometry
 ed-inputs/ed-inputs
+proc_results
 
 # redr tests
 redr/tests/testthat/edr-testthat-outdir/
