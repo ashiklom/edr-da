@@ -21,8 +21,7 @@ site2landsat <- function(sitefile, landsat = "landsat7", pb = NULL) {
   dl <- dlandsat %>%
     filter(landsat == !!landsat) %>%
     select(-landsat, -wavelength) %>%
-    spread(band, value) %>%
-    mutate(NDVI = `4` / `3`)
+    spread(band, value)
   dlsummary <- dl %>%
     group_by(date, site) %>%
     summarize_at(
@@ -41,17 +40,3 @@ results <- results_flipped$result %>% bind_rows()
 results_dir <- inhere("proc_results")
 dir.create(results_dir, showWarnings = FALSE)
 saveRDS(results, file.path(results_dir, "landsat7_spectra.rds"))
-
-i <- imguR::imgur("png")
-ggplot(results) +
-  aes(
-    x = date, y = NDVI_Mean,
-    ymin = NDVI_Mean - NDVI_SD,
-    ymax = NDVI_Mean + NDVI_SD,
-    fill = site
-  ) +
-  geom_ribbon() +
-  geom_line() +
-  facet_wrap(~site)
-i <- imguR::imgur_off(i)
-i$link
