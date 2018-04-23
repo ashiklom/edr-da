@@ -1,0 +1,753 @@
+variable,type,size_per_group,group_type
+AGE,scalar,1,NA
+AGRI_STOCKING_DENSITY,scalar,1,NA
+AGRI_STOCKING_PFT,scalar,1,NA
+ALBEDO,scalar,1,NA
+ALBEDO_NIR,scalar,1,NA
+ALBEDO_PAR,scalar,1,NA
+AREA,scalar,1,NA
+AREA_SI,scalar,1,NA
+ASPECT,scalar,1,NA
+AVG_DAILY_TEMP,scalar,1,NA
+AVG_MONTHLY_GNDWATER,scalar,1,NA
+AVG_MONTHLY_WATERDEF,scalar,1,NA
+A_DECOMP,scalar,1,NA
+BASEFLOW,scalar,1,NA
+BASEFLOW_SI,scalar,1,NA
+CAN_CO2,scalar,1,NA
+CAN_DEPTH,scalar,1,NA
+CAN_PRSS,scalar,1,NA
+CAN_RHOS,scalar,1,NA
+CAN_SHV,scalar,1,NA
+CAN_TEMP,scalar,1,NA
+CAN_TEMP_PV,scalar,1,NA
+CAN_THEIV,scalar,1,NA
+CAN_THETA,scalar,1,NA
+CAN_VPDEF,scalar,1,NA
+CBUDGET_INITIALSTORAGE,scalar,1,NA
+CBUDGET_NEP,scalar,1,NA
+CCWD_FLUX,scalar,1,NA
+CDEAD_GROW,scalar,1,NA
+CLEAF_GROW,scalar,1,NA
+CLEAF_LITTER_FLUX,scalar,1,NA
+CO2BUDGET_DENSEFFECT,scalar,1,NA
+CO2BUDGET_GPP,scalar,1,NA
+CO2BUDGET_INITIALSTORAGE,scalar,1,NA
+CO2BUDGET_LOSS2ATM,scalar,1,NA
+CO2BUDGET_PLRESP,scalar,1,NA
+CO2BUDGET_RESIDUAL,scalar,1,NA
+CO2BUDGET_RH,scalar,1,NA
+COSAOI,scalar,1,NA
+COSZ,scalar,1,NA
+CPWP,scalar,1,NA
+CROOT_GROW,scalar,1,NA
+CROOT_LITTER_FLUX,scalar,1,NA
+CSTAR,scalar,1,NA
+CSTORE_GROW,scalar,1,NA
+CWD_C_PY,scalar,1,NA
+CWD_N_PY,scalar,1,NA
+CWD_RH,scalar,1,NA
+DAYLIGHT,scalar,1,NA
+DIST_TYPE,scalar,1,NA
+EBUDGET_DENSEFFECT,scalar,1,NA
+EBUDGET_INITIALSTORAGE,scalar,1,NA
+EBUDGET_LOSS2ATM,scalar,1,NA
+EBUDGET_LOSS2DRAINAGE,scalar,1,NA
+EBUDGET_LOSS2RUNOFF,scalar,1,NA
+EBUDGET_NETRAD,scalar,1,NA
+EBUDGET_PRECIPGAIN,scalar,1,NA
+EBUDGET_PRSSEFFECT,scalar,1,NA
+EBUDGET_RESIDUAL,scalar,1,NA
+ELEVATION,scalar,1,NA
+FAST_SOIL_C,scalar,1,NA
+FAST_SOIL_C_PY,scalar,1,NA
+FAST_SOIL_N,scalar,1,NA
+FAST_SOIL_N_PY,scalar,1,NA
+FF_NHGT,scalar,1,NA
+FSC_IN,scalar,1,NA
+FSN_IN,scalar,1,NA
+F_DECOMP,scalar,1,NA
+GGBARE,scalar,1,NA
+GGNET,scalar,1,NA
+GGSOIL,scalar,1,NA
+GGVEG,scalar,1,NA
+GROUND_FLIQ,scalar,1,NA
+GROUND_SHV,scalar,1,NA
+GROUND_SSH,scalar,1,NA
+GROUND_TEMP,scalar,1,NA
+HPREV,scalar,1,NA
+HTRY,scalar,1,NA
+HYDRO_NEXT,scalar,1,NA
+HYDRO_PREV,scalar,1,NA
+IGNITION_RATE,scalar,1,NA
+ISOILFLG,scalar,1,NA
+LATITUDE,scalar,1,NA
+LOAD_ADJACENCY,scalar,1,NA
+LONGITUDE,scalar,1,NA
+LSL,scalar,1,NA
+MINERALIZED_SOIL_N,scalar,1,NA
+MINERAL_SOIL_N_PY,scalar,1,NA
+MIN_MONTHLY_TEMP,scalar,1,NA
+MMEAN_AF_DECOMP_PY,scalar,1,NA
+MMEAN_ALBEDO_NIR_PY,scalar,1,NA
+MMEAN_ALBEDO_PAR_PY,scalar,1,NA
+MMEAN_ALBEDO_PY,scalar,1,NA
+MMEAN_ATM_CO2_PY,scalar,1,NA
+MMEAN_ATM_PAR_DIFF_PY,scalar,1,NA
+MMEAN_ATM_PAR_PY,scalar,1,NA
+MMEAN_ATM_PRSS_PY,scalar,1,NA
+MMEAN_ATM_RHOS_PY,scalar,1,NA
+MMEAN_ATM_RLONG_PY,scalar,1,NA
+MMEAN_ATM_RSHORT_DIFF_PY,scalar,1,NA
+MMEAN_ATM_RSHORT_PY,scalar,1,NA
+MMEAN_ATM_SHV_PY,scalar,1,NA
+MMEAN_ATM_TEMP_PY,scalar,1,NA
+MMEAN_ATM_THEIV_PY,scalar,1,NA
+MMEAN_ATM_THETA_PY,scalar,1,NA
+MMEAN_ATM_VELS_PY,scalar,1,NA
+MMEAN_ATM_VPDEF_PY,scalar,1,NA
+MMEAN_AVAILABLE_WATER_PY,scalar,1,NA
+MMEAN_A_CLOSED_PY,scalar,1,NA
+MMEAN_A_CO2_PY,scalar,1,NA
+MMEAN_A_DECOMP_PY,scalar,1,NA
+MMEAN_A_LIGHT_PY,scalar,1,NA
+MMEAN_A_NET_PY,scalar,1,NA
+MMEAN_A_OPEN_PY,scalar,1,NA
+MMEAN_A_RUBP_PY,scalar,1,NA
+MMEAN_CAN_CO2_PY,scalar,1,NA
+MMEAN_CAN_GGND_PY,scalar,1,NA
+MMEAN_CAN_PRSS_PY,scalar,1,NA
+MMEAN_CAN_RHOS_PY,scalar,1,NA
+MMEAN_CAN_SHV_PY,scalar,1,NA
+MMEAN_CAN_TEMP_PY,scalar,1,NA
+MMEAN_CAN_THEIV_PY,scalar,1,NA
+MMEAN_CAN_THETA_PY,scalar,1,NA
+MMEAN_CAN_VPDEF_PY,scalar,1,NA
+MMEAN_CARBON_AC_PY,scalar,1,NA
+MMEAN_CARBON_ST_PY,scalar,1,NA
+MMEAN_CO2_RESIDUAL_PY,scalar,1,NA
+MMEAN_CSTAR_PY,scalar,1,NA
+MMEAN_CWD_C_PY,scalar,1,NA
+MMEAN_CWD_N_PY,scalar,1,NA
+MMEAN_CWD_RH_PY,scalar,1,NA
+MMEAN_DPCPG_PY,scalar,1,NA
+MMEAN_DRAINAGE_PY,scalar,1,NA
+MMEAN_ENERGY_RESIDUAL_PY,scalar,1,NA
+MMEAN_FAST_SOIL_C_PY,scalar,1,NA
+MMEAN_FAST_SOIL_N_PY,scalar,1,NA
+MMEAN_FSN_PY,scalar,1,NA
+MMEAN_FSW_PY,scalar,1,NA
+MMEAN_FS_OPEN_PY,scalar,1,NA
+MMEAN_GND_SHV_PY,scalar,1,NA
+MMEAN_GND_TEMP_PY,scalar,1,NA
+MMEAN_GPP_PY,scalar,1,NA
+MMEAN_INTERCEPTED_AL_PY,scalar,1,NA
+MMEAN_INTERCEPTED_AW_PY,scalar,1,NA
+MMEAN_LEAF_ENERGY_PY,scalar,1,NA
+MMEAN_LEAF_FLIQ_PY,scalar,1,NA
+MMEAN_LEAF_GBW_PY,scalar,1,NA
+MMEAN_LEAF_GROWTH_RESP_PY,scalar,1,NA
+MMEAN_LEAF_GSW_PY,scalar,1,NA
+MMEAN_LEAF_HCAP_PY,scalar,1,NA
+MMEAN_LEAF_RESP_PY,scalar,1,NA
+MMEAN_LEAF_STORAGE_RESP_PY,scalar,1,NA
+MMEAN_LEAF_TEMP_PY,scalar,1,NA
+MMEAN_LEAF_VPDEF_PY,scalar,1,NA
+MMEAN_LEAF_WATER_PY,scalar,1,NA
+MMEAN_MINERAL_SOIL_N_PY,scalar,1,NA
+MMEAN_NEP_PY,scalar,1,NA
+MMEAN_NIRUP_PY,scalar,1,NA
+MMEAN_NPPCROOT_PY,scalar,1,NA
+MMEAN_NPPDAILY_PY,scalar,1,NA
+MMEAN_NPPFROOT_PY,scalar,1,NA
+MMEAN_NPPLEAF_PY,scalar,1,NA
+MMEAN_NPPSAPWOOD_PY,scalar,1,NA
+MMEAN_NPPSEEDS_PY,scalar,1,NA
+MMEAN_NPPWOOD_PY,scalar,1,NA
+MMEAN_NPP_PY,scalar,1,NA
+MMEAN_PARUP_PY,scalar,1,NA
+MMEAN_PAR_GND_PY,scalar,1,NA
+MMEAN_PAR_L_BEAM_PY,scalar,1,NA
+MMEAN_PAR_L_DIFF_PY,scalar,1,NA
+MMEAN_PAR_L_PY,scalar,1,NA
+MMEAN_PCPG_PY,scalar,1,NA
+MMEAN_PLRESP_PY,scalar,1,NA
+MMEAN_PSI_CLOSED_PY,scalar,1,NA
+MMEAN_PSI_OPEN_PY,scalar,1,NA
+MMEAN_QDRAINAGE_PY,scalar,1,NA
+MMEAN_QPCPG_PY,scalar,1,NA
+MMEAN_QRUNOFF_PY,scalar,1,NA
+MMEAN_QSTAR_PY,scalar,1,NA
+MMEAN_QTHROUGHFALL_PY,scalar,1,NA
+MMEAN_RH_PY,scalar,1,NA
+MMEAN_RK4STEP_PY,scalar,1,NA
+MMEAN_RLONGUP_PY,scalar,1,NA
+MMEAN_RLONG_ALBEDO_PY,scalar,1,NA
+MMEAN_RLONG_GND_PY,scalar,1,NA
+MMEAN_RLONG_L_PY,scalar,1,NA
+MMEAN_RLONG_W_PY,scalar,1,NA
+MMEAN_RNET_PY,scalar,1,NA
+MMEAN_ROOT_GROWTH_RESP_PY,scalar,1,NA
+MMEAN_ROOT_RESP_PY,scalar,1,NA
+MMEAN_ROOT_STORAGE_RESP_PY,scalar,1,NA
+MMEAN_RSHORTUP_PY,scalar,1,NA
+MMEAN_RSHORT_GND_PY,scalar,1,NA
+MMEAN_RSHORT_L_PY,scalar,1,NA
+MMEAN_RSHORT_W_PY,scalar,1,NA
+MMEAN_RUNOFF_PY,scalar,1,NA
+MMEAN_SAPA_GROWTH_RESP_PY,scalar,1,NA
+MMEAN_SAPA_STORAGE_RESP_PY,scalar,1,NA
+MMEAN_SAPB_GROWTH_RESP_PY,scalar,1,NA
+MMEAN_SAPB_STORAGE_RESP_PY,scalar,1,NA
+MMEAN_SENSIBLE_AC_PY,scalar,1,NA
+MMEAN_SENSIBLE_GC_PY,scalar,1,NA
+MMEAN_SENSIBLE_LC_PY,scalar,1,NA
+MMEAN_SENSIBLE_WC_PY,scalar,1,NA
+MMEAN_SFCW_DEPTH_PY,scalar,1,NA
+MMEAN_SFCW_ENERGY_PY,scalar,1,NA
+MMEAN_SFCW_FLIQ_PY,scalar,1,NA
+MMEAN_SFCW_MASS_PY,scalar,1,NA
+MMEAN_SFCW_TEMP_PY,scalar,1,NA
+MMEAN_SLOW_SOIL_C_PY,scalar,1,NA
+MMEAN_STRUCT_SOIL_C_PY,scalar,1,NA
+MMEAN_STRUCT_SOIL_L_PY,scalar,1,NA
+MMEAN_THROUGHFALL_PY,scalar,1,NA
+MMEAN_TRANSP_PY,scalar,1,NA
+MMEAN_TSTAR_PY,scalar,1,NA
+MMEAN_USTAR_PY,scalar,1,NA
+MMEAN_VAPOR_AC_PY,scalar,1,NA
+MMEAN_VAPOR_GC_PY,scalar,1,NA
+MMEAN_VAPOR_LC_PY,scalar,1,NA
+MMEAN_VAPOR_WC_PY,scalar,1,NA
+MMEAN_WATER_RESIDUAL_PY,scalar,1,NA
+MMEAN_WATER_SUPPLY_PY,scalar,1,NA
+MMEAN_WOOD_ENERGY_PY,scalar,1,NA
+MMEAN_WOOD_FLIQ_PY,scalar,1,NA
+MMEAN_WOOD_GBW_PY,scalar,1,NA
+MMEAN_WOOD_HCAP_PY,scalar,1,NA
+MMEAN_WOOD_TEMP_PY,scalar,1,NA
+MMEAN_WOOD_WATER_PY,scalar,1,NA
+MMEAN_WSHED_LG_PY,scalar,1,NA
+MMEAN_WSHED_WG_PY,scalar,1,NA
+MMSQU_ALBEDO_PY,scalar,1,NA
+MMSQU_CARBON_AC_PY,scalar,1,NA
+MMSQU_CARBON_ST_PY,scalar,1,NA
+MMSQU_CWD_RH_PY,scalar,1,NA
+MMSQU_GPP_PY,scalar,1,NA
+MMSQU_NEP_PY,scalar,1,NA
+MMSQU_NIRUP_PY,scalar,1,NA
+MMSQU_NPP_PY,scalar,1,NA
+MMSQU_PARUP_PY,scalar,1,NA
+MMSQU_PLRESP_PY,scalar,1,NA
+MMSQU_RH_PY,scalar,1,NA
+MMSQU_RLONGUP_PY,scalar,1,NA
+MMSQU_RNET_PY,scalar,1,NA
+MMSQU_RSHORTUP_PY,scalar,1,NA
+MMSQU_SENSIBLE_AC_PY,scalar,1,NA
+MMSQU_SENSIBLE_GC_PY,scalar,1,NA
+MMSQU_SENSIBLE_LC_PY,scalar,1,NA
+MMSQU_SENSIBLE_WC_PY,scalar,1,NA
+MMSQU_TRANSP_PY,scalar,1,NA
+MMSQU_USTAR_PY,scalar,1,NA
+MMSQU_VAPOR_AC_PY,scalar,1,NA
+MMSQU_VAPOR_GC_PY,scalar,1,NA
+MMSQU_VAPOR_LC_PY,scalar,1,NA
+MMSQU_VAPOR_WC_PY,scalar,1,NA
+MOIST_F,scalar,1,NA
+MOIST_TAU,scalar,1,NA
+MOIST_W,scalar,1,NA
+MOIST_ZI,scalar,1,NA
+NBIOMASS_UPTAKE,scalar,1,NA
+NBUDGET_INITIALSTORAGE,scalar,1,NA
+NCOHORTS_GLOBAL,scalar,1,NA
+NCOL_SOIL,scalar,1,NA
+NCWD_FLUX,scalar,1,NA
+NDCYCLE,scalar,1,NA
+NDEAD_GROW,scalar,1,NA
+NGROSS_MIN,scalar,1,NA
+NIRUP,scalar,1,NA
+NIR_B,scalar,1,NA
+NIR_B_BEAM,scalar,1,NA
+NIR_B_DIFFUSE,scalar,1,NA
+NLEAF_GROW,scalar,1,NA
+NLEAF_LITTER_FLUX,scalar,1,NA
+NLEV_SFCWATER,scalar,1,NA
+NMIN_INPUT,scalar,1,NA
+NMIN_LOSS,scalar,1,NA
+NNET_MIN,scalar,1,NA
+NPATCHES_GLOBAL,scalar,1,NA
+NPOLYGONS_GLOBAL,scalar,1,NA
+NROOT_GROW,scalar,1,NA
+NROOT_LITTER_FLUX,scalar,1,NA
+NSITES_GLOBAL,scalar,1,NA
+NSTORE_GROW,scalar,1,NA
+NUM_LANDUSE_YEARS,scalar,1,NA
+NZG,scalar,1,NA
+NZS,scalar,1,NA
+OPENCAN_FRAC,scalar,1,NA
+PACO_ID,scalar,1,NA
+PACO_N,scalar,1,NA
+PARUP,scalar,1,NA
+PAR_B,scalar,1,NA
+PAR_B_BEAM,scalar,1,NA
+PAR_B_DIFFUSE,scalar,1,NA
+PAR_G,scalar,1,NA
+PAR_G_BEAM,scalar,1,NA
+PAR_G_DIFFUSE,scalar,1,NA
+PAR_L_BEAM_MAX,scalar,1,NA
+PAR_L_DIFFUSE_MAX,scalar,1,NA
+PAR_L_MAX,scalar,1,NA
+PAR_S,scalar,1,NA
+PAR_S_BEAM,scalar,1,NA
+PAR_S_DIFFUSE,scalar,1,NA
+PATCH_AREA,scalar,1,NA
+PATCH_COUNT,scalar,1,NA
+PLANTATION_SI,scalar,1,NA
+PLANTATION_STOCKING_DENSITY,scalar,1,NA
+PLANTATION_STOCKING_PFT,scalar,1,NA
+PLANT_AG_BIOMASS,scalar,1,NA
+PPTWEIGHT,scalar,1,NA
+PRIMARY_HARVEST_MEMORY,scalar,1,NA
+PRIMARY_HARVEST_TARGET,scalar,1,NA
+PYSI_ID,scalar,1,NA
+PYSI_N,scalar,1,NA
+QMEAN_ALBEDO_NIR_PY,scalar,1,NA
+QMEAN_ALBEDO_PAR_PY,scalar,1,NA
+QMEAN_ALBEDO_PY,scalar,1,NA
+QMEAN_ATM_CO2_PY,scalar,1,NA
+QMEAN_ATM_PAR_DIFF_PY,scalar,1,NA
+QMEAN_ATM_PAR_PY,scalar,1,NA
+QMEAN_ATM_PRSS_PY,scalar,1,NA
+QMEAN_ATM_RHOS_PY,scalar,1,NA
+QMEAN_ATM_RLONG_PY,scalar,1,NA
+QMEAN_ATM_RSHORT_DIFF_PY,scalar,1,NA
+QMEAN_ATM_RSHORT_PY,scalar,1,NA
+QMEAN_ATM_SHV_PY,scalar,1,NA
+QMEAN_ATM_TEMP_PY,scalar,1,NA
+QMEAN_ATM_THEIV_PY,scalar,1,NA
+QMEAN_ATM_THETA_PY,scalar,1,NA
+QMEAN_ATM_VELS_PY,scalar,1,NA
+QMEAN_ATM_VPDEF_PY,scalar,1,NA
+QMEAN_AVAILABLE_WATER_PY,scalar,1,NA
+QMEAN_A_CLOSED_PY,scalar,1,NA
+QMEAN_A_CO2_PY,scalar,1,NA
+QMEAN_A_LIGHT_PY,scalar,1,NA
+QMEAN_A_NET_PY,scalar,1,NA
+QMEAN_A_OPEN_PY,scalar,1,NA
+QMEAN_A_RUBP_PY,scalar,1,NA
+QMEAN_CAN_CO2_PY,scalar,1,NA
+QMEAN_CAN_GGND_PY,scalar,1,NA
+QMEAN_CAN_PRSS_PY,scalar,1,NA
+QMEAN_CAN_RHOS_PY,scalar,1,NA
+QMEAN_CAN_SHV_PY,scalar,1,NA
+QMEAN_CAN_TEMP_PY,scalar,1,NA
+QMEAN_CAN_THEIV_PY,scalar,1,NA
+QMEAN_CAN_THETA_PY,scalar,1,NA
+QMEAN_CAN_VPDEF_PY,scalar,1,NA
+QMEAN_CARBON_AC_PY,scalar,1,NA
+QMEAN_CARBON_ST_PY,scalar,1,NA
+QMEAN_CSTAR_PY,scalar,1,NA
+QMEAN_CWD_RH_PY,scalar,1,NA
+QMEAN_DPCPG_PY,scalar,1,NA
+QMEAN_DRAINAGE_PY,scalar,1,NA
+QMEAN_FSN_PY,scalar,1,NA
+QMEAN_FSW_PY,scalar,1,NA
+QMEAN_FS_OPEN_PY,scalar,1,NA
+QMEAN_GND_SHV_PY,scalar,1,NA
+QMEAN_GND_TEMP_PY,scalar,1,NA
+QMEAN_GPP_PY,scalar,1,NA
+QMEAN_INTERCEPTED_AL_PY,scalar,1,NA
+QMEAN_INTERCEPTED_AW_PY,scalar,1,NA
+QMEAN_LEAF_ENERGY_PY,scalar,1,NA
+QMEAN_LEAF_FLIQ_PY,scalar,1,NA
+QMEAN_LEAF_GBW_PY,scalar,1,NA
+QMEAN_LEAF_GROWTH_RESP_PY,scalar,1,NA
+QMEAN_LEAF_GSW_PY,scalar,1,NA
+QMEAN_LEAF_HCAP_PY,scalar,1,NA
+QMEAN_LEAF_RESP_PY,scalar,1,NA
+QMEAN_LEAF_STORAGE_RESP_PY,scalar,1,NA
+QMEAN_LEAF_TEMP_PY,scalar,1,NA
+QMEAN_LEAF_VPDEF_PY,scalar,1,NA
+QMEAN_LEAF_WATER_PY,scalar,1,NA
+QMEAN_NEP_PY,scalar,1,NA
+QMEAN_NIRUP_PY,scalar,1,NA
+QMEAN_NPP_PY,scalar,1,NA
+QMEAN_PARUP_PY,scalar,1,NA
+QMEAN_PAR_GND_PY,scalar,1,NA
+QMEAN_PAR_L_BEAM_PY,scalar,1,NA
+QMEAN_PAR_L_DIFF_PY,scalar,1,NA
+QMEAN_PAR_L_PY,scalar,1,NA
+QMEAN_PCPG_PY,scalar,1,NA
+QMEAN_PLRESP_PY,scalar,1,NA
+QMEAN_PSI_CLOSED_PY,scalar,1,NA
+QMEAN_PSI_OPEN_PY,scalar,1,NA
+QMEAN_QDRAINAGE_PY,scalar,1,NA
+QMEAN_QPCPG_PY,scalar,1,NA
+QMEAN_QRUNOFF_PY,scalar,1,NA
+QMEAN_QSTAR_PY,scalar,1,NA
+QMEAN_QTHROUGHFALL_PY,scalar,1,NA
+QMEAN_RH_PY,scalar,1,NA
+QMEAN_RK4STEP_PY,scalar,1,NA
+QMEAN_RLONGUP_PY,scalar,1,NA
+QMEAN_RLONG_ALBEDO_PY,scalar,1,NA
+QMEAN_RLONG_GND_PY,scalar,1,NA
+QMEAN_RLONG_L_PY,scalar,1,NA
+QMEAN_RLONG_W_PY,scalar,1,NA
+QMEAN_RNET_PY,scalar,1,NA
+QMEAN_ROOT_GROWTH_RESP_PY,scalar,1,NA
+QMEAN_ROOT_RESP_PY,scalar,1,NA
+QMEAN_ROOT_STORAGE_RESP_PY,scalar,1,NA
+QMEAN_RSHORTUP_PY,scalar,1,NA
+QMEAN_RSHORT_GND_PY,scalar,1,NA
+QMEAN_RSHORT_L_PY,scalar,1,NA
+QMEAN_RSHORT_W_PY,scalar,1,NA
+QMEAN_RUNOFF_PY,scalar,1,NA
+QMEAN_SAPA_GROWTH_RESP_PY,scalar,1,NA
+QMEAN_SAPA_STORAGE_RESP_PY,scalar,1,NA
+QMEAN_SAPB_GROWTH_RESP_PY,scalar,1,NA
+QMEAN_SAPB_STORAGE_RESP_PY,scalar,1,NA
+QMEAN_SENSIBLE_AC_PY,scalar,1,NA
+QMEAN_SENSIBLE_GC_PY,scalar,1,NA
+QMEAN_SENSIBLE_LC_PY,scalar,1,NA
+QMEAN_SENSIBLE_WC_PY,scalar,1,NA
+QMEAN_SFCW_DEPTH_PY,scalar,1,NA
+QMEAN_SFCW_ENERGY_PY,scalar,1,NA
+QMEAN_SFCW_FLIQ_PY,scalar,1,NA
+QMEAN_SFCW_MASS_PY,scalar,1,NA
+QMEAN_SFCW_TEMP_PY,scalar,1,NA
+QMEAN_THROUGHFALL_PY,scalar,1,NA
+QMEAN_TRANSP_PY,scalar,1,NA
+QMEAN_TSTAR_PY,scalar,1,NA
+QMEAN_USTAR_PY,scalar,1,NA
+QMEAN_VAPOR_AC_PY,scalar,1,NA
+QMEAN_VAPOR_GC_PY,scalar,1,NA
+QMEAN_VAPOR_LC_PY,scalar,1,NA
+QMEAN_VAPOR_WC_PY,scalar,1,NA
+QMEAN_WATER_SUPPLY_PY,scalar,1,NA
+QMEAN_WOOD_ENERGY_PY,scalar,1,NA
+QMEAN_WOOD_FLIQ_PY,scalar,1,NA
+QMEAN_WOOD_GBW_PY,scalar,1,NA
+QMEAN_WOOD_HCAP_PY,scalar,1,NA
+QMEAN_WOOD_TEMP_PY,scalar,1,NA
+QMEAN_WOOD_WATER_PY,scalar,1,NA
+QMEAN_WSHED_LG_PY,scalar,1,NA
+QMEAN_WSHED_WG_PY,scalar,1,NA
+QMSQU_ALBEDO_PY,scalar,1,NA
+QMSQU_CARBON_AC_PY,scalar,1,NA
+QMSQU_CARBON_ST_PY,scalar,1,NA
+QMSQU_CWD_RH_PY,scalar,1,NA
+QMSQU_GPP_PY,scalar,1,NA
+QMSQU_NEP_PY,scalar,1,NA
+QMSQU_NIRUP_PY,scalar,1,NA
+QMSQU_NPP_PY,scalar,1,NA
+QMSQU_PARUP_PY,scalar,1,NA
+QMSQU_PLRESP_PY,scalar,1,NA
+QMSQU_RH_PY,scalar,1,NA
+QMSQU_RLONGUP_PY,scalar,1,NA
+QMSQU_RNET_PY,scalar,1,NA
+QMSQU_RSHORTUP_PY,scalar,1,NA
+QMSQU_SENSIBLE_AC_PY,scalar,1,NA
+QMSQU_SENSIBLE_GC_PY,scalar,1,NA
+QMSQU_SENSIBLE_LC_PY,scalar,1,NA
+QMSQU_SENSIBLE_WC_PY,scalar,1,NA
+QMSQU_TRANSP_PY,scalar,1,NA
+QMSQU_USTAR_PY,scalar,1,NA
+QMSQU_VAPOR_AC_PY,scalar,1,NA
+QMSQU_VAPOR_GC_PY,scalar,1,NA
+QMSQU_VAPOR_LC_PY,scalar,1,NA
+QMSQU_VAPOR_WC_PY,scalar,1,NA
+QPWP,scalar,1,NA
+QRUNOFF,scalar,1,NA
+QSTAR,scalar,1,NA
+RAD_AVG,scalar,1,NA
+RH,scalar,1,NA
+RIBULK,scalar,1,NA
+RLONGUP,scalar,1,NA
+RLONG_ALBEDO,scalar,1,NA
+RLONG_G,scalar,1,NA
+RLONG_S,scalar,1,NA
+RNET,scalar,1,NA
+ROUGH,scalar,1,NA
+RSHORTUP,scalar,1,NA
+RSHORT_G,scalar,1,NA
+RSHORT_G_BEAM,scalar,1,NA
+RSHORT_G_DIFFUSE,scalar,1,NA
+RSHORT_S,scalar,1,NA
+RSHORT_S_BEAM,scalar,1,NA
+RSHORT_S_DIFFUSE,scalar,1,NA
+RUNOFF,scalar,1,NA
+SECONDARY_HARVEST_MEMORY,scalar,1,NA
+SECONDARY_HARVEST_TARGET,scalar,1,NA
+SFCWATER_DEPTH,scalar,1,NA
+SFCWATER_ENERGY,scalar,1,NA
+SFCWATER_FRACLIQ,scalar,1,NA
+SFCWATER_MASS,scalar,1,NA
+SFCWATER_TEMPK,scalar,1,NA
+SHEAT,scalar,1,NA
+SIPA_ID,scalar,1,NA
+SIPA_N,scalar,1,NA
+SITENUM,scalar,1,NA
+SLOPE,scalar,1,NA
+SLOW_SOIL_C,scalar,1,NA
+SLOW_SOIL_C_PY,scalar,1,NA
+SLXCLAY,scalar,1,NA
+SLXSAND,scalar,1,NA
+SNOWFAC,scalar,1,NA
+SSC_IN,scalar,1,NA
+SSL_IN,scalar,1,NA
+STRUCTURAL_SOIL_C,scalar,1,NA
+STRUCTURAL_SOIL_L,scalar,1,NA
+STRUCT_SOIL_C_PY,scalar,1,NA
+STRUCT_SOIL_L_PY,scalar,1,NA
+SUM_CHD,scalar,1,NA
+SUM_DGD,scalar,1,NA
+SWLIQ,scalar,1,NA
+TCI,scalar,1,NA
+TE,scalar,1,NA
+TODAY_AF_DECOMP,scalar,1,NA
+TODAY_A_DECOMP,scalar,1,NA
+TOTAL_AGB,scalar,1,NA
+TOTAL_AGB_GROWTH,scalar,1,NA
+TOTAL_AGB_MORT,scalar,1,NA
+TOTAL_AGB_RECRUIT,scalar,1,NA
+TOTAL_BASAL_AREA,scalar,1,NA
+TOTAL_BASAL_AREA_GROWTH,scalar,1,NA
+TOTAL_BASAL_AREA_MORT,scalar,1,NA
+TOTAL_BASAL_AREA_RECRUIT,scalar,1,NA
+TOTAL_PLANT_NITROGEN_UPTAKE,scalar,1,NA
+TOTAL_SFCW_DEPTH,scalar,1,NA
+TPWP,scalar,1,NA
+TSTAR,scalar,1,NA
+UPWP,scalar,1,NA
+USTAR,scalar,1,NA
+VEG_DISPLACE,scalar,1,NA
+VEG_HEIGHT,scalar,1,NA
+VEG_ROUGH,scalar,1,NA
+WBAR,scalar,1,NA
+WBUDGET_DENSEFFECT,scalar,1,NA
+WBUDGET_INITIALSTORAGE,scalar,1,NA
+WBUDGET_LOSS2ATM,scalar,1,NA
+WBUDGET_LOSS2DRAINAGE,scalar,1,NA
+WBUDGET_LOSS2RUNOFF,scalar,1,NA
+WBUDGET_PRECIPGAIN,scalar,1,NA
+WBUDGET_RESIDUAL,scalar,1,NA
+WPWP,scalar,1,NA
+XATM,scalar,1,NA
+YATM,scalar,1,NA
+ZBAR,scalar,1,NA
+ZETA,scalar,1,NA
+AGB_CO,cohort,NA,single cohort
+A_CLOSED,cohort,NA,single cohort
+A_CO2,cohort,NA,single cohort
+A_LIGHT,cohort,NA,single cohort
+A_OPEN,cohort,NA,single cohort
+A_RUBP,cohort,NA,single cohort
+BALIVE,cohort,NA,single cohort
+BA_CO,cohort,NA,single cohort
+BDEAD,cohort,NA,single cohort
+BLEAF,cohort,NA,single cohort
+BROOT,cohort,NA,single cohort
+BSAPWOODA,cohort,NA,single cohort
+BSAPWOODB,cohort,NA,single cohort
+BSEEDS_CO,cohort,NA,single cohort
+BSTORAGE,cohort,NA,single cohort
+CBR_BAR,cohort,NA,single cohort
+CENSUS_STATUS,cohort,NA,single cohort
+CROWN_AREA_CO,cohort,NA,single cohort
+DAGB_DT,cohort,NA,single cohort
+DBA_DT,cohort,NA,single cohort
+DBH,cohort,NA,single cohort
+DDBH_DT,cohort,NA,single cohort
+DLNAGB_DT,cohort,NA,single cohort
+DLNBA_DT,cohort,NA,single cohort
+DLNDBH_DT,cohort,NA,single cohort
+ELONGF,cohort,NA,single cohort
+FIRST_CENSUS,cohort,NA,single cohort
+FSN,cohort,NA,single cohort
+FSW,cohort,NA,single cohort
+FS_OPEN,cohort,NA,single cohort
+GPP,cohort,NA,single cohort
+GSW_CLOSED,cohort,NA,single cohort
+GSW_OPEN,cohort,NA,single cohort
+HITE,cohort,NA,single cohort
+KRDEPTH,cohort,NA,single cohort
+LAI_CO,cohort,NA,single cohort
+LEAF_DROP,cohort,NA,single cohort
+LEAF_ENERGY,cohort,NA,single cohort
+LEAF_FLIQ,cohort,NA,single cohort
+LEAF_GBH,cohort,NA,single cohort
+LEAF_GBW,cohort,NA,single cohort
+LEAF_GROWTH_RESP,cohort,NA,single cohort
+LEAF_GSW,cohort,NA,single cohort
+LEAF_HCAP,cohort,NA,single cohort
+LEAF_MAINTENANCE,cohort,NA,single cohort
+LEAF_RESPIRATION,cohort,NA,single cohort
+LEAF_STORAGE_RESP,cohort,NA,single cohort
+LEAF_TEMP,cohort,NA,single cohort
+LEAF_TEMP_PV,cohort,NA,single cohort
+LEAF_VPDEF,cohort,NA,single cohort
+LEAF_WATER,cohort,NA,single cohort
+LIGHT_LEVEL,cohort,NA,single cohort
+LIGHT_LEVEL_BEAM,cohort,NA,single cohort
+LIGHT_LEVEL_DIFF,cohort,NA,single cohort
+LINT_CO2_CLOSED,cohort,NA,single cohort
+LINT_CO2_OPEN,cohort,NA,single cohort
+LINT_SHV,cohort,NA,single cohort
+LLSPAN,cohort,NA,single cohort
+LSFC_CO2_CLOSED,cohort,NA,single cohort
+LSFC_CO2_OPEN,cohort,NA,single cohort
+LSFC_SHV_CLOSED,cohort,NA,single cohort
+LSFC_SHV_OPEN,cohort,NA,single cohort
+MONTHLY_DLNNDT,cohort,NA,single cohort
+MONTHLY_DNDT,cohort,NA,single cohort
+NEW_RECRUIT_FLAG,cohort,NA,single cohort
+NPLANT,cohort,NA,single cohort
+PAR_L,cohort,NA,single cohort
+PAR_LEVEL_BEAM,cohort,NA,single cohort
+PAR_LEVEL_DIFFD,cohort,NA,single cohort
+PAR_LEVEL_DIFFU,cohort,NA,single cohort
+PAR_L_BEAM,cohort,NA,single cohort
+PAR_L_DIFFUSE,cohort,NA,single cohort
+PAW_AVG,cohort,NA,single cohort
+PFT,cohort,NA,single cohort
+PHENOLOGY_STATUS,cohort,NA,single cohort
+PSI_CLOSED,cohort,NA,single cohort
+PSI_OPEN,cohort,NA,single cohort
+RECRUIT_DBH,cohort,NA,single cohort
+RLONG_L,cohort,NA,single cohort
+RLONG_W,cohort,NA,single cohort
+ROOT_GROWTH_RESP,cohort,NA,single cohort
+ROOT_MAINTENANCE,cohort,NA,single cohort
+ROOT_RESPIRATION,cohort,NA,single cohort
+ROOT_STORAGE_RESP,cohort,NA,single cohort
+RSHORT_L,cohort,NA,single cohort
+RSHORT_L_BEAM,cohort,NA,single cohort
+RSHORT_L_DIFFUSE,cohort,NA,single cohort
+RSHORT_W,cohort,NA,single cohort
+RSHORT_W_BEAM,cohort,NA,single cohort
+RSHORT_W_DIFFUSE,cohort,NA,single cohort
+SAPA_GROWTH_RESP,cohort,NA,single cohort
+SAPA_STORAGE_RESP,cohort,NA,single cohort
+SAPB_GROWTH_RESP,cohort,NA,single cohort
+SAPB_STORAGE_RESP,cohort,NA,single cohort
+SLA,cohort,NA,single cohort
+TODAY_GPP,cohort,NA,single cohort
+TODAY_GPP_LIGHTMAX,cohort,NA,single cohort
+TODAY_GPP_MLMAX,cohort,NA,single cohort
+TODAY_GPP_MOISTMAX,cohort,NA,single cohort
+TODAY_GPP_POT,cohort,NA,single cohort
+TODAY_LEAF_RESP,cohort,NA,single cohort
+TODAY_NPPCROOT,cohort,NA,single cohort
+TODAY_NPPDAILY,cohort,NA,single cohort
+TODAY_NPPFROOT,cohort,NA,single cohort
+TODAY_NPPLEAF,cohort,NA,single cohort
+TODAY_NPPSAPWOOD,cohort,NA,single cohort
+TODAY_NPPSEEDS,cohort,NA,single cohort
+TODAY_NPPWOOD,cohort,NA,single cohort
+TODAY_ROOT_RESP,cohort,NA,single cohort
+TURNOVER_AMP,cohort,NA,single cohort
+VEG_WIND,cohort,NA,single cohort
+VM_BAR,cohort,NA,single cohort
+WAI_CO,cohort,NA,single cohort
+WATER_SUPPLY,cohort,NA,single cohort
+WOOD_ENERGY,cohort,NA,single cohort
+WOOD_FLIQ,cohort,NA,single cohort
+WOOD_GBH,cohort,NA,single cohort
+WOOD_GBW,cohort,NA,single cohort
+WOOD_HCAP,cohort,NA,single cohort
+WOOD_TEMP,cohort,NA,single cohort
+WOOD_TEMP_PV,cohort,NA,single cohort
+WOOD_WATER,cohort,NA,single cohort
+CB,cohort,NA,carbon budget
+CB_LIGHTMAX,cohort,NA,carbon budget
+CB_MLMAX,cohort,NA,carbon budget
+CB_MOISTMAX,cohort,NA,carbon budget
+MORT_RATE_CO,cohort,NA,disturbance type
+RAD_PROFILE_CO,cohort,NA,radiation profile
+A_C_MAX,PFT,NA,single PFT
+A_O_MAX,PFT,NA,single PFT
+GREEN_LEAF_FACTOR,PFT,NA,single PFT
+LEAF_AGING_FACTOR,PFT,NA,single PFT
+REPRO_PA,PFT,NA,single PFT
+AGB_CUT,PFT,NA,DBH class
+AGB_GROWTH,PFT,NA,DBH class
+AGB_MORT,PFT,NA,DBH class
+AGB_PY,PFT,NA,DBH class
+AGB_SI,PFT,NA,DBH class
+BALIVE_N_PY,PFT,NA,DBH class
+BALIVE_PY,PFT,NA,DBH class
+BASAL_AREA_CUT,PFT,NA,DBH class
+BASAL_AREA_GROWTH,PFT,NA,DBH class
+BASAL_AREA_MORT,PFT,NA,DBH class
+BASAL_AREA_PY,PFT,NA,DBH class
+BASAL_AREA_SI,PFT,NA,DBH class
+BDEAD_N_PY,PFT,NA,DBH class
+BDEAD_PY,PFT,NA,DBH class
+BLEAF_N_PY,PFT,NA,DBH class
+BLEAF_PY,PFT,NA,DBH class
+BROOT_N_PY,PFT,NA,DBH class
+BROOT_PY,PFT,NA,DBH class
+BSAPWOODA_N_PY,PFT,NA,DBH class
+BSAPWOODA_PY,PFT,NA,DBH class
+BSAPWOODB_N_PY,PFT,NA,DBH class
+BSAPWOODB_PY,PFT,NA,DBH class
+BSEEDS_N_PY,PFT,NA,DBH class
+BSEEDS_PY,PFT,NA,DBH class
+BSTORAGE_N_PY,PFT,NA,DBH class
+BSTORAGE_PY,PFT,NA,DBH class
+CUMLAI_PROFILE,PFT,NA,height class
+LAI_PY,PFT,NA,DBH class
+LEAF_DROP_PY,PFT,NA,DBH class
+LEAF_MAINTENANCE_PY,PFT,NA,DBH class
+MMEAN_BLEAF_N_PY,PFT,NA,DBH class
+MMEAN_BLEAF_PY,PFT,NA,DBH class
+MMEAN_BROOT_N_PY,PFT,NA,DBH class
+MMEAN_BROOT_PY,PFT,NA,DBH class
+MMEAN_BSTORAGE_N_PY,PFT,NA,DBH class
+MMEAN_BSTORAGE_PY,PFT,NA,DBH class
+MMEAN_LAI_PY,PFT,NA,DBH class
+MMEAN_LEAF_DROP_PY,PFT,NA,DBH class
+MMEAN_LEAF_MAINTENANCE_PY,PFT,NA,DBH class
+MMEAN_ROOT_MAINTENANCE_PY,PFT,NA,DBH class
+NPLANT_PY,PFT,NA,DBH class
+ROOT_MAINTENANCE_PY,PFT,NA,DBH class
+WAI_PY,PFT,NA,DBH class
+soil_id,soil,NA,soil depth
+DMEAN_SENSIBLE_GG_PY,soil,NA,soil depth
+DMEAN_SMOIST_GG_PY,soil,NA,soil depth
+DMEAN_SOIL_ENERGY_PY,soil,NA,soil depth
+DMEAN_SOIL_FLIQ_PY,soil,NA,soil depth
+DMEAN_SOIL_MSTPOT_PY,soil,NA,soil depth
+DMEAN_SOIL_TEMP_PY,soil,NA,soil depth
+DMEAN_SOIL_WATER_PY,soil,NA,soil depth
+DMEAN_TRANSLOSS_PY,soil,NA,soil depth
+MMEAN_SENSIBLE_GG_PY,soil,NA,soil depth
+MMEAN_SMOIST_GG_PY,soil,NA,soil depth
+MMEAN_SOIL_ENERGY_PY,soil,NA,soil depth
+MMEAN_SOIL_FLIQ_PY,soil,NA,soil depth
+MMEAN_SOIL_MSTPOT_PY,soil,NA,soil depth
+MMEAN_SOIL_TEMP_PY,soil,NA,soil depth
+MMEAN_SOIL_WATER_PY,soil,NA,soil depth
+MMEAN_TRANSLOSS_PY,soil,NA,soil depth
+NTEXT_SOIL,soil,NA,soil depth
+PATCH_ROOT_DENSITY,soil,NA,soil depth
+QMEAN_SENSIBLE_GG_PY,soil,NA,soil depth
+QMEAN_SMOIST_GG_PY,soil,NA,soil depth
+QMEAN_SOIL_ENERGY_PY,soil,NA,soil depth
+QMEAN_SOIL_FLIQ_PY,soil,NA,soil depth
+QMEAN_SOIL_MSTPOT_PY,soil,NA,soil depth
+QMEAN_SOIL_TEMP_PY,soil,NA,soil depth
+QMEAN_SOIL_WATER_PY,soil,NA,soil depth
+QMEAN_TRANSLOSS_PY,soil,NA,soil depth
+SLZ,soil,NA,soil depth
+SOIL_ENERGY_PA,soil,NA,soil depth
+SOIL_FRACLIQ_PA,soil,NA,soil depth
+SOIL_MSTPOT_PA,soil,NA,soil depth
+SOIL_TEMPK_PA,soil,NA,soil depth
+SOIL_WATER_PA,soil,NA,soil depth
+AVG_MONTHLY_PCPG,other,NA,monthly
+DISTURBANCE_MEMORY,other,NA,disturbance type2
+DISTURBANCE_RATES,other,NA,disturbance type2
+HGT_CLASS,other,NA,height class
+LAMBDA_FIRE,other,NA,monthly
+WORKLOAD,other,NA,monthly+
