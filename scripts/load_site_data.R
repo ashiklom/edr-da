@@ -6,7 +6,7 @@ site_data <- tibble(
   site_bety = readLines(inhere("other_site_data", "site_list"))
 ) %>%
   mutate(
-    site = str_extract(site_bety, "^.*?_"),
+    site = str_extract(site_bety, "^.*?(?=_)"),
     site_dir = inhere("sites", site_bety),
     css_file = map(site_dir, list.files, "\\.css$", full.names = TRUE) %>% map_chr(1),
     prefix = str_match(css_file, "(.*)lat")[, 2],
