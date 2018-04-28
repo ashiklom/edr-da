@@ -1,91 +1,74 @@
 library(redr)
 library(tidyverse)
+library(optparse)
 import::from(here, inhere = here)
 import::from(progress, progress_bar)
-import::from(fs, dir_ls)
+import::from(fs, dir_ls, path_file)
 import::from(hdf5r, H5File)
-import::from(lubridate, as_date, month)
+import::from(lubridate, as_date, month, mday)
+import::from(udunits2, ud.convert)
 
-var_table <- read_csv("inst/ed_state_vars.csv")
+args <- commandArgs(trailingOnly = TRUE)
+if (interactive()) {
+  args <- c(
+    "--site=OF02",
+    "--ens=1"
+  )
+}
+argl <- OptionParser() %>%
+  add_option("--site", action = "store", type = "character", default = "OF02") %>%
+  add_option("--ens", action = "store", type = "integer", default = 1) %>%
+  parse_args(args)
+print(argl)
 
-var_table %>%
-  filter(type == "cohort") %>%
-  select(variable, group_type) %>%
-  print(n = Inf)
-
-run_dir <- inhere("ed-outputs", "EDR_sim_output_BH02_2008", "outputs")
-histfiles <- list.files(run_dir, "history-S", full.names = TRUE)
-
-read_hist_variable <- function(histfile, variable) {
-  hf <- hdf5r::H5File$new(histfile, "r")
-  hf[[variable]]$read()
+if (FALSE) {
+  var_table <- read_csv("inst/ed_state_vars.csv")
+  var_table %>%
+    filter(type == "PFT") %>%
+    filter(grepl("resp", variable, ignore.case = TRUE)) %>%
+    select(variable, group_type) %>%
+    print(n = Inf)
 }
 
-base_tibble <- tibble(files = histfiles) %>%
-  mutate(
-    datetime = str_extract(files, "[[:digit:]]{4}-[[:digit:]]{2}-[[:digit:]]{2}") %>%
-      as_date()
-  )
+site_code <- argl$site
+ens <- argl$ens
 
-bstore <- base_tibble %>%
-  mutate(
-    pft = map(files, read_hist_variable, "PFT"),
-    storage = map(files, read_hist_variable, "BSTORAGE"),
-    height = map(files, read_hist_variable, "HITE"),
-    data = pmap(list(PFT = pft, storage = storage, height = height), tibble)
-  ) %>%
-  unnest(data) %>%
-  select(-files) %>%
-  group_by(datetime) %>%
-  arrange(desc(height)) %>%
-  mutate(cohort_id = row_number()) %>%
-  ungroup() %>%
-  arrange(datetime, cohort_id)
+root_dir <- inhere("ensemble_outputs", "msp_hf20180402")
+site_dir <- list.files(root_dir, site_code, full.names = TRUE)
+ens_dir <- file.path(site_dir, sprintf("ens_%03d", ens))
+run_dir <- file.path(ens_dir, "out")
+stopifnot(file.exists(site_dir), file.exists(ens_dir), file.exists(run_dir))
 
-ggplot(bstore) +
-  aes(x = datetime, y = storage, color = factor(PFT), group = cohort_id) +
-  geom_line()
+histfiles <- dir_ls(run_dir, glob = "*history-S*.h5")
+dates <- path_file(histfiles) %>%
+  str_extract("[[:digit:]]{4}-[[:digit:]]{2}-[[:digit:]]{2}") %>%
+  as_date()
+names(histfiles) <- dates
+stopifnot(length(histfiles) > 0)
 
-#cb_list <- base_tibble %>%
-  #mutate(
-    #month = month(datetime),
-    #cb_full = map(files, read_hist_variable, "CB"),
-    #rn = map(cb_full, ~seq_len(nrow(.))),
-    #cb_full = map2(cb_full, rn, `rownames<-`),
-    #cb_full = map(cb_full, as_tibble, rownames = "month_id")
-  #) %>%
-  #unnest(cb_full)
+readhist <- function(hfile, pb = NULL) {
+  on.exit(if (!is.null(pb)) pb$tick())
+  safely(read_ed_history)(hfile)
+}
+pb <- progress_bar$new(total = length(histfiles), format = ":current/:total (:eta)")
+hist_raw <- map(histfiles, readhist, pb = pb) %>% transpose()
+hist_result <- map_if(hist_raw$result, ~!is.null(.), ~.)
 
-#cb_list %>%
-  #gather(cohort, value, -(files:month_id)) %>%
-  #filter(month_id == month) %>%
-  #ggplot() +
-  #aes(x = datetime, y = value, color = cohort) +
-  #geom_line()
+add_ens <- . %>% mutate(ens = ens, date = as_date(date)) %>% select(ens, date, everything())
 
-#cb_list %>% unnest(cb_full)
-
-  #map(histfiles, read_hist_variable, "CB") %>%
-  #map(~.[13, ]) %>%
-  #reduce(rbind) %>%
-  #as_tibble() %>%
-  #gather("cohort", "CB", -datetime)
-
-#ggplot(cb_list) +
-  #aes(x = datetime, y = CB, color = cohort) +
-  #geom_line()
-
-
-#hist_raw <- map(histfiles[1:10], safely(read_ed_history)) %>% transpose()
-#hist_results <- hist_raw$result
-
-#cohort_df <- tibble(
-  #datetime = map(hist_raw$result, "datetime") %>% reduce(c),
-  #cohort = map(hist_raw$result, "cohort")
-#) %>%
-  #unnest()
-
-## Pull out carbon balance
-
-#ggplot(cohort_df) +
-  #aes(x = )
+scalars <- map_dfr(hist_result, "scalar", .id = "date") %>%
+  spread(variable, value) %>%
+  add_ens
+cohorts <- map_dfr(hist_result, "cohort", .id = "date") %>% add_ens
+pfts <- map_dfr(hist_result, "pft", .id = "date") %>% add_ens
+soils <- map_dfr(hist_result, "soil", .id = "date") %>% add_ens
+other <- map(hist_result, "other")
+all_results <- list(
+  ens = ens,
+  scalars = scalars,
+  cohorts = cohorts,
+  pfts = pfts,
+  soils = soils,
+  other = other
+)
+saveRDS(all_results, file.path(ens_dir, "history_results.rds"))

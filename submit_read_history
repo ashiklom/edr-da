@@ -2,5 +2,5 @@
 
 while read site; do
     #echo "Running $site"
-    qsub -N $site qsub_run_edr.sh --site=$site --by=1
+    qsub -N $site qsub_read_history --site=$site
 done <other_site_data/selected_sites

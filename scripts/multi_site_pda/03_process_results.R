@@ -1,9 +1,16 @@
 library(redr)
 library(BayesianTools)
-library(here)
 library(optparse)
 library(tidyverse)
 library(PEcAnRTM)
+import::from(here, inhere = here)
+import::from(progress, progress_bar)
+
+args <- commandArgs(trailingOnly = TRUE)
+if (interactive()) {
+  args <- c("--prefix=msp_hf20180402",
+            "--burnin=80000")
+}
 
 argl <- OptionParser() %>%
   add_option("--prefix", action = "store", type = "character", default = "msp20180402") %>%
@@ -11,19 +18,21 @@ argl <- OptionParser() %>%
   add_option("--fix_allom2", action = "store_true", default = FALSE) %>%
   add_option("--final", action = "store_true", default = FALSE) %>%
   add_option("--burnin", action = "store", type = "integer", default = 8000L) %>%
-  parse_args()
+  parse_args(args) 
 
+if (grepl("_h?f", argl$prefix)) argl$fix_allom2 <- TRUE
+if (grepl("_h", argl$prefix)) argl$hetero <- TRUE
 print(argl)
 
-pda_dir <- here("ed-outputs", argl$prefix)
+pda_dir <- inhere("ed-outputs", argl$prefix)
 stopifnot(file.exists(pda_dir))
 
 resultfile <- file.path(pda_dir, ifelse(argl$final, "results.rds", "progress.rds"))
 stopifnot(file.exists(resultfile))
 
 result <- readRDS(resultfile)
-figdir <- file.path(pda_dir, "figures")
-dir.create(figdir, showWarnings = FALSE) 
+figdir <- inhere("msp_figures", argl$prefix)
+dir.create(figdir, showWarnings = FALSE, recursive = TRUE) 
 
 message("Generating trace plots")
 pdf(file.path(figdir, "traces.pdf"))
@@ -79,9 +88,14 @@ all_summary <- bind_rows(results_summary, prior_summary) %>%
   filter(!grepl("residual", variable)) %>%
   mutate(
     pft = factor(pft, levels = unique(pft)),
+    type = factor(type, c("prior", "posterior")),
     variable = factor(variable, levels = unique(variable)),
     pft_type = interaction(type, pft)
   )
+
+summary_dir <- inhere("sync_data", argl$prefix)
+dir.create(summary_dir, showWarnings = FALSE, recursive = TRUE)
+saveRDS(all_summary, file.path(summary_dir, "pda_summary.rds"))
 
 message("Generating summary plot")
 summary_plot <- ggplot(all_summary) +
@@ -105,32 +119,51 @@ pwalk(
 )
 dev.off()
 
-sitelist <- readLines(here("other_site_data", "site_list"))
+sitelist <- readLines(inhere("other_site_data", "site_list"))
 
 message("LAI histograms for sites")
-lai_hist <- function(site, pda_dir, burnin, pb = NULL, ...) {
+get_lai <- function(site, pda_dir, burnin, pb = NULL, ...) {
   if (!is.null(pb)) pb$tick()
   lai_file <- file.path(pda_dir, site, "edr", "lai_store")
   stopifnot(file.exists(lai_file))
-  lai_vals <- data.table::fread(lai_file, header = FALSE, blank.lines.skip = TRUE, skip = burnin) %>%
+  nlines <- wcl(lai_file)
+  skip <- ifelse(nlines < burnin, 0, burnin)
+  data.table::fread(lai_file, header = FALSE, blank.lines.skip = TRUE, skip = skip) %>%
     as.matrix()
-  tot_lai <- rowSums(lai_vals)
-  hist(tot_lai, main = site, xlab = "Total LAI")
 }
 
 pb <- progress::progress_bar$new(total = length(sitelist))
-pdf(file.path(figdir, "lai_hist.pdf"))
-walk(
+lai_list <- map(
   sitelist,
-  lai_hist,
+  get_lai,
   pda_dir = pda_dir,
   burnin = argl$burnin,
   pb = pb
 )
+names(lai_list) <- sitelist
+saveRDS(lai_list, file.path(summary_dir, "lai_values.rds"))
+
+lai_sums <- map(lai_list, rowSums)
+pdf(file.path(figdir, "lai_hist.pdf"))
+iwalk(lai_sums, ~hist(.x, xlab = "Total LAI", main = .y))
 dev.off()
 
+pb <- progress_bar$new(total = length(sitelist), format = ":current/:total (ETA: :eta)")
+spec_history <- map(
+  sitelist,
+  ~{pb$tick(); safely(read_spectra_history)(., pda_dir, argl$burnin)}
+)
+names(spec_history) <- sitelist
+for (s in sitelist) {
+  print(s)
+  saveRDS(spec_history[[s]], file.path(summary_dir, paste0("spec_history.", s, ".rds")))
+} 
+
 message("Spectral confidence intervals for sites")
-pb <- progress::progress_bar$new(total = length(sitelist))
+pb <- progress::progress_bar$new(
+  total = length(sitelist),
+  format = ":current/:total (ETA: :eta)"
+)
 pdf(file.path(figdir, "refl_validation.pdf"))
 walk(
   sitelist,

@@ -14,8 +14,9 @@ if (interactive()) {
   args <- c(
     "--burnin=40000",
     "--nens=50",
-    "--site=OF05_site_1-25710"
-    #"--site=IDS36_site_1-25686"
+    #"--initial",
+    #"--site=OF05_site_1-25710"   # Initial
+    "--site=IDS36_site_1-25686"
     #"--site=SF03_site_1-25721"
     #"--site=BH07_site_1-25669"
     #"--site=AK60_site_1-25674"
@@ -112,7 +113,7 @@ site_info <- tibble(site_files = list.files(site_input_dir, "\\.css$")[1]) %>%
     veg = map(full_prefix, read_ed_veg),
     latitude = map_dbl(veg, "latitude"),
     longitude = map_dbl(veg, "longitude"),
-    start_date = paste0(year, "-07-01"),
+    start_date = paste0(year, "-06-02"),
     end_date = "2017-12-31"
   )
 
@@ -251,7 +252,8 @@ dir.create(log_path, showWarnings = FALSE)
 submit_script <- c(
   "#!/bin/bash",
   "#$ -q \"geo*\"",
-  "#$ -pe omp 4",
+  "#$ -l h_rt=48:00:00",
+  #"#$ -pe omp 4",
   "#$ -j y",
   paste("#$ -o", log_path),
   paste0("#$ -t 1-", argl$nens),

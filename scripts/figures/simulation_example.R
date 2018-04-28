@@ -8,10 +8,11 @@ library(PEcAn.ED2)
 import::from(lubridate, as_date, year, month, mday)
 import::from(progress, progress_bar)
 import::from(imguR, imgur, imgur_off)
+import::from(tidyr, unnest, spread)
+
 
 ens_dir <- "ensemble_outputs/msp_hf20180402"
 date <- "2009-07-02"
-site <- "AK60"
 ens <- 1
 
 run_edr_site <- function(date, site, ens_dir, ens = 1, pb = NULL) {
@@ -52,4 +53,24 @@ ggplot(tidyspec) +
   theme_bw() +
   theme(legend.position = c(0.95, 0.95), legend.justification = c(1, 1))
 i2 <- imgur_off(i1)
+i2$link
+
+data("sensor.rsr")
+lsat <- tidyspec %>%
+  group_by(site) %>%
+  summarize(data = list(spec2landsat(refl))) %>%
+  unnest()
+
+l7 <- lsat %>%
+  filter(landsat == "landsat7")
+
+i1 <- imguR::imgur("png", width = 5, height = 5, units = "in", res = 300)
+ggplot(l7) +
+  aes(x = wavelength, y = value, color = fct_reorder(site, value, max, .desc = TRUE)) +
+  geom_line() +
+  labs(color = "Site code", x = "Wavelength", y = "Reflectance") +
+  scale_color_brewer(palette = "Dark2") +
+  theme_bw() +
+  theme(legend.position = c(0.95, 0.95), legend.justification = c(1, 1))
+i2 <- imguR::imgur_off(i1)
 i2$link

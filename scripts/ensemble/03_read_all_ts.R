@@ -1,6 +1,8 @@
 library(tidyverse)
 library(optparse)
 import::from(here, inhere = here)
+import::from(fs, dir_ls, path_file)
+import::from(progress, progress_bar)
 
 # [1] "OF05"  "IDS36" "SF03"  "BH07"  "AK60"  "OF02"  "BH05" 
 
@@ -15,19 +17,25 @@ argl <- OptionParser() %>%
 print(argl)
 
 site <- argl$site
-root_dir <- inhere("ensemble_outputs", "msp_hf20180402")
+root_dir <- inhere("ensemble_outputs", "msp_hf20180402.2018-04-18")
 site_dir <- list.files(root_dir, site, full.names = TRUE)
 stopifnot(length(site_dir) == 1)
 
+#rds_files <- dir_ls(site_dir, glob = "*ensemble_*.rds")
+#names(rds_files) <- path_file(rds_files) %>%
+  #str_match("ensemble_([[:digit:]]{3}).rds") %>%
+  #.[,2]
+#raw_in <- map(rds_files, with_prog(readRDS, length(rds_files)))
+
+#lai_vals <- modify_depth(raw_in, 2, attr_getter("LAI")) %>%
+  #map(~do.call(cbind, .))
+
 message("Finding CSV files")
-csv_files_raw <- system2("find", c(site_dir, "-name", "spectra_sims.csv"),
-                         stdout = TRUE)
-#csv_files <- list.files(site_dir, "spectra_sims.csv",
-                        #full.names = TRUE, recursive = TRUE)
+csv_files <- dir_ls(site_dir, recursive = TRUE, glob = "*spectra_sims.csv")
 
 message("Reading CSV files")
 colspec <- cols(date = col_date(), .default = col_double())
-csv_list <- map(csv_files, read_csv, col_types = colspec)
+csv_list <- map(csv_files, with_prog(read_csv, length(csv_files)), col_types = colspec)
 
 message("Row-binding CSV files")
 allspec <- bind_rows(csv_list, .id = "id")
