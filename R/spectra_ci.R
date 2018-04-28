@@ -6,13 +6,37 @@
 #' @param alpha P value for quantiles
 #' @export
 get_post_ci <- function(site, pda_dir, burnin, alpha = 0.05) {
+  sample_spec <- read_spectra_history(site, pda_dir, burnin)
+  summarize_specmat(sample_spec, alpha = alpha, waves = 400:2500)
+}
+
+#' Read spectra history
+#'
+#' @param site Site code
+#' @param pda_dir Directory of PDA runs
+#' @param burnin Number of samples to burnin
+#' @return Matrix of spectra for each iteration
+#' @export
+read_spectra_history <- function(site, pda_dir, burnin) {
   specfile_path <- file.path(pda_dir, site, "edr", "spec_store")
   stopifnot(file.exists(specfile_path))
+  nlines <- wcl(specfile_path)
+  skip <- ifelse(nlines < burnin, 0, burnin)
   sample_spec_raw <- data.table::fread(specfile_path, header = FALSE,
-                                       blank.lines.skip = TRUE, skip = burnin,
+                                       blank.lines.skip = TRUE, skip = skip,
                                        showProgress = FALSE)
-  sample_spec <- t(as.matrix(sample_spec_raw))
-  summarize_specmat(sample_spec, alpha = alpha, waves = 400:2500)
+  t(as.matrix(sample_spec_raw))
+}
+
+#' Count the number of lines in a file
+#'
+#' @param file Path to file
+#' @return Number of lines in file
+#' @export
+wcl <- function(file) {
+  string <- system2("wc", c("-l", file), stdout = TRUE)
+  string2 <- gsub(" .*", "", string)
+  as.numeric(string2)
 }
 
 #' @rdname get_post_ci

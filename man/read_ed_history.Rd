@@ -4,7 +4,7 @@
 \alias{read_ed_history}
 \title{Read and organize ED history file}
 \usage{
-read_ed_history(historyfile)
+read_ed_history(historyfile, verbose = FALSE)
 }
 \arguments{
 \item{historyfile}{ED `history-S` file}

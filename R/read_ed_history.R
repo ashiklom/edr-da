@@ -33,7 +33,7 @@
 #' @param historyfile ED `history-S` file
 #' @return List containing scalar, cohort, PFT, and soil data, and other metadata. See Details.
 #' @export
-read_ed_history <- function(historyfile) {
+read_ed_history <- function(historyfile, verbose = FALSE) {
   stopifnot(file.exists(historyfile))
   datetime_str <- stringr::str_extract(
     basename(historyfile),
@@ -59,6 +59,7 @@ read_ed_history <- function(historyfile) {
   # Extract "metadata" objects
   ncohort <- hf[["NCOHORTS_GLOBAL"]][]
   nsoil <- hf[["NZG"]][]
+  npft <- length(hf[["A_C_MAX"]][,])
 
   # Height classes
   hgt_class_min <- hf[["HGT_CLASS"]][]
@@ -71,7 +72,7 @@ read_ed_history <- function(historyfile) {
     purrr::map(as.numeric) %>%
     setNames(names(hf))
 
-  message("Reading cohort data")
+  if (verbose) message("Reading cohort data")
   # Simple vector data
   cohort_vec <- dims %>%
     purrr::keep(~length(.) == 1 & .[1] == ncohort) %>%
@@ -89,13 +90,13 @@ read_ed_history <- function(historyfile) {
     dplyr::mutate(cohort_id = row_number()) %>%
     dplyr::select(cohort_id, dplyr::everything())
 
-  message("Reading scalar data")
+  if (verbose) message("Reading scalar data")
   scalars <- dims %>%
     purrr::keep(~all(. == 1)) %>%
     purrr::imap_dbl(~read_hf_var(hf, .y)) %>%
     tibble::enframe("variable", "value")
 
-  message("Reading PFT data")
+  if (verbose) message("Reading PFT data")
   pft_vec <- dims %>%
     purrr::keep(~.[1] == npft) %>%
     purrr::keep(~prod(.) == npft) %>%
@@ -113,7 +114,7 @@ read_ed_history <- function(historyfile) {
     dplyr::mutate(pft_id = row_number()) %>%
     dplyr::select(pft_id, dplyr::everything())
 
-  message("Reading soil data")
+  if (verbose) message("Reading soil data")
   soil_all <- dims %>%
     purrr::keep(~.[1] == nsoil) %>%
     purrr::imap_dfc(~read_hf_var(hf, .y)) %>%

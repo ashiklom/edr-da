@@ -92,7 +92,7 @@ sum4ed <- function(params, vis = 400:700, nir = 701:1300) {
   )
   traits %>%
     purrr::map2(pvis, c) %>%
-    purrr::map2(pvis, c)
+    purrr::map2(pnir, c)
 }
 
 ensemble_trait_list <- apply(combined, 1, sum4ed)
@@ -245,6 +245,7 @@ for (i in seq_len(argl$nens)) {
 ############################################################
 # Write submission script
 ############################################################
+ed_exe_path <- "/projectnb/dietzelab/ashiklom/ED2/ED/build/ed_2.1-dbg"
 log_path <- "logs_ed"
 dir.create(log_path, showWarnings = FALSE)
 submit_script <- c(
@@ -260,7 +261,7 @@ submit_script <- c(
   "",
   paste(
     "/usr3/graduate/ashiklom/.singularity/sexec",
-    "/projectnb/dietzelab/ashiklom/ED2/ED/build/ed_2.1-dbg",
+    ed_exe_path,
     "-f",
     file.path(ens_site_dir, "$ENSDIR", "ED2IN")
   )
@@ -269,8 +270,9 @@ writeLines(submit_script, paste0("qsub_ed_", site, ".sh"))
 
 if (interactive()) {
   # Test one run
-  system2(
-    "/projectnb/dietzelab/ashiklom/ED2/ED/build/ed_2.1-dbg",
-    c("-s", "-f", ed2in_path)
-  )
+  system2(ed_exe_path, c("-s", "-f", ed2in_path))
+}
+
+if (FALSE) {
+  devtools::install("~/dietzelab/pecan/models/ed")
 }
