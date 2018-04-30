@@ -1,9 +1,11 @@
 library(tidyverse)
 library(redr)
 library(PEcAn.ED2)
+library(cowplot)
 import::from(here, here)
 import::from(ggrepel, geom_text_repel, geom_label_repel)
 import::from(maps, geogmap = map)
+import::from(broom, tidy)
 
 site_dir <- here("sites")
 site_list <- list.files(site_dir)
@@ -51,8 +53,9 @@ avgs_select <- avgs %>%
     selected = site_label %in% select_labels,
     fontface = if_else(selected, "bold", "plain")
   )
+write_csv(avgs_select, "site_structure.csv")
 plt <- ggplot(avgs_select) +
-  aes(x = tot_dens, y = mean_dbh, color = frac_evergreen, label = site_label) +
+  aes(x = tot_dens * (1000), y = mean_dbh, color = frac_evergreen, label = site_label) +
   geom_point(aes(size = selected)) +
   geom_text_repel(
     aes(fontface = fontface),
@@ -64,13 +67,12 @@ plt <- ggplot(avgs_select) +
   scale_size_manual(values = c(`TRUE` = 3, `FALSE` = 1.2)) +
   labs(
     color = "Frac. evergreen",
-    size = "Site of interest",
+    size = "Forward simulation",
     x = expression("Stem density" ~ ("trees"~"ha"^-1)),
     y = "Mean DBH (cm)"
   ) +
-  theme_bw() +
   theme(
-    legend.position = c(0.98, 0.98),
+    legend.position = c(0.98, 0.5),
     legend.justification = c(1, 1)
   )
 ggsave("figures/selected_sites.pdf", plt)
@@ -97,8 +99,24 @@ avgs_select %>%
   scale_color_continuous(high = "brown", low = "green4") +
   scale_size_manual(values = c(`TRUE` = 3, `FALSE` = 1.2)) +
   guides(color = FALSE) +
-  theme_bw() +
   theme(
     axis.title = element_blank()
   ) -> plt2
 ggsave("figures/sitemap.pdf", plt2, width = 7, height = 5)
+
+# Both plots together
+plt_both <- ggdraw() +
+  draw_plot(
+    plt + theme(
+      legend.position = c(1, 1),
+      legend.text = element_text(size = rel(0.6)),
+      legend.title = element_text(size = rel(0.8))
+    ),
+    0, 0, 1, 1
+  ) +
+  draw_plot(
+    plt2 + theme(axis.text = element_text(size = rel(0.6))),
+    -0.05, 0.3,
+    scale = 0.55
+  )
+save_plot("figures/sites_both.pdf", plt_both, base_width = 7, base_height = 7)

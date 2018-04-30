@@ -1,7 +1,7 @@
 library(tidyverse)
 import::from(here, inhere = here)
 
-summary_dat <- readRDS(inhere("sync_data", "msp_hf20180402", "pda_summary.rds"))
+summary_dat <- readRDS(inhere("sync_data", "msp20180402", "pda_summary.rds"))
 
 vars_rename <- tribble(
   ~variable, ~level,
@@ -11,7 +11,8 @@ vars_rename <- tribble(
   "prospect_Cw", expression("PROSPECT Water" ~ (g ~ cm^-2)),
   "prospect_Cm", expression("PROSPECT LMA" ~ (g ~ cm^2)),
   "SLA", expression("Specific leaf area" ~ (mm^2 ~ g^-1)),
-  "b1Bl", expression("Leaf biomass allom." ~ (DBH)),
+  "b1Bl", expression("Leaf biomass allom." ~ "base"),
+  "b2Bl", expression("Leaf biomass allom." ~ "exp."),
   "clumping_factor", expression("Clumping factor" ~ (0 - 1)),
   "orient_factor", expression("Orientation factor" ~ (-1 - 1))
 )
