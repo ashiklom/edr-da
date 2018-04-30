@@ -2,6 +2,8 @@
 
 export("%>%")
 export(add_spectra_ci)
+export(allom_Sigma)
+export(allom_mu)
 export(check_prior)
 export(col_densities)
 export(create_prior)

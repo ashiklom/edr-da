@@ -23,6 +23,18 @@ dallom2 <- function(traits, log = TRUE) {
   )
 }
 
+#' Allometry mean vector
+#'
+#' @name allom_mu
+#' @export allom_mu
+NULL
+
+#' Allometry variance-covariance matrix
+#'
+#' @name allom_Sigma
+#' @export allom_Sigma
+NULL
+
 #' Univariate allometry prior (varying just the base)
 #'
 #' @inheritParams rallom2
