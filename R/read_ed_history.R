@@ -146,4 +146,23 @@ read_ed_history <- function(historyfile, verbose = FALSE) {
 #'
 #' @param hf `H5File` object
 #' @param variable Character string of variable to read
+#' @export
 read_hf_var <- function(hf, variable) hf[[variable]]$read()
+
+#' Read a subset of HDF5 variables into a list
+#'
+#' @param hfile HDF5 file, as character
+#' @param vars Character vector of variable names to read. If `NULL`, read all 
+#' variables.
+#' @param except Exclude these variables from the list.
+#' @return Named list of variables, as well as date and file name
+#' @export
+get_h5vars <- function(hfile, vars = NULL, except = character()) {
+  date <- file_date(hfile)
+  hf <- hdf5r::H5File$new(hfile, "r")
+  if (is.null(vars)) vars <- names(hf)
+  vars <- setdiff(vars, except)
+  purrr::map(vars, read_hf_var, hf = hf) %>%
+    setNames(vars) %>%
+    append(list(date = date, file = hfile), after = 0)
+}
