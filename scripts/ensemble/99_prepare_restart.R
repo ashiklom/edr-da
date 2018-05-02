@@ -7,7 +7,11 @@ import::from(PEcAn.ED2, read_ed2in, write_ed2in, modify_ed2in)
 
 args <- commandArgs(trailingOnly = TRUE)
 if (interactive()) {
-  args <- c()
+  args <- c(
+    "--prefix=msp20180402",
+    "--ens=2",
+    "--site=OF05_site_1-25710"   # Initial
+  )
 }
 
 argl <- OptionParser() %>%
@@ -21,6 +25,8 @@ str(argl)
 site <- argl$site
 ens <- argl$ens
 
+for (ens in 1:50) {
+  message("Ensemble: ", ens)
 ens_root <- inhere("ensemble_outputs")
 outdir <- if (is.null(argl$outdir)) argl$prefix else argl$outdir
 ens_dir <- file.path(ens_root, outdir)
@@ -35,13 +41,15 @@ all_histfiles <- list.files(out_dir, "history-S")
 hist_dates <- str_extract(all_histfiles, "[[:digit:]]{4}-[[:digit:]]{2}-[[:digit:]]{2}") %>%
   as_date()
 last_date <- max(hist_dates)
+restart_date <- last_date - 1
 
 ed2in_old <- read_ed2in(file.path(run_dir, "ED2IN"))
 ed2in_new <- modify_ed2in(
   ed2in_old,
   runtype = "HISTORY",
-  start_date = last_date,
+  start_date = restart_date,
   pecan_defaults = FALSE,
-  SFILIN = file.path(out_dir, "history-S")
+  SFILIN = file.path(out_dir, "history")
 )
 write_ed2in(ed2in_new, file.path(run_dir, "ED2IN_restart"))
+}
