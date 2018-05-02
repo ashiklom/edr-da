@@ -7,6 +7,15 @@ library(foreach)
 library(doParallel)
 library(optparse)
 
+args <- commandArgs(trailingOnly = TRUE)
+if (interactive()) {
+  args <- c(
+    "--hetero",
+    "--fix_allom2",
+    "--geo"
+  )
+}
+
 argl <- OptionParser() %>%
   add_option("--hetero", action = "store_true", default = FALSE) %>%
   add_option("--fix_allom2", action = "store_true", default = FALSE) %>%
@@ -14,9 +23,7 @@ argl <- OptionParser() %>%
   add_option("--ncores", action = "store", default = 1, type = "double") %>%
   add_option("--prefix", action = "store", default = "multi_site_pda_test", type = "character") %>%
   add_option("--resume", action = "store_true", default = FALSE) %>%
-  parse_args()
-  #parse_args(c("--hetero", "--fix_allom2", "--resume", "--geo", "--ncores=16"))
-
+  parse_args(args)
 print(argl)
 
 # Configuration for geo
@@ -58,6 +65,14 @@ spec_files <- map_chr(site_setup, dirname) %>% file.path(., "spec_store")
 # Returns a matrix of spectra
 model <- function(params) {
   edr_in <- params2edr(params, prospect = TRUE, version = 5)
+  if (argl$fix_allom2) {
+    # Set allometry exponent to posterior mean
+    edr_in$trait.values <- purrr::map2(
+      edr_in$trait.values,
+      purrr::map(redr::allom_mu, "b2Bl")[names(edr_in$trait.values)],
+      ~`[<-`(.x, "b2Bl", .y)
+    )
+  }
   walk(lai_files, ~cat("\n", file = ., append = TRUE))   # always move to next line so file lines up with iterations
   walk(spec_files, ~cat("\n", file = ., append = TRUE))
   pkgs <- c("PEcAnRTM", "PEcAn.ED2")
@@ -148,11 +163,12 @@ custom_settings <- list(
   other = list(
     save_progress = file.path(pda_dir, "progress.rds"),
     heteroskedastic = argl$hetero,
-    threshold = 1.15
+    threshold = 1.2
   )
 )
 
 if (argl$resume) {
+  message("Backing up old results and resuming from previous run")
   tstamp <- strftime(Sys.time(), "%Y%m%d_%H%M%S")
   old_resultfile <- custom_settings$other$save_progress
   file.copy(old_resultfile, paste0(old_resultfile, ".", tstamp))
@@ -166,6 +182,7 @@ if (argl$resume) {
     save_progress = old_resultfile
   )
 } else {
+  message("Running sampler from zero")
   samples <- invert_bt(observed, model, prior, custom_settings = custom_settings)
 }
 

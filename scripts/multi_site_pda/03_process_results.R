@@ -8,8 +8,10 @@ import::from(progress, progress_bar)
 
 args <- commandArgs(trailingOnly = TRUE)
 if (interactive()) {
-  args <- c("--prefix=msp_hf20180402",
-            "--burnin=80000")
+  args <- c(
+    "--prefix=msp20180402",
+    "--burnin=90000"
+  )
 }
 
 argl <- OptionParser() %>%
@@ -37,6 +39,9 @@ dir.create(figdir, showWarnings = FALSE, recursive = TRUE)
 message("Generating trace plots")
 pdf(file.path(figdir, "traces.pdf"))
 tracePlot(result)
+dev.off()
+pdf(file.path(figdir, "traces_burned.pdf"))
+tracePlot(result, start = argl$burnin)
 dev.off()
 message("Done!")
 
@@ -148,15 +153,35 @@ pdf(file.path(figdir, "lai_hist.pdf"))
 iwalk(lai_sums, ~hist(.x, xlab = "Total LAI", main = .y))
 dev.off()
 
+message("Reading old site spectra")
+pb <- progress::progress_bar$new(total = length(sitelist))
+old_spectra <- list()
+for (s in sitelist) {
+  pb$tick()
+  spec_summary_path <- file.path(summary_dir, paste0("spec_history.", s, ".rds"))
+  if (file.exists(spec_summary_path)) {
+    old_spectra[[s]] <- readRDS(spec_summary_path)
+  }
+} 
+
+message("Reading new site spectra")
 pb <- progress_bar$new(total = length(sitelist), format = ":current/:total (ETA: :eta)")
 spec_history <- map(
   sitelist,
   ~{pb$tick(); safely(read_spectra_history)(., pda_dir, argl$burnin)}
 )
 names(spec_history) <- sitelist
+
+message("Saving new site spectra")
+pb <- progress_bar$new(total = length(sitelist), format = ":current/:total (ETA: :eta)")
 for (s in sitelist) {
-  print(s)
-  saveRDS(spec_history[[s]], file.path(summary_dir, paste0("spec_history.", s, ".rds")))
+  pb$tick()
+  spec_summary_path <- file.path(summary_dir, paste0("spec_history.", s, ".rds"))
+  save_spec <- spec_history[[s]]
+  save_spec$result <- cbind(save_spec$result, old_spectra[[s]]$result)
+  dup <- duplicated(t(save_spec$result[seq(1, 2101, 10),]))
+  save_spec$result <- save_spec$result[, !dup]
+  saveRDS(save_spec, spec_summary_path)
 } 
 
 message("Spectral confidence intervals for sites")
