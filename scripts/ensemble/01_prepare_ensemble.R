@@ -6,18 +6,21 @@ import::from(here, here)
 import::from(BayesianTools, getSample)
 import::from(PEcAnRTM, params2edr)
 import::from(progress, progress_bar)
+import::from(glue, glue)
 
 # [1] "OF05"  "IDS36" "SF03"  "BH07"  "AK60"  "OF02"  "BH05" 
 
 args <- commandArgs(trailingOnly = TRUE)
 if (interactive()) {
   args <- c(
-    "--burnin=40000",
+    "--prefix=msp20180402",
+    "--outdir=msp20180402-nodrought",
+    "--burnin=90000",
     "--nens=50",
-    #"--initial",
-    #"--site=OF05_site_1-25710"   # Initial
-    "--site=IDS36_site_1-25686"
-    #"--site=SF03_site_1-25721"
+    "--initial",
+    "--site=OF05_site_1-25710"   # Initial
+    #"--site=IDS36_site_1-25686"
+    #"--site=SF03_site_1-25721" # Skipped for now
     #"--site=BH07_site_1-25669"
     #"--site=AK60_site_1-25674"
     #"--site=OF02_site_1-25708"
@@ -34,7 +37,6 @@ argl <- OptionParser() %>%
   add_option("--burnin", action = "store", type = "integer", default = 8000) %>%
   add_option("--nens", action = "store", type = "integer", default = 50) %>%
   parse_args(args)
-
 print(argl)
 
 ############################################################
@@ -70,10 +72,19 @@ samp_base <- if (argl$final) "results.rds" else "progress.rds"
 samp_fname <- file.path(pda_dir, samp_base)
 stopifnot(file.exists(samp_fname))
 edr_samples_all <- readRDS(samp_fname)
-edr_samples <- getSample(edr_samples_all, start = argl$burnin)
+edr_samples_raw <- getSample(edr_samples_all, start = argl$burnin)
+sdup <- duplicated(edr_samples_raw)
+edr_samples <- edr_samples_raw[!sdup, ]
 other_posteriors <- readRDS(here("ed-inputs", "istem-posteriors", "processed.rds"))
 
+# Some parameters must be >0 filter them here
+noneg_cols <- grep("prospect", colnames(edr_samples))
+edr_nneg <- edr_samples[, noneg_cols] < 0
+isneg <- rowSums(edr_nneg) > 0
+edr_samples <- edr_samples[!isneg, ]
+
 edr_sub <- edr_samples[sample.int(nrow(edr_samples), argl$nens), ]
+
 other_sub <- other_posteriors[sample.int(nrow(other_posteriors), argl$nens), ]
 combined <- cbind(edr_sub, other_sub)
 
@@ -81,6 +92,14 @@ sum4ed <- function(params, vis = 400:700, nir = 701:1300) {
   pedr <- params2edr(params)
   pspec <- pedr$spectra_list
   traits <- pedr$trait.values
+  if (fix_allom2) {
+    # Set allometry exponent to posterior mean
+    traits <- purrr::map2(
+      traits,
+      purrr::map(redr::allom_mu, "b2Bl")[names(traits)],
+      ~`[<-`(.x, "b2Bl", .y)
+    )
+  }
   pvis <- purrr::map(pspec, ~colMeans(.[[vis]])) %>%
     purrr::map(setNames, c("leaf_reflect_vis", "leaf_trans_vis")) %>%
     .[names(traits)]
@@ -199,23 +218,23 @@ ed2in_temp <- read_ed2in(site_ed2in) %>%
     start_date = site_info$start_date,
     end_date = site_info$end_date,
     EDI_path = here("ed-inputs", "EDI"),
-    output_types = c("monthly", "restart"),
+    output_types = c("instant", "monthly", "restart"),
     runtype = "INITIAL",
     IED_INIT_MODE = if_else(is_initial, 0, 3),
     NZG = nsoil,  # number of soil layers
     SLZ = rev(-soil_site$depth_bottom_cm / 100),  # soil layer depths
     SLMSTR = rep(0.65, nsoil),
     STGOFF = rep(0, nsoil),
-    UNITSTATE = 1,
-    FRQSTATE = 1,
-    DTLSM = 600,  # Lower these values to reduce the likelihood of integration failures
-    RADFRQ = 600,
+    UNITSTATE = 1, FRQSTATE = 1, # Write daily history files
+    DTLSM = 300,  # Lower these values to reduce the likelihood of integration failures
+    RADFRQ = 300,
     RK4_TOLERANCE = 1e-4,
     INTEGRATION_SCHEME = 1,
+    H2O_PLANT_LIM = 0,    # Turn of plant hydraulic limitation
     INCLUDE_THESE_PFT = pft_lookup$pft_num  # Limit to PDA PFTs
   )
 
-pb <- progress_bar$new(total = argl$nens)
+pb <- progress_bar$new(total = argl$nens, format = ":current/:total (:eta)")
 for (i in seq_len(argl$nens)) {
   pb$tick()
   run_dir <- file.path(ens_site_dir, sprintf("ens_%03d", i))
@@ -236,7 +255,7 @@ for (i in seq_len(argl$nens)) {
   PEcAn.logger::logger.setLevel("INFO")
   xml <- PEcAn.ED2::write.config.xml.ED2(
     defaults = list(),
-    settings = list(revision = "git", config.header = NULL),
+    settings = list(model = list(revision = "git"), config.header = NULL),
     trait.values = trait_values
   )
   PREFIX_XML <- "<?xml version=\"1.0\"?>\n<!DOCTYPE config SYSTEM \"ed.dtd\">\n"
@@ -247,14 +266,17 @@ for (i in seq_len(argl$nens)) {
 # Write submission script
 ############################################################
 ed_exe_path <- "/projectnb/dietzelab/ashiklom/ED2/ED/build/ed_2.1-dbg"
+sexec <- "/usr3/graduate/ashiklom/.singularity/sexec"
+rscript <- "/usr3/graduate/ashiklom/.singularity/Rscript"
 log_path <- "logs_ed"
 dir.create(log_path, showWarnings = FALSE)
 submit_script <- c(
   "#!/bin/bash",
-  "#$ -q \"geo*\"",
+  #"#$ -q \"geo*\"",
   "#$ -l h_rt=48:00:00",
-  #"#$ -pe omp 4",
   "#$ -j y",
+  #"#$ -pe omp 4",
+  "#$ -v OMP_THREAD_LIMIT=1",
   paste("#$ -o", log_path),
   paste0("#$ -t 1-", argl$nens),
   paste("#$ -N", site),
@@ -262,10 +284,18 @@ submit_script <- c(
   "printf -v ENSDIR \"ens_%03d\" $SGE_TASK_ID",
   "",
   paste(
-    "/usr3/graduate/ashiklom/.singularity/sexec",
-    ed_exe_path,
-    "-f",
+    sexec, ed_exe_path, "-f",
     file.path(ens_site_dir, "$ENSDIR", "ED2IN")
+  ),
+  "# Summarize analysis files",
+  glue(
+    "{rscript} scripts/ensemble/06_read_analysis_ts.R ",
+    "--site={site} --ens=$SGE_TASK_ID --prefix={argl$outdir}"
+  ),
+  "# Run EDR",
+  glue(
+    "{rscript} scripts/ensemble/02_run_edr.R ",
+    "--site={site} --ens=$SGE_TASK_ID --prefix={argl$outdir} --by=1"
   )
 )
 writeLines(submit_script, paste0("qsub_ed_", site, ".sh"))
@@ -277,4 +307,5 @@ if (interactive()) {
 
 if (FALSE) {
   devtools::install("~/dietzelab/pecan/models/ed")
+  "/projectnb/dietzelab/ashiklom/edr-da/ensemble_outputs/msp20180402/OF05_site_1-25710/ens_002/config.xml"
 }

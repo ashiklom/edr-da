@@ -13,18 +13,25 @@ import::from(foreach, foreach, "%do%")
 
 args <- commandArgs(trailingOnly = TRUE)
 if (interactive()) {
-  args <- c("--site=OF05")
+  args <- c(
+    #"--site=AK60"
+    glue("--site={argl$site}"),
+    glue("--ens=1"),
+    glue("--prefix={argl$outdir}"),
+    glue("--by=1")
+  )
 }
 
 argl <- OptionParser() %>%
   add_option("--site", action = "store", type = "character", default = "AK60") %>%
   add_option("--ens", action = "store", type = "integer", default = 1) %>%
   add_option("--by", action = "store", type = "integer", default = 10) %>%
+  add_option("--prefix", action = "store", type = "character", default = "msp20180402") %>%
   parse_args(args)
 print(argl)
 
 site <- argl$site
-ensemble_root <- inhere("ensemble_outputs", "msp_hf20180402")
+ensemble_root <- inhere("ensemble_outputs", argl$prefix)
 site_dir <- list.files(ensemble_root, argl$site, full.names = TRUE)
 stopifnot(length(site_dir) == 1)
 
@@ -43,12 +50,12 @@ simulate_spec_ensemble <- function(ens, site_dir, by = 10) {
   history_files <- list.files(file.path(ens_dir, "out"), "history-S.*\\.h5")
   has_dates <- stringr::str_extract(history_files, "[[:digit:]]{4}-[[:digit:]]{2}-[[:digit:]]{2}") %>%
     lubridate::as_date()
-  has_dates <- has_dates[has_dates > lubridate::as_date("2000-01-01")]
+  #has_dates <- has_dates[has_dates > lubridate::as_date("2000-01-01")]
   dates <- seq(min(has_dates), max(has_dates), by = by)
   message("Running from ", min(dates), " to ", max(dates))
   message("In total, ", length(dates), " runs.")
   ed2in <- PEcAn.ED2::read_ed2in(file.path(ens_dir, "ED2IN"))
-  ed2in$RK4_TOLERANCE <- 1e-5
+  #ed2in$RK4_TOLERANCE <- 1e-5
   PEcAn.logger::logger.setLevel("INFO")
   outfile <- file.path(ens_dir, "spectra_sims.csv")
   file.remove(outfile)
