@@ -1,5 +1,6 @@
 #!/usr/bin/env Rscript
 
+## Priors
 import::from("magrittr", "%>%")
 
 load("priors/mvtraits_priors.RData")
@@ -39,9 +40,36 @@ b1Bl_sds <- purrr::map_dbl(allom_Sigma, ~.[1, 1]) %>% sqrt()
 npfts <- length(b1Bl_means)
 pfts <- names(b1Bl_means)
 
+## Wet and dry soil spectra
+pecan_soil_file <- "https://raw.githubusercontent.com/PecanProject/pecan/develop/modules/rtm/src/RTM/modules/dataSpec/dataSpec_soil.f90"
+soil_raw <- readLines(pecan_soil_file)
+start_dry_soil <- grep("^[[:space:]]+DATA \\(Rsoil1", soil_raw)[1]
+start_wet_soil <- grep("^[[:space:]]+DATA \\(Rsoil2", soil_raw)[1]
+
+raw_dry_soil <- soil_raw[start_dry_soil:(start_wet_soil - 1)]
+raw_dry_soil_num <- grep("^[[:space:]]+[[:digit:]]", raw_dry_soil, value = TRUE)
+raw_dry_soil_num <- gsub("[&/]", "", raw_dry_soil_num)
+dry_soil <- as.numeric(unlist(strsplit(raw_dry_soil_num, ",")))
+
+raw_wet_soil <- soil_raw[-(1:start_wet_soil)]
+raw_wet_soil_num <- grep("^[[:space:]]+[[:digit:]]", raw_wet_soil, value = TRUE)
+raw_wet_soil_num <- gsub("[&/]", "", raw_wet_soil_num)
+wet_soil <- as.numeric(unlist(strsplit(raw_wet_soil_num, ",")))
+
+### Wood spectra
+wood_spec_file <- system.file("extdata/wood_reflect_par.dat", package = "PEcAnRTM")
+wood_spec <- scan(wood_spec_file)
+wood_spec <- c(wood_spec, tail(wood_spec, 1))
+
+stopifnot(
+  length(wet_soil) == 2101,
+  length(dry_soil) == 2101,
+  length(wood_spec) == 2101
+)
 
 usethis::use_data(prospect_means, prospect_covars, prospect_names,
                   allometry_stats, allom_mu, allom_Sigma, allom_names,
                   b1Bl_means, b1Bl_sds,
                   npfts, pfts,
+                  dry_soil, wet_soil, wood_spec,
                   internal = TRUE, overwrite = TRUE)

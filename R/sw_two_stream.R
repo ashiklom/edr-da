@@ -16,6 +16,7 @@
 #' @param down0_sky Normalized direct solar spectrum (nwl)
 #' @return
 #' @author Alexey Shiklomanov
+#' @export
 sw_two_stream <- function(czen,
                           iota_g,
                           pft,
@@ -42,21 +43,21 @@ sw_two_stream <- function(czen,
     length(cai) == ncoh
   )
 
-  stopifnot(abs(czen) <= 1) 
+  stopifnot(abs(czen) <= 1)
 
   # All spectra are between 0 and 1
   stopifnot(
-    any(iota_g > 1 | iota_g < 0),
-    any(leaf_reflect > 1 | leaf_reflect < 0),
-    any(leaf_trans > 1 | leaf_trans < 0),
-    any(wood_reflect > 1 | wood_reflect < 0),
-    any(wood_trans > 1 | wood_trans < 0)
+    !any(iota_g > 1 | iota_g < 0),
+    !any(leaf_reflect > 1 | leaf_reflect < 0),
+    !any(leaf_trans > 1 | leaf_trans < 0),
+    !any(wood_reflect > 1 | wood_reflect < 0),
+    !any(wood_trans > 1 | wood_trans < 0)
   )
 
   # Incident radiation has to sum to 1 across all wavelengths
   stopifnot(
-    any(down_sky > 1 | down_sky < 0),
-    any(down0_sky > 1 | down0_sky < 0),
+    !any(down_sky > 1 | down_sky < 0),
+    !any(down0_sky > 1 | down0_sky < 0),
     all(down_sky + down0_sky == 1)
   )
 
