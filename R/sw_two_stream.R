@@ -83,6 +83,7 @@ sw_two_stream <- function(czen,
   phi2 <- 0.877 * (1 - 2 * phi1)
   mu_bar <- (1 - phi1 * log(1 + phi2 / phi1) / phi2) / phi2
   mu_bar[orient_factor == 0] <- 1
+  stopifnot(all(is.finite(mu_bar)))
   ##########
 
   # Size of solution matrix
@@ -108,7 +109,9 @@ sw_two_stream <- function(czen,
   iota_ratio <- 1 / (2 * (1 + phi2 * mu0)) *
     (1 - phi1 * mu0 / (1 + phi2 * mu0) *
        log((1 + (phi1 + phi2) * mu0) / (phi1 * mu0)))
+  stopifnot(all(is.finite(iota_ratio)))
   beta0 <- iota_ratio * (1 + mu0 / mu)
+  stopifnot(all(is.finite(beta0)))
   epsil0 <- 1 - 2 * beta0
 
   # Transmissivity of direct radiation
@@ -222,6 +225,7 @@ sw_two_stream <- function(czen,
     mmat[, k2p1, k2p2] <- -gamm_plus[, kp1] * expl_plus[, kp1]
   }
 
+  stopifnot(any(!is.finite(mmat)))
   # Solve the radiation balance at wavelength
   xvec <- array(0, c(nwl, nsiz))
   for (w in seq_len(nwl)) {
