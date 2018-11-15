@@ -4,7 +4,8 @@
 \alias{load_observations}
 \title{Load AVIRIS observations into a list}
 \usage{
-load_observations(sites, aviris_specfile = here::here("aviris/aviris.rds"),
+load_observations(sites,
+  aviris_specfile = here::here("aviris/aviris.rds"),
   use_waves = seq(400, 1300, by = 10))
 }
 \arguments{

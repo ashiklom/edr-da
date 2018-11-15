@@ -4,7 +4,8 @@
 \alias{refresh_site_list}
 \title{Refresh current site list based on ED runs and available spectra}
 \usage{
-refresh_site_list(pda_dir, aviris_specfile = here::here("aviris/aviris.rds"),
+refresh_site_list(pda_dir,
+  aviris_specfile = here::here("aviris/aviris.rds"),
   drop_sites = "IDS05_site_1-25682",
   outfile = here::here("other_site_data/site_list"))
 }

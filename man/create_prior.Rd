@@ -6,7 +6,8 @@
 \alias{create_prior_density}
 \title{Create prior functions}
 \usage{
-create_prior(fix_allom2 = TRUE, heteroskedastic = TRUE, verbose = TRUE)
+create_prior(fix_allom2 = TRUE, heteroskedastic = TRUE,
+  verbose = TRUE)
 
 create_prior_sampler(fix_allom2 = TRUE, heteroskedastic = TRUE)
 
