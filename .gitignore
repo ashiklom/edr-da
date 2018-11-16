@@ -37,7 +37,7 @@ redr_*
 # (Use this is a prefix for EDR runtime directories)
 .edr*
 edr_prior_sensitivity/
-edr_*
+#edr_*
 edr-*
 EDR_sim_output_*
 
