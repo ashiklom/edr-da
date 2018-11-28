@@ -7,10 +7,10 @@ library(tidyr)
 bety <- dbConnect(
   Postgres(),
   dbname = "bety",
-  host = "localhost",
   user = "bety",
   password = "bety",
-  port = 3333
+  host = "localhost",
+  port = 7990
 )
 
 ed_modeltype <- 1
@@ -49,7 +49,15 @@ pft_nested <- ed_pft_species %>%
 pft_list <- pft_nested$data %>% setNames(pft_nested$pft.name)
 
 data(allom.components)
+allom.components
+
+outdir <- "zAllom_results"
+dir.create(outdir, showWarnings = FALSE)
 
 # component 18 -- Foliage total
-allom_stats <- AllomAve(pft_list, components = 18)
+allom_stats <- AllomAve(pft_list, components = 18, outdir = outdir)
 saveRDS(allom_stats, "priors/allometry_stats.rds")
+
+# Component 16 -- Wood (stem + branches)
+wood_allom_stats <- AllomAve(pft_list, components = 16, outdir = outdir)
+saveRDS(wood_allom_stats, "priors/wood_allometry_stats.rds")

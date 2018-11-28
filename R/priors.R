@@ -23,16 +23,51 @@ dallom2 <- function(traits, log = TRUE) {
   )
 }
 
+#' @rdname rallom2
+#' @export
+rwallom2 <- function() {
+  purrr::map2(
+    wallom_mu,
+    wallom_Sigma,
+    ~mvtnorm::rmvnorm(1, .x, .y)[1, ]
+  ) %>%
+    purrr::map(~c(exp(.[1]), .[2]))
+}
+
+#' @rdname rallom2
+#' @export
+dwallom2 <- function(traits, log = TRUE) {
+  b1Bw <- purrr::map_dbl(traits, wallom_names[1]) %>% log()
+  b2Bw <- purrr::map_dbl(traits, wallom_names[2])
+  pfts <- names(traits)
+  purrr::pmap_dbl(
+    list(b1Bw, b2Bw, pfts),
+    ~mvtnorm::dmvnorm(c(..1, ..2), wallom_mu[[..3]], wallom_Sigma[[..3]], log = log)
+  )
+}
+
 #' Allometry mean vector
 #'
 #' @name allom_mu
 #' @export allom_mu
 NULL
 
+#' Wood allometry mean vector
+#'
+#' @name wallom_mu
+#' @export wallom_mu
+NULL
+
 #' Allometry variance-covariance matrix
 #'
 #' @name allom_Sigma
 #' @export allom_Sigma
+NULL
+
+#' Wood allometry variance-covariance matrix
+#'
+#' @name wallom_Sigma
+#' @export wallom_Sigma
 NULL
 
 #' Univariate allometry prior (varying just the base)
@@ -52,6 +87,23 @@ dallom1 <- function(traits, log = TRUE) {
   ld <- dnorm(allom_vals, b1Bl_means, b1Bl_sds, log = log)
   ld
 }
+
+#' @rdname rallom1
+#' @export
+rwallom1 <- function() {
+  out <- rnorm(npfts, b1Bw_means, b1Bw_sds) %>% exp()
+  names(out) <- paste(pfts, wallom_names[1], sep = ".")
+  out
+}
+
+#' @rdname rallom1
+#' @export
+dwallom1 <- function(traits, log = TRUE) {
+  allom_vals <- purrr::map_dbl(traits, wallom_names[1]) %>% log()
+  ld <- dnorm(allom_vals, b1Bw_means, b1Bw_sds, log = log)
+  ld
+}
+
 
 #' @export
 prior_clumping <- c(0, 1)
@@ -96,7 +148,7 @@ dorient <- function(traits, log = TRUE) {
 }
 
 #' @export
-prior_residual <- c(0.01, 0.01)
+prior_residual <- c(0.03, 1.5)
 
 #' @rdname rclumping
 #' @export

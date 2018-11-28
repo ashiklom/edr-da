@@ -11,7 +11,7 @@ load_observations <- function(sites,
   aviris_plots <- colnames(aviris_spec_all)
   site_tags <- gsub("([[:alnum:]]+)_.*", "\\1", sites)
   av_inds <- aviris_plots %in% site_tags
-  aviris_spec <- aviris_spec_all[, av_inds, drop = FALSE]
+  aviris_spec <- aviris_spec_all[, av_inds]
   colnames(aviris_spec) <- sites[match(colnames(aviris_spec), site_tags)]
   observed <- PEcAnRTM::resample(aviris_spec, use_waves)
   observed

@@ -1,4 +1,11 @@
-library(redr)
+## library(redr)
+devtools::load_all(".")
+
+load_local <- function(file) {
+  menv <- new.env(parent = baseenv())
+  load(file, envir = menv)
+  as.list(menv)
+}
 
 site_code <- "BH02"
 
@@ -76,7 +83,8 @@ create_likelihood <- function(observed, waves, pft, dbh, nplant) {
             orient_factor, clumping_factor,
             soil_moisture,
             direct_sky_frac,
-            czen),
+            czen,
+            wavelengths = waves),
       error = function(e) NULL)
     if (is.null(result)) return(-1e20)
     albedo <- result[["albedo"]]
@@ -85,38 +93,48 @@ create_likelihood <- function(observed, waves, pft, dbh, nplant) {
     if (any(albedo > 1)) return(-1e20)
 
     # Calculate likelihood
-    ll <- sum(dnorm(albedo, observed, sigma, log = TRUE))
+    ll <- sum(dnorm(albedo, observed, ssigma, log = TRUE))
     ll
   }
 }
 
 # Define priors
+## prior_mvtraits <- load_local("priors/mvtraits_priors.RData")
 
 pft_lowers <- rep(c(
-  b1leaf = 0, b2leaf = -100, sla = 0,
-  b1wood = 0, b2wood = -100,
+  b1leaf = 0, b2leaf = -5, sla = 0,
+  b1wood = 0, b2wood = -5,
   N = 1, Cab = 0, Car = 0, Cw = 0, Cm = 0,
-  orient_factor = -1, clumping_factor = 0
+  orient_factor = -0.75, clumping_factor = 0
 ), npft)
 pft_uppers <- rep(c(
-  b1leaf = 1000, b2leaf = 100, sla = 1000,
-  b1wood = 1000, b2wood = 100,
-  N = 10, Cab = 300, Car = 100, Cw = 0.1, Cm = 0.1,
-  orient_factor = 1, clumping_factor = 1
+  b1leaf = 3, b2leaf = -2, sla = 100,
+  b1wood = 3, b2wood = -2,
+  N = 3, Cab = 100, Car = 40, Cw = 0.05, Cm = 0.05,
+  orient_factor = 0.75, clumping_factor = 1
 ), npft)
 lowers <- c(
   "ssigma" = 0, "soil_moisture" = 0, "direct_sky_frac" = 0, "czen" = 0,
   pft_lowers
 )
 uppers <- c(
-  "ssigma" = 1000, "soil_moisture" = 1, "direct_sky_frac" = 1, "czen" = 1,
+  "ssigma" = 1, "soil_moisture" = 1, "direct_sky_frac" = 1, "czen" = 1,
   pft_uppers
 )
 prior <- BayesianTools::createUniformPrior(lower = lowers, upper = uppers)
 
-likelihood <- create_likelihood(observation, which_wl, pft, dbh, nplant)
+likelihood <- create_likelihood(observation, aviris_use_wl, pft, dbh, nplant)
+
+## debug(edr_r)
+## likelihood(prior$sampler())
 
 # Run inversion
 setup <- BayesianTools::createBayesianSetup(likelihood, prior, parallel = TRUE)
 samples <- BayesianTools::runMCMC(setup)
 samples <- BayesianTools::runMCMC(samples)
+BayesianTools::gelmanDiagnostics(samples)
+summary(samples)
+
+## Local Variables:
+## ess-r-package--project-cache: (redr . "/Users/shik544/Box Sync/Projects/edr_pda/edr-da/")
+## End:

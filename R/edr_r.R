@@ -25,9 +25,11 @@ edr_r <- function(pft, lai, wai, cai,
                   soil_moisture,
                   direct_sky_frac,
                   czen,
-                  wood_reflect = matrix(rep(wood_spec, length(pft)), 2101)) {
+                  wood_reflect = matrix(rep(wood_spec, length(pft)), 2101),
+                  wavelengths = seq(400, 2500)) {
   ncohort <- length(pft)
   npft <- length(N)
+  nwl <- length(wavelengths)
   stopifnot(
     length(pft) == ncohort,
     length(lai) == ncohort, all(lai >= 0),
@@ -42,14 +44,22 @@ edr_r <- function(pft, lai, wai, cai,
     length(orient_factor) == npft,
     all(orient_factor < 1), all(orient_factor > -1),
     length(clumping_factor) == npft,
-    all(clumping_factor > 0), all(clumping_factor < 1),
+    all(clumping_factor > 0), all(clumping_factor <= 1),
     length(soil_moisture) == 1,
     soil_moisture <= 1, soil_moisture >= 0,
     length(direct_sky_frac) == 1,
     direct_sky_frac >= 0, direct_sky_frac <= 1,
     length(czen) == 1,
-    NROW(wood_reflect) == 2101
+    NROW(wood_reflect) %in% c(2101, nwl)
   )
+
+  # Wavelength indices -- everything relative to 400:2500 (so 400nm is
+  # index 1, 2500 is index 2101)
+  wli <- wavelengths - 399
+
+  # If using full wood reflectance spectrum, subset to only used
+  # wavelengths
+  if (nwl != NROW(wood_reflect)) wood_reflect <- wood_reflect[wli, ]
 
   prosp_param_list <- purrr::transpose(list(N, Cab, Car, Cw, Cm)) %>%
     purrr::map(unlist)
@@ -58,19 +68,19 @@ edr_r <- function(pft, lai, wai, cai,
     cbind,
     Map(function(x) x[, "reflectance"], leaf_spectra)
   )
-  leaf_reflect <- unclass(leaf_reflect)
+  leaf_reflect <- unclass(leaf_reflect)[wli,]
   leaf_trans <- Reduce(
     cbind,
     Map(function(x) x[, "transmittance"], leaf_spectra)
   )
-  leaf_trans <- unclass(leaf_trans)
+  leaf_trans <- unclass(leaf_trans)[wli,]
 
   # Soil reflectance as a function of soil moisture
-  soil_reflect <- hapke_soil(soil_moisture)
+  soil_reflect <- hapke_soil(soil_moisture)[wli]
 
   # "Flat" spectra of incident solar radiation
-  down0_sky <- rep(direct_sky_frac, 2101)
-  down_sky <- rep(1 - direct_sky_frac, 2101)
+  down0_sky <- rep(direct_sky_frac, nwl)
+  down_sky <- rep(1 - direct_sky_frac, nwl)
 
   # Wood does not transmit in the VIS or NIR
   wood_trans <- wood_reflect
@@ -90,6 +100,7 @@ edr_r <- function(pft, lai, wai, cai,
     wood_reflect = wood_reflect,
     wood_trans = wood_trans,
     down_sky = down_sky,
-    down0_sky = down0_sky
+    down0_sky = down0_sky,
+    wavelengths = wavelengths
   )
 }

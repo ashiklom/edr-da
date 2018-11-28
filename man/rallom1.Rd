@@ -3,11 +3,17 @@
 \name{rallom1}
 \alias{rallom1}
 \alias{dallom1}
+\alias{rwallom1}
+\alias{dwallom1}
 \title{Univariate allometry prior (varying just the base)}
 \usage{
 rallom1()
 
 dallom1(traits, log = TRUE)
+
+rwallom1()
+
+dwallom1(traits, log = TRUE)
 }
 \arguments{
 \item{traits}{Traits list}

@@ -7,36 +7,76 @@
 #' @param verbose Logical. If `TRUE`, print verbose error messages for invalid 
 #' prior densities
 #' @export
-create_prior <- function(fix_allom2 = TRUE, heteroskedastic = TRUE, verbose = TRUE) {
+create_prior <- function(fix_allom2 = TRUE, heteroskedastic = TRUE, verbose = TRUE, nsite = 1, limits = FALSE, best = TRUE) {
+  lower <- NULL
+  upper <- NULL
+  if (limits) {
+    npft <- 5
+    pft_lower <- c(
+      1, 0, 0, 0, 0, # prospect
+      0, # SLA
+      0, if (fix_allom2) NULL else -50, # leaf allom
+      0, if (fix_allom2) NULL else -50, # wood allom
+      0, -1 # clumping, orient
+    )
+    pft_upper <- c(
+      10, 1000, 500, 0.1, 0.1, # prospect
+      10000, # SLA
+      50, if (!fix_allom2) 50, # leaf allom
+      50, if (!fix_allom2) 50, # wood allom
+      1, 1 # clumping, orient
+    )
+    lower <- c(rep(pft_lower, npft), rep(0, nsite), 0, if (heteroskedastic) 0)
+    upper <- c(rep(pft_upper, npft), rep(1, nsite), 100, if (heteroskedastic) 100)
+  }
+  bestval <- NULL
+  if (best) {
+    pft_best <- c(
+      1.4, 40, 10, 0.01, 0.01,
+      40,
+      1, if (!fix_allom2) 1,
+      1, if (!fix_allom2) 1,
+      0.5, 0
+    )
+    bestval <- c(rep(pft_best, npft), rep(0.5, nsite), 0.1, if (heteroskedastic) 0.1)
+  }
   BayesianTools::createPrior(
     density = create_prior_density(fix_allom2, heteroskedastic, verbose),
-    sampler = create_prior_sampler(fix_allom2, heteroskedastic)
+    sampler = create_prior_sampler(fix_allom2, heteroskedastic, nsite),
+    lower = lower, upper = upper, best = bestval
   )
 }
 
 #' @rdname create_prior
 #' @export
-create_prior_sampler <- function(fix_allom2 = TRUE, heteroskedastic = TRUE) {
+create_prior_sampler <- function(fix_allom2 = TRUE, heteroskedastic = TRUE, nsite = 1) {
   function(n = 1) {
     out <- numeric()
     for (i in seq_len(n)) {
       prospect_params <- rprospect()
       alloms <- if (fix_allom2) rallom1() else rallom2()
+      walloms <- if (fix_allom2) rwallom1() else rwallom2()
       if (fix_allom2) allom_names <- allom_names[1]
+      if (fix_allom2) wallom_names <- wallom_names[1]
       alloms <- purrr::map(alloms, setNames, allom_names)
+      walloms <- purrr::map(walloms, setNames, wallom_names)
       cf <- rclumping() %>% purrr::map(setNames, "clumping_factor")
       of <- rorient() %>% purrr::map(setNames, "orient_factor")
+      # HACK: Hard-coded uniform prior on soil moisture
+      soil <- runif(nsite, 0, 1)
+      names(soil) <- paste0("sitesoil_", seq_len(nsite))
       resid <- if (heteroskedastic) rresidual2() else rresidual()
       curr_params <- purrr::pmap(
         list(
           prospect_params,
           alloms,
+          walloms,
           cf,
           of
         ),
         c
       ) %>% unlist()
-      out <- c(out, curr_params, resid)
+      out <- c(out, curr_params, soil, resid)
     }
     out
   }
@@ -46,11 +86,19 @@ create_prior_sampler <- function(fix_allom2 = TRUE, heteroskedastic = TRUE) {
 #' @export
 create_prior_density <- function(fix_allom2 = TRUE, heteroskedastic = TRUE, verbose = TRUE) {
   function(params) {
+    # HACK: Assume a uniform 0-1 prior for site soil, so no effect on likelihood
+    soil_params <- params[grepl("sitesoil", names(params))]
+    if (any(!is.finite(soil_params) | soil_params < 0 | soil_params > 1)) {
+      if (verbose) message("Invalid soil prior")
+      return(-Inf)
+    }
     ld_resid <- if (heteroskedastic) dresidual2(params) else dresidual(params)
     if (!all(is.finite(ld_resid))) {
       if (verbose) message("Invalid residual prior")
       return(-Inf)
     }
+    # Drop the residuals and soil parameters from the remaining parameter vector
+    params <- params[!grepl("residual|sitesoil", names(params))]
     traits <- PEcAnRTM::params2edr(params, prospect = FALSE)$trait.values
     ld_allom <- if (fix_allom2) dallom1(traits) else dallom2(traits)
     if (!all(is.finite(ld_allom))) {
@@ -58,6 +106,15 @@ create_prior_density <- function(fix_allom2 = TRUE, heteroskedastic = TRUE, verb
         message("Invalid allometry prior")
         print(purrr::map_dbl(traits, allom_names[1]))
         print(purrr::map_dbl(traits, allom_names[2]))
+      }
+      return(-Inf)
+    }
+    ld_wallom <- if (fix_allom2) dwallom1(traits) else dwallom2(traits)
+    if (!all(is.finite(ld_wallom))) {
+      if (verbose) {
+        message("Invalid wood allometry prior")
+        print(purrr::map_dbl(traits, wallom_names[1]))
+        print(purrr::map_dbl(traits, wallom_names[2]))
       }
       return(-Inf)
     }
@@ -76,7 +133,7 @@ create_prior_density <- function(fix_allom2 = TRUE, heteroskedastic = TRUE, verb
       if (verbose) message("Invalid orient prior")
       return(-Inf)
     }
-    sum(ld_resid, ld_allom, ld_prosp, ld_clumping, ld_orient)
+    sum(ld_resid, ld_allom, ld_wallom, ld_prosp, ld_clumping, ld_orient)
   }
 }
 
@@ -101,20 +158,21 @@ check_prior <- function(prior, n_test = 500, error = FALSE, progress = TRUE) {
     if (progress) setTxtProgressBar(pb, i / n_test)
     test_params <- prior$sampler()
     prior_samps[i, ] <- test_params
-    test_priors <- try(prior$density(test_params))
-    if (!is.numeric(test_priors) || !is.finite(test_priors)) {
-      msg <- paste0("Problem with priors at index ", i)
-      if (error) {
-        print(test_params)
-        stop(msg)
-      } else {
-        print(test_params)
-        warning(msg)
-        n_invalid <- n_invalid + 1
+    test_priors <- tryCatch(
+      prior$density(test_params),
+      error = function(e) {
+        if (error) {
+          print(test_params)
+          stop(e)
+        } else {
+          message("Hit the following error at index: ", i, " : ", e)
+          NULL
+        }
       }
-    }
-    #stopifnot(is.numeric(test_priors), is.finite(test_priors))
+    )
+    if (is.null(test_priors)) n_invalid <- n_invalid + 1
   }
+  #stopifnot(is.numeric(test_priors), is.finite(test_priors))
   attr(prior_samps, "n_invalid") <- n_invalid
-  prior_samps
+  invisible(prior_samps)
 }

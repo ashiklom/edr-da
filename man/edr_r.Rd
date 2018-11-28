@@ -6,7 +6,8 @@
 \usage{
 edr_r(pft, lai, wai, cai, N, Cab, Car, Cw, Cm, orient_factor,
   clumping_factor, soil_moisture, direct_sky_frac, czen,
-  wood_reflect = matrix(rep(wood_spec, length(pft)), 2101))
+  wood_reflect = matrix(rep(wood_spec, length(pft)), 2101),
+  wavelengths = seq(400, 2500))
 }
 \arguments{
 \item{pft}{PFT identities of each cohort, as integer (ncoh)}
@@ -40,6 +41,9 @@ direct (0-1; 0 = all diffuse radiation)}
 \item{czen}{Cosine of angle of incidence (`cosaio`)}
 
 \item{wood_reflect}{Wood reflectance spectrum. Default [wood_spectrum()]}
+
+\item{wavelengths}{Numeric vector of wavelengths to use, in nm
+(nwl). Default is 400:2500.}
 }
 \description{
 Wrapper around [sw_two_stream] that also calls PROSPECT 5 (see

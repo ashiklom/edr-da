@@ -14,6 +14,8 @@
 #' @param wood_trans Wood transmittance spectra (nwl * npft)
 #' @param down_sky Normalized diffuse solar spectrum (nwl)
 #' @param down0_sky Normalized direct solar spectrum (nwl)
+#' @param wavelengths Numeric vector of wavelengths to use, in nm
+#'   (nwl). Default is 400:2500.
 #' @return
 #' @author Alexey Shiklomanov
 #' @export
@@ -24,16 +26,18 @@ sw_two_stream <- function(czen,
                           orient_factor, clumping_factor,
                           leaf_reflect, leaf_trans,
                           wood_reflect, wood_trans,
-                          down_sky, down0_sky
+                          down_sky, down0_sky,
+                          wavelengths = seq(400, 2500)
                           ) {
 
   # Sanity checks
-  nwl <- length(iota_g)
+  nwl <- length(wavelengths)
   stopifnot(
-    nrow(leaf_reflect) == nwl,
-    nrow(leaf_trans) == nwl,
-    nrow(wood_reflect) == nwl,
-    nrow(wood_trans) == nwl
+    NROW(leaf_reflect) == nwl,
+    NROW(leaf_trans) == nwl,
+    NROW(wood_reflect) == nwl,
+    NROW(wood_trans) == nwl,
+    NROW(iota_g) == nwl
   )
 
   ncoh <- length(pft)
@@ -225,11 +229,13 @@ sw_two_stream <- function(czen,
     mmat[, k2p1, k2p2] <- -gamm_plus[, kp1] * expl_plus[, kp1]
   }
 
-  stopifnot(any(!is.finite(mmat)))
+  stopifnot(!any(!is.finite(mmat)))
   # Solve the radiation balance at wavelength
+
   xvec <- array(0, c(nwl, nsiz))
   for (w in seq_len(nwl)) {
-    xvec[w, ] <- solve(mmat[w,,], yvec[w,])
+    xvec[w, ] <- qr.solve(mmat[w,,], yvec[w,])
+    ## xvec[w, ] <- solve.default(mmat[w,,], yvec[w,])
   }
 
   # Store the solution in matrices (nwl x (ncoh + 1))

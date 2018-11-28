@@ -6,7 +6,7 @@
 \usage{
 sw_two_stream(czen, iota_g, pft, lai, wai, cai, orient_factor,
   clumping_factor, leaf_reflect, leaf_trans, wood_reflect, wood_trans,
-  down_sky, down0_sky)
+  down_sky, down0_sky, wavelengths = seq(400, 2500))
 }
 \arguments{
 \item{czen}{Cosine of angle of incidence (`cosaio`)}
@@ -36,6 +36,9 @@ sw_two_stream(czen, iota_g, pft, lai, wai, cai, orient_factor,
 \item{down_sky}{Normalized diffuse solar spectrum (nwl)}
 
 \item{down0_sky}{Normalized direct solar spectrum (nwl)}
+
+\item{wavelengths}{Numeric vector of wavelengths to use, in nm
+(nwl). Default is 400:2500.}
 }
 \description{
 R implementation of ED2 two-stream radiation model

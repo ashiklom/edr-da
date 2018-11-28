@@ -3,11 +3,17 @@
 \name{rallom2}
 \alias{rallom2}
 \alias{dallom2}
+\alias{rwallom2}
+\alias{dwallom2}
 \title{Multivariate allometry prior (varying both base and exponent)}
 \usage{
 rallom2()
 
 dallom2(traits, log = TRUE)
+
+rwallom2()
+
+dwallom2(traits, log = TRUE)
 }
 \arguments{
 \item{traits}{Traits list}

@@ -40,8 +40,35 @@ b1Bl_sds <- purrr::map_dbl(allom_Sigma, ~.[1, 1]) %>% sqrt()
 npfts <- length(b1Bl_means)
 pfts <- names(b1Bl_means)
 
+# Wood allometries
+wood_allometry_stats <- readRDS("priors/wood_allometry_stats.rds") %>%
+  purrr::map(list(16, "statistics")) %>%
+  .[pfts]
+
+wallom_names <- c("b1Bw", "b2Bw")
+
+wallom_mu <- purrr::map(
+  wood_allometry_stats,
+  ~.[c("mu0", "mu1"), "Mean"] %>% setNames(wallom_names)
+)
+
+wallom_Sigma <- purrr::map(
+  wood_allometry_stats,
+  ~matrix(.[c("tau11", "tau12", "tau12", "tau22"), "Mean"], 2, 2)
+)
+
+# Wood allometry uncertainties are WAY too large due to uninformative
+# prior. Reduce them to something reasonable.
+default_wallom_sigma <- diag(3, 2)
+wallom_Sigma[["temperate.Northern_Pine"]] <- default_wallom_sigma
+wallom_Sigma[["temperate.Late_Conifer"]] <- default_wallom_sigma
+
+b1Bw_means <- purrr::map_dbl(wallom_mu, "b1Bw")
+b1Bw_sds <- purrr::map_dbl(wallom_Sigma, ~.[1, 1]) %>% sqrt()
+
 ## Wet and dry soil spectra
-pecan_soil_file <- "https://raw.githubusercontent.com/PecanProject/pecan/develop/modules/rtm/src/RTM/modules/dataSpec/dataSpec_soil.f90"
+
+pecan_soil_file <- "~/Projects/pecan_project/pecan/modules/rtm/src/RTM/modules/dataSpec/dataSpec_soil.f90"
 soil_raw <- readLines(pecan_soil_file)
 start_dry_soil <- grep("^[[:space:]]+DATA \\(Rsoil1", soil_raw)[1]
 start_wet_soil <- grep("^[[:space:]]+DATA \\(Rsoil2", soil_raw)[1]
@@ -70,6 +97,8 @@ stopifnot(
 usethis::use_data(prospect_means, prospect_covars, prospect_names,
                   allometry_stats, allom_mu, allom_Sigma, allom_names,
                   b1Bl_means, b1Bl_sds,
+                  wood_allometry_stats, wallom_mu, wallom_Sigma, wallom_names,
+                  b1Bw_means, b1Bw_sds,
                   npfts, pfts,
                   dry_soil, wet_soil, wood_spec,
                   internal = TRUE, overwrite = TRUE)
