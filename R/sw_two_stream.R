@@ -18,6 +18,7 @@
 #'   (nwl). Default is 400:2500.
 #' @return
 #' @author Alexey Shiklomanov
+#' @useDynLib redr
 #' @export
 sw_two_stream <- function(czen,
                           iota_g,
@@ -198,16 +199,16 @@ sw_two_stream <- function(czen,
   expl_plus <- cbind(expl_plus, rep(1, nwl))
   expl_minus <- cbind(expl_minus, rep(1, nwl))
 
-  mmat <- array(0, c(nwl, nsiz, nsiz))
-  yvec <- matrix(0, nwl, nsiz)
+  mmat <- array(0, c(nsiz, nsiz, nwl))
+  yvec <- matrix(0, nsiz, nwl)
 
   # Bottom (1) and top boundary conditions
-  mmat[, 1, 1] <- (gamm_minus[, 1] - iota_g * gamm_plus[, 1]) * expl_minus[, 1]
-  mmat[, 1, 2] <- (gamm_plus[, 1] - iota_g * gamm_minus[, 1]) * expl_plus[, 1]
-  mmat[, nsiz, nsiz-1] <- gamm_plus[, z]
-  mmat[, nsiz, nsiz] <- gamm_minus[, z]
-  yvec[, 1] <- iota_g * down0[, 1] - (upsilon[, 1] - iota_g * delta[, 1]) * expm0_minus[1]
-  yvec[, nsiz] <- down_sky - delta[, z]
+  mmat[1, 1, ] <- (gamm_minus[, 1] - iota_g * gamm_plus[, 1]) * expl_minus[, 1]
+  mmat[1, 2, ] <- (gamm_plus[, 1] - iota_g * gamm_minus[, 1]) * expl_plus[, 1]
+  mmat[nsiz, nsiz-1, ] <- gamm_plus[, z]
+  mmat[nsiz, nsiz, ] <- gamm_minus[, z]
+  yvec[1, ] <- iota_g * down0[, 1] - (upsilon[, 1] - iota_g * delta[, 1]) * expm0_minus[1]
+  yvec[nsiz, ] <- down_sky - delta[, z]
 
   for (k in seq_len(ncoh)) {
     kp1 <- k + 1
@@ -216,27 +217,24 @@ sw_two_stream <- function(czen,
     k2p1 <- k2 + 1
     k2p2 <- k2 + 2
 
-    yvec[, k2] <- delta[, kp1] * expm0_minus[, kp1] - delta[, k]
-    yvec[, k2p1] <- upsilon[, kp1] * expm0_minus[, kp1] - upsilon[, k]
+    yvec[k2, ] <- delta[, kp1] * expm0_minus[, kp1] - delta[, k]
+    yvec[k2p1, ] <- upsilon[, kp1] * expm0_minus[, kp1] - upsilon[, k]
 
-    mmat[, k2, k2m1] <- gamm_plus[, k]
-    mmat[, k2, k2] <- gamm_minus[, k]
-    mmat[, k2, k2p1] <- -gamm_plus[, kp1] * expl_minus[, kp1]
-    mmat[, k2, k2p2] <- -gamm_minus[, kp1] * expl_plus[, kp1]
-    mmat[, k2p1, k2m1] <- gamm_minus[, k]
-    mmat[, k2p1, k2] <- gamm_plus[, k]
-    mmat[, k2p1, k2p1] <- -gamm_minus[, kp1] * expl_minus[, kp1]
-    mmat[, k2p1, k2p2] <- -gamm_plus[, kp1] * expl_plus[, kp1]
+    mmat[k2, k2m1, ] <- gamm_plus[, k]
+    mmat[k2, k2, ] <- gamm_minus[, k]
+    mmat[k2, k2p1, ] <- -gamm_plus[, kp1] * expl_minus[, kp1]
+    mmat[k2, k2p2, ] <- -gamm_minus[, kp1] * expl_plus[, kp1]
+    mmat[k2p1, k2m1, ] <- gamm_minus[, k]
+    mmat[k2p1, k2, ] <- gamm_plus[, k]
+    mmat[k2p1, k2p1, ] <- -gamm_minus[, kp1] * expl_minus[, kp1]
+    mmat[k2p1, k2p2, ] <- -gamm_plus[, kp1] * expl_plus[, kp1]
   }
 
-  stopifnot(!any(!is.finite(mmat)))
-  # Solve the radiation balance at wavelength
+  stopifnot(is.finite(sum(mmat)))
 
-  xvec <- array(0, c(nwl, nsiz))
-  for (w in seq_len(nwl)) {
-    xvec[w, ] <- qr.solve(mmat[w,,], yvec[w,])
-    ## xvec[w, ] <- solve.default(mmat[w,,], yvec[w,])
-  }
+  # Solve the radiation balance at each wavelength
+  xvec_t <- solvearray(mmat, yvec)
+  xvec <- t(xvec_t)
 
   # Store the solution in matrices (nwl x (ncoh + 1))
   down <- matrix(0, nwl, ncoh + 1)

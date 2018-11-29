@@ -115,15 +115,15 @@ likelihood <- function(params) {
   ll
 }
 
-## param <- readRDS("good_param.rds")
-
-## likelihood(param)
-
-## profvis::profvis({
-##   for (i in 1:5) {
-##     l <- likelihood(param)
-##   }
-## })
+if (FALSE) {
+  param <- readRDS("good_param.rds")
+  likelihood(param)
+  profvis::profvis({
+    for (i in 1:5) {
+      l <- likelihood(param)
+    }
+  })
+}
 
 # Run inversion
 setup <- BayesianTools::createBayesianSetup(likelihood, prior, parallel = FALSE)

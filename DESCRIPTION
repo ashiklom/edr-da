@@ -6,6 +6,8 @@ Description: Facilitates running ED2 and EDR under certain test cases
 Depends: 
     R (>= 3.3.3)
 Imports:
+    Rcpp,
+    RcppArmadillo,
     PEcAnRTM,
     PEcAn.ED2,
     rlang,
@@ -18,6 +20,7 @@ Imports:
 Suggests:
     testthat
 License: MIT License
+LinkingTo: Rcpp, RcppArmadillo
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
