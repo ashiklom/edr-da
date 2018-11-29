@@ -9,7 +9,6 @@ Imports:
     Rcpp,
     RcppArmadillo,
     PEcAnRTM,
-    PEcAn.ED2,
     rlang,
     mvtnorm,
     purrr,
@@ -18,6 +17,7 @@ Imports:
     progress,
     data.table
 Suggests:
+    PEcAn.ED2,
     testthat
 License: MIT License
 LinkingTo: Rcpp, RcppArmadillo

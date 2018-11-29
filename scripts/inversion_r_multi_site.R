@@ -28,7 +28,7 @@ aviris_inds <- match(colnames(observed), sites)
 site_dirs <- file.path("sites", sites)
 site_files <- purrr::map(site_dirs, list.files, pattern = "css$", full.names = TRUE) %>%
   purrr::map_chr(tail, n = 1)
-site_data_list <- purrr::map(site_files, PEcAn.ED2::read_css)
+site_data_list <- purrr::map(site_files, read.table, header = TRUE)
 names(site_data_list) <- sites
 
 # Set up prior
