@@ -1,5 +1,7 @@
 #include <RcppArmadillo.h>
 
+// [[Rcpp::depends(RcppArmadillo)]]
+
 // [[Rcpp::export]]
 arma::mat solvearray(const arma::cube& a, const arma::mat& b) {
   unsigned int nwl = a.n_slices, s = a.n_cols;
