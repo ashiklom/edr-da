@@ -34,7 +34,7 @@ for (site_dir in sites_sub_dirs) {
   outfolder <- file.path(site_dir, "NARR")
   metresult <- tryCatch({
     download.NARR_site(outfolder, start_date, end_date, latitude, longitude,
-                                  progress = TRUE, parallel = TRUE, ncores = 16)
+                                  progress = TRUE, parallel = TRUE, ncores = parallel::detectCores())
   }, error = function(e) {message(e); NULL}, 
   interrupt = function(e) {message(e); NULL})
   if (!is.null(metresult)) {
