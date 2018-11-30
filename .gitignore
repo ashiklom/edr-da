@@ -78,3 +78,7 @@ EXTRACTIONS
 RAW
 sync_data
 msp_figures
+
+# Compiled files
+*.so
+*.o
