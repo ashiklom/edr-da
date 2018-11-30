@@ -144,10 +144,52 @@ if (FALSE) {
 }
 
 # Run inversion
+message("Creating setup")
 setup <- BayesianTools::createBayesianSetup(likelihood, prior, parallel = TRUE)
-samples <- BayesianTools::runMCMC(setup, settings = list(iterations = 3000))
-samples <- BayesianTools::runMCMC(samples)
-BayesianTools::gelmanDiagnostics(samples)
-summary(samples)
 
-outname <- sprintf("samples_%s.rds", strftime(Sys.time(), "%Y-%M-%S-%H%M%S"))
+sampdir <- strftime(Sys.time(), "%Y-%M-%D-%H%M")
+outdir <- file.path("multi_site_pda_results", sampdir)
+dir.create(outdir, recursive = TRUE)
+message("Storing results in: ", outdir)
+
+# Inversion settings
+niter <- 500
+max_iter <- 5e6
+max_attempts <- floor(max_iter / niter)
+attempt <- 0
+threshold <- 1.5
+samples <- setup
+
+repeat {
+  attempt <- attempt + 1
+  message("Sampling attempt: ", attempt)
+  samples <- BayesianTools::runMCMC(
+    samples,
+    settings = list(iterations = niter, consoleUpdates = 10)
+  )
+  saveRDS(samples, file.path(outdir, "current_samples.rds"))
+  coda_samples <- BayesianTools::getSample(
+    samples,
+    numSamples = 1000,
+    coda = TRUE
+  )
+  gd <- coda::gelman.diag(
+    coda_samples,
+    multivariate = FALSE,
+    autoburnin = FALSE
+  )
+  psrf <- gd[["psrf"]][, 1]
+  names(psrf) <- param_names
+  exceeds <- psrf > threshold
+  if (!any(exceeds)) {
+    message("Converged!")
+    break
+  }
+  message("The following parameters have not converged:")
+  print(psrf[exceeds])
+  message("Resuming sampling...")
+  if (attempt > max_attempts) {
+    message("Failed to converge after attempt: ", attempt)
+    break
+  }
+}
