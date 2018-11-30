@@ -147,7 +147,7 @@ if (FALSE) {
 message("Creating setup")
 setup <- BayesianTools::createBayesianSetup(likelihood, prior, parallel = TRUE)
 
-sampdir <- strftime(Sys.time(), "%Y-%M-%D-%H%M")
+sampdir <- strftime(Sys.time(), "%Y-%m-%d-%H%M")
 outdir <- file.path("multi_site_pda_results", sampdir)
 dir.create(outdir, recursive = TRUE)
 message("Storing results in: ", outdir)
