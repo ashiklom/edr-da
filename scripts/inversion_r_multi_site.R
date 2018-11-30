@@ -33,11 +33,17 @@ names(site_data_list) <- sites
 
 # Set up prior
 prior <- create_prior(nsite = nsite, heteroskedastic = FALSE, limits = TRUE)
+psamps <- prior$sampler()
+param_names <- names(psamps)
+# Re-create prior, but with parameter names
+prior <- create_prior(nsite = nsite, heteroskedastic = FALSE, limits = TRUE, param_names = param_names)
 psamps <- check_prior(prior, error = TRUE)
 
 # Define likelihood
 likelihood <- function(params) {
   ll <- 0
+  npft_param <- 10  # Number of PFT-specific parameters
+  has_names <- !is.null(names(params))
   for (i in seq_len(nsite)) { # site loop
     ## i <- 1
     site <- sites[i]
@@ -53,15 +59,23 @@ likelihood <- function(params) {
     ncohort <- length(dbh)
 
     # Extract site-specific soil moisture
-    soil_moisture <- params[grepl(paste0("sitesoil_", i, "$"), names(params))]
+    soil_moisture <- if (has_names) {
+      params[grepl(paste0("sitesoil_", i, "$"), names(params))] 
+    } else {
+      params[npft * npft_param + i]
+    }
 
     # Extract residuals
-    rss <- params["residual"]
+    rss <- if (has_names) params["residual"] else tail(params, 1)
     ## rs <- params["residual_slope"]
     ## ri <- params["residual_intercept"]
 
     # Remaining parameters are PFT-specific
-    pft_params_v <- params[!grepl("residual|sitesoil", names(params))]
+    pft_params_v <- if (has_names) {
+      params[!grepl("residual|sitesoil", names(params))]
+    } else {
+      head(params, -(nsite + 1))
+    }
     # Create a matrix nparam (rows) x npft (cols)
     pft_params <- matrix(pft_params_v, ncol = npft)
 
@@ -96,22 +110,26 @@ likelihood <- function(params) {
             wavelengths = waves),
       error = function(e) NULL)
     if (is.null(result)) {
-      message("Failed for site: ", site)
+      ## cat("-")
+      ## message("Failed for site: ", site)
       return(-1e20)
     }
     albedo <- result[["albedo"]]
     if (any(!is.finite(albedo)) || any(albedo < 0) || any(albedo > 1)) {
-      message("Bad albedo for site: ", site)
+      ## cat("-")
+      ## message("Bad albedo for site: ", site)
       return(-1e20)
     }
     site_ll <- sum(dnorm(albedo, site_obs, rss, log = TRUE))
     if (!is.finite(site_ll)) {
-      message("Likelihood calculation failed for site ", site)
+      ## cat("-")
+      ## message("Likelihood calculation failed for site ", site)
       return(-1e20)
     }
     ll <- ll + site_ll
   } # end site loop
-  message("success")
+  ## cat("x")
+  ## message("success")
   ll
 }
 
@@ -126,8 +144,10 @@ if (FALSE) {
 }
 
 # Run inversion
-setup <- BayesianTools::createBayesianSetup(likelihood, prior, parallel = FALSE)
-samples <- BayesianTools::runMCMC(setup)
+setup <- BayesianTools::createBayesianSetup(likelihood, prior, parallel = TRUE)
+samples <- BayesianTools::runMCMC(setup, settings = list(iterations = 3000))
 samples <- BayesianTools::runMCMC(samples)
 BayesianTools::gelmanDiagnostics(samples)
 summary(samples)
+
+outname <- sprintf("samples_%s.rds", strftime(Sys.time(), "%Y-%M-%S-%H%M%S"))

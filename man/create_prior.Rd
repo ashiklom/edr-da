@@ -7,13 +7,14 @@
 \title{Create prior functions}
 \usage{
 create_prior(fix_allom2 = TRUE, heteroskedastic = TRUE,
-  verbose = TRUE, nsite = 1, limits = FALSE, best = TRUE)
+  verbose = TRUE, nsite = 1, limits = FALSE, best = TRUE,
+  param_names = NULL)
 
 create_prior_sampler(fix_allom2 = TRUE, heteroskedastic = TRUE,
   nsite = 1)
 
 create_prior_density(fix_allom2 = TRUE, heteroskedastic = TRUE,
-  verbose = TRUE)
+  verbose = TRUE, param_names = NULL)
 }
 \arguments{
 \item{fix_allom2}{Logical. If `TRUE`, fix allometry exponent to prior mean. 

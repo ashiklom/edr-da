@@ -7,7 +7,13 @@
 #' @param verbose Logical. If `TRUE`, print verbose error messages for invalid 
 #' prior densities
 #' @export
-create_prior <- function(fix_allom2 = TRUE, heteroskedastic = TRUE, verbose = TRUE, nsite = 1, limits = FALSE, best = TRUE) {
+create_prior <- function(fix_allom2 = TRUE,
+                         heteroskedastic = TRUE,
+                         verbose = TRUE,
+                         nsite = 1,
+                         limits = FALSE,
+                         best = TRUE,
+                         param_names = NULL) {
   lower <- NULL
   upper <- NULL
   if (limits) {
@@ -38,10 +44,20 @@ create_prior <- function(fix_allom2 = TRUE, heteroskedastic = TRUE, verbose = TR
       1, if (!fix_allom2) 1,
       0.5, 0
     )
-    bestval <- c(rep(pft_best, npft), rep(0.5, nsite), 0.1, if (heteroskedastic) 0.1)
+    bestval <- c(
+      rep(pft_best, npft),
+      rep(0.5, nsite),
+      0.1,
+      if (heteroskedastic) 0.1
+    )
   }
   BayesianTools::createPrior(
-    density = create_prior_density(fix_allom2, heteroskedastic, verbose),
+    density = create_prior_density(
+      fix_allom2 = fix_allom2,
+      heteroskedastic = heteroskedastic,
+      verbose = verbose,
+      param_names = param_names
+    ),
     sampler = create_prior_sampler(fix_allom2, heteroskedastic, nsite),
     lower = lower, upper = upper, best = bestval
   )
@@ -84,8 +100,13 @@ create_prior_sampler <- function(fix_allom2 = TRUE, heteroskedastic = TRUE, nsit
 
 #' @rdname create_prior
 #' @export
-create_prior_density <- function(fix_allom2 = TRUE, heteroskedastic = TRUE, verbose = TRUE) {
+create_prior_density <- function(fix_allom2 = TRUE, heteroskedastic = TRUE, verbose = TRUE,
+                                 param_names = NULL) {
   function(params) {
+    if (!is.null(param_names)) {
+      stopifnot(length(param_names) == length(params))
+      names(params) <-  param_names
+    }
     # HACK: Assume a uniform 0-1 prior for site soil, so no effect on likelihood
     soil_params <- params[grepl("sitesoil", names(params))]
     if (any(!is.finite(soil_params) | soil_params < 0 | soil_params > 1)) {
@@ -95,6 +116,7 @@ create_prior_density <- function(fix_allom2 = TRUE, heteroskedastic = TRUE, verb
     ld_resid <- if (heteroskedastic) dresidual2(params) else dresidual(params)
     if (!all(is.finite(ld_resid))) {
       if (verbose) message("Invalid residual prior")
+      print(tail(params, 1))
       return(-Inf)
     }
     # Drop the residuals and soil parameters from the remaining parameter vector

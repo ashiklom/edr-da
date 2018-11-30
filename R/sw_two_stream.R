@@ -233,7 +233,7 @@ sw_two_stream <- function(czen,
   stopifnot(is.finite(sum(mmat)))
 
   # Solve the radiation balance at each wavelength
-  xvec_t <- solvearray(mmat, yvec)
+  xvec_t <- suppressWarnings(solvearray(mmat, yvec))
   xvec <- t(xvec_t)
 
   # Store the solution in matrices (nwl x (ncoh + 1))

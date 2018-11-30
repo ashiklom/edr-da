@@ -160,7 +160,12 @@ rresidual <- function() {
 #' @rdname rclumping
 #' @export
 dresidual <- function(params, log = TRUE) {
-  x <- params["residual"]
+  if (!is.null(names(1:5))) {
+    x <- params["residual"]
+  } else {
+    # HACK: Assume it's the last value
+    x <- tail(params, 1)
+  }
   dgamma(x, prior_residual[1], prior_residual[2], log = log) %>%
     setNames("residual")
 }
