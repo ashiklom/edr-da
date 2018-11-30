@@ -10,7 +10,7 @@ arma::mat solvearray(const arma::cube& a, const arma::mat& b) {
   // arma::sp_mat M;
 
   for (w = 0; w < nwl; w++) {
-    result.col(w) = arma::solve(a.slice(w), b.col(w));
+    result.col(w) = arma::solve(a.slice(w), b.col(w), arma::solve_opts::fast);
   }
 
   return result;
