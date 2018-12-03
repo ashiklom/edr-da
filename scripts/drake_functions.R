@@ -187,6 +187,7 @@ run_ed_site_ens <- function(site, trait_values, outdir_prefix,
 
 
 preprocess_samples <- function(samplefile, param_names, other_posteriors, nens,
+                               fix_allom2 = TRUE,
                                last_n = 5000) {
   stopifnot(file.exists(samplefile))
   samples_bt <- readRDS(samplefile)

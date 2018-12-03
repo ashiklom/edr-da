@@ -4,7 +4,9 @@ import::from(tibble, as_tibble)
 import::from(dplyr, mutate)
 pkgconfig::set_config("drake::strings_in_dots" = "literals")
 
-## source(here::here("scripts/drake_functions"))
+function_file <- file.path("scripts", "drake_functions.R")
+stopifnot(file.exists(function_file))
+source(function_file)
 
 nens <- 50
 
@@ -12,7 +14,9 @@ pre_plan <- drake_plan(
   other_posteriors = readRDS(file_in("ed-inputs/istem-posteriors/processed.rds")),
   samplefile = file_in("multi_site_pda_results/testsamples/current_samples.rds"),
   param_names = readLines(file_in("param_names.txt")),
-  ensemble_trait_list = preprocess_samples(samplefile, param_names, other_posteriors, nens)
+  ensemble_trait_list = preprocess_samples(samplefile, param_names,
+                                           other_posteriors, nens,
+                                           fix_allom2 = TRUE)
 )
 
 ed_plan_template <- drake_plan(
