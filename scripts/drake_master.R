@@ -1,18 +1,21 @@
+#!/usr/bin/env Rscript
 library(drake)
-import::from(magrittr, "%>%")
-import::from(tibble, as_tibble)
-import::from(dplyr, mutate)
+library(magrittr)
 pkgconfig::set_config("drake::strings_in_dots" = "literals")
 
-## source(here::here("scripts/drake_functions"))
+function_file <- file.path("scripts", "drake_functions.R")
+stopifnot(file.exists(function_file))
+source(function_file)
 
 nens <- 50
 
 pre_plan <- drake_plan(
   other_posteriors = readRDS(file_in("ed-inputs/istem-posteriors/processed.rds")),
-  samplefile = file_in("multi_site_pda_results/testsamples/current_samples.rds"),
+  samplefile = file_in("multi_site_pda_results/2018-12-03-0654/current_samples.rds"),
   param_names = readLines(file_in("param_names.txt")),
-  ensemble_trait_list = preprocess_samples(samplefile, param_names, other_posteriors, nens)
+  ensemble_trait_list = preprocess_samples(samplefile, param_names,
+                                           other_posteriors, nens,
+                                           fix_allom2 = TRUE)
 )
 
 ed_plan_template <- drake_plan(
@@ -44,5 +47,4 @@ ed_plan <- evaluate_plan(
 
 plan <- bind_plans(pre_plan, ed_plan)
 dconf <- drake_config(plan)
-make(plan)
-## make(plan, parallelism = "parLapply", jobs = 2)
+make(plan, parallelism = "parLapply", jobs = parallel::detectCores())

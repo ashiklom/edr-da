@@ -58,7 +58,7 @@ run_ed_site_ens <- function(site, trait_values, outdir_prefix,
   stopifnot(file.exists(file.path(ed_met_dir, "ED_MET_DRIVER_HEADER")))
 
   # Build site meteorology info table
-  met_info <- tibble(
+  met_info <- tibble::tibble(
     file = file.path(ed_met_dir, "ED_MET_DRIVER_HEADER"),
     host = "",
     mimetype = "text/plain",
@@ -92,8 +92,8 @@ run_ed_site_ens <- function(site, trait_values, outdir_prefix,
     nsite <- attr(site, "nsite")
     site$soil <- NULL
     texture_vec <- soil_df %>%
-      left_join(texture_codes, by = "texture_code") %>%
-      select(ed_texture_id) %>%
+      dplyr::left_join(redr::texture_codes, by = "texture_code") %>%
+      dplyr::select(ed_texture_id) %>%
       purrr::transpose() %>%
       purrr::flatten() %>%
       rev() %>%
@@ -116,9 +116,6 @@ run_ed_site_ens <- function(site, trait_values, outdir_prefix,
 
   # Prepare ED2IN file
   ed2in_default <- list(
-    EDI_path = file.path("ed-inputs", "EDI"),
-    output_types = c("instant", "monthly", "restart"),
-    runtype = "INITIAL",
     IED_INIT_MODE = if (is_initial) 0 else 3,
     NZG = nsoil,  # number of soil layers
     SLZ = rev(-soil_site$depth_bottom_cm / 100),  # soil layer depths
@@ -135,7 +132,7 @@ run_ed_site_ens <- function(site, trait_values, outdir_prefix,
     ISTOMATA_SCHEME = 0,
     ISTRUCT_GROWTH_SCHEME = 0,
     TRAIT_PLASTICITY_SCHEME = 0,
-    INCLUDE_THESE_PFT = pft_lookup$pft_num  # Limit to PDA PFTs
+    INCLUDE_THESE_PFT = redr::pft_lookup$pft_num  # Limit to PDA PFTs
   )
   ed2in_custom <- modifyList(ed2in_default, ed2in_custom)
   ed2in <- PEcAn.ED2::read_ed2in(ed2in_template_file) %>%
@@ -149,6 +146,9 @@ run_ed_site_ens <- function(site, trait_values, outdir_prefix,
       add_if_missing = TRUE,
       output_dir = ed_out_dir,
       run_dir = outdir,
+      EDI_path = normalizePath(file.path("ed-inputs", "EDI")),
+      output_types = c("instant", "monthly", "restart"),
+      runtype = "INITIAL",
       .dots = ed2in_custom
     )
   ed2in_path <- file.path(outdir, "ED2IN")
@@ -187,6 +187,7 @@ run_ed_site_ens <- function(site, trait_values, outdir_prefix,
 
 
 preprocess_samples <- function(samplefile, param_names, other_posteriors, nens,
+                               fix_allom2 = TRUE,
                                last_n = 5000) {
   stopifnot(file.exists(samplefile))
   samples_bt <- readRDS(samplefile)
