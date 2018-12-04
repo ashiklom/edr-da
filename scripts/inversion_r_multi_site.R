@@ -157,7 +157,7 @@ niter <- 500
 max_iter <- 5e6
 max_attempts <- floor(max_iter / niter)
 attempt <- 0
-threshold <- 1.5
+threshold <- 1.2
 samples <- setup
 
 repeat {
@@ -170,7 +170,7 @@ repeat {
   saveRDS(samples, file.path(outdir, "current_samples.rds"))
   coda_samples <- BayesianTools::getSample(
     samples,
-    numSamples = 1000,
+    numSamples = 10000,
     coda = TRUE
   )
   gd <- coda::gelman.diag(
