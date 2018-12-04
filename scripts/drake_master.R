@@ -1,22 +1,88 @@
 #!/usr/bin/env Rscript
 library(drake)
+library(redr)
 library(magrittr)
+library(ggplot2)
 pkgconfig::set_config("drake::strings_in_dots" = "literals")
-
-function_file <- file.path("scripts", "drake_functions.R")
-stopifnot(file.exists(function_file))
-source(function_file)
 
 nens <- 50
 
 pre_plan <- drake_plan(
   other_posteriors = readRDS(file_in("ed-inputs/istem-posteriors/processed.rds")),
-  samplefile = file_in("multi_site_pda_results/2018-12-03-0654/current_samples.rds"),
+  samplefile = tail(
+    list.files("multi_site_pda_results", "\\.rds$",
+               recursive = TRUE, full.names = TRUE),
+    1
+  ),
+  samples_bt = readRDS(samplefile),
   param_names = readLines(file_in("param_names.txt")),
-  ensemble_trait_list = preprocess_samples(samplefile, param_names,
-                                           other_posteriors, nens,
-                                           fix_allom2 = TRUE)
+  ensemble_trait_list = preprocess_samples(samples_bt, param_names,
+                                                 other_posteriors, 50,
+                                           fix_allom2 = TRUE),
+  params_matrix = BayesianTools::getSample(samples_bt, start = 6000) %>%
+    `colnames<-`(param_names)
 )
+make(pre_plan)
+
+spec_validation_template <- drake_plan(
+  sitespec_predicted = predict_site_spectra(params_matrix, "site__",
+                                            nsamp = 1000, dedup = TRUE, progress = FALSE),
+  sitespec_observed = load_observations("site__") %>%
+    `colnames<-`(., as.character(seq_len(NCOL(.)))) %>%
+    as.data.frame(., row.names = PEcAnRTM::wavelengths(.)) %>%
+    tibble::as_tibble() %>%
+    tibble::rownames_to_column("wavelength") %>%
+    dplyr::mutate(wavelength = as.numeric(wavelength)) %>%
+    tidyr::gather(iobs, observed, -wavelength)
+)
+
+do_valid_plot <- function(pred, obs) {
+  suppressWarnings({
+    ggplot() +
+      aes(x = wavelength) +
+      ## geom_ribbon(aes(ymin = albedo_q025, ymax = albedo_q975,
+      ##                 fill = "Predicted", color = "Predicted"),
+      ##             data = pred) +
+      geom_ribbon(aes(ymin = albedo_r_mean - albedo_r_sd, ymax = albedo_r_mean + albedo_r_sd,
+                      fill = "Predicted", color = "Predicted"),
+                  data = pred) +
+      ## geom_line(aes(y = albedo_r_mean, fill = "Predicted", color = "Predicted"),
+      ##           data = pred) +
+      geom_line(aes(y = observed, group = iobs,
+                    fill = "Observed", color = "Observed"),
+                data = obs) +
+      scale_fill_manual(name = "",
+                        values = c(Observed = "white", Predicted = "green1")) +
+      scale_color_manual(name = "",
+                         values = c(Observed = "grey25", Predicted = "green4")) +
+      labs(x = "Wavelength (nm)", y = "Surface reflectance") +
+      theme_bw()
+  })
+}
+
+spec_validation_plot_template <- drake_plan(
+  sitespec_valid_plot = do_valid_plot(
+    sitespec_predicted_site__,
+    sitespec_observed_site__
+  )
+)
+
+selected_sites <- readLines("other_site_data/site_list")[1:5]
+
+spec_validation_plan <- evaluate_plan(
+  spec_validation_template,
+  rules = list(site__ = selected_sites)
+)
+
+spec_validation_plot_plan <- evaluate_plan(
+  spec_validation_plot_template,
+  rules = list(site__ = make.names(selected_sites))
+)
+
+current_plan <- bind_plans(pre_plan, spec_validation_plan, spec_validation_plot_plan)
+current_config <- drake_config(current_plan)
+## make(current_plan)
+make(current_plan, parallelism = "parLapply", jobs = 8)
 
 ed_plan_template <- drake_plan(
   edresult = run_ed_site_ens(
@@ -25,16 +91,6 @@ ed_plan_template <- drake_plan(
     outdir_prefix = file.path("testsamples", ens__),
     end_date = "2011-12-31"
   )
-)
-
-selected_sites <- c(
-    ## "--site=OF05_site_1-25710"   # Initial
-    #"SF03_site_1-25721" # Skipped for now
-    "IDS36_site_1-25686",
-    "BH07_site_1-25669",
-    "AK60_site_1-25674",
-    "OF02_site_1-25708",
-    "BH05_site_1-25667"
 )
 
 ed_plan <- evaluate_plan(

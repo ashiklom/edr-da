@@ -6,16 +6,19 @@ Description: Facilitates running ED2 and EDR under certain test cases
 Depends: 
     R (>= 3.3.3)
 Imports:
+    PEcAnRTM,
     Rcpp,
     RcppArmadillo,
-    PEcAnRTM,
-    rlang,
-    mvtnorm,
-    purrr,
+    data.table,
+    dplyr,
     magrittr,
-    tibble,
+    mvtnorm,
     progress,
-    data.table
+    purrr,
+    readr,
+    rlang,
+    stringr,
+    tibble
 Suggests:
     PEcAn.ED2,
     testthat
