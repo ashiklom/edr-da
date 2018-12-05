@@ -67,7 +67,7 @@ spec_validation_plot_template <- drake_plan(
   )
 )
 
-selected_sites <- readLines("other_site_data/site_list")[1:5]
+selected_sites <- readLines("other_site_data/site_list")
 
 spec_validation_plan <- evaluate_plan(
   spec_validation_template,
@@ -81,7 +81,15 @@ spec_validation_plot_plan <- evaluate_plan(
 
 current_plan <- bind_plans(pre_plan, spec_validation_plan, spec_validation_plot_plan)
 current_config <- drake_config(current_plan)
-## make(current_plan)
+
+lai_plan <- drake_plan(
+  site_lai = purrr::map_dfr(selected_sites, calc_site_lai, param_matrix = param_matrix)
+)
+
+current_plan <- bind_plans(pre_plan, spec_validation_plan, spec_validation_plot_plan,
+                           lai_plan)
+current_config <- drake_config(current_plan)
+
 make(current_plan, parallelism = "parLapply", jobs = 8)
 
 ed_plan_template <- drake_plan(

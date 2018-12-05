@@ -456,10 +456,66 @@ run_edr_sample <- function(params, isite, site_data,
         wavelengths = wavelengths)
 }
 
+#' @export
+calc_site_lai_ens <- function(params, site_data, npft = 5) {
+  has_names <- !is.null(names(params))
+  if (!has_names) stop("Must have names")
+  pft <- get_ipft(site_data[["pft"]])
+  dbh <- site_data[["dbh"]]
+  nplant <- site_data[["n"]]
+  ncohort <- length(dbh)
+
+  pft_params_v <- params[!grepl("residual|sitesoil", names(params))]
+  pft_params <- matrix(pft_params_v, ncol = npft)
+
+  SLA <- pft_params[6, ]
+  b1Bl <- pft_params[7, ]
+  b2Bl <- purrr::map_dbl(allom_mu, "b2Bl")
+  clumping_factor <- pft_params[10, ]
+  bleaf <- size2bl(dbh, b1Bl[pft], b2Bl[pft])
+  lai <- nplant * bleaf * SLA[pft]
+  elai <- lai * clumping_factor[pft]
+  tibble::tibble(pft = pft, nplant = nplant, dbh = dbh, lai = lai, elai = elai) %>%
+    dplyr::group_by(dbh, pft) %>%
+    dplyr::summarize(
+      lai = mean(lai),
+      elai = mean(elai)
+    ) %>%
+    dplyr::ungroup() %>%
+    dplyr::arrange(dplyr::desc(dbh)) %>%
+    dplyr::mutate(cohort = dplyr::row_number())
+}
+
+#' @export
+calc_site_lai <- function(site, param_matrix) {
+  site_datafile <- head(list.files(
+    file.path("sites", site),
+    ".css$",
+    recursive = TRUE,
+    full.names = TRUE
+  ), 1)
+  stopifnot(length(site_datafile) == 1, file.exists(site_datafile))
+  site_data <- PEcAn.ED2::read_css(site_datafile)
+
+  lai_raw <- apply(params_matrix, 1, calc_site_lai_ens, site_data = site_data)
+  lai_raw[[1]]
+  lai_out <- dplyr::bind_rows(lai_raw, .id = "ens") %>%
+    dplyr::mutate(site = site)
+  lai_out
+}
+
 if (FALSE) {
+  lai_summary <- lai_out %>%
+    dplyr::group_by(site, cohort) %>%
+    dplyr::summarize_if(is.numeric, mean)
+  ggplot(lai_summary) +
+    aes(xmin = 0, xmax = lai, x = lai, y = dbh, color = factor(pft)) +
+    geom_point()
+
   params_matrix <- readd(params_matrix)
+  params <- params_matrix[1,]
   traits <- trait_samples[[1]]
-  site <- site_list[1]
+  site <- selected_sites[1]
   sitespec_observed <- load_observations(site) %>%
     as.data.frame(
       .,
