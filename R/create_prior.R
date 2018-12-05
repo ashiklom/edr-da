@@ -175,7 +175,10 @@ check_prior <- function(prior, n_test = 500, error = FALSE, progress = TRUE) {
   prior_samps <- matrix(0, n_test, n_prior)
   colnames(prior_samps) <- names(samp)
   n_invalid <- 0
-  if (progress) pb <- txtProgressBar()
+  if (progress) {
+    pb <- txtProgressBar()
+    on.exit(close(pb))
+  }
   for (i in seq_len(n_test)) {
     if (progress) setTxtProgressBar(pb, i / n_test)
     test_params <- prior$sampler()

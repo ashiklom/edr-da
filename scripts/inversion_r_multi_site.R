@@ -36,7 +36,9 @@ prior <- create_prior(nsite = nsite, heteroskedastic = FALSE, limits = TRUE)
 psamps <- prior$sampler()
 param_names <- names(psamps)
 # Re-create prior, but with parameter names
+message("Creating prior...")
 prior <- create_prior(nsite = nsite, heteroskedastic = FALSE, limits = TRUE, param_names = param_names)
+message("Testing prior...")
 psamps <- check_prior(prior, error = TRUE)
 
 # Define likelihood
@@ -49,6 +51,7 @@ likelihood <- function(params) {
     site <- sites[i]
     site_data <- site_data_list[[site]]
     site_obs <- observed[, colnames(observed) == site]
+
     dbh <- site_data[["dbh"]]
     pft_orig <- site_data[["pft"]]
     pft <- match(pft_orig, pft_dict)
@@ -57,6 +60,16 @@ likelihood <- function(params) {
     }
     nplant <- site_data[["n"]]
     ncohort <- length(dbh)
+
+    # Calculate heights and height order (tallest first)
+    hite <- dbh2h(dbh, pft)
+    ihite <- order(hite, decreasing = TRUE)
+
+    # Order cohorts by decreasing height (tallest first)
+    dbh <- dbh[ihite]
+    pft <- pft[ihite]
+    nplant <- nplant[ihite]
+    hite <- hite[ihite]
 
     # Extract site-specific soil moisture
     soil_moisture <- if (has_names) {
@@ -160,7 +173,7 @@ attempt <- 0
 threshold <- 1.2
 samples <- setup
 
-settings <- list(iterations = iter, consoleUpdates = 10)
+settings <- list(iterations = niter, consoleUpdates = 10)
 
 repeat {
   attempt <- attempt + 1
