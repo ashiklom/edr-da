@@ -160,13 +160,12 @@ attempt <- 0
 threshold <- 1.2
 samples <- setup
 
+settings <- list(iterations = iter, consoleUpdates = 10)
+
 repeat {
   attempt <- attempt + 1
   message("Sampling attempt: ", attempt)
-  samples <- BayesianTools::runMCMC(
-    samples,
-    settings = list(iterations = niter, consoleUpdates = 10)
-  )
+  samples <- BayesianTools::runMCMC(samples, settings = settings)
   saveRDS(samples, file.path(outdir, "current_samples.rds"))
   coda_samples <- BayesianTools::getSample(
     samples,
