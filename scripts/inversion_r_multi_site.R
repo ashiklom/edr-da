@@ -1,6 +1,11 @@
+#!/usr/bin/env Rscript
 library(redr)
 requireNamespace("PEcAnRTM")
 ## devtools::load_all(".")
+
+arg <- commandArgs(trailingOnly = TRUE)
+resume <- isTRUE(arg[1] == "resume")
+message("Value of resume is: ", resume)
 
 # Constants
 npft <- 5       # Early, mid, late hardwood, early & late conifer
@@ -156,12 +161,10 @@ if (FALSE) {
   })
 }
 
-# Run inversion
-message("Creating setup")
-setup <- BayesianTools::createBayesianSetup(likelihood, prior, parallel = TRUE)
-
+# Create directory for storage
 sampdir <- strftime(Sys.time(), "%Y-%m-%d-%H%M")
-outdir <- file.path("multi_site_pda_results", sampdir)
+base_outdir <- "multi_site_pda_results"
+outdir <- file.path(base_outdir, sampdir)
 dir.create(outdir, recursive = TRUE)
 message("Storing results in: ", outdir)
 
@@ -171,9 +174,34 @@ max_iter <- 5e6
 max_attempts <- floor(max_iter / niter)
 attempt <- 0
 threshold <- 1.2
-samples <- setup
+target_neff <- 500
+ncores <- 8
 
-settings <- list(iterations = niter, consoleUpdates = 10)
+# Create BayesianTools setup
+message("Creating setup")
+setup <- BayesianTools::createBayesianSetup(
+  likelihood,
+  prior,
+  parallel = ncores
+)
+samples <- setup
+settings <- list(
+  iterations = niter,
+  consoleUpdates = 10,
+  startValue = prior$sampler(ncores)
+)
+
+if (resume) {
+  message("Resuming from previous sampling")
+  last_samplefile <- tail(list.files(base_outdir, ".rds",
+                          recursive = TRUE, full.names = TRUE), 1)
+  message("Resuming from sample file: ", last_samplefile)
+  stopifnot(length(last_samplefile) > 0,
+            file.exists(last_samplefile))
+  samples <- readRDS(last_samplefile)
+} else {
+  message("Starting fresh inversion")
+}
 
 repeat {
   attempt <- attempt + 1
@@ -193,12 +221,20 @@ repeat {
   psrf <- gd[["psrf"]][, 1]
   names(psrf) <- param_names
   exceeds <- psrf > threshold
-  if (!any(exceeds)) {
-    message("Converged!")
-    break
+  if (any(exceeds)) {
+    message("The following parameters have not converged:")
+    print(psrf[exceeds])
+  } else {
+    neff <- coda::effectiveSize(coda_samples)
+    too_few <- neff < target_neff
+    if (!any(too_few)) {
+      message("Converged!")
+      break
+    }
+    message("Converged, but the following parameters have too few samples:")
+    print(neff[too_few])
   }
-  message("The following parameters have not converged:")
-  print(psrf[exceeds])
+
   message("Resuming sampling...")
   if (attempt > max_attempts) {
     message("Failed to converge after attempt: ", attempt)
