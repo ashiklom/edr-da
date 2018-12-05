@@ -13,24 +13,26 @@ import::from(glue, glue)
 args <- commandArgs(trailingOnly = TRUE)
 if (interactive()) {
   args <- c(
-    "--prefix=msp20180402",
-    "--outdir=msp20180402-nodrought",
-    "--burnin=90000",
+    "--prefix=testsamples",
+    "--outdir=testsamples",
+    "--burnin=0",
     "--nens=50",
-    "--initial",
-    "--site=OF05_site_1-25710"   # Initial
+    ## "--initial",
+    ## "--site=OF05_site_1-25710"   # Initial
     #"--site=IDS36_site_1-25686"
     #"--site=SF03_site_1-25721" # Skipped for now
     #"--site=BH07_site_1-25669"
-    #"--site=AK60_site_1-25674"
+    "--site=AK60_site_1-25674"
     #"--site=OF02_site_1-25708"
     #"--site=BH05_site_1-25667"
   )
 }
 
 argl <- OptionParser() %>%
-  add_option("--prefix", action = "store", type = "character", default = "msp_hf20180402") %>%
-  add_option("--outdir", action = "store", type = "character", default = NULL) %>%
+  add_option("--prefix", action = "store", type = "character", default = "msp_hf20180402",
+             help = "Prefix of directory where PDA results are stored.") %>%
+  add_option("--outdir", action = "store", type = "character", default = NULL
+             help = "Directory for storing outputs. Default is same as '--prefix'.") %>%
   add_option("--site", action = "store", type = "character", default = "BH02_site_1-25665") %>%
   add_option("--final", action = "store_true", default = FALSE) %>%
   add_option("--initial", action = "store_true", default = FALSE) %>%
@@ -48,8 +50,8 @@ is_initial <- argl$initial
 ens_root <- here("ensemble_outputs")
 dir.create(ens_root, showWarnings = FALSE)
 
-pda_dir <- here("ed-outputs", argl$prefix)
-stopifnot(file.exists(pda_dir))
+## pda_dir <- here("ed-outputs", argl$prefix)
+## stopifnot(file.exists(pda_dir))
 
 outdir <- if (is.null(argl$outdir)) argl$prefix else argl$outdir
 ens_dir <- file.path(ens_root, outdir)
@@ -58,30 +60,40 @@ dir.create(ens_dir, showWarnings = FALSE)
 ens_site_dir <- file.path(ens_dir, site)
 dir.create(ens_site_dir, showWarnings = FALSE)
 
-site_dir <- file.path(pda_dir, site)
-stopifnot(file.exists(site_dir))
+## site_dir <- file.path(pda_dir, site)
+## stopifnot(file.exists(site_dir))
 
-# Parse prefix for other flags
-hetero <- grepl("_.?h", argl$prefix)
-fix_allom2 <- grepl("_.?f", argl$prefix)
+## # Parse prefix for other flags
+## hetero <- grepl("_.?h", argl$prefix)
+hetero <- FALSE
+## fix_allom2 <- grepl("_.?f", argl$prefix)
+fix_allom2 <- TRUE
 
 ############################################################
 # Prepare ensemble trait samples
-############################################################
-samp_base <- if (argl$final) "results.rds" else "progress.rds"
-samp_fname <- file.path(pda_dir, samp_base)
+samples_root <- "multi_site_pda_results"
+sampdir <- list.files(samples_root, pattern = argl$prefix)
+stopifnot(length(sampdir) > 0)
+outdir <- file.path(samples_root, sampdir)
+samp_fname <- file.path(outdir, "current_samples.rds")
 stopifnot(file.exists(samp_fname))
+param_names <- readLines(file.path(outdir, "param_names.txt"))
 edr_samples_all <- readRDS(samp_fname)
-edr_samples_raw <- getSample(edr_samples_all, start = argl$burnin)
+edr_samples_raw <- getSample(edr_samples_all, numSamples = 1000)
+colnames(edr_samples_raw) <- param_names
 sdup <- duplicated(edr_samples_raw)
 edr_samples <- edr_samples_raw[!sdup, ]
 other_posteriors <- readRDS(here("ed-inputs", "istem-posteriors", "processed.rds"))
 
-# Some parameters must be >0 filter them here
+# Some parameters must be >0
+# filter them here
 noneg_cols <- grep("prospect", colnames(edr_samples))
 edr_nneg <- edr_samples[, noneg_cols] < 0
 isneg <- rowSums(edr_nneg) > 0
 edr_samples <- edr_samples[!isneg, ]
+
+# Also remove site-specific soil parameters -- won't be using them
+edr_samples <- edr_samples[, !grepl("sitesoil", colnames(edr_samples))]
 
 edr_sub <- edr_samples[sample.int(nrow(edr_samples), argl$nens), ]
 
@@ -89,10 +101,10 @@ other_sub <- other_posteriors[sample.int(nrow(other_posteriors), argl$nens), ]
 combined <- cbind(edr_sub, other_sub)
 
 sum4ed <- function(params, vis = 400:700, nir = 701:1300) {
-  pedr <- params2edr(params)
+  pedr <- PEcAnRTM::params2edr(params)
   pspec <- pedr$spectra_list
   traits <- pedr$trait.values
-  if (fix_allom2) {
+  if (fix_allom2) 
     # Set allometry exponent to posterior mean
     traits <- purrr::map2(
       traits,
@@ -120,6 +132,7 @@ ensemble_trait_list <- apply(combined, 1, sum4ed)
 ############################################################
 # Prepare meteorology
 ############################################################
+## site_input_dir <- here("sites", site)
 site_input_dir <- here("sites", site)
 stopifnot(file.exists(site_input_dir))
 
@@ -139,6 +152,7 @@ site_info <- tibble(site_files = list.files(site_input_dir, "\\.css$")[1]) %>%
 ed_met_dir <- file.path(site_input_dir, "ED_NARR")
 
 if (!file.exists(file.path(ed_met_dir, "2017DEC.h5"))) {
+  if (!file.exists(file.path()))
   met_info <- met2model.ED2(
     in.path = file.path(site_input_dir, "NARR"),
     in.prefix = "NARR",
@@ -208,8 +222,10 @@ write_ed_veg(veg_mod, veg_prefix)
 ############################################################
 # Prepare ED2IN
 ############################################################
-site_ed2in <- file.path(site_dir, "ED2IN")
-ed2in_temp <- read_ed2in(site_ed2in) %>%
+## site_ed2in <- file.path(site_dir, "ED2IN")
+## ed2in_temp <- read_ed2in(site_ed2in) %>%
+ed2in_template_file <- system.file("ED2IN", package = "redr")
+ed2in_temp <- read_ed2in(ed2in_template_file) %>%
   modify_ed2in(
     veg_prefix = veg_prefix,
     latitude = site_info$latitude,
@@ -231,7 +247,13 @@ ed2in_temp <- read_ed2in(site_ed2in) %>%
     RK4_TOLERANCE = 1e-4,
     INTEGRATION_SCHEME = 1,
     H2O_PLANT_LIM = 0,    # Turn of plant hydraulic limitation
-    INCLUDE_THESE_PFT = pft_lookup$pft_num  # Limit to PDA PFTs
+    IOOUTPUT = 0,
+    PLANT_HYDRO_SCHEME = 0,
+    ISTOMATA_SCHEME = 0,
+    ISTRUCT_GROWTH_SCHEME = 0,
+    TRAIT_PLASTICITY_SCHEME = 0,
+    INCLUDE_THESE_PFT = pft_lookup$pft_num,  # Limit to PDA PFTs
+    add_if_missing = TRUE
   )
 
 pb <- progress_bar$new(total = argl$nens, format = ":current/:total (:eta)")
@@ -248,7 +270,7 @@ for (i in seq_len(argl$nens)) {
       pecan_defaults = FALSE
     )
   ed2in_path <- file.path(run_dir, "ED2IN")
-  write_ed2in(ed2in_ens, ed2in_path)
+  write_ed2in(ed2in_ens, ed2in_path, barebones = TRUE)
   trait_values <- ensemble_trait_list[[i]]
   saveRDS(trait_values, file.path(run_dir, "trait_values.rds"))
   xml_path <- file.path(run_dir, "config.xml")
@@ -265,7 +287,11 @@ for (i in seq_len(argl$nens)) {
 ############################################################
 # Write submission script
 ############################################################
-ed_exe_path <- "/projectnb/dietzelab/ashiklom/ED2/ED/build/ed_2.1-dbg"
+ed_exe_path <- "ed2"
+system(paste("ulimit -s unlimited &&",
+             ed_exe_path, "-s -f", ed2in_path))
+system2(ed_exe_path, c("-s", "-f", ed2in_path))
+
 sexec <- "/usr3/graduate/ashiklom/.singularity/sexec"
 rscript <- "/usr3/graduate/ashiklom/.singularity/Rscript"
 log_path <- "logs_ed"
