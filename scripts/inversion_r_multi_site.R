@@ -179,12 +179,11 @@ ncores <- 8
 
 # Create BayesianTools setup
 message("Creating setup")
-setup <- BayesianTools::createBayesianSetup(
+samples <- BayesianTools::createBayesianSetup(
   likelihood,
   prior,
   parallel = ncores
 )
-samples <- setup
 settings <- list(
   iterations = niter,
   consoleUpdates = 10,

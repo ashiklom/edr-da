@@ -342,9 +342,11 @@ predict_site_spectra <- function(params_matrix, site,
   pb <- if (progress) progress::progress_bar$new(total = NROW(params_filtered)) else NULL
   result <- apply(params_filtered, 1, run_edr_sample, isite = isite, site_data = site_data,
                   pb = pb, wavelengths = waves)
+  nulls <- vapply(result, is.null, logical(1))
+  result <- result[!nulls]
   albedos <- purrr::map(result, "albedo") %>%
     purrr::map2_dfr(
-      params_filtered[, "residual"],
+      params_filtered[!nulls, "residual"],
       ~tibble::tibble(wavelength = waves, albedo = .x, albedo_r = rnorm(length(waves), .x, .y))
     )
   ## albedos <- purrr::map_dfr(result, ~tibble::tibble(wavelength = waves, albedo = .[["albedo"]]), .id = "id")
@@ -402,6 +404,16 @@ run_edr_sample <- function(params, isite, site_data,
   nplant <- site_data[["n"]]
   ncohort <- length(dbh)
 
+  # Calculate heights and height order (tallest first)
+  hite <- dbh2h(dbh, pft)
+  ihite <- order(hite, decreasing = TRUE)
+
+  # Order cohorts by decreasing height (tallest first)
+  dbh <- dbh[ihite]
+  pft <- pft[ihite]
+  nplant <- nplant[ihite]
+  hite <- hite[ihite]
+
   # Extract site-specific soil moisture
   soil_moisture <- if (has_names) {
     params[grepl(paste0("sitesoil_", isite, "$"), names(params))]
@@ -432,8 +444,8 @@ run_edr_sample <- function(params, isite, site_data,
   SLA <- pft_params[6, ]
   b1Bl <- pft_params[7, ]
   b1Bw <- pft_params[8, ]
-  orient_factor <- pft_params[9, ]
-  clumping_factor <- pft_params[10, ]
+  clumping_factor <- pft_params[9, ]
+  orient_factor <- pft_params[10, ]
 
   b2Bl <- purrr::map_dbl(allom_mu, "b2Bl")
   b2Bw <- purrr::map_dbl(wallom_mu, "b2Bw")
@@ -447,13 +459,16 @@ run_edr_sample <- function(params, isite, site_data,
   cai <- rep(1, ncohort)
 
   # Run EDR
-  edr_r(pft, lai, wai, cai,
-        N, Cab, Car, Cw, Cm,
-        orient_factor, clumping_factor,
-        soil_moisture,
-        direct_sky_frac,
-        czen,
-        wavelengths = wavelengths)
+  tryCatch(
+    error = function(e) NULL,
+    edr_r(pft, lai, wai, cai,
+          N, Cab, Car, Cw, Cm,
+          orient_factor, clumping_factor,
+          soil_moisture,
+          direct_sky_frac,
+          czen,
+          wavelengths = wavelengths)
+  )
 }
 
 #' @export
@@ -464,6 +479,16 @@ calc_site_lai_ens <- function(params, site_data, npft = 5) {
   dbh <- site_data[["dbh"]]
   nplant <- site_data[["n"]]
   ncohort <- length(dbh)
+
+  # Calculate heights and height order (tallest first)
+  hite <- dbh2h(dbh, pft)
+  ihite <- order(hite, decreasing = TRUE)
+
+  # Order cohorts by decreasing height (tallest first)
+  dbh <- dbh[ihite]
+  pft <- pft[ihite]
+  nplant <- nplant[ihite]
+  hite <- hite[ihite]
 
   pft_params_v <- params[!grepl("residual|sitesoil", names(params))]
   pft_params <- matrix(pft_params_v, ncol = npft)
@@ -498,7 +523,6 @@ calc_site_lai <- function(site, param_matrix) {
   site_data <- PEcAn.ED2::read_css(site_datafile)
 
   lai_raw <- apply(params_matrix, 1, calc_site_lai_ens, site_data = site_data)
-  lai_raw[[1]]
   lai_out <- dplyr::bind_rows(lai_raw, .id = "ens") %>%
     dplyr::mutate(site = site)
   lai_out
