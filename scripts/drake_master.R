@@ -7,6 +7,7 @@ library(PEcAnRTM)
 pkgconfig::set_config("drake::strings_in_dots" = "literals")
 
 expose_imports(redr)
+.datatable.aware <- TRUE
 
 nens <- 50
 pda_dir <- here::here("multi_site_pda_results")
@@ -75,34 +76,44 @@ pre_plan <- drake_plan(
     dplyr::arrange(desc(hite)) %>%
     dplyr::mutate(cohort = dplyr::row_number()) %>%
     dplyr::ungroup(),
-  # TODO: Optimize this somehow. data.table? Matrix math?
-  site_lai_samples = site_df %>%
-    dplyr::left_join(
-      tidy_params %>%
-        dplyr::filter(parameter %in% c("b1Bl", "SLA", "clumping_factor")) %>%
-        tidyr::spread(parameter, value) %>%
-        dplyr::select(sample, pft, ipft, SLA, b1Bl, clumping_factor) %>%
-        purrr::modify(unname) %>%
-        dplyr::sample_n(10)
-    ) %>%
-    dplyr::mutate(
-      bleaf = size2bl(dbh, b1Bl, purrr::map_dbl(allom_mu, "b2Bl")[ipft]),
-      lai = nplant * bleaf * SLA,
-      elai = lai * clumping_factor
-    ) %>%
-    purrr::modify(unname),
-  site_lai_summary = site_lai_samples %>%
-    dplyr::group_by(site, year, pft, ipft, hite, dbh, nplant, cohort) %>%
-    dplyr::summarize_at(
-      c("lai", "elai"),
-      dplyr::funs(
-        mean = mean(.),
-        sd = sd(.),
-        q025 = quantile(., 0.025),
-        q975 = quantile(., 0.975)
-      )
-    ) %>%
-    dplyr::ungroup() %>%
+  site_dt = data.table::as.data.table(site_df),
+  tidy_params_dt = data.table::as.data.table(tidy_params),
+  b2Bl = purrr::map_dbl(allom_mu, "b2Bl"),
+  params_structure = data.table::dcast(
+    tidy_params_dt[parameter %in% c("b1Bl", "SLA", "clumping_factor")],
+    sample + pft + ipft ~ parameter,
+    value.var = "value"
+  )[
+  , lapply(.SD, unname)
+  ][
+  , b2Bl := b2Bl[ipft]
+  ][
+    sample %in% sample.int(max(sample), 10000)
+  ],
+  site_lai_samples = site_dt[
+    params_structure,
+    on = "ipft",
+    allow.cartesian = TRUE
+  ][
+  , bleaf := size2bl(dbh, b1Bl, b2Bl)
+  ][
+  , lai := nplant * bleaf * SLA
+  ][
+  , elai := lai * clumping_factor
+  ],
+  site_lai_summary_dt = site_lai_samples[
+   ,
+     list(lai_mean = mean(lai),
+          lai_sd = sd(lai),
+          lai_lo = quantile(lai, 0.025),
+          lai_hi = quantile(lai, 0.975),
+          elai_mean = mean(elai),
+          elai_sd = sd(elai),
+          elai_lo = quantile(elai, 0.025),
+          elai_hi = quantile(elai, 0.975)),
+     c("site", "year", "pft", "ipft", "hite", "dbh", "nplant", "cohort")
+  ],
+  site_lai_summary = tibble::as_tibble(site_lai_summary_dt) %>%
     purrr::modify(unname) %>%
     dplyr::group_by(site, year) %>%
     dplyr::arrange(hite) %>%
@@ -121,8 +132,6 @@ pre_plan <- drake_plan(
     ) %>%
     dplyr::filter_if(is.numeric, dplyr::all_vars(. > 0))
 )
-
-## loadd(lai_observed)
 
 site_lai_plots_template <- drake_plan(
   siteplot = site_lai_summary %>%
@@ -221,6 +230,8 @@ current_plan <- bind_plans(
 )
 current_config <- drake_config(current_plan)
 make(current_plan, jobs = parallel::detectCores())
+
+## make(current_plan, c("site_dt", "tidy_params_dt"))
 
 ## ed_plan_template <- drake_plan(
 ##   edresult = run_ed_site_ens(
