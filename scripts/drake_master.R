@@ -128,9 +128,41 @@ pre_plan <- drake_plan(
       obs_LAI = mean(LAI_CLX_10_60_m2_m2, na.rm = TRUE),
       obs_LAI_SD = sd(LAI_CLX_10_60_m2_m2, na.rm = TRUE),
       obs_LAI_lo = obs_LAI - obs_LAI_SD,
-     obs_LAI_hi = obs_LAI + obs_LAI_SD
+      obs_LAI_hi = obs_LAI + obs_LAI_SD
     ) %>%
-    dplyr::filter_if(is.numeric, dplyr::all_vars(. > 0))
+    dplyr::filter_if(is.numeric, dplyr::all_vars(. > 0)),
+  prior = create_prior(nsite = 1, heteroskedastic = FALSE, limits = TRUE),
+  prior_samples = prior$sampler(1000),
+  tidy_prior = tibble::as_tibble(prior_samples) %>%
+    tidyr::gather(pft_param, value) %>%
+    dplyr::mutate(
+      pft = gsub("^.*\\.(.*)\\..*$", "\\1", pft_param),
+      pft = forcats::fct_inorder(pft),
+      ipft = as.integer(pft),
+      parameter = gsub("^.*\\..*\\.(.*)$", "\\1", pft_param),
+      parameter = forcats::fct_inorder(parameter),
+      type = "prior"
+    ),
+  params_prior_posterior = tidy_prior %>%
+    dplyr::mutate(type = "prior") %>%
+    dplyr::bind_rows(tidy_params %>% dplyr::mutate(type = "posterior")) %>%
+    dplyr::mutate(type = forcats::fct_inorder(type)),
+  params_prior_posterior_plot = params_prior_posterior %>%
+    dplyr::filter(!grepl("soil|residual", parameter)) %>%
+    ggplot() +
+    aes(x = interaction(type, pft), y = value, fill = pft, color = pft) +
+    geom_violin() +
+    facet_wrap(vars(parameter), scales = "free") +
+    labs(x = "Prior vs. posterior", y = "Value") +
+    theme(
+      axis.text.x = element_blank(),
+      axis.ticks.x = element_blank()
+    ),
+  params_prior_posterior_png = ggsave(
+    file_out("figures/params_prior_posterior.png"),
+    params_prior_posterior_plot,
+    width = 8, height = 6, units = "in"
+  )
 )
 
 site_lai_plots_template <- drake_plan(
