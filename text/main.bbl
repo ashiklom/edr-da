@@ -1,0 +1,2118 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.0 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nyt/global//global/global}
+    \entry{carlson1997relation}{article}{}
+      \name{author}{2}{}{%
+        {{hash=1626e639eca26057f975301446f0ec0c}{%
+           family={Carlson},
+           familyi={C\bibinitperiod},
+           given={Toby\bibnamedelima N.},
+           giveni={T\bibinitperiod\bibinitdelim N\bibinitperiod}}}%
+        {{hash=db0ba06dadfaee244762da18ecce2345}{%
+           family={Ripley},
+           familyi={R\bibinitperiod},
+           given={David\bibnamedelima A.},
+           giveni={D\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \strng{namehash}{81ba3fdea64d71eed2a689d1143bce64}
+      \strng{fullhash}{81ba3fdea64d71eed2a689d1143bce64}
+      \strng{bibnamehash}{81ba3fdea64d71eed2a689d1143bce64}
+      \strng{authorbibnamehash}{81ba3fdea64d71eed2a689d1143bce64}
+      \strng{authornamehash}{81ba3fdea64d71eed2a689d1143bce64}
+      \strng{authorfullhash}{81ba3fdea64d71eed2a689d1143bce64}
+      \field{sortinit}{C}
+      \field{sortinithash}{963e9d84a3da2344e8833203de5aed05}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{00344257}
+      \field{journaltitle}{Remote Sensing of Environment}
+      \field{month}{12}
+      \field{number}{3}
+      \field{title}{On the Relation between {{NDVI}}, Fractional Vegetation Cover, and Leaf Area Index}
+      \field{volume}{62}
+      \field{year}{1997}
+      \field{pages}{241\bibrangedash 252}
+      \range{pages}{12}
+      \verb{doi}
+      \verb 10.1016/S0034-4257(97)00104-1
+      \endverb
+    \endentry
+    \entry{combal2003retrieval}{article}{}
+      \name{author}{9}{}{%
+        {{hash=7712f5556bb7c87ea552f73cf3b0442c}{%
+           family={Combal},
+           familyi={C\bibinitperiod},
+           given={B},
+           giveni={B\bibinitperiod}}}%
+        {{hash=f223412413216f3916dea3de61dfa95a}{%
+           family={Baret},
+           familyi={B\bibinitperiod},
+           given={F},
+           giveni={F\bibinitperiod}}}%
+        {{hash=2f5a9bf541eb6194698dbdfcd819f875}{%
+           family={Weiss},
+           familyi={W\bibinitperiod},
+           given={M},
+           giveni={M\bibinitperiod}}}%
+        {{hash=90d0b1a1ce424dd4a47c0c5e6c3b3dd1}{%
+           family={Trubuil},
+           familyi={T\bibinitperiod},
+           given={A},
+           giveni={A\bibinitperiod}}}%
+        {{hash=50a54852d24c871e1cfcc8455240fbd2}{%
+           family={Mac{é}},
+           familyi={M\bibinitperiod},
+           given={D},
+           giveni={D\bibinitperiod}}}%
+        {{hash=dcaa1554762327089f0c7c512665e61a}{%
+           family={Pragn{è}re},
+           familyi={P\bibinitperiod},
+           given={A},
+           giveni={A\bibinitperiod}}}%
+        {{hash=85fe491d275ea260300ce9fe18c2ff68}{%
+           family={Myneni},
+           familyi={M\bibinitperiod},
+           given={R},
+           giveni={R\bibinitperiod}}}%
+        {{hash=bc9002f8a61fd5e85d8054f3b32dd373}{%
+           family={Knyazikhin},
+           familyi={K\bibinitperiod},
+           given={Y},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=9a75ee293f2555f40976345739087998}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={L},
+           giveni={L\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {[object Object]}%
+      }
+      \strng{namehash}{49d160811ff6d936a3d85f7a414f456c}
+      \strng{fullhash}{7b73c84af3a2b27fa51eec9f33beaf1b}
+      \strng{bibnamehash}{49d160811ff6d936a3d85f7a414f456c}
+      \strng{authorbibnamehash}{49d160811ff6d936a3d85f7a414f456c}
+      \strng{authornamehash}{49d160811ff6d936a3d85f7a414f456c}
+      \strng{authorfullhash}{7b73c84af3a2b27fa51eec9f33beaf1b}
+      \field{sortinit}{C}
+      \field{sortinithash}{963e9d84a3da2344e8833203de5aed05}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{Estimation of canopy biophysical variables from remote sensing data was investigated using radiative transfer model inversion. Measurement and model uncertainties make the inverse problem ill posed, inducing difficulties and inaccuracies in the search for the solution. This study focuses on the use of prior information to reduce the uncertainties associated to the estimation of canopy biophysical variables in the radiative transfer model inversion process. For this purpose, lookup table (LUT), quasi-Newton algorithm (QNT), and neural network (NNT) inversion techniques were adapted to account for prior information. Results were evaluated over simulated reflectance data sets that allow a detailed analysis of the effect of measurement and model uncertainties. Results demonstrate that the use of prior information significantly improves canopy biophysical variables estimation. LUT and QNT are sensitive to model uncertainties. Conversely, NNT techniques are generally less accurate. However, in our conditions, its accuracy is little dependent significantly on modeling or measurement error. We also observed that bias in the reflectance measurements due to miscalibration did not impact very much the accuracy of biophysical estimation.}
+      \field{issn}{0034-4257}
+      \field{journaltitle}{Remote Sensing of Environment}
+      \field{month}{1}
+      \field{number}{1}
+      \field{shorttitle}{Retrieval of Canopy Biophysical Variables from Bidirectional Reflectance}
+      \field{title}{Retrieval of Canopy Biophysical Variables from Bidirectional Reflectance: {{Using}} Prior Information to Solve the Ill-Posed Inverse Problem}
+      \field{volume}{84}
+      \field{year}{2003}
+      \field{pages}{1\bibrangedash 15}
+      \range{pages}{15}
+      \verb{doi}
+      \verb 10.1016/S0034-4257(02)00035-4
+      \endverb
+      \verb{file}
+      \verb /home/ashiklom/MEGAsync/Zotero/Combal et al_2003_Retrieval of canopy.pdf
+      \endverb
+      \keyw{inverse problem,look up tables (LUT),Lookup table,neural network,Notes,Notes: read in full,Prior information,Quasi-Newton,Radiative transfer model,RTM inversion}
+    \endentry
+    \entry{dickinson_1983_land}{article}{}
+      \name{author}{1}{}{%
+        {{hash=d58b5660f1b8209bef9ee128a749e54b}{%
+           family={Dickinson},
+           familyi={D\bibinitperiod},
+           given={Robert\bibnamedelima E.},
+           giveni={R\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{d58b5660f1b8209bef9ee128a749e54b}
+      \strng{fullhash}{d58b5660f1b8209bef9ee128a749e54b}
+      \strng{bibnamehash}{d58b5660f1b8209bef9ee128a749e54b}
+      \strng{authorbibnamehash}{d58b5660f1b8209bef9ee128a749e54b}
+      \strng{authornamehash}{d58b5660f1b8209bef9ee128a749e54b}
+      \strng{authorfullhash}{d58b5660f1b8209bef9ee128a749e54b}
+      \field{sortinit}{D}
+      \field{sortinithash}{2ef1bd9a78cc71eb74d7231c635177b8}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{isbn}{9780120188253}
+      \field{issn}{0065-2687}
+      \field{journaltitle}{Theory of Climate, Proceedings of a Symposium Commemorating the Two-Hundredth Anniversary of the Academy of Sciences of Lisbon}
+      \field{title}{Land Surface Processes and Climate-Surface Albedos and Energy Balance}
+      \field{year}{1983}
+      \true{nocite}
+      \field{pages}{305\bibrangedash 353}
+      \range{pages}{49}
+      \verb{doi}
+      \verb 10.1016/s0065-2687(08)60176-4
+      \endverb
+    \endentry
+    \entry{falster2017multitrait}{article}{}
+      \name{author}{4}{}{%
+        {{hash=edccbcd839bc84cb3184d95069909403}{%
+           family={Falster},
+           familyi={F\bibinitperiod},
+           given={Daniel\bibnamedelima S.},
+           giveni={D\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=f32d08a03245a59d0ad5a857be8a5401}{%
+           family={Br{ä}nnstr{ö}m},
+           familyi={B\bibinitperiod},
+           given={{Å}ke},
+           giveni={Å\bibinitperiod}}}%
+        {{hash=b7f0fb86b43bc1563488fea1037940e5}{%
+           family={Westoby},
+           familyi={W\bibinitperiod},
+           given={Mark},
+           giveni={M\bibinitperiod}}}%
+        {{hash=874f15c525e51c2b786d5382c67156ea}{%
+           family={Dieckmann},
+           familyi={D\bibinitperiod},
+           given={Ulf},
+           giveni={U\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \strng{namehash}{91fceaeb3c4829fb4b675cc3c21dc9de}
+      \strng{fullhash}{82df68e42bd9bc71d2e6c0e8783c061c}
+      \strng{bibnamehash}{91fceaeb3c4829fb4b675cc3c21dc9de}
+      \strng{authorbibnamehash}{91fceaeb3c4829fb4b675cc3c21dc9de}
+      \strng{authornamehash}{91fceaeb3c4829fb4b675cc3c21dc9de}
+      \strng{authorfullhash}{82df68e42bd9bc71d2e6c0e8783c061c}
+      \field{sortinit}{F}
+      \field{sortinithash}{669c706c6f1fbf3b5a83d26f1d9e9e72}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{To explain diversity in forests, niche theory must show how multiple plant species coexist while competing for the same resources. Although successional processes are widespread in forests, theoretical work has suggested that differentiation in successional strategy allows only a few species stably to coexist, including only a single shade tolerant. However, this conclusion is based on current niche models, which encode a very simplified view of plant communities, suggesting that the potential for niche differentiation has remained unexplored. Here, we show how extending successional niche models to include features common to all vegetation—{}height-structured competition for light under a prevailing disturbance regime and two trait-mediated tradeoffs in plant function—{}enhances the diversity of species that can be maintained, including a diversity of shade tolerants. We identify two distinct axes of potential niche differentiation, corresponding to the traits leaf mass per unit leaf area and height at maturation. The first axis allows for coexistence of different shade tolerances and the second axis for coexistence among species with the same shade tolerance. Addition of this second axis leads to communities with a high diversity of shade tolerants. Niche differentiation along the second axis also generates regions of trait space wherein fitness is almost equalized, an outcome we term ``evolutionarily emergent near-neutrality.'' For different environmental conditions, our model predicts diverse vegetation types and trait mixtures, akin to observations. These results indicate that the outcomes of successional niche differentiation are richer than previously thought and potentially account for mixtures of traits and species observed in forests worldwide.}
+      \field{issn}{0027-8424, 1091-6490}
+      \field{journaltitle}{Proceedings of the National Academy of Sciences}
+      \field{month}{3}
+      \field{number}{13}
+      \field{title}{Multitrait Successional Forest Dynamics Enable Diverse Competitive Coexistence}
+      \field{volume}{114}
+      \field{year}{2017}
+      \field{pages}{E2719\bibrangedash E2728}
+      \range{pages}{-1}
+      \verb{doi}
+      \verb 10.1073/pnas.1610206114
+      \endverb
+      \verb{file}
+      \verb /Users/ashiklom/Zotero/storage/4U4AVP5B/Falster et al. - 2017 - Multitrait successional forest dynamics enable div.pdf
+      \endverb
+    \endentry
+    \entry{fensholt2004evaluation}{article}{}
+      \name{author}{3}{}{%
+        {{hash=16118e7791daf53c4fa4c4cb41dd62e9}{%
+           family={Fensholt},
+           familyi={F\bibinitperiod},
+           given={Rasmus},
+           giveni={R\bibinitperiod}}}%
+        {{hash=1b3ff1a237b9477e0ef68c43fa891a99}{%
+           family={Sandholt},
+           familyi={S\bibinitperiod},
+           given={Inge},
+           giveni={I\bibinitperiod}}}%
+        {{hash=46174f4bd4b00d91edc883313ba68d51}{%
+           family={Rasmussen},
+           familyi={R\bibinitperiod},
+           given={Michael\bibnamedelima Schultz},
+           giveni={M\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \strng{namehash}{7bac7cc1ffc36692028812d06b0fc28f}
+      \strng{fullhash}{7bac7cc1ffc36692028812d06b0fc28f}
+      \strng{bibnamehash}{7bac7cc1ffc36692028812d06b0fc28f}
+      \strng{authorbibnamehash}{7bac7cc1ffc36692028812d06b0fc28f}
+      \strng{authornamehash}{7bac7cc1ffc36692028812d06b0fc28f}
+      \strng{authorfullhash}{7bac7cc1ffc36692028812d06b0fc28f}
+      \field{sortinit}{F}
+      \field{sortinithash}{669c706c6f1fbf3b5a83d26f1d9e9e72}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{00344257}
+      \field{journaltitle}{Remote Sensing of Environment}
+      \field{month}{6}
+      \field{number}{3-4}
+      \field{title}{Evaluation of {{MODIS LAI}}, {{fAPAR}} and the Relation between {{fAPAR}} and {{NDVI}} in a Semi-Arid Environment Using in Situ Measurements}
+      \field{volume}{91}
+      \field{year}{2004}
+      \field{pages}{490\bibrangedash 507}
+      \range{pages}{18}
+      \verb{doi}
+      \verb 10.1016/j.rse.2004.04.009
+      \endverb
+    \endentry
+    \entry{fisher2017vegetation}{article}{}
+      \name{author}{28}{uniquelist=2}{%
+        {{hash=e0647ff3fa39b4f88515d0dbc290df83}{%
+           family={Fisher},
+           familyi={F\bibinitperiod},
+           given={Rosie\bibnamedelima A},
+           giveni={R\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=ccaecd2ec50ed5d9d9eb682a41f25b5e}{%
+           family={Koven},
+           familyi={K\bibinitperiod},
+           given={Charles\bibnamedelima D},
+           giveni={C\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+        {{hash=8ecaddb19c5c8f9771d6b4e54fe8ef6b}{%
+           family={Anderegg},
+           familyi={A\bibinitperiod},
+           given={William\bibnamedelimb R\bibnamedelima L},
+           giveni={W\bibinitperiod\bibinitdelim R\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+        {{hash=263b7043157ee94f461dba1b8369db41}{%
+           family={Christoffersen},
+           familyi={C\bibinitperiod},
+           given={Bradley\bibnamedelima O},
+           giveni={B\bibinitperiod\bibinitdelim O\bibinitperiod}}}%
+        {{hash=02cd9d79e14f81de21255b979e19e293}{%
+           family={Dietze},
+           familyi={D\bibinitperiod},
+           given={Michael\bibnamedelima C},
+           giveni={M\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+        {{hash=6db2b9922a07e01779173a55b6a15c17}{%
+           family={Farrior},
+           familyi={F\bibinitperiod},
+           given={Caroline},
+           giveni={C\bibinitperiod}}}%
+        {{hash=bda783654b6b264513d6439194b1bec9}{%
+           family={Holm},
+           familyi={H\bibinitperiod},
+           given={Jennifer\bibnamedelima A},
+           giveni={J\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=cc67fc87c3c575dd02954c07360d2b57}{%
+           family={Hurtt},
+           familyi={H\bibinitperiod},
+           given={George},
+           giveni={G\bibinitperiod}}}%
+        {{hash=930f4d6bce49a9c2210a9d8fe7590cb5}{%
+           family={Knox},
+           familyi={K\bibinitperiod},
+           given={Ryan\bibnamedelima G},
+           giveni={R\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
+        {{hash=152d8b8514fa228404ca461dee6e7fd6}{%
+           family={Lawrence},
+           familyi={L\bibinitperiod},
+           given={Peter\bibnamedelima J},
+           giveni={P\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=efa2296ef928b40323b9d735b14145ef}{%
+           family={Lichststein},
+           familyi={L\bibinitperiod},
+           given={Jeremy\bibnamedelima W.},
+           giveni={J\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+        {{hash=92ff6ab6c5e94c85b238d850c590a8c2}{%
+           family={Longo},
+           familyi={L\bibinitperiod},
+           given={Marcos},
+           giveni={M\bibinitperiod}}}%
+        {{hash=187203ead5b2f78fcd9a5da18e818a65}{%
+           family={Matheny},
+           familyi={M\bibinitperiod},
+           given={Ashley\bibnamedelima M},
+           giveni={A\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=a7b2f93b854558a0ad5bf07c5cab812d}{%
+           family={Medvigy},
+           familyi={M\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod}}}%
+        {{hash=0aecb344d60bd35f9128dfaedb4c6037}{%
+           family={{Muller-Landau}},
+           familyi={M\bibinitperiod},
+           given={Helene\bibnamedelima C},
+           giveni={H\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+        {{hash=6602976b65ab566a916b3b703891fe51}{%
+           family={Powell},
+           familyi={P\bibinitperiod},
+           given={Thomas\bibnamedelima L},
+           giveni={T\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+        {{hash=5e5d6fb54516acae35e17b887bb5eb02}{%
+           family={Serbin},
+           familyi={S\bibinitperiod},
+           given={Shawn\bibnamedelima P},
+           giveni={S\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+        {{hash=0774f9968b6e88f60c94eaf2e96fe412}{%
+           family={Sato},
+           familyi={S\bibinitperiod},
+           given={Hisashi},
+           giveni={H\bibinitperiod}}}%
+        {{hash=4045b9d1f7aab7dfa51d84709a1bdf11}{%
+           family={Shuman},
+           familyi={S\bibinitperiod},
+           given={Jacquelyn},
+           giveni={J\bibinitperiod}}}%
+        {{hash=6820851ebfe044fde445b304fe732415}{%
+           family={Smith},
+           familyi={S\bibinitperiod},
+           given={Benjamin},
+           giveni={B\bibinitperiod}}}%
+        {{hash=f7df0e5e60d9ea1ffa01045c2b260c76}{%
+           family={Trugman},
+           familyi={T\bibinitperiod},
+           given={Anna\bibnamedelima T},
+           giveni={A\bibinitperiod\bibinitdelim T\bibinitperiod}}}%
+        {{hash=7a28100c55d0b143b268b4764bafd44e}{%
+           family={Viskari},
+           familyi={V\bibinitperiod},
+           given={Toni},
+           giveni={T\bibinitperiod}}}%
+        {{hash=eaa18465b7b03453ac504d2c85e0f59c}{%
+           family={Verbeeck},
+           familyi={V\bibinitperiod},
+           given={Hans},
+           giveni={H\bibinitperiod}}}%
+        {{hash=1f07aaa257197f727fb9b161cb50c9ab}{%
+           family={Weng},
+           familyi={W\bibinitperiod},
+           given={Ensheng},
+           giveni={E\bibinitperiod}}}%
+        {{hash=3840afe48db8f8524790fbd3b0a6f816}{%
+           family={Xu},
+           familyi={X\bibinitperiod},
+           given={Chonggang},
+           giveni={C\bibinitperiod}}}%
+        {{hash=e75afbcb08a62ad11585143fbad618c2}{%
+           family={Xu},
+           familyi={X\bibinitperiod},
+           given={Xiangtao},
+           giveni={X\bibinitperiod}}}%
+        {{hash=228dd687961f3612985beeddec81f72a}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Tao},
+           giveni={T\bibinitperiod}}}%
+        {{hash=6b8911caa0d5dee60565004f112e2b11}{%
+           family={Moorcroft},
+           familyi={M\bibinitperiod},
+           given={Paul},
+           giveni={P\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \list{publisher}{1}{%
+        {[object Object]}%
+      }
+      \strng{namehash}{42ddd2f7a0f48e0996fce3ba38639690}
+      \strng{fullhash}{3adab169064bc924159c2af22b4bd4d1}
+      \strng{bibnamehash}{42ddd2f7a0f48e0996fce3ba38639690}
+      \strng{authorbibnamehash}{42ddd2f7a0f48e0996fce3ba38639690}
+      \strng{authornamehash}{42ddd2f7a0f48e0996fce3ba38639690}
+      \strng{authorfullhash}{3adab169064bc924159c2af22b4bd4d1}
+      \field{sortinit}{F}
+      \field{sortinithash}{669c706c6f1fbf3b5a83d26f1d9e9e72}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{Numerous current efforts seek to improve the representation of ecosystem ecology and vegetation demographic processes within Earth System Models (ESMs). These developments are widely viewed as an important step in developing greater realism in predictions of future ecosystem states and fluxes. Increased realism, however, leads to increased model complexity, with new features raising a suite of ecological questions that require empirical constraints. Here, we review the developments that permit the representation of plant demographics in ESMs, and identify issues raised by these developments that highlight important gaps in ecological understanding. These issues inevitably translate into uncertainty in model projections but also allow models to be applied to new processes and questions concerning the dynamics of real-world ecosystems. We argue that stronger and more innovative connections to data, across the range of scales considered, are required to address these gaps in understanding. The development of first-generation land surface models as a unifying framework for ecophysiological understanding stimulated much research into plant physiological traits and gas exchange. Constraining predictions at ecologically relevant spatial and temporal scales will require a similar investment of effort and intensified inter-disciplinary communication. This article is protected by copyright. All rights reserved.}
+      \field{issn}{1365-2486}
+      \field{journaltitle}{Global Change Biology}
+      \field{month}{9}
+      \field{shorttitle}{Vegetation {{Demographics}} in {{Earth System Models}}}
+      \field{title}{Vegetation {{Demographics}} in {{Earth System Models}}: A Review of Progress and Priorities}
+      \field{year}{2017}
+      \field{pages}{n/a\bibrangedash n/a}
+      \range{pages}{-1}
+      \verb{doi}
+      \verb 10.1111/gcb.13910
+      \endverb
+      \keyw{Carbon Cycle,Demographics,DGVM,Earth System Model,Ecosystem,Vegetation}
+    \endentry
+    \entry{fisher_2010_assessing}{article}{}
+      \name{author}{9}{uniquelist=2}{%
+        {{hash=dc48f0d46869cc899325d2be76b2edba}{%
+           family={Fisher},
+           familyi={F\bibinitperiod},
+           given={Rosie},
+           giveni={R\bibinitperiod}}}%
+        {{hash=25df7b1c7171555c1ee1f41445e4e3d4}{%
+           family={McDowell},
+           familyi={M\bibinitperiod},
+           given={Nate},
+           giveni={N\bibinitperiod}}}%
+        {{hash=27c5d9fff2e1e37be522f65501417906}{%
+           family={Purves},
+           familyi={P\bibinitperiod},
+           given={Drew},
+           giveni={D\bibinitperiod}}}%
+        {{hash=6b8911caa0d5dee60565004f112e2b11}{%
+           family={Moorcroft},
+           familyi={M\bibinitperiod},
+           given={Paul},
+           giveni={P\bibinitperiod}}}%
+        {{hash=9b49b30513bc1b9bcbdf370cf26da98e}{%
+           family={Sitch},
+           familyi={S\bibinitperiod},
+           given={Stephen},
+           giveni={S\bibinitperiod}}}%
+        {{hash=a384bd84d45e80a955d18867658a45a7}{%
+           family={Cox},
+           familyi={C\bibinitperiod},
+           given={Peter},
+           giveni={P\bibinitperiod}}}%
+        {{hash=03e485020b6076cd02a71dd6d69f3b51}{%
+           family={Huntingford},
+           familyi={H\bibinitperiod},
+           given={Chris},
+           giveni={C\bibinitperiod}}}%
+        {{hash=7c5e000c7db8d7a355f687e694427a53}{%
+           family={Meir},
+           familyi={M\bibinitperiod},
+           given={Patrick},
+           giveni={P\bibinitperiod}}}%
+        {{hash=72040a48214d540928a4c37d7ff7bd67}{%
+           family={Ian\bibnamedelima Woodward},
+           familyi={I\bibinitperiod\bibinitdelim W\bibinitperiod},
+           given={F.},
+           giveni={F\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Wiley}%
+      }
+      \strng{namehash}{3488ba13ac6f174a6a80c03b8bedf04e}
+      \strng{fullhash}{af917e709ee53aa32b64334cb8e2daac}
+      \strng{bibnamehash}{3488ba13ac6f174a6a80c03b8bedf04e}
+      \strng{authorbibnamehash}{3488ba13ac6f174a6a80c03b8bedf04e}
+      \strng{authornamehash}{3488ba13ac6f174a6a80c03b8bedf04e}
+      \strng{authorfullhash}{af917e709ee53aa32b64334cb8e2daac}
+      \field{sortinit}{F}
+      \field{sortinithash}{669c706c6f1fbf3b5a83d26f1d9e9e72}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0028-646X}
+      \field{journaltitle}{New Phytologist}
+      \field{month}{7}
+      \field{number}{3}
+      \field{title}{Assessing Uncertainties in a Second-Generation Dynamic Vegetation Model Caused by Ecological Scale Limitations}
+      \field{volume}{187}
+      \field{year}{2010}
+      \field{pages}{666\bibrangedash 681}
+      \range{pages}{16}
+      \verb{doi}
+      \verb 10.1111/j.1469-8137.2010.03340.x
+      \endverb
+    \endentry
+    \entry{hikosaka1995model}{article}{}
+      \name{author}{2}{}{%
+        {{hash=8810fa67c776788a1c8d41a6563e87d2}{%
+           family={Hikosaka},
+           familyi={H\bibinitperiod},
+           given={K.},
+           giveni={K\bibinitperiod}}}%
+        {{hash=0decdf775b397be372dafd696536ed49}{%
+           family={Terashima},
+           familyi={T\bibinitperiod},
+           given={I.},
+           giveni={I\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \strng{namehash}{a37750c0072c2ba58db4e086c1789e01}
+      \strng{fullhash}{a37750c0072c2ba58db4e086c1789e01}
+      \strng{bibnamehash}{a37750c0072c2ba58db4e086c1789e01}
+      \strng{authorbibnamehash}{a37750c0072c2ba58db4e086c1789e01}
+      \strng{authornamehash}{a37750c0072c2ba58db4e086c1789e01}
+      \strng{authorfullhash}{a37750c0072c2ba58db4e086c1789e01}
+      \field{sortinit}{H}
+      \field{sortinithash}{5f15a7bc777ad49ff15aa4d2831b1681}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0140-7791, 1365-3040}
+      \field{journaltitle}{Plant, Cell and Environment}
+      \field{month}{6}
+      \field{number}{6}
+      \field{title}{A Model of the Acclimation of Photosynthesis in the Leaves of {{C3}} Plants to Sun and Shade with Respect to Nitrogen Use}
+      \field{volume}{18}
+      \field{year}{1995}
+      \field{pages}{605\bibrangedash 618}
+      \range{pages}{14}
+      \verb{doi}
+      \verb 10.1111/j.1365-3040.1995.tb00562.x
+      \endverb
+    \endentry
+    \entry{keenan2016global}{article}{}
+      \name{author}{2}{}{%
+        {{hash=676692f1b80e459c7655ae3267ef21f5}{%
+           family={Keenan},
+           familyi={K\bibinitperiod},
+           given={Trevor\bibnamedelima F.},
+           giveni={T\bibinitperiod\bibinitdelim F\bibinitperiod}}}%
+        {{hash=5db084f5d3894b3621b086945c2e725b}{%
+           family={Niinemets},
+           familyi={N\bibinitperiod},
+           given={{Ü}lo},
+           giveni={Ü\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {[object Object]}%
+      }
+      \strng{namehash}{b138e05286d81dde26f12ee7dc4f7c41}
+      \strng{fullhash}{b138e05286d81dde26f12ee7dc4f7c41}
+      \strng{bibnamehash}{b138e05286d81dde26f12ee7dc4f7c41}
+      \strng{authorbibnamehash}{b138e05286d81dde26f12ee7dc4f7c41}
+      \strng{authornamehash}{b138e05286d81dde26f12ee7dc4f7c41}
+      \strng{authorfullhash}{b138e05286d81dde26f12ee7dc4f7c41}
+      \field{sortinit}{K}
+      \field{sortinithash}{9fd838a31ba64d981e8f44562bd33f89}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2055-0278}
+      \field{journaltitle}{Nature Plants}
+      \field{month}{12}
+      \field{title}{Global Leaf Trait Estimates Biased Due to Plasticity in the Shade}
+      \field{volume}{3}
+      \field{year}{2016}
+      \field{pages}{16201}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1038/nplants.2016.201
+      \endverb
+      \verb{file}
+      \verb /Users/ashiklom/Zotero/storage/VQZ4MG3V/keenan_niinemets.pdf
+      \endverb
+    \endentry
+    \entry{kitajima2013leaf}{article}{}
+      \name{author}{3}{}{%
+        {{hash=25de58f059ab32e2fc11579ff51c6cf5}{%
+           family={Kitajima},
+           familyi={K\bibinitperiod},
+           given={Kaoru},
+           giveni={K\bibinitperiod}}}%
+        {{hash=a69bfa169c9f71094794bd2d9121169e}{%
+           family={Cordero},
+           familyi={C\bibinitperiod},
+           given={Roberto\bibnamedelima A.},
+           giveni={R\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=39b708ee94a24f3c556ba67387dc5469}{%
+           family={Wright},
+           familyi={W\bibinitperiod},
+           given={S.\bibnamedelimi Joseph},
+           giveni={S\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \strng{namehash}{4aececf34739e9178fa09e26f69b7130}
+      \strng{fullhash}{4aececf34739e9178fa09e26f69b7130}
+      \strng{bibnamehash}{4aececf34739e9178fa09e26f69b7130}
+      \strng{authorbibnamehash}{4aececf34739e9178fa09e26f69b7130}
+      \strng{authornamehash}{4aececf34739e9178fa09e26f69b7130}
+      \strng{authorfullhash}{4aececf34739e9178fa09e26f69b7130}
+      \field{sortinit}{K}
+      \field{sortinithash}{9fd838a31ba64d981e8f44562bd33f89}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{Background and Aims Leaf life span is widely recognized as a key life history trait associated with herbivory resistance, but rigorous comparative data are rare for seedlings. The goal of this study was to examine how light environment affects leaf life span, and how ontogenetic development during the first year may influence leaf fracture toughness, lamina density and stem density that are relevant for herbivory resistance, leaf life span and seedling survival. Methods Data from three experiments encompassing 104 neotropical woody species were combined. Leaf life span, lamina and vein fracture toughness, leaf and stem tissue density and seedling survival were quantified for the first-year seedlings at standardized ontogenetic stages in shade houses and common gardens established in gaps and shaded understorey in a moist tropical forest in Panama. Mortality of naturally recruited seedlings till 1 year later was quantified in 800 1-m2 plots from 1994 to 2011. Key Results Median leaf life span ranged widely among species, always greater in shade (ranging from 151 to {$>$}1790 d in the understorey and shade houses) than in gaps (115–{}867 d), but with strong correlation between gaps and shade. Leaf and stem tissue density increased with seedling age, whereas leaf fracture toughness showed only a weak increase. All these traits were positively correlated with leaf life span. Leaf life span and stem density were negatively correlated with seedling mortality in shade, while gap mortality showed no correlation with these traits. Conclusions The wide spectrum of leaf life span and associated functional traits reflects variation in shade tolerance of first-year seedlings among coexisting trees, shrubs and lianas in this neotropical forest. High leaf tissue density is important in enhancing leaf toughness, a known physical defence, and leaf life span. Both seedling leaf life span and stem density should be considered as key functional traits that contribute to seedling survival in tropical forest understoreys.}
+      \field{issn}{0305-7364, 1095-8290}
+      \field{journaltitle}{Annals of Botany}
+      \field{month}{1}
+      \field{number}{4}
+      \field{shorttitle}{Leaf Life Span Spectrum of Tropical Woody Seedlings}
+      \field{title}{Leaf Life Span Spectrum of Tropical Woody Seedlings: Effects of Light and Ontogeny and Consequences for Survival}
+      \field{volume}{112}
+      \field{year}{2013}
+      \field{pages}{685\bibrangedash 699}
+      \range{pages}{15}
+      \verb{doi}
+      \verb 10.1093/aob/mct036
+      \endverb
+      \verb{file}
+      \verb /home/ashiklom/MEGAsync/Zotero/Kitajima et al_2013_Leaf life span.pdf
+      \endverb
+      \keyw{Biome: Tropical,Fracture toughness,herbivory,leaf density,leaf life span,leaf toughness,light environment,ontogenetic changes,phenotypic plasticity,seedling survival,stem density,tropical lianas,tropical trees,unread}
+    \endentry
+    \entry{knorr2010carbon}{article}{}
+      \name{author}{7}{}{%
+        {{hash=4cf4f4c4271b2489dfd3ed7adedc28e6}{%
+           family={Knorr},
+           familyi={K\bibinitperiod},
+           given={W.},
+           giveni={W\bibinitperiod}}}%
+        {{hash=3c920db4a2ef0071055a411828cb7b05}{%
+           family={Kaminski},
+           familyi={K\bibinitperiod},
+           given={T.},
+           giveni={T\bibinitperiod}}}%
+        {{hash=8eadbcc10c9d9d26de1516991919a7fa}{%
+           family={Scholze},
+           familyi={S\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod}}}%
+        {{hash=8f4c5155e9cd8f508263a6a82e6a5ba4}{%
+           family={Gobron},
+           familyi={G\bibinitperiod},
+           given={N.},
+           giveni={N\bibinitperiod}}}%
+        {{hash=b9cd9b1f646236fcbc5d1edb19bf44b6}{%
+           family={Pinty},
+           familyi={P\bibinitperiod},
+           given={B.},
+           giveni={B\bibinitperiod}}}%
+        {{hash=3b2b5355738b8ef3a5b865ad1895514b}{%
+           family={Giering},
+           familyi={G\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod}}}%
+        {{hash=d326fa175fc994c70bf42c86ce2a08ae}{%
+           family={Mathieu},
+           familyi={M\bibinitperiod},
+           given={P.-P.},
+           giveni={P\bibinithyphendelim P\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \strng{namehash}{4b9f7eb8bea6733c7618ed73bf96ad7f}
+      \strng{fullhash}{7e7ed356b3f2c67e02a17d9dca8f9411}
+      \strng{bibnamehash}{4b9f7eb8bea6733c7618ed73bf96ad7f}
+      \strng{authorbibnamehash}{4b9f7eb8bea6733c7618ed73bf96ad7f}
+      \strng{authornamehash}{4b9f7eb8bea6733c7618ed73bf96ad7f}
+      \strng{authorfullhash}{7e7ed356b3f2c67e02a17d9dca8f9411}
+      \field{sortinit}{K}
+      \field{sortinithash}{9fd838a31ba64d981e8f44562bd33f89}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Photosynthesis by terrestrial plants is the main driver of the global carbon cycle, and the presence of actively photosynthesizing vegetation can now be observed from space. However, challenges remain when translating remotely sensed data into carbon fluxes. One reason is that the Fraction of Absorbed Photosynthetically Active Radiation (FAPAR), which documents the presence of photosynthetically active vegetation, relates more directly to leaf development and leaf phenology than to photosynthetic rates. Here, we present a new approach for linking FAPAR and vegetation-to-atmosphere carbon fluxes through variational data assimilation. The scheme extends the Carbon Cycle Data Assimilation System (CCDAS) by a newly developed, globally applicable and generic leaf phenology model, which includes both temperature and water-driven leaf development. CCDAS is run for seven sites, six of them included in the FLUXNET network. Optimization is carried out simultaneously for all sites against 20 months of daily FAPAR from the Medium Resolution Imaging Spectrometer on board the European Space Agency's ENVISAT platform. Fourteen parameters related to phenology and 24 related to photosynthesis are optimized simultaneously, and their posterior uncertainties are computed. We find that with one parameter set for all sites, the model is able to reproduce the observed FAPAR spanning boreal, temperate, humid-tropical, and semiarid climates. Assimilation of FAPAR has led to reduced uncertainty (by {$>$}10\%) of 10 of the 38 parameters, including one parameter related to photosynthesis, and a moderate reduction in net primary productivity uncertainty. The approach can easily be extended to regional or global studies and to the assimilation of further remotely sensed data.}
+      \field{issn}{2156-2202}
+      \field{journaltitle}{Journal of Geophysical Research: Biogeosciences}
+      \field{number}{G4}
+      \field{title}{Carbon Cycle Data Assimilation with a Generic Phenology Model}
+      \field{volume}{115}
+      \field{year}{2010}
+      \verb{doi}
+      \verb 10.1029/2009JG001119
+      \endverb
+      \verb{file}
+      \verb /Users/ashiklom/Zotero/storage/642ZTVLG/Knorr et al. - 2010 - Carbon cycle data assimilation with a generic phen.pdf;/Users/ashiklom/Zotero/storage/K4M3HZEB/2009JG001119.html
+      \endverb
+      \keyw{carbon cycle,data assimilation,phenology,remote sensing,vegetation modeling}
+    \endentry
+    \entry{lewis2007spectral}{article}{}
+      \name{author}{2}{}{%
+        {{hash=d2aa4ca344a7388fb2bbb725e0757875}{%
+           family={Lewis},
+           familyi={L\bibinitperiod},
+           given={P.},
+           giveni={P\bibinitperiod}}}%
+        {{hash=f0f7bef1e6adad0d19dc375099b93ab3}{%
+           family={Disney},
+           familyi={D\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {[object Object]}%
+      }
+      \strng{namehash}{67ce50de70654f91be9fb4222e1e4720}
+      \strng{fullhash}{67ce50de70654f91be9fb4222e1e4720}
+      \strng{bibnamehash}{67ce50de70654f91be9fb4222e1e4720}
+      \strng{authorbibnamehash}{67ce50de70654f91be9fb4222e1e4720}
+      \strng{authornamehash}{67ce50de70654f91be9fb4222e1e4720}
+      \strng{authorfullhash}{67ce50de70654f91be9fb4222e1e4720}
+      \field{sortinit}{L}
+      \field{sortinithash}{2c7981aaabc885868aba60f0c09ee20f}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Spectral invariants can be considered fundamental descriptors of the impact of canopy structure on canopy scattering where the scattering objects are large compared with the wavelength of radiation. The paper uses the concept of canopy spectral invariants to explore scaling relationships within canopy scattering. A new approximation to the leaf-level PROSPECT scattering model of Jacquemoud and Baret [Jacquemoud, S., \& Baret, F. (1990). PROSPECT: A model of leaf optical properties spectra. Remote Sensing of Environment, 34, 75–{}91.] is developed by applying the spectral invariant approach to leaf internal scattering, in a similar manner to that which has been used to describe canopy-level scattering. We show that it is possible to express both the canopy- and leaf-level single scattering albedo as a function of canopy spectral invariants. This approach provides a framework through which structural information can be maintained in a self-consistent manner across multiple scales from leaf- to canopy-level scattering, at least for the simple canopy architectures considered. It is demonstrated that the nesting of scales described in these relationships implies limits to the retrieval of absolute concentrations of any biochemical constituents or absolute quantities of the amount of scattering material from hyperspectral observations of total scattering. The implication is that in general it may not be possible to separate the components of structural and biochemical influences on measured total scattering signals.}
+      \field{issn}{0034-4257}
+      \field{journaltitle}{Remote Sensing of Environment}
+      \field{month}{7}
+      \field{number}{2}
+      \field{title}{Spectral Invariants and Scattering across Multiple Scales from Within-Leaf to Canopy}
+      \field{volume}{109}
+      \field{year}{2007}
+      \field{pages}{196\bibrangedash 206}
+      \range{pages}{11}
+      \verb{doi}
+      \verb 10.1016/j.rse.2006.12.015
+      \endverb
+      \keyw{Leaf model,Radiative transfer,Remote sensing,Scaling,Spectral invariant}
+    \endentry
+    \entry{liu_2018_satellite}{article}{}
+      \name{author}{8}{}{%
+        {{hash=8c178cecb7dbd430464f570b40c90749}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Yibo},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=db156b35135c852a6dcf5a16c0381e39}{%
+           family={Xiao},
+           familyi={X\bibinitperiod},
+           given={Jingfeng},
+           giveni={J\bibinitperiod}}}%
+        {{hash=c5ea2a3afec319114a693e5905d39ae6}{%
+           family={Ju},
+           familyi={J\bibinitperiod},
+           given={Weimin},
+           giveni={W\bibinitperiod}}}%
+        {{hash=8850f3033fcc44e5a4a43b35693720b4}{%
+           family={Zhu},
+           familyi={Z\bibinitperiod},
+           given={Gaolong},
+           giveni={G\bibinitperiod}}}%
+        {{hash=9cbe496b530a98b0f78b73143c94a644}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={Xiaocui},
+           giveni={X\bibinitperiod}}}%
+        {{hash=ca12a53b1ac2b705ee3b000c1c5555be}{%
+           family={Fan},
+           familyi={F\bibinitperiod},
+           given={Weiliang},
+           giveni={W\bibinitperiod}}}%
+        {{hash=e0ab816301e6707715b615cc17c49451}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Dengqiu},
+           giveni={D\bibinitperiod}}}%
+        {{hash=b26d1be7f4f7cda949f6ee79313f4f7d}{%
+           family={Zhou},
+           familyi={Z\bibinitperiod},
+           given={Yanlian},
+           giveni={Y\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier BV}%
+      }
+      \strng{namehash}{14a1a606eab13127c97018aa5d0d6379}
+      \strng{fullhash}{a2a1bf9b32a6bab3aeebc0d011086940}
+      \strng{bibnamehash}{14a1a606eab13127c97018aa5d0d6379}
+      \strng{authorbibnamehash}{14a1a606eab13127c97018aa5d0d6379}
+      \strng{authornamehash}{14a1a606eab13127c97018aa5d0d6379}
+      \strng{authorfullhash}{a2a1bf9b32a6bab3aeebc0d011086940}
+      \field{sortinit}{L}
+      \field{sortinithash}{2c7981aaabc885868aba60f0c09ee20f}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Remote Sensing of Environment}
+      \field{month}{3}
+      \field{title}{Satellite-Derived {{LAI}} Products Exhibit Large Discrepancies and Can Lead to Substantial Uncertainty in Simulated Carbon and Water Fluxes}
+      \field{volume}{206}
+      \field{year}{2018}
+      \field{pages}{174\bibrangedash 188}
+      \range{pages}{15}
+      \verb{doi}
+      \verb 10.1016/j.rse.2017.12.024
+      \endverb
+    \endentry
+    \entry{macbean2018strong}{article}{}
+      \name{author}{9}{}{%
+        {{hash=d047da990355f41a168a939779c81274}{%
+           family={MacBean},
+           familyi={M\bibinitperiod},
+           given={Natasha},
+           giveni={N\bibinitperiod}}}%
+        {{hash=79cb9a921aac66c1af1f636bd941de57}{%
+           family={Maignan},
+           familyi={M\bibinitperiod},
+           given={Fabienne},
+           giveni={F\bibinitperiod}}}%
+        {{hash=0a7d721fde67c27e145846322afa3b8c}{%
+           family={Bacour},
+           familyi={B\bibinitperiod},
+           given={C{é}dric},
+           giveni={C\bibinitperiod}}}%
+        {{hash=22dd5982527741816d40514a6cd75f24}{%
+           family={Lewis},
+           familyi={L\bibinitperiod},
+           given={Philip},
+           giveni={P\bibinitperiod}}}%
+        {{hash=dd89a920118851cf92f48f0c82f9904a}{%
+           family={Peylin},
+           familyi={P\bibinitperiod},
+           given={Philippe},
+           giveni={P\bibinitperiod}}}%
+        {{hash=b1a0aa2ddbf724cd05730dac701b4583}{%
+           family={Guanter},
+           familyi={G\bibinitperiod},
+           given={Luis},
+           giveni={L\bibinitperiod}}}%
+        {{hash=69108dbd473515493cdbca9ea54896dd}{%
+           family={K{ö}hler},
+           familyi={K\bibinitperiod},
+           given={Philipp},
+           giveni={P\bibinitperiod}}}%
+        {{hash=d5039dfa9094196417c86a951fd2a7b7}{%
+           family={{G{ó}mez-Dans}},
+           familyi={G\bibinitperiod},
+           given={Jose},
+           giveni={J\bibinitperiod}}}%
+        {{hash=35bf520779486fcba1914660402598a5}{%
+           family={Disney},
+           familyi={D\bibinitperiod},
+           given={Mathias},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \strng{namehash}{f675b30aa0d99a436825f2b2d2187b9d}
+      \strng{fullhash}{94cddf5864b29a320f8f4abfe1069b0c}
+      \strng{bibnamehash}{f675b30aa0d99a436825f2b2d2187b9d}
+      \strng{authorbibnamehash}{f675b30aa0d99a436825f2b2d2187b9d}
+      \strng{authornamehash}{f675b30aa0d99a436825f2b2d2187b9d}
+      \strng{authorfullhash}{94cddf5864b29a320f8f4abfe1069b0c}
+      \field{sortinit}{M}
+      \field{sortinithash}{cfd219b90152c06204fab207bc6c7cab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2045-2322}
+      \field{journaltitle}{Scientific Reports}
+      \field{month}{12}
+      \field{number}{1}
+      \field{title}{Strong Constraint on Modelled Global Carbon Uptake Using Solar-Induced Chlorophyll Fluorescence Data}
+      \field{volume}{8}
+      \field{year}{2018}
+      \field{pages}{1973}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1038/s41598-018-20024-w
+      \endverb
+      \verb{file}
+      \verb /Users/ashiklom/Zotero/storage/GJS9ECCP/MacBean et al. - 2018 - Strong constraint on modelled global carbon uptake.pdf
+      \endverb
+    \endentry
+    \entry{malenovsky_2008_influence}{article}{}
+      \name{author}{9}{}{%
+        {{hash=8a6f938f054eff9ea007edfd447693d2}{%
+           family={Malenovsky},
+           familyi={M\bibinitperiod},
+           given={Z},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=bf2807d5536e528001ac9146d8a74bec}{%
+           family={Martin},
+           familyi={M\bibinitperiod},
+           given={E},
+           giveni={E\bibinitperiod}}}%
+        {{hash=2be9bceecd118de9d903cb6a72c222ed}{%
+           family={Homolova},
+           familyi={H\bibinitperiod},
+           given={L},
+           giveni={L\bibinitperiod}}}%
+        {{hash=efe603f4ebe851a028a86d1a3c53a576}{%
+           family={{Gastellu-Etchegorry}},
+           familyi={G\bibinitperiod},
+           given={J},
+           giveni={J\bibinitperiod}}}%
+        {{hash=29b0fc88ae57904b25b0ba694f9a3d6f}{%
+           family={{Zurita-Milla}},
+           familyi={Z\bibinitperiod},
+           given={R},
+           giveni={R\bibinitperiod}}}%
+        {{hash=467061991a9ae79744762fedeff08513}{%
+           family={Schaepman},
+           familyi={S\bibinitperiod},
+           given={M},
+           giveni={M\bibinitperiod}}}%
+        {{hash=b54fdc54715d5f1c881d4237f6c3e782}{%
+           family={Pokorny},
+           familyi={P\bibinitperiod},
+           given={R},
+           giveni={R\bibinitperiod}}}%
+        {{hash=375f81e45f849b41a4ad6058252c5527}{%
+           family={Clevers},
+           familyi={C\bibinitperiod},
+           given={J},
+           giveni={J\bibinitperiod}}}%
+        {{hash=3bb46635632114776935856aee0d5682}{%
+           family={Cudlin},
+           familyi={C\bibinitperiod},
+           given={P},
+           giveni={P\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier BV}%
+      }
+      \strng{namehash}{4ebea7a2ec3198d9dfe1d0b14522cc5b}
+      \strng{fullhash}{1ad2785192d7c82cd502dc26f000cb3f}
+      \strng{bibnamehash}{4ebea7a2ec3198d9dfe1d0b14522cc5b}
+      \strng{authorbibnamehash}{4ebea7a2ec3198d9dfe1d0b14522cc5b}
+      \strng{authornamehash}{4ebea7a2ec3198d9dfe1d0b14522cc5b}
+      \strng{authorfullhash}{1ad2785192d7c82cd502dc26f000cb3f}
+      \field{sortinit}{M}
+      \field{sortinithash}{cfd219b90152c06204fab207bc6c7cab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0034-4257}
+      \field{journaltitle}{Remote Sensing of Environment}
+      \field{month}{1}
+      \field{number}{1}
+      \field{title}{Influence of Woody Elements of a {{Norway}} Spruce Canopy on Nadir Reflectance Simulated by the {{DART}} Model at Very High Spatial Resolution}
+      \field{volume}{112}
+      \field{year}{2008}
+      \field{pages}{1\bibrangedash 18}
+      \range{pages}{18}
+      \verb{doi}
+      \verb 10.1016/j.rse.2006.02.028
+      \endverb
+    \endentry
+    \entry{myneni1994relationship}{article}{}
+      \name{author}{2}{}{%
+        {{hash=b3fb15e520e90f1a234a1539caf7f6f4}{%
+           family={Myneni},
+           familyi={M\bibinitperiod},
+           given={R.B.},
+           giveni={R\bibinitperiod}}}%
+        {{hash=2145ffa58117cc3093d1f592903965e5}{%
+           family={Williams},
+           familyi={W\bibinitperiod},
+           given={D.L.},
+           giveni={D\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \strng{namehash}{efa4d7f3331def7a235d4b5312e68e15}
+      \strng{fullhash}{efa4d7f3331def7a235d4b5312e68e15}
+      \strng{bibnamehash}{efa4d7f3331def7a235d4b5312e68e15}
+      \strng{authorbibnamehash}{efa4d7f3331def7a235d4b5312e68e15}
+      \strng{authornamehash}{efa4d7f3331def7a235d4b5312e68e15}
+      \strng{authorfullhash}{efa4d7f3331def7a235d4b5312e68e15}
+      \field{sortinit}{M}
+      \field{sortinithash}{cfd219b90152c06204fab207bc6c7cab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{00344257}
+      \field{journaltitle}{Remote Sensing of Environment}
+      \field{month}{9}
+      \field{number}{3}
+      \field{title}{On the Relationship between {{FAPAR}} and {{NDVI}}}
+      \field{volume}{49}
+      \field{year}{1994}
+      \field{pages}{200\bibrangedash 211}
+      \range{pages}{12}
+      \verb{doi}
+      \verb 10.1016/0034-4257(94)90016-7
+      \endverb
+    \endentry
+    \entry{niinemets2016withincanopy}{incollection}{}
+      \name{author}{1}{}{%
+        {{hash=5db084f5d3894b3621b086945c2e725b}{%
+           family={Niinemets},
+           familyi={N\bibinitperiod},
+           given={{Ü}lo},
+           giveni={Ü\bibinitperiod}}}%
+      }
+      \name{editor}{3}{}{%
+        {{hash=b37ef90307ccac34e3e3d1ffb4a20baf}{%
+           family={Hikosaka},
+           familyi={H\bibinitperiod},
+           given={Kouki},
+           giveni={K\bibinitperiod}}}%
+        {{hash=5db084f5d3894b3621b086945c2e725b}{%
+           family={Niinemets},
+           familyi={N\bibinitperiod},
+           given={{Ü}lo},
+           giveni={Ü\bibinitperiod}}}%
+        {{hash=6e3dbca7b40006f392b25be7f83d026a}{%
+           family={Anten},
+           familyi={A\bibinitperiod},
+           given={Niels\bibnamedelimb P.\bibnamedelimi R.},
+           giveni={N\bibinitperiod\bibinitdelim P\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \list{publisher}{1}{%
+        {[object Object]}%
+      }
+      \strng{namehash}{5db084f5d3894b3621b086945c2e725b}
+      \strng{fullhash}{5db084f5d3894b3621b086945c2e725b}
+      \strng{bibnamehash}{5db084f5d3894b3621b086945c2e725b}
+      \strng{authorbibnamehash}{5db084f5d3894b3621b086945c2e725b}
+      \strng{authornamehash}{5db084f5d3894b3621b086945c2e725b}
+      \strng{authorfullhash}{5db084f5d3894b3621b086945c2e725b}
+      \strng{editorbibnamehash}{f22280aec510d2acec1858b4035c5932}
+      \strng{editornamehash}{f22280aec510d2acec1858b4035c5932}
+      \strng{editorfullhash}{f22280aec510d2acec1858b4035c5932}
+      \field{sortinit}{N}
+      \field{sortinithash}{f7242c3ed3dc50029fca1be76c497c7c}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{Summary Plant canopies are characterized by extensive gradients in light availability that importantly alter the photosynthetic productivity of leaves in different canopy layers and result in acclimatory changes in leaf structural, chemical and physiological traits. These within-canopy variations are further importantly driven by species functional type and ecological characteristics such as shade tolerance (ecological controls). This chapter explores the within-canopy variations in key functional traits among different plant functional types and in species with different ecological potentials using a simple methodology to separate the importance of different leaf-level traits in foliage photosynthetic acclimation. As a major acclimatory change, foliage photosynthetic capacity per leaf area (A max A) increases with increasing long-term average integrated quantum flux density (Q int) in the canopy. Within-canopy variation in A max A results in a greater whole canopy carbon gain than having A max A constant through the canopy. The increase in A max A with Q int can potentially result from increases in leaf dry mass per unit area (M A), nitrogen content per unit dry mass (N M) and nitrogen allocation to rate-limiting photosynthetic proteins. This analysis indicates that the importance of these three key factors varies among plant functional types. In species with relatively low rates of canopy expansion and leaf turnover such as woody evergreens and woody deciduous species, within-canopy variation in A max A is primarily determined by M A, while in herbaceous species with high rates of canopy growth and leaf turnover, the variation is mainly driven by changes in N M and nitrogen allocation to rate-limiting proteins of photosynthetic machinery. Furthermore, there are large within-canopy modifications in structural traits such as leaf angles and spatial aggregation modulating light harvesting and light avoidance, and in chemical traits such as xanthophyll cycle carotenoid content and isoprene emission contributing to abiotic stress resistance. As the result of light-dependent alterations in these traits, lower canopy leaves have a greater light harvesting efficiency, while upper canopy leaves a greater capacity for excess radiation dissipation and resistance to abiotic stress. Plasticity for foliar modifications varies among woody species of different ecological potentials with shade-intolerant species tending to have a greater photosynthetic plasticity, while shade-tolerant species greater leaf areas and higher canopy light interception. This review emphasizes the overall large within-canopy variation in key foliage functional traits and underscores the important differences among plant functional types and in species with different ecological potentials in their acclimation to within-canopy environment.}
+      \field{booktitle}{Canopy {{Photosynthesis}}: {{From Basics}} to {{Applications}}}
+      \field{isbn}{[object Object]}
+      \field{number}{42}
+      \field{series}{Advances in {{Photosynthesis}} and {{Respiration}}}
+      \field{shorttitle}{Within-{{Canopy Variations}} in {{Functional Leaf Traits}}}
+      \field{title}{Within-{{Canopy Variations}} in {{Functional Leaf Traits}}: {{Structural}}, {{Chemical}} and {{Ecological Controls}} and {{Diversity}} of {{Responses}}}
+      \field{year}{2016}
+      \field{pages}{101\bibrangedash 141}
+      \range{pages}{41}
+      \verb{doi}
+      \verb 10.1007/978-94-017-7291-4_4
+      \endverb
+      \verb{file}
+      \verb /home/ashiklom/MEGAsync/Zotero/Niinemets_2016_Within-Canopy.pdf
+      \endverb
+      \keyw{Acclimation,Carotenoids,chlorophyll content,Dry mass per unit area,Isoprene emission,leaf age,leaf life span,leaf morphology,Nitrogen content,Nitrogen partitioning,Notes,Notes: read in full,Optimization,Photosynthetic capacity,plant physiology,Shade tolerance}
+    \endentry
+    \entry{niinemets2006tolerance}{article}{}
+      \name{author}{2}{}{%
+        {{hash=5db084f5d3894b3621b086945c2e725b}{%
+           family={Niinemets},
+           familyi={N\bibinitperiod},
+           given={{Ü}lo},
+           giveni={Ü\bibinitperiod}}}%
+        {{hash=7e3e39066737428d614f7fd4e9412d3b}{%
+           family={Valladares},
+           familyi={V\bibinitperiod},
+           given={Fernando},
+           giveni={F\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \list{publisher}{1}{%
+        {[object Object]}%
+      }
+      \strng{namehash}{db68f7f06f8016e1b2beb779e29885f3}
+      \strng{fullhash}{db68f7f06f8016e1b2beb779e29885f3}
+      \strng{bibnamehash}{db68f7f06f8016e1b2beb779e29885f3}
+      \strng{authorbibnamehash}{db68f7f06f8016e1b2beb779e29885f3}
+      \strng{authornamehash}{db68f7f06f8016e1b2beb779e29885f3}
+      \strng{authorfullhash}{db68f7f06f8016e1b2beb779e29885f3}
+      \field{sortinit}{N}
+      \field{sortinithash}{f7242c3ed3dc50029fca1be76c497c7c}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Lack of information on ecological characteristics of species across different continents hinders development of general world-scale quantitative vegetation dynamic models. We constructed common scales of shade, drought, and waterlogging tolerance for 806 North American, European/West Asian, and East Asian temperate shrubs and trees representing about 40\% of the extant natural Northern Hemisphere species pool. These scales were used to test the hypotheses that shade tolerance is negatively related to drought and waterlogging tolerances, and that these correlations vary among continents and plant functional types. We observed significant negative correlations among shade and drought tolerance rankings for all data pooled, and separately for every continent and plant functional type, except for evergreen angiosperms. Another significant trade-off was found for drought and waterlogging tolerance for all continents, and for evergreen and deciduous angiosperms, but not for gymnosperms. For all data pooled, for Europe and East Asia, and for evergreen and deciduous angiosperms, shade tolerance was also negatively associated with waterlogging tolerance. Quantile regressions revealed that the negative relationship between shade and drought tolerance was significant for species growing in deep to moderate shade and that the negative relationship between shade and waterlogging tolerance was significant for species growing in moderate shade to high light, explaining why all relationships between different tolerances were negative according to general regression analyses. Phylogenetic signal in the tolerance to any one of the three environmental factors studied was significant but low, with only 21–{}24\% of cladogram nodes exhibiting significant conservatism. The inverse relationships between different tolerances were significant in phylogenetically independent analyses both for the overall pool of species and for two multispecies genera (Pinus and Quercus) for which reliable molecular phylogenies were available. Only 2.6–{}10.3\% of the species were relatively tolerant to two environmental stresses simultaneously (tolerance value {$\geq$}3), and only three species were tolerant to all three stresses, supporting the existence of functional trade-offs in adjusting to multiple environmental limitations. These trade-offs represent a constraint for niche differentiation, reducing the diversity of plant responses to the many combinations of irradiance and water supply that are found in natural ecosystems.}
+      \field{issn}{1557-7015}
+      \field{journaltitle}{Ecological Monographs}
+      \field{month}{11}
+      \field{number}{4}
+      \field{title}{Tolerance to {{Shade}}, {{Drought}}, and {{Waterlogging}} of {{Temperate Northern Hemisphere Trees}} and {{Shrubs}}}
+      \field{volume}{76}
+      \field{year}{2006}
+      \field{pages}{521\bibrangedash 547}
+      \range{pages}{27}
+      \verb{doi}
+      \verb 10.1890/0012-9615(2006)076[0521:TTSDAW]2.0.CO;2
+      \endverb
+      \verb{file}
+      \verb /home/ashiklom/MEGAsync/Zotero/Niinemets_Valladares_2006_Tolerance to Shade,.pdf
+      \endverb
+      \keyw{drought tolerance,functional plant type,intercontinental comparisons,phylogeny,Shade tolerance,trade-offs,waterlogging tolerance}
+    \endentry
+    \entry{clm45_note}{report}{}
+      \name{author}{26}{}{%
+        {{hash=4aa06c58feac630ed2409fde079a0e07}{%
+           family={Oleson},
+           familyi={O\bibinitperiod},
+           given={Keith\bibnamedelima W.},
+           giveni={K\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+        {{hash=59096c65bbe4df44ef2aca6f4e1c1b7e}{%
+           family={Lawrence},
+           familyi={L\bibinitperiod},
+           given={David\bibnamedelima M.},
+           giveni={D\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=9c0d60a90c9c1f3173921b61b514516c}{%
+           family={Bonan},
+           familyi={B\bibinitperiod},
+           given={Gordon\bibnamedelima B.},
+           giveni={G\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+        {{hash=70160687498549021a6cf16bd81da6d9}{%
+           family={Drewniak},
+           familyi={D\bibinitperiod},
+           given={Beth},
+           giveni={B\bibinitperiod}}}%
+        {{hash=6d0c3be89af7443c46366bf643378b44}{%
+           family={Huang},
+           familyi={H\bibinitperiod},
+           given={Maoyi},
+           giveni={M\bibinitperiod}}}%
+        {{hash=ccaecd2ec50ed5d9d9eb682a41f25b5e}{%
+           family={Koven},
+           familyi={K\bibinitperiod},
+           given={Charles\bibnamedelima D.},
+           giveni={C\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+        {{hash=880c96cf0b53b6b75dc5cc6a3ff0f876}{%
+           family={Levis},
+           familyi={L\bibinitperiod},
+           given={Samuel},
+           giveni={S\bibinitperiod}}}%
+        {{hash=68665ecfb5ccb8c5ee836ad68610700a}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Fang},
+           giveni={F\bibinitperiod}}}%
+        {{hash=149cd9f1fc84d0d2a67039ce273169ea}{%
+           family={Riley},
+           familyi={R\bibinitperiod},
+           given={William\bibnamedelima J.},
+           giveni={W\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=4435e2e140a3527a8fdec81e9c4a133e}{%
+           family={Subin},
+           familyi={S\bibinitperiod},
+           given={Zachary\bibnamedelima M.},
+           giveni={Z\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=ac28f10743701c9d026c684f52679173}{%
+           family={Swenson},
+           familyi={S\bibinitperiod},
+           given={Sean\bibnamedelima C.},
+           giveni={S\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+        {{hash=15c81b5a62d7d5b7adedcf56d6165a1d}{%
+           family={Thornton},
+           familyi={T\bibinitperiod},
+           given={Peter.E.},
+           giveni={P\bibinitperiod}}}%
+        {{hash=af7bfa0b69a646e4fb6418ddc7deac66}{%
+           family={Bozbiyik},
+           familyi={B\bibinitperiod},
+           given={Anil},
+           giveni={A\bibinitperiod}}}%
+        {{hash=dc48f0d46869cc899325d2be76b2edba}{%
+           family={Fisher},
+           familyi={F\bibinitperiod},
+           given={Rosie},
+           giveni={R\bibinitperiod}}}%
+        {{hash=a56b88df7aa93d574fcd94415427f8a5}{%
+           family={Heald},
+           familyi={H\bibinitperiod},
+           given={Colette\bibnamedelima L.},
+           giveni={C\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+        {{hash=3f9c3dc8c26a8a3cd0acab1996503dcd}{%
+           family={Kluzek},
+           familyi={K\bibinitperiod},
+           given={Erik},
+           giveni={E\bibinitperiod}}}%
+        {{hash=375344bbb115d9bde8155e1874b98204}{%
+           family={Lamarque},
+           familyi={L\bibinitperiod},
+           given={Jean-Francois},
+           giveni={J\bibinithyphendelim F\bibinitperiod}}}%
+        {{hash=152d8b8514fa228404ca461dee6e7fd6}{%
+           family={Lawrence},
+           familyi={L\bibinitperiod},
+           given={Peter\bibnamedelima J.},
+           giveni={P\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=b8c1f958bb0cd49a06b27b81efb38a61}{%
+           family={Leung},
+           familyi={L\bibinitperiod},
+           given={Ruby},
+           giveni={R\bibinitperiod}}}%
+        {{hash=a92453bc418389785b362ed40d686714}{%
+           family={Lipscom},
+           familyi={L\bibinitperiod},
+           given={William},
+           giveni={W\bibinitperiod}}}%
+        {{hash=8781e930ad7d98df435af3c054984ae4}{%
+           family={Muszala},
+           familyi={M\bibinitperiod},
+           given={Stefan},
+           giveni={S\bibinitperiod}}}%
+        {{hash=a993dbdf4cdc5aa8c0f35e4747196422}{%
+           family={Ricciuto},
+           familyi={R\bibinitperiod},
+           given={Daniel\bibnamedelima M.},
+           giveni={D\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=039193eb6686929e7751310e4850a4d9}{%
+           family={Sacks},
+           familyi={S\bibinitperiod},
+           given={William},
+           giveni={W\bibinitperiod}}}%
+        {{hash=6ec9054114121c22d3126abe383873b8}{%
+           family={Sun},
+           familyi={S\bibinitperiod},
+           given={Ying},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=0b83bbd5ee8a5600c55599d1dc76c346}{%
+           family={Tang},
+           familyi={T\bibinitperiod},
+           given={Junyun},
+           giveni={J\bibinitperiod}}}%
+        {{hash=71b4f808d75cfb7e4c542ca28ab9a0de}{%
+           family={{Zong-Liang}},
+           familyi={Z\bibinitperiod},
+           given={Yang},
+           giveni={Y\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {NCAR Earth System Laboratory Climate and Global Dynamics Division}%
+      }
+      \strng{namehash}{d259835963a76c5e28bff3eeaf18975f}
+      \strng{fullhash}{8a6b0acb07114c0bcdeba76c4a878573}
+      \strng{bibnamehash}{d259835963a76c5e28bff3eeaf18975f}
+      \strng{authorbibnamehash}{d259835963a76c5e28bff3eeaf18975f}
+      \strng{authornamehash}{d259835963a76c5e28bff3eeaf18975f}
+      \strng{authorfullhash}{8a6b0acb07114c0bcdeba76c4a878573}
+      \field{sortinit}{O}
+      \field{sortinithash}{dad3efd0836470093a7b4a7bb756eb8c}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{7}
+      \field{number}{NCAR/TN-503+STR}
+      \field{title}{Technical Description of Version 4.5 of the {{Community}} {{Land}} {{Model}} ({{CLM}})}
+      \field{type}{techreport}
+      \field{year}{2013}
+    \endentry
+    \entry{peylin2016new}{article}{}
+      \name{author}{12}{}{%
+        {{hash=dd89a920118851cf92f48f0c82f9904a}{%
+           family={Peylin},
+           familyi={P\bibinitperiod},
+           given={Philippe},
+           giveni={P\bibinitperiod}}}%
+        {{hash=0a7d721fde67c27e145846322afa3b8c}{%
+           family={Bacour},
+           familyi={B\bibinitperiod},
+           given={C{é}dric},
+           giveni={C\bibinitperiod}}}%
+        {{hash=d047da990355f41a168a939779c81274}{%
+           family={MacBean},
+           familyi={M\bibinitperiod},
+           given={Natasha},
+           giveni={N\bibinitperiod}}}%
+        {{hash=82ed9144143f905ce66b64af38253924}{%
+           family={Leonard},
+           familyi={L\bibinitperiod},
+           given={S{é}bastien},
+           giveni={S\bibinitperiod}}}%
+        {{hash=125afa0fe0143fa3db24fe258c54caf8}{%
+           family={Rayner},
+           familyi={R\bibinitperiod},
+           given={Peter},
+           giveni={P\bibinitperiod}}}%
+        {{hash=b363e62cf7394775b45e9e0aefd0167a}{%
+           family={Kuppel},
+           familyi={K\bibinitperiod},
+           given={Sylvain},
+           giveni={S\bibinitperiod}}}%
+        {{hash=9a08db1aeeb47ca5d1ecefeb25edbe62}{%
+           family={Koffi},
+           familyi={K\bibinitperiod},
+           given={Ernest},
+           giveni={E\bibinitperiod}}}%
+        {{hash=9fb3c33c38afc1fd58f1a8cf7012ca4c}{%
+           family={Kane},
+           familyi={K\bibinitperiod},
+           given={Abdou},
+           giveni={A\bibinitperiod}}}%
+        {{hash=79cb9a921aac66c1af1f636bd941de57}{%
+           family={Maignan},
+           familyi={M\bibinitperiod},
+           given={Fabienne},
+           giveni={F\bibinitperiod}}}%
+        {{hash=86d98a2989b40361d2f1e75dfc367fa0}{%
+           family={Chevallier},
+           familyi={C\bibinitperiod},
+           given={Fr{é}d{é}ric},
+           giveni={F\bibinitperiod}}}%
+        {{hash=6e67f77fe4702964e6cd500a96516c8a}{%
+           family={Ciais},
+           familyi={C\bibinitperiod},
+           given={Philippe},
+           giveni={P\bibinitperiod}}}%
+        {{hash=715c9eddb227fe079dd622c50382f3dc}{%
+           family={Prunet},
+           familyi={P\bibinitperiod},
+           given={Pascal},
+           giveni={P\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {English}%
+      }
+      \list{publisher}{1}{%
+        {Copernicus GmbH}%
+      }
+      \strng{namehash}{329a9ee70f18909fa48a124b238e5bcd}
+      \strng{fullhash}{0f37500b10fb073192bb0eb448c161ff}
+      \strng{bibnamehash}{329a9ee70f18909fa48a124b238e5bcd}
+      \strng{authorbibnamehash}{329a9ee70f18909fa48a124b238e5bcd}
+      \strng{authornamehash}{329a9ee70f18909fa48a124b238e5bcd}
+      \strng{authorfullhash}{0f37500b10fb073192bb0eb448c161ff}
+      \field{sortinit}{P}
+      \field{sortinithash}{8d51b3d5b78d75b54308d706b9bbe285}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{{$<$}p{$><$}strong{$>$}Abstract.{$<$}/strong{$>$} Large uncertainties in land surface models (LSMs) simulations still arise from inaccurate forcing, poor description of land surface heterogeneity (soil and vegetation properties), incorrect model parameter values and incomplete representation of biogeochemical processes. The recent increase in the number and type of carbon cycle-related observations, including both in situ and remote sensing measurements, has opened a new road to optimize model parameters via robust statistical model–{}data integration techniques, in order to reduce the uncertainties of simulated carbon fluxes and stocks. In this study we present a carbon cycle data assimilation system that assimilates three major data streams, namely the Moderate Resolution Imaging Spectroradiometer (MODIS)-Normalized Difference Vegetation Index (NDVI) observations of vegetation activity, net ecosystem exchange (NEE) and latent heat (LE) flux measurements at more than 70 sites (FLUXNET), as well as atmospheric CO\textsubscript{2} concentrations at 53 surface stations, in order to optimize the main parameters (around 180 parameters in total) of the Organizing Carbon and Hydrology in Dynamics Ecosystems (ORCHIDEE) LSM (version 1.9.5 used for the Coupled Model Intercomparison Project Phase 5 (CMIP5) simulations). The system relies on a stepwise approach that assimilates each data stream in turn, propagating the information gained on the parameters from one step to the next. {$<$}br{$><$}br{$>$} Overall, the ORCHIDEE model is able to achieve a consistent fit to all three data streams, which suggests that current LSMs have reached the level of development to assimilate these observations. The assimilation of MODIS-NDVI (step 1) reduced the growing season length in ORCHIDEE for temperate and boreal ecosystems, thus decreasing the global mean annual gross primary production (GPP). Using FLUXNET data (step 2) led to large improvements in the seasonal cycle of the NEE and LE fluxes for all ecosystems (i.e., increased amplitude for temperate ecosystems). The assimilation of atmospheric CO\textsubscript{2}, using the general circulation model (GCM) of the Laboratoire de M{é}t{é}orologie Dynamique (LMDz; step 3), provides an overall constraint (i.e., constraint on large-scale net CO\textsubscript{2} fluxes), resulting in an improvement of the fit to the observed atmospheric CO\textsubscript{2} growth rate. Thus, the optimized model predicts a land C (carbon) sink of around 2.2 PgC yr\textsuperscript{-1} (for the 2000–{}2009 period), which is more compatible with current estimates from the Global Carbon Project (GCP) than the prior value. The consistency of the stepwise approach is evaluated with back-compatibility checks. The final optimized model (after step 3) does not significantly degrade the fit to MODIS-NDVI and FLUXNET data that were assimilated in the first two steps, suggesting that a stepwise approach can be used instead of the more ``challenging'' implementation of a simultaneous optimization in which all data streams are assimilated together. Most parameters, including the scalar of the initial soil carbon pool size, changed during the optimization with a large error reduction. This work opens new perspectives for better predictions of the land carbon budgets.{$<$}/p{$>$}}
+      \field{issn}{1991-959X}
+      \field{journaltitle}{Geoscientific Model Development}
+      \field{month}{9}
+      \field{number}{9}
+      \field{title}{A New Stepwise Carbon Cycle Data Assimilation System Using Multiple Data Streams to Constrain the Simulated Land Surface Carbon Cycle}
+      \field{volume}{9}
+      \field{year}{2016}
+      \field{pages}{3321\bibrangedash 3346}
+      \range{pages}{26}
+      \verb{doi}
+      \verb https://doi.org/10.5194/gmd-9-3321-2016
+      \endverb
+      \verb{file}
+      \verb /Users/ashiklom/Zotero/storage/3BD6PAWP/Peylin et al. - 2016 - A new stepwise carbon cycle data assimilation syst.pdf;/Users/ashiklom/Zotero/storage/Z75XBF3A/2016.html
+      \endverb
+    \endentry
+    \entry{quaife2008assimilating}{article}{}
+      \name{author}{7}{}{%
+        {{hash=04521804067717d59ff9c1ce301c0f39}{%
+           family={Quaife},
+           familyi={Q\bibinitperiod},
+           given={Tristan},
+           giveni={T\bibinitperiod}}}%
+        {{hash=22dd5982527741816d40514a6cd75f24}{%
+           family={Lewis},
+           familyi={L\bibinitperiod},
+           given={Philip},
+           giveni={P\bibinitperiod}}}%
+        {{hash=860ae39b1acf74360fa82d4038466a42}{%
+           family={De\bibnamedelima Kauwe},
+           familyi={D\bibinitperiod\bibinitdelim K\bibinitperiod},
+           given={Martin},
+           giveni={M\bibinitperiod}}}%
+        {{hash=58e52d3fa3334b8befbabca1b65defe3}{%
+           family={Williams},
+           familyi={W\bibinitperiod},
+           given={Mathew},
+           giveni={M\bibinitperiod}}}%
+        {{hash=6a6ded6bcc09fc408af88b44a449d4ac}{%
+           family={Law},
+           familyi={L\bibinitperiod},
+           given={Beverly\bibnamedelima E.},
+           giveni={B\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+        {{hash=35bf520779486fcba1914660402598a5}{%
+           family={Disney},
+           familyi={D\bibinitperiod},
+           given={Mathias},
+           giveni={M\bibinitperiod}}}%
+        {{hash=9d97734878525391ff08d5261398935f}{%
+           family={Bowyer},
+           familyi={B\bibinitperiod},
+           given={Paul},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{5312d7996e2cd783679bb861689da7ca}
+      \strng{fullhash}{cabcf5169e4cfe113404c4c88f6f527e}
+      \strng{bibnamehash}{5312d7996e2cd783679bb861689da7ca}
+      \strng{authorbibnamehash}{5312d7996e2cd783679bb861689da7ca}
+      \strng{authornamehash}{5312d7996e2cd783679bb861689da7ca}
+      \strng{authorfullhash}{cabcf5169e4cfe113404c4c88f6f527e}
+      \field{sortinit}{Q}
+      \field{sortinithash}{d257e420984a3a5c57a3330114cd646a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{An Ensemble Kalman Filter (EnKF) is used to assimilate canopy reflectance data into an ecosystem model. We demonstrate the use of an augmented state vector approach to enable a canopy reflectance model to be used as a non-linear observation operator. A key feature of data assimilation (DA) schemes, such as the EnKF, is that they incorporate information on uncertainty in both the model and the observations to provide a best estimate of the true state of a system. In addition, estimates of uncertainty in the model outputs (given the observed data) are calculated, which is crucial in assessing the utility of model predictions. Results are compared against eddy-covariance observations of CO2 fluxes collected over three years at a pine forest site. The assimilation of 500~m spatial resolution MODIS reflectance data significantly improves estimates of Gross Primary Production (GPP) and Net Ecosystem Productivity (NEP) from the model, with clear reduction in the resulting uncertainty of estimated fluxes. However, foliar biomass tends to be over-estimated compared with measurements. Issues regarding this over-estimate, as well as the various assumptions underlying the assimilation of reflectance data are discussed.}
+      \field{issn}{0034-4257}
+      \field{journaltitle}{Remote Sensing of Environment}
+      \field{month}{4}
+      \field{number}{4}
+      \field{series}{Remote {{Sensing Data Assimilation Special Issue}}}
+      \field{title}{Assimilating Canopy Reflectance Data into an Ecosystem Model with an {{Ensemble Kalman Filter}}}
+      \field{volume}{112}
+      \field{year}{2008}
+      \field{pages}{1347\bibrangedash 1364}
+      \range{pages}{18}
+      \verb{doi}
+      \verb 10.1016/j.rse.2007.05.020
+      \endverb
+      \verb{file}
+      \verb /home/ashiklom/MEGAsync/Zotero/Quaife et al_2008_Assimilating canopy.pdf
+      \endverb
+      \keyw{data assimilation,ecosystem modelling,MODIS,Terrestrial Carbon Dynamics}
+    \endentry
+    \entry{robakowski_2004_growth}{article}{}
+      \name{author}{4}{}{%
+        {{hash=06bd06e6f20939b597b9df0c253a89c1}{%
+           family={Robakowski},
+           familyi={R\bibinitperiod},
+           given={Piotr},
+           giveni={P\bibinitperiod}}}%
+        {{hash=cef0aa78378415d432defbc59910bf08}{%
+           family={Wyka},
+           familyi={W\bibinitperiod},
+           given={Tomasz},
+           giveni={T\bibinitperiod}}}%
+        {{hash=14bd1ad996504f162cd7475ab168c260}{%
+           family={Samardakiewicz},
+           familyi={S\bibinitperiod},
+           given={S{ł}awomir},
+           giveni={S\bibinitperiod}}}%
+        {{hash=258454a57d23ec50e4ade58d03739d2e}{%
+           family={Kierzkowski},
+           familyi={K\bibinitperiod},
+           given={Daniel},
+           giveni={D\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier BV}%
+      }
+      \strng{namehash}{dbf77d50fee5ec36e860cdfebef8ec98}
+      \strng{fullhash}{432832c721f99e2cdeff3cc7ade2eadd}
+      \strng{bibnamehash}{dbf77d50fee5ec36e860cdfebef8ec98}
+      \strng{authorbibnamehash}{dbf77d50fee5ec36e860cdfebef8ec98}
+      \strng{authornamehash}{dbf77d50fee5ec36e860cdfebef8ec98}
+      \strng{authorfullhash}{432832c721f99e2cdeff3cc7ade2eadd}
+      \field{sortinit}{R}
+      \field{sortinithash}{da6b42bd3ab22fee61abed031ee405f7}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0378-1127}
+      \field{journaltitle}{Forest Ecology and Management}
+      \field{month}{11}
+      \field{number}{2-3}
+      \field{title}{Growth, Photosynthesis, and Needle Structure of Silver Fir (Abies Alba Mill.) Seedlings under Different Canopies}
+      \field{volume}{201}
+      \field{year}{2004}
+      \field{pages}{211\bibrangedash 227}
+      \range{pages}{17}
+      \verb{doi}
+      \verb 10.1016/j.foreco.2004.06.029
+      \endverb
+    \endentry
+    \entry{schurmann2016constraining}{article}{}
+      \name{author}{10}{}{%
+        {{hash=40424e3d3138855ecf0dd74c749bc6b4}{%
+           family={Sch{ü}rmann},
+           familyi={S\bibinitperiod},
+           given={Gregor\bibnamedelima J.},
+           giveni={G\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=38cfccccedd918b04df578a12c14d674}{%
+           family={Kaminski},
+           familyi={K\bibinitperiod},
+           given={Thomas},
+           giveni={T\bibinitperiod}}}%
+        {{hash=9e6bf2bb2143d619405c932b17a67edb}{%
+           family={K{ö}stler},
+           familyi={K\bibinitperiod},
+           given={Christoph},
+           giveni={C\bibinitperiod}}}%
+        {{hash=922b86d3829d3e9b63a0d133f45328c0}{%
+           family={Carvalhais},
+           familyi={C\bibinitperiod},
+           given={Nuno},
+           giveni={N\bibinitperiod}}}%
+        {{hash=a817c4b4becfb533346da794c985e8a2}{%
+           family={Vo{ß}beck},
+           familyi={V\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod}}}%
+        {{hash=91470a33f0779997f5b5934a52abc273}{%
+           family={Kattge},
+           familyi={K\bibinitperiod},
+           given={Jens},
+           giveni={J\bibinitperiod}}}%
+        {{hash=8e188c2cd7abc533b44f70672908956d}{%
+           family={Giering},
+           familyi={G\bibinitperiod},
+           given={Ralf},
+           giveni={R\bibinitperiod}}}%
+        {{hash=3e22dd796f491979236f33d60791bb32}{%
+           family={R{ö}denbeck},
+           familyi={R\bibinitperiod},
+           given={Christian},
+           giveni={C\bibinitperiod}}}%
+        {{hash=df58036b908fc3e8978c2c1baa2b0beb}{%
+           family={Heimann},
+           familyi={H\bibinitperiod},
+           given={Martin},
+           giveni={M\bibinitperiod}}}%
+        {{hash=f19f26cbda9f533ce96843bd12ba066d}{%
+           family={Zaehle},
+           familyi={Z\bibinitperiod},
+           given={S{ö}nke},
+           giveni={S\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {English}%
+      }
+      \list{publisher}{1}{%
+        {Copernicus GmbH}%
+      }
+      \strng{namehash}{4a51e872d1ef2594656ab1623c99c278}
+      \strng{fullhash}{86b1118b45f8fee0415f79908ba73f01}
+      \strng{bibnamehash}{4a51e872d1ef2594656ab1623c99c278}
+      \strng{authorbibnamehash}{4a51e872d1ef2594656ab1623c99c278}
+      \strng{authornamehash}{4a51e872d1ef2594656ab1623c99c278}
+      \strng{authorfullhash}{86b1118b45f8fee0415f79908ba73f01}
+      \field{sortinit}{S}
+      \field{sortinithash}{322b1d5276f2f6c1bccdcd15920dbee6}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{{$<$}p{$><$}strong{$>$}Abstract.{$<$}/strong{$>$} We describe the Max Planck Institute Carbon Cycle Data Assimilation System (MPI-CCDAS) built around the tangent-linear version of the JSBACH land-surface scheme, which is part of the MPI-Earth System Model v1. The simulated phenology and net land carbon balance were constrained by globally distributed observations of the fraction of absorbed photosynthetically active radiation (FAPAR, using the TIP-FAPAR product) and atmospheric CO\textsubscript{2} at a global set of monitoring stations for the years 2005 to 2009. When constrained by FAPAR observations alone, the system successfully, and computationally efficiently, improved simulated growing-season average FAPAR, as well as its seasonality in the northern extra-tropics. When constrained by atmospheric CO\textsubscript{2} observations alone, global net and gross carbon fluxes were improved, despite a tendency of the system to underestimate tropical productivity. Assimilating both data streams jointly allowed the MPI-CCDAS to match both observations (TIP-FAPAR and atmospheric CO\textsubscript{2}) equally well as the single data stream assimilation cases, thereby increasing the overall appropriateness of the simulated biosphere dynamics and underlying parameter values. Our study thus demonstrates the value of multiple-data-stream assimilation for the simulation of terrestrial biosphere dynamics. It further highlights the potential role of remote sensing data, here the TIP-FAPAR product, in stabilising the strongly underdetermined atmospheric inversion problem posed by atmospheric transport and CO\textsubscript{2} observations alone. Notwithstanding these advances, the constraint of the observations on regional gross and net CO\textsubscript{2} flux patterns on the MPI-CCDAS is limited through the coarse-scale parametrisation of the biosphere model. We expect improvement through a refined initialisation strategy and inclusion of further biosphere observations as constraints.{$<$}/p{$>$}}
+      \field{issn}{1991-959X}
+      \field{journaltitle}{Geoscientific Model Development}
+      \field{month}{9}
+      \field{number}{9}
+      \field{title}{Constraining a Land-Surface Model with Multiple Observations by Application of the {{MPI}}-{{Carbon Cycle Data Assimilation System V1}}.0}
+      \field{volume}{9}
+      \field{year}{2016}
+      \field{pages}{2999\bibrangedash 3026}
+      \range{pages}{28}
+      \verb{doi}
+      \verb https://doi.org/10.5194/gmd-9-2999-2016
+      \endverb
+      \verb{file}
+      \verb /Users/ashiklom/Zotero/storage/U9LCYAYE/Schürmann et al. - 2016 - Constraining a land-surface model with multiple ob.pdf;/Users/ashiklom/Zotero/storage/SP4DUV2X/2016.html
+      \endverb
+    \endentry
+    \entry{swann2010changes}{article}{}
+      \name{author}{5}{}{%
+        {{hash=eb1f1894409f2c63a79293fae581373d}{%
+           family={Swann},
+           familyi={S\bibinitperiod},
+           given={Abigail\bibnamedelima L.},
+           giveni={A\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+        {{hash=7126f4c2b851da1883b108a1dc7809ff}{%
+           family={Fung},
+           familyi={F\bibinitperiod},
+           given={Inez\bibnamedelima Y.},
+           giveni={I\bibinitperiod\bibinitdelim Y\bibinitperiod}}}%
+        {{hash=880c96cf0b53b6b75dc5cc6a3ff0f876}{%
+           family={Levis},
+           familyi={L\bibinitperiod},
+           given={Samuel},
+           giveni={S\bibinitperiod}}}%
+        {{hash=9c0d60a90c9c1f3173921b61b514516c}{%
+           family={Bonan},
+           familyi={B\bibinitperiod},
+           given={Gordon\bibnamedelima B.},
+           giveni={G\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+        {{hash=f4d9cf2cb34c24f2de7adb92bef43dd3}{%
+           family={Doney},
+           familyi={D\bibinitperiod},
+           given={Scott\bibnamedelima C.},
+           giveni={S\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \strng{namehash}{226347fd3cad8de89335ac048bc310bf}
+      \strng{fullhash}{39ac8fc099f88c9991be0c35072905b7}
+      \strng{bibnamehash}{226347fd3cad8de89335ac048bc310bf}
+      \strng{authorbibnamehash}{226347fd3cad8de89335ac048bc310bf}
+      \strng{authornamehash}{226347fd3cad8de89335ac048bc310bf}
+      \strng{authorfullhash}{39ac8fc099f88c9991be0c35072905b7}
+      \field{sortinit}{S}
+      \field{sortinithash}{322b1d5276f2f6c1bccdcd15920dbee6}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Arctic climate is projected to change dramatically in the next 100 years and increases in temperature will likely lead to changes in the distribution and makeup of the Arctic biosphere. A largely deciduous ecosystem has been suggested as a possible landscape for future Arctic vegetation and is seen in paleo-records of warm times in the past. Here we use a global climate model with an interactive terrestrial biosphere to investigate the effects of adding deciduous trees on bare ground at high northern latitudes. We find that the top-of-atmosphere radiative imbalance from enhanced transpiration (associated with the expanded forest cover) is up to 1.5 times larger than the forcing due to albedo change from the forest. Furthermore, the greenhouse warming by additional water vapor melts sea-ice and triggers a positive feedback through changes in ocean albedo and evaporation. Land surface albedo change is considered to be the dominant mechanism by which trees directly modify climate at high-latitudes, but our findings suggest an additional mechanism through transpiration of water vapor and feedbacks from the ocean and sea-ice.}
+      \field{issn}{0027-8424, 1091-6490}
+      \field{journaltitle}{Proceedings of the National Academy of Sciences}
+      \field{month}{1}
+      \field{number}{4}
+      \field{title}{Changes in {{Arctic}} Vegetation Amplify High-Latitude Warming through the Greenhouse Effect}
+      \field{volume}{107}
+      \field{year}{2010}
+      \field{pages}{1295\bibrangedash 1300}
+      \range{pages}{6}
+      \verb{doi}
+      \verb 10.1073/pnas.0913846107
+      \endverb
+      \verb{file}
+      \verb /home/ashiklom/MEGAsync/Zotero/Swann et al_2010_Changes in Arctic.pdf
+      \endverb
+      \keyw{albedo,Biome: Arctic,biosphere-atmosphere interaction,Biosphere/atmosphere interactions,climate feedback,deciduous,radiative forcing,sea-ice,unread}
+    \endentry
+    \entry{viskari2015modeldata}{article}{}
+      \name{author}{4}{}{%
+        {{hash=7a28100c55d0b143b268b4764bafd44e}{%
+           family={Viskari},
+           familyi={V\bibinitperiod},
+           given={Toni},
+           giveni={T\bibinitperiod}}}%
+        {{hash=7ec8c9f4b69ec72aee77356f206c076f}{%
+           family={Hardiman},
+           familyi={H\bibinitperiod},
+           given={Brady},
+           giveni={B\bibinitperiod}}}%
+        {{hash=a04f99e009f4aa673601d5035c6db3f1}{%
+           family={Desai},
+           familyi={D\bibinitperiod},
+           given={Ankur\bibnamedelima R.},
+           giveni={A\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+        {{hash=02cd9d79e14f81de21255b979e19e293}{%
+           family={Dietze},
+           familyi={D\bibinitperiod},
+           given={Michael\bibnamedelima C.},
+           giveni={M\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \strng{namehash}{60bdedbe5b374cfbd33a1ddae18c56d9}
+      \strng{fullhash}{681ac97d70319489d51099318c520fe2}
+      \strng{bibnamehash}{60bdedbe5b374cfbd33a1ddae18c56d9}
+      \strng{authorbibnamehash}{60bdedbe5b374cfbd33a1ddae18c56d9}
+      \strng{authornamehash}{60bdedbe5b374cfbd33a1ddae18c56d9}
+      \strng{authorfullhash}{681ac97d70319489d51099318c520fe2}
+      \field{sortinit}{V}
+      \field{sortinithash}{75dd7385c90b2252c3ae853a80ca853b}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Our limited ability to accurately simulate leaf phenology is a leading source of uncertainty in models of ecosystem carbon cycling. We evaluate if continuously updating canopy state variables with observations is beneficial for predicting phenological events. We employed ensemble adjustment Kalman filter (EAKF) to update predictions of leaf area index (LAI) and leaf extension using tower-based photosynthetically active radiation (PAR) and moderate resolution imaging spectrometer (MODIS) data for 2002–{}2005 at Willow Creek, Wisconsin, USA, a mature, even-aged, northern hardwood, deciduous forest. The ecosystem demography model version 2 (ED2) was used as the prediction model, forced by offline climate data. EAKF successfully incorporated information from both the observations and model predictions weighted by their respective uncertainties. The resulting estimate reproduced the observed leaf phenological cycle in the spring and the fall better than a parametric model prediction. These results indicate that during spring the observations contribute most in determining the correct bud-burst date, after which the model performs well, but accurately modeling fall leaf senesce requires continuous model updating from observations. While the predicted net ecosystem exchange (NEE) of CO2 precedes tower observations and unassimilated model predictions in the spring, overall the prediction follows observed NEE better than the model alone. Our results show state data assimilation successfully simulates the evolution of plant leaf phenology and improves model predictions of forest NEE.}
+      \field{issn}{1939-5582}
+      \field{journaltitle}{Ecological Applications}
+      \field{month}{3}
+      \field{number}{2}
+      \field{title}{Model-Data Assimilation of Multiple Phenological Observations to Constrain and Predict Leaf Area Index}
+      \field{volume}{25}
+      \field{year}{2015}
+      \field{pages}{546\bibrangedash 558}
+      \range{pages}{13}
+      \verb{doi}
+      \verb 10.1890/14-0497.1
+      \endverb
+      \verb{file}
+      \verb /Users/ashiklom/Zotero/storage/N934JIYS/Viskari et al. - 2015 - Model-data assimilation of multiple phenological o.pdf
+      \endverb
+      \keyw{data assimilation,Ecosystem Demography model,ED2,leaf-out,Phenology,prediction,senescence,terrestrial ecosystem models,unread}
+    \endentry
+    \entry{wang2004evaluation}{article}{}
+      \name{author}{11}{}{%
+        {{hash=5e3214f7013daad0787ab9dd9b960fcc}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Yujie},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=c4149622f96da767a257daea4f0c5062}{%
+           family={Woodcock},
+           familyi={W\bibinitperiod},
+           given={Curtis\bibnamedelima E},
+           giveni={C\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+        {{hash=f87553c653efdd040186ce423073ceda}{%
+           family={Buermann},
+           familyi={B\bibinitperiod},
+           given={Wolfgang},
+           giveni={W\bibinitperiod}}}%
+        {{hash=5b07bae4ba3f8301c556099f553f0b8f}{%
+           family={Stenberg},
+           familyi={S\bibinitperiod},
+           given={Pauline},
+           giveni={P\bibinitperiod}}}%
+        {{hash=cfbc28f6c6da1a348c04fd9fd9d0c063}{%
+           family={Voipio},
+           familyi={V\bibinitperiod},
+           given={Pekka},
+           giveni={P\bibinitperiod}}}%
+        {{hash=8a11042ad98cce964af9cbdb2b090fcb}{%
+           family={Smolander},
+           familyi={S\bibinitperiod},
+           given={Heikki},
+           giveni={H\bibinitperiod}}}%
+        {{hash=f8d8d7b1dcff59be20bbab2636388d63}{%
+           family={H{ä}me},
+           familyi={H\bibinitperiod},
+           given={Tuomas},
+           giveni={T\bibinitperiod}}}%
+        {{hash=b2437e87b82f1a36e102cad42e905ffd}{%
+           family={Tian},
+           familyi={T\bibinitperiod},
+           given={Yuhong},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=0e7e9d2f2c754da72f68f6fd31b07656}{%
+           family={Hu},
+           familyi={H\bibinitperiod},
+           given={Jiannan},
+           giveni={J\bibinitperiod}}}%
+        {{hash=f98bba69e8b4acbeb0c922586b99ff78}{%
+           family={Knyazikhin},
+           familyi={K\bibinitperiod},
+           given={Yuri},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=35d5ea5f1b29a81954f07c5a439697de}{%
+           family={Myneni},
+           familyi={M\bibinitperiod},
+           given={Ranga\bibnamedelima B},
+           giveni={R\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \strng{namehash}{96c72f69b34a20ebb03adcc5a26b9dfd}
+      \strng{fullhash}{95f49144e7053611cb86f8ba5e40e278}
+      \strng{bibnamehash}{96c72f69b34a20ebb03adcc5a26b9dfd}
+      \strng{authorbibnamehash}{96c72f69b34a20ebb03adcc5a26b9dfd}
+      \strng{authornamehash}{96c72f69b34a20ebb03adcc5a26b9dfd}
+      \strng{authorfullhash}{95f49144e7053611cb86f8ba5e40e278}
+      \field{sortinit}{W}
+      \field{sortinithash}{ecb89ff85896a47dc313960773ac311d}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{00344257}
+      \field{journaltitle}{Remote Sensing of Environment}
+      \field{month}{5}
+      \field{number}{1}
+      \field{title}{Evaluation of the {{MODIS LAI}} Algorithm at a Coniferous Forest Site in {{Finland}}}
+      \field{volume}{91}
+      \field{year}{2004}
+      \field{pages}{114\bibrangedash 127}
+      \range{pages}{14}
+      \verb{doi}
+      \verb 10.1016/j.rse.2004.02.007
+      \endverb
+    \endentry
+    \entry{wenzeyang2006modis}{article}{}
+      \name{author}{16}{}{%
+        {{hash=ec7065edc7a27fbcdf654b2da48d6b26}{%
+           family={{Wenze Yang}},
+           familyi={W\bibinitperiod}}}%
+        {{hash=18e2ce950f0ae951912dfbb631abc334}{%
+           family={{Bin Tan}},
+           familyi={B\bibinitperiod}}}%
+        {{hash=22dc06cec21190c7ca57d9a026952619}{%
+           family={{Dong Huang}},
+           familyi={D\bibinitperiod}}}%
+        {{hash=df77c198efb1a69b956718970ea1c2c1}{%
+           family={Rautiainen},
+           familyi={R\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod}}}%
+        {{hash=327d53ebbd24dc1ddc26371fd6ce7e9c}{%
+           family={Shabanov},
+           familyi={S\bibinitperiod},
+           given={N.V.},
+           giveni={N\bibinitperiod}}}%
+        {{hash=61ad10c626e1d641e0b1d7b5f48d3233}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Y.},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=28a2a399ecbe8ab339f90c4ab4e7b54b}{%
+           family={Privette},
+           familyi={P\bibinitperiod},
+           given={J.L.},
+           giveni={J\bibinitperiod}}}%
+        {{hash=2eadbaced57efddd3b07245dae652104}{%
+           family={Huemmrich},
+           familyi={H\bibinitperiod},
+           given={K.F.},
+           giveni={K\bibinitperiod}}}%
+        {{hash=15a1648fe1a4a3a7e2525248aefdc61d}{%
+           family={Fensholt},
+           familyi={F\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod}}}%
+        {{hash=6d394a34143086d0a0d278b881a11db9}{%
+           family={Sandholt},
+           familyi={S\bibinitperiod},
+           given={I.},
+           giveni={I\bibinitperiod}}}%
+        {{hash=2f5a9bf541eb6194698dbdfcd819f875}{%
+           family={Weiss},
+           familyi={W\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod}}}%
+        {{hash=cd56094de26b8847e1036574e3b6c8e3}{%
+           family={Ahl},
+           familyi={A\bibinitperiod},
+           given={D.E.},
+           giveni={D\bibinitperiod}}}%
+        {{hash=d17a5c1efba0858ffb63064ab6ab4838}{%
+           family={Gower},
+           familyi={G\bibinitperiod},
+           given={S.T.},
+           giveni={S\bibinitperiod}}}%
+        {{hash=5cfa051ac3e238861ca4e657f72a1ad8}{%
+           family={Nemani},
+           familyi={N\bibinitperiod},
+           given={R.R.},
+           giveni={R\bibinitperiod}}}%
+        {{hash=bc9002f8a61fd5e85d8054f3b32dd373}{%
+           family={Knyazikhin},
+           familyi={K\bibinitperiod},
+           given={Y.},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=b3fb15e520e90f1a234a1539caf7f6f4}{%
+           family={Myneni},
+           familyi={M\bibinitperiod},
+           given={R.B.},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{94c6d5b2a933af7aef5c098b562d8fc2}
+      \strng{fullhash}{b2a7817e014f34e3cbbbb95a812e427e}
+      \strng{bibnamehash}{94c6d5b2a933af7aef5c098b562d8fc2}
+      \strng{authorbibnamehash}{94c6d5b2a933af7aef5c098b562d8fc2}
+      \strng{authornamehash}{94c6d5b2a933af7aef5c098b562d8fc2}
+      \strng{authorfullhash}{b2a7817e014f34e3cbbbb95a812e427e}
+      \field{sortinit}{W}
+      \field{sortinithash}{ecb89ff85896a47dc313960773ac311d}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{issn}{0196-2892}
+      \field{journaltitle}{IEEE Transactions on Geoscience and Remote Sensing}
+      \field{month}{7}
+      \field{number}{7}
+      \field{shorttitle}{{{MODIS}} Leaf Area Index Products}
+      \field{title}{{{MODIS}} Leaf Area Index Products: From Validation to Algorithm Improvement}
+      \field{volume}{44}
+      \field{year}{2006}
+      \field{pages}{1885\bibrangedash 1898}
+      \range{pages}{14}
+      \verb{doi}
+      \verb 10.1109/TGRS.2006.871215
+      \endverb
+    \endentry
+    \entry{widlowski2007third}{article}{}
+      \name{author}{24}{}{%
+        {{hash=095128379724b759dd06aa98f8a489fc}{%
+           family={Widlowski},
+           familyi={W\bibinitperiod},
+           given={J.-L.},
+           giveni={J\bibinithyphendelim L\bibinitperiod}}}%
+        {{hash=362eb7b44ce5ad61d4f87048874150e9}{%
+           family={Taberner},
+           familyi={T\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod}}}%
+        {{hash=b9cd9b1f646236fcbc5d1edb19bf44b6}{%
+           family={Pinty},
+           familyi={P\bibinitperiod},
+           given={B.},
+           giveni={B\bibinitperiod}}}%
+        {{hash=90172c0a1b0022b2f88cff775bd23b7b}{%
+           family={{Bruniquel-Pinel}},
+           familyi={B\bibinitperiod},
+           given={V.},
+           giveni={V\bibinitperiod}}}%
+        {{hash=f0f7bef1e6adad0d19dc375099b93ab3}{%
+           family={Disney},
+           familyi={D\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod}}}%
+        {{hash=bf4641d2cc954ce5c55f74049af473d4}{%
+           family={Fernandes},
+           familyi={F\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod}}}%
+        {{hash=e1b00b4d6c9b07caddbe8015d605bce3}{%
+           family={{Gastellu-Etchegorry}},
+           familyi={G\bibinitperiod},
+           given={J.-P.},
+           giveni={J\bibinithyphendelim P\bibinitperiod}}}%
+        {{hash=8f4c5155e9cd8f508263a6a82e6a5ba4}{%
+           family={Gobron},
+           familyi={G\bibinitperiod},
+           given={N.},
+           giveni={N\bibinitperiod}}}%
+        {{hash=f435be871bb4aa03d1b79770ddf40ba4}{%
+           family={Kuusk},
+           familyi={K\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+        {{hash=41e6ec2be05e2a22d3b93050b1487d91}{%
+           family={Lavergne},
+           familyi={L\bibinitperiod},
+           given={T.},
+           giveni={T\bibinitperiod}}}%
+        {{hash=234be81f6e79d999f7f39d29de4c14e2}{%
+           family={Leblanc},
+           familyi={L\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod}}}%
+        {{hash=43d00617bfcebf84fe5237965fa09b96}{%
+           family={Lewis},
+           familyi={L\bibinitperiod},
+           given={P.\bibnamedelimi E.},
+           giveni={P\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+        {{hash=bf2807d5536e528001ac9146d8a74bec}{%
+           family={Martin},
+           familyi={M\bibinitperiod},
+           given={E.},
+           giveni={E\bibinitperiod}}}%
+        {{hash=d5af052dbc77935e05152d6382503e45}{%
+           family={M{õ}ttus},
+           familyi={M\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod}}}%
+        {{hash=a74f0427e52af9f56ba61ab4ce6806ba}{%
+           family={North},
+           familyi={N\bibinitperiod},
+           given={P.\bibnamedelimi R.\bibnamedelimi J.},
+           giveni={P\bibinitperiod\bibinitdelim R\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=a1a79ea9a39bcf308672fa04f80d12db}{%
+           family={Qin},
+           familyi={Q\bibinitperiod},
+           given={W.},
+           giveni={W\bibinitperiod}}}%
+        {{hash=f9454b547e25027b6a62fa99ab8129ce}{%
+           family={Robustelli},
+           familyi={R\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod}}}%
+        {{hash=7dc3e770e42282b4edec255afa1de8f3}{%
+           family={Rochdi},
+           familyi={R\bibinitperiod},
+           given={N.},
+           giveni={N\bibinitperiod}}}%
+        {{hash=d7e20ecf037d48dfeb6939b944c6cc46}{%
+           family={Ruiloba},
+           familyi={R\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod}}}%
+        {{hash=86c3123675246301bb2b609892b4a185}{%
+           family={Soler},
+           familyi={S\bibinitperiod},
+           given={C.},
+           giveni={C\bibinitperiod}}}%
+        {{hash=86cb8622af4daaa6582536be9ec8b3ea}{%
+           family={Thompson},
+           familyi={T\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod}}}%
+        {{hash=b6a336b97e4e3746154b369cb4c0afeb}{%
+           family={Verhoef},
+           familyi={V\bibinitperiod},
+           given={W.},
+           giveni={W\bibinitperiod}}}%
+        {{hash=08c47749049ae7805e067ef63f0f6fbd}{%
+           family={Verstraete},
+           familyi={V\bibinitperiod},
+           given={M.\bibnamedelimi M.},
+           giveni={M\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=c845f2aba4745c205ed22299dce710d4}{%
+           family={Xie},
+           familyi={X\bibinitperiod},
+           given={D.},
+           giveni={D\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \list{publisher}{1}{%
+        {[object Object]}%
+      }
+      \strng{namehash}{e7f0d4736cb0c33ca75f5fb758c4a3ab}
+      \strng{fullhash}{f8909b7d55545233d75d8c2cca9b87e8}
+      \strng{bibnamehash}{e7f0d4736cb0c33ca75f5fb758c4a3ab}
+      \strng{authorbibnamehash}{e7f0d4736cb0c33ca75f5fb758c4a3ab}
+      \strng{authornamehash}{e7f0d4736cb0c33ca75f5fb758c4a3ab}
+      \strng{authorfullhash}{f8909b7d55545233d75d8c2cca9b87e8}
+      \field{sortinit}{W}
+      \field{sortinithash}{ecb89ff85896a47dc313960773ac311d}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{The Radiation Transfer Model Intercomparison (RAMI) initiative benchmarks canopy reflectance models under well-controlled experimental conditions. Launched for the first time in 1999, this triennial community exercise encourages the systematic evaluation of canopy reflectance models on a voluntary basis. The first phase of RAMI focused on documenting the spread among radiative transfer (RT) simulations over a small set of primarily 1-D canopies. The second phase expanded the scope to include structurally complex 3-D plant architectures with and without background topography. Here sometimes significant discrepancies were noted which effectively prevented the definition of a reliable ``surrogate truth,'' over heterogeneous vegetation canopies, against which other RT models could then be compared. The present paper documents the outcome of the third phase of RAMI, highlighting both the significant progress that has been made in terms of model agreement since RAMI-2 and the capability of/need for RT models to accurately reproduce local estimates of radiative quantities under conditions that are reminiscent of in situ measurements. Our assessment of the self-consistency and the relative and absolute performance of 3-D Monte Carlo models in RAMI-3 supports their usage in the generation of a ``surrogate truth'' for all RAMI test cases. This development then leads (1) to the presentation of the ``RAMI Online Model Checker'' (ROMC), an open-access web-based interface to evaluate RT models automatically, and (2) to a reassessment of the role, scope, and opportunities of the RAMI project in the future.}
+      \field{issn}{2156-2202}
+      \field{journaltitle}{Journal of Geophysical Research: Atmospheres}
+      \field{month}{5}
+      \field{number}{D9}
+      \field{shorttitle}{Third {{Radiation Transfer Model Intercomparison}} ({{RAMI}}) Exercise}
+      \field{title}{Third {{Radiation Transfer Model Intercomparison}} ({{RAMI}}) Exercise: {{Documenting}} Progress in Canopy Reflectance Models}
+      \field{volume}{112}
+      \field{year}{2007}
+      \field{pages}{D09111}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1029/2006JD007821
+      \endverb
+      \verb{file}
+      \verb /home/ashiklom/MEGAsync/Zotero/Widlowski et al_2007_Third Radiation.pdf
+      \endverb
+      \keyw{0480 Remote sensing,0840 Education: Evaluation and assessment,1640 Remote sensing,3359 Radiative processes,model intercomparison,Radiative transfer,unread,vegetation canopy}
+    \endentry
+  \enddatalist
+  \missing{Medvigy_2009_ED2}
+  \missing{Moorcroft_2001_ED}
+  \missing{SELLERS_1985_canopy}
+  \missing{Viskari_inreview_ED}
+  \missing{allen_1970_plant}
+  \missing{antonarakis_2014_imaging}
+  \missing{asner_1998_biophysical}
+  \missing{combal_2003_retrieval}
+  \missing{coyle_2015_laser}
+  \missing{dietze_capturing_2008}
+  \missing{eitel_2016_beyond}
+  \missing{fisher_2017_vegetation}
+  \missing{hapke_1981_brdf1}
+  \missing{hapke_1981_brdf2}
+  \missing{jacquemoud_2009_prosail}
+  \missing{jenkins_2003_allom}
+  \missing{jenkins_2004_allom}
+  \missing{jetz2016_diversity}
+  \missing{kennedy_2014_bringing}
+  \missing{kubelka_munk_1931}
+  \missing{lewis_2007_spectral}
+  \missing{meador_1980_twostream}
+  \missing{pasquarella_2016_imagery}
+  \missing{pinty_2004_synergy}
+  \missing{pinty_2006_simplifying}
+  \missing{schimel2015_observing}
+  \missing{suits_1971_calculation}
+  \missing{verhoef_1984_sail}
+  \missing{verhoef_2007_4sail}
+  \missing{verrelst_2010_effects}
+  \missing{weng_2015_ppa}
+  \missing{widlowski_2007_third}
+\endrefsection
+\endinput
+

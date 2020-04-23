@@ -1,0 +1,14 @@
+.DS_Store
+.idea
+*.log
+tmp/
+
+*.aux
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.run.xml
+
+# Use the bbl file instead
+library.bib

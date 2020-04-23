@@ -82,3 +82,12 @@ msp_figures
 # Compiled files
 *.so
 *.o
+
+# LaTeX files
+*.auctex-auto
+*.aux
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.run.xml
