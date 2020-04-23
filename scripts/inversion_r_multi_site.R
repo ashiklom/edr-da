@@ -208,9 +208,11 @@ repeat {
   message("Sampling attempt: ", attempt)
   samples <- BayesianTools::runMCMC(samples, settings = settings)
   saveRDS(samples, file.path(outdir, "current_samples.rds"))
+  nsamp <- nrow(samples$chain[[1]])
   coda_samples <- BayesianTools::getSample(
     samples,
-    numSamples = 10000,
+    start = if (nsamp > 5000) 5000 else floor(nsamp / 2),
+    thin = "auto",
     coda = TRUE
   )
   gd <- coda::gelman.diag(
