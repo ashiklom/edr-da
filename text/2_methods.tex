@@ -2,10 +2,10 @@
 
 \subsection{Model description}
 
-The Ecosystem Demography version 2 (ED2) model simulates plot-level vegetation dynamics and biogeochemistry~\parencite{Moorcroft_2001_ED,Medvigy_2009_ED2}.
+The Ecosystem Demography version 2 (ED2) model simulates plot-level vegetation dynamics and biogeochemistry~\parencite{moorcroft_2001_method, medvigy2009mechanistic, longo_2019_ed1}.
 By grouping individuals of similar size, structure, and composition together into cohorts, ED2 is capable of modeling patch-level competition in a computationally efficient manner.
 
-Relevant to this work, ED2 includes a multi-layer canopy radiative transfer model that is a generalization of the two-stream solution of Sellers (1985). \nocite{SELLERS_1985_canopy}
+Relevant to this work, ED2 includes a multi-layer canopy radiative transfer model that is a generalization of the two-stream solution of Sellers (1985). \nocite{sellers1985canopy}
 In its default configuration, the ED2 radiative transfer model solves for the overall hemispherical (i.e.\ diffuse) canopy albedo in two spectral ``bands''---visible and near-infrared---as a function of each cohort's leaf area index and PFT-specific parameters for leaf and wood reflectance and transmittance, canopy clumping factor, and leaf orientation factor.
 The equations used are mostly adapted from the Community Land Model\parencite{clm45_note}, but a summary of key features is as follows:
 

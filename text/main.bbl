@@ -19,6 +19,107 @@
 
 \refsection{0}
   \datalist[entry]{nyt/global//global/global}
+    \entry{allen1970plantcanopy}{article}{}
+      \name{author}{3}{}{%
+        {{hash=620ffb11043ac2088ac8b26a53dd952b}{%
+           family={Allen},
+           familyi={A\bibinitperiod},
+           given={William\bibnamedelima A.},
+           giveni={W\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=8551dee7934e2d04a90da5fef47aaf73}{%
+           family={Gayle},
+           familyi={G\bibinitperiod},
+           given={T.\bibnamedelimi Vincent},
+           giveni={T\bibinitperiod\bibinitdelim V\bibinitperiod}}}%
+        {{hash=ac08bc76bb1ec2cfb101065e36e082b9}{%
+           family={Richardson},
+           familyi={R\bibinitperiod},
+           given={Arthur\bibnamedelima J.},
+           giveni={A\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \strng{namehash}{eb156721bac8166bc031d73bcdc145b4}
+      \strng{fullhash}{eb156721bac8166bc031d73bcdc145b4}
+      \strng{bibnamehash}{eb156721bac8166bc031d73bcdc145b4}
+      \strng{authorbibnamehash}{eb156721bac8166bc031d73bcdc145b4}
+      \strng{authornamehash}{eb156721bac8166bc031d73bcdc145b4}
+      \strng{authorfullhash}{eb156721bac8166bc031d73bcdc145b4}
+      \field{sortinit}{A}
+      \field{sortinithash}{d77c7cdd82ff690d4c3ef13216f92f0b}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0030-3941}
+      \field{journaltitle}{Journal of the Optical Society of America}
+      \field{month}{3}
+      \field{number}{3}
+      \field{title}{Plant-{{Canopy Irradiance Specified}} by the {{Duntley Equations}}}
+      \field{volume}{60}
+      \field{year}{1970}
+      \true{nocite}
+      \field{pages}{372}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1364/JOSA.60.000372
+      \endverb
+    \endentry
+    \entry{antonarakis2014imaging}{article}{}
+      \name{author}{3}{}{%
+        {{hash=9ea62bf0f2445c6b79560392e0d5115a}{%
+           family={Antonarakis},
+           familyi={A\bibinitperiod},
+           given={A.\bibnamedelimi S.},
+           giveni={A\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=193cee60af409676927ad30057cd75d8}{%
+           family={Munger},
+           familyi={M\bibinitperiod},
+           given={J.\bibnamedelimi W.},
+           giveni={J\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+        {{hash=4aed7570be75eb9aa84651106e924255}{%
+           family={Moorcroft},
+           familyi={M\bibinitperiod},
+           given={P.\bibnamedelimi R.},
+           giveni={P\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \list{publisher}{1}{%
+        {[object Object]}%
+      }
+      \strng{namehash}{c4deb295abe000e560a9355521228038}
+      \strng{fullhash}{c4deb295abe000e560a9355521228038}
+      \strng{bibnamehash}{c4deb295abe000e560a9355521228038}
+      \strng{authorbibnamehash}{c4deb295abe000e560a9355521228038}
+      \strng{authornamehash}{c4deb295abe000e560a9355521228038}
+      \strng{authorfullhash}{c4deb295abe000e560a9355521228038}
+      \field{sortinit}{A}
+      \field{sortinithash}{d77c7cdd82ff690d4c3ef13216f92f0b}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{The composition and structure of vegetation are key attributes of ecosystems, affecting their current and future carbon, water, and energy fluxes. Information on these attributes has traditionally come from ground-based inventories of the plant canopy within small sample plots. Here we show how imaging spectrometry and waveform lidar can be used to provide spatially comprehensive estimates of forest canopy composition and structure that can improve the accuracy of the carbon flux predictions of a size-structured terrestrial biosphere model, reducing its root-mean-square errors from 85\%–{}104\% to 37\%–{}57\%. The improvements are qualitatively and quantitatively similar to those obtained from simulations initialized with ground measurements and approximately double the estimated rate of ecosystem carbon uptake as compared to a potential vegetation simulation. These results suggest that terrestrial biosphere model simulations can utilize modern remote-sensing data on vegetation composition and structure to improve their predictions of the current and near-term future functioning of the terrestrial biosphere.}
+      \field{issn}{1944-8007}
+      \field{journaltitle}{Geophysical Research Letters}
+      \field{month}{4}
+      \field{number}{7}
+      \field{title}{Imaging Spectroscopy- and Lidar-Derived Estimates of Canopy Composition and Structure to Improve Predictions of Forest Carbon Fluxes and Ecosystem Dynamics}
+      \field{volume}{41}
+      \field{year}{2014}
+      \field{pages}{2013GL058373}
+      \range{pages}{-1}
+      \verb{doi}
+      \verb 10.1002/2013GL058373
+      \endverb
+      \verb{file}
+      \verb /home/ashiklom/MEGAsync/Zotero/Antonarakis et al_2014_Imaging.pdf
+      \endverb
+      \keyw{0428 Carbon cycling,0439 Ecosystems: structure and dynamics,0480 Remote sensing,1637 Regional climate change,3238 Prediction,carbon fluxes,Ecosystem Demography model 2 (ED2),ecosystem dynamics,ecosystem model,Forest Structure and Composition,Harvard Forest,Hyperspectral,initial conditions,LiDAR,Notes,Notes: Skimmed,RS: Imaging spectroscopy,RS: LiDAR}
+    \endentry
     \entry{carlson1997relation}{article}{}
       \name{author}{2}{}{%
         {{hash=1626e639eca26057f975301446f0ec0c}{%
@@ -176,6 +277,58 @@
       \verb{doi}
       \verb 10.1016/s0065-2687(08)60176-4
       \endverb
+    \endentry
+    \entry{dietze2008capturing}{article}{}
+      \name{author}{3}{}{%
+        {{hash=02cd9d79e14f81de21255b979e19e293}{%
+           family={Dietze},
+           familyi={D\bibinitperiod},
+           given={Michael\bibnamedelima C.},
+           giveni={M\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+        {{hash=5012bc7abb30b9cd03e3949fa9818254}{%
+           family={Wolosin},
+           familyi={W\bibinitperiod},
+           given={Michael\bibnamedelima S.},
+           giveni={M\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=261117a6508ce4fd52634321c5518863}{%
+           family={Clark},
+           familyi={C\bibinitperiod},
+           given={James\bibnamedelima S.},
+           giveni={J\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {[object Object]}%
+      }
+      \strng{namehash}{a1c99f214a419a07ecd0285528ce88fb}
+      \strng{fullhash}{a1c99f214a419a07ecd0285528ce88fb}
+      \strng{bibnamehash}{a1c99f214a419a07ecd0285528ce88fb}
+      \strng{authorbibnamehash}{a1c99f214a419a07ecd0285528ce88fb}
+      \strng{authornamehash}{a1c99f214a419a07ecd0285528ce88fb}
+      \strng{authorfullhash}{a1c99f214a419a07ecd0285528ce88fb}
+      \field{sortinit}{D}
+      \field{sortinithash}{2ef1bd9a78cc71eb74d7231c635177b8}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{There is growing recognition of the role of mechanistic scaling laws in shaping ecological pattern and process. While such theoretical relationships explain much of the variation across large scales, at any particular scale there is important residual variation that is left unexplained among species, among individuals within a species, and within individuals themselves. Key questions remain on what explains this variability and how we can apply this information in practice, in particular to produce estimates in high-diversity systems with many rare and under-sampled species. We apply hierarchical Bayes statistical techniques to data on crown geometry from diverse temperate forests in order to simultaneously model the differences within and among species. We find that tree height, canopy depth, and canopy radius are affected by both successional stage and wood mechanical strength, while tree height conforms to the predicted 2/3 power relationship. Furthermore, we show that hierarchical modeling allows us to constrain the allometries of rare species much more than traditional methods. Finally, crown radius was shown to vary substantially more within individuals than among individuals or species, suggesting that the capacity for local light foraging and crown plasticity exerts the dominant control on tree crowns.}
+      \field{issn}{0378-1127}
+      \field{journaltitle}{Forest Ecology and Management}
+      \field{month}{11}
+      \field{number}{11}
+      \field{shorttitle}{Capturing Diversity and Interspecific Variability in Allometries}
+      \field{title}{Capturing Diversity and Interspecific Variability in Allometries: {{A}} Hierarchical Approach}
+      \field{volume}{256}
+      \field{year}{2008}
+      \field{pages}{1939\bibrangedash 1948}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1016/j.foreco.2008.07.034
+      \endverb
+      \verb{file}
+      \verb /home/ashiklom/MEGAsync/Zotero/Dietze et al_2008_Capturing diversity.pdf
+      \endverb
+      \keyw{Allometry,Crown radius,Crown shape,DBH,Hierarchical Bayes,Propagating uncertainty}
     \endentry
     \entry{falster2017multitrait}{article}{}
       \name{author}{4}{}{%
@@ -570,6 +723,189 @@
       \verb 10.1111/j.1365-3040.1995.tb00562.x
       \endverb
     \endentry
+    \entry{jacquemoud2009prospect}{article}{}
+      \name{author}{8}{}{%
+        {{hash=96286f367c10e7a759981d0c21b0a219}{%
+           family={Jacquemoud},
+           familyi={J\bibinitperiod},
+           given={St{é}phane},
+           giveni={S\bibinitperiod}}}%
+        {{hash=583565a0c7501923513ee778c744fc5a}{%
+           family={Verhoef},
+           familyi={V\bibinitperiod},
+           given={Wout},
+           giveni={W\bibinitperiod}}}%
+        {{hash=d5c7126bc7295de7002160aa590061d6}{%
+           family={Baret},
+           familyi={B\bibinitperiod},
+           given={Fr{é}d{é}ric},
+           giveni={F\bibinitperiod}}}%
+        {{hash=0a7d721fde67c27e145846322afa3b8c}{%
+           family={Bacour},
+           familyi={B\bibinitperiod},
+           given={C{é}dric},
+           giveni={C\bibinitperiod}}}%
+        {{hash=848c207744826c0a4a10d76d6511abef}{%
+           family={{Zarco-Tejada}},
+           familyi={Z\bibinitperiod},
+           given={Pablo\bibnamedelima J.},
+           giveni={P\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=1e711b214b6be1e132f823e4de73e84d}{%
+           family={Asner},
+           familyi={A\bibinitperiod},
+           given={Gregory\bibnamedelima P.},
+           giveni={G\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+        {{hash=88dd88207596eae908603b18c508d014}{%
+           family={Fran{ç}ois},
+           familyi={F\bibinitperiod},
+           given={Christophe},
+           giveni={C\bibinitperiod}}}%
+        {{hash=98a79c85b01c14d133f63413417fe2d8}{%
+           family={Ustin},
+           familyi={U\bibinitperiod},
+           given={Susan\bibnamedelima L.},
+           giveni={S\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+      }
+      \strng{namehash}{1ad4a8e2733ba1b1132bf80149926cde}
+      \strng{fullhash}{d6107dda099a71f08d13cea7904b8285}
+      \strng{bibnamehash}{1ad4a8e2733ba1b1132bf80149926cde}
+      \strng{authorbibnamehash}{1ad4a8e2733ba1b1132bf80149926cde}
+      \strng{authornamehash}{1ad4a8e2733ba1b1132bf80149926cde}
+      \strng{authorfullhash}{d6107dda099a71f08d13cea7904b8285}
+      \field{sortinit}{J}
+      \field{sortinithash}{fce5f8d0bd05e8d93f3dbe21c78897ca}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{The combined PROSPECT leaf optical properties model and SAIL canopy bidirectional reflectance model, also referred to as PROSAIL, has been used for about sixteen years to study plant canopy spectral and directional reflectance in the solar domain. PROSAIL has also been used to develop new methods for retrieval of vegetation biophysical properties. It links the spectral variation of canopy reflectance, which is mainly related to leaf biochemical contents, with its directional variation, which is primarily related to canopy architecture and soil/vegetation contrast. This link is key to simultaneous estimation of canopy biophysical/structural variables for applications in agriculture, plant physiology, or ecology, at different scales. PROSAIL has become one of the most popular radiative transfer tools due to its ease of use, general robustness, and consistent validation by lab/field/space experiments over the years. However, PROSPECT and SAIL are still evolving: they have undergone recent improvements both at the leaf and the plant levels. This paper provides an extensive review of the PROSAIL developments in the context of canopy biophysics and radiative transfer modeling.}
+      \field{issn}{0034-4257}
+      \field{journaltitle}{Remote Sensing of Environment}
+      \field{month}{9}
+      \field{series}{Imaging {{Spectroscopy Special Issue}}}
+      \field{shorttitle}{{{PROSPECT}} + {{SAIL}} Models}
+      \field{title}{{{PROSPECT}} + {{SAIL}} Models: {{A}} Review of Use for Vegetation Characterization}
+      \field{volume}{113, Supplement 1}
+      \field{year}{2009}
+      \field{pages}{S56\bibrangedash S66}
+      \range{pages}{-1}
+      \verb{doi}
+      \verb 10.1016/j.rse.2008.01.026
+      \endverb
+      \verb{file}
+      \verb /home/ashiklom/MEGAsync/Zotero/Jacquemoud et al_2009_PROSPECT + SAIL.pdf
+      \endverb
+      \keyw{Canopy spectral and directional reflectance,Notes,Notes: read in full,PROSAIL,PROSPECT,Radiative transfer model,radiative transfer models,RTM: PROSPECT,RTM: SAIL,Vegetation}
+    \endentry
+    \entry{jetz_2016_monitoring}{article}{}
+      \name{author}{16}{}{%
+        {{hash=20ac2735e7001c0b59816963e36a40ef}{%
+           family={Jetz},
+           familyi={J\bibinitperiod},
+           given={Walter},
+           giveni={W\bibinitperiod}}}%
+        {{hash=a90dd87c17cf666a967756ac228e2596}{%
+           family={{Cavender-Bares}},
+           familyi={C\bibinitperiod},
+           given={Jeannine},
+           giveni={J\bibinitperiod}}}%
+        {{hash=9db5f3a3a78acb688259ad5e8aac83c7}{%
+           family={Pavlick},
+           familyi={P\bibinitperiod},
+           given={Ryan},
+           giveni={R\bibinitperiod}}}%
+        {{hash=c9a7897060222aeca1ab70d5d606d4d9}{%
+           family={Schimel},
+           familyi={S\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod}}}%
+        {{hash=62b566c5c8b529de83f5c41e0cec7dcc}{%
+           family={Davis},
+           familyi={D\bibinitperiod},
+           given={Frank\bibnamedelima W.},
+           giveni={F\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+        {{hash=1e711b214b6be1e132f823e4de73e84d}{%
+           family={Asner},
+           familyi={A\bibinitperiod},
+           given={Gregory\bibnamedelima P.},
+           giveni={G\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+        {{hash=d05d9b3454fc66b28f20da96b588d81a}{%
+           family={Guralnick},
+           familyi={G\bibinitperiod},
+           given={Robert},
+           giveni={R\bibinitperiod}}}%
+        {{hash=91470a33f0779997f5b5934a52abc273}{%
+           family={Kattge},
+           familyi={K\bibinitperiod},
+           given={Jens},
+           giveni={J\bibinitperiod}}}%
+        {{hash=3ecbd8388d8eaf43d3ce8ea45e1e967f}{%
+           family={Latimer},
+           familyi={L\bibinitperiod},
+           given={Andrew\bibnamedelima M.},
+           giveni={A\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=6b8911caa0d5dee60565004f112e2b11}{%
+           family={Moorcroft},
+           familyi={M\bibinitperiod},
+           given={Paul},
+           giveni={P\bibinitperiod}}}%
+        {{hash=8c38acab8348215b2f6fe349ec8d404c}{%
+           family={Schaepman},
+           familyi={S\bibinitperiod},
+           given={Michael\bibnamedelima E.},
+           giveni={M\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+        {{hash=ae1f23c0a8b2a5f6652d4cab0d1e81b2}{%
+           family={Schildhauer},
+           familyi={S\bibinitperiod},
+           given={Mark\bibnamedelima P.},
+           giveni={M\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+        {{hash=bc99183608ff5563a2928f8ccfd8ffa4}{%
+           family={Schneider},
+           familyi={S\bibinitperiod},
+           given={Fabian\bibnamedelima D.},
+           giveni={F\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+        {{hash=78addbc8c939b8af86b3bcc4979a921d}{%
+           family={Schrodt},
+           familyi={S\bibinitperiod},
+           given={Franziska},
+           giveni={F\bibinitperiod}}}%
+        {{hash=4788c9d1d913199e2d67d79784712ae4}{%
+           family={Stahl},
+           familyi={S\bibinitperiod},
+           given={Ulrike},
+           giveni={U\bibinitperiod}}}%
+        {{hash=98a79c85b01c14d133f63413417fe2d8}{%
+           family={Ustin},
+           familyi={U\bibinitperiod},
+           given={Susan\bibnamedelima L.},
+           giveni={S\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer Nature}%
+      }
+      \strng{namehash}{1a72b8c9ed3bf4279f3309eb0f88e2c4}
+      \strng{fullhash}{2ab347142a4591082637cd293236b979}
+      \strng{bibnamehash}{1a72b8c9ed3bf4279f3309eb0f88e2c4}
+      \strng{authorbibnamehash}{1a72b8c9ed3bf4279f3309eb0f88e2c4}
+      \strng{authornamehash}{1a72b8c9ed3bf4279f3309eb0f88e2c4}
+      \strng{authorfullhash}{2ab347142a4591082637cd293236b979}
+      \field{sortinit}{J}
+      \field{sortinithash}{fce5f8d0bd05e8d93f3dbe21c78897ca}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Nature Plants}
+      \field{month}{3}
+      \field{title}{Monitoring Plant Functional Diversity from Space}
+      \field{year}{2016}
+      \field{pages}{16039}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1038/nplants.2016.39
+      \endverb
+      \keyw{Hyperspectral,review,RS: Airborne,unread}
+    \endentry
     \entry{keenan2016global}{article}{}
       \name{author}{2}{}{%
         {{hash=676692f1b80e459c7655ae3267ef21f5}{%
@@ -733,6 +1069,39 @@
       \endverb
       \keyw{carbon cycle,data assimilation,phenology,remote sensing,vegetation modeling}
     \endentry
+    \entry{kubelka1931article}{article}{}
+      \name{author}{2}{}{%
+        {{hash=99376f8c710a9febbf9e520dd7c6e263}{%
+           family={Kubelka},
+           familyi={K\bibinitperiod},
+           given={P},
+           giveni={P\bibinitperiod}}}%
+        {{hash=95da709e4fd13a2ec1236c5e49073b97}{%
+           family={Munk},
+           familyi={M\bibinitperiod},
+           given={F},
+           giveni={F\bibinitperiod}}}%
+      }
+      \strng{namehash}{8acd3a1cebe27b846a24f43e6763152d}
+      \strng{fullhash}{8acd3a1cebe27b846a24f43e6763152d}
+      \strng{bibnamehash}{8acd3a1cebe27b846a24f43e6763152d}
+      \strng{authorbibnamehash}{8acd3a1cebe27b846a24f43e6763152d}
+      \strng{authornamehash}{8acd3a1cebe27b846a24f43e6763152d}
+      \strng{authorfullhash}{8acd3a1cebe27b846a24f43e6763152d}
+      \field{sortinit}{K}
+      \field{sortinithash}{9fd838a31ba64d981e8f44562bd33f89}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Fuer Tekn. Physik}
+      \field{title}{An Article on Optics of Paint Layers}
+      \field{volume}{12}
+      \field{year}{1931}
+      \true{nocite}
+      \field{pages}{593\bibrangedash 609}
+      \range{pages}{17}
+    \endentry
     \entry{lewis2007spectral}{article}{}
       \name{author}{2}{}{%
         {{hash=d2aa4ca344a7388fb2bbb725e0757875}{%
@@ -843,6 +1212,93 @@
       \range{pages}{15}
       \verb{doi}
       \verb 10.1016/j.rse.2017.12.024
+      \endverb
+    \endentry
+    \entry{longo_2019_ed1}{article}{}
+      \name{author}{11}{}{%
+        {{hash=92ff6ab6c5e94c85b238d850c590a8c2}{%
+           family={Longo},
+           familyi={L\bibinitperiod},
+           given={Marcos},
+           giveni={M\bibinitperiod}}}%
+        {{hash=930f4d6bce49a9c2210a9d8fe7590cb5}{%
+           family={Knox},
+           familyi={K\bibinitperiod},
+           given={Ryan\bibnamedelima G.},
+           giveni={R\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
+        {{hash=bb3909b929dc6dfcfcf0a67fd8a0a5d1}{%
+           family={Medvigy},
+           familyi={M\bibinitperiod},
+           given={David\bibnamedelima M.},
+           giveni={D\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=c3b79e39368ff784033390418d5bb158}{%
+           family={Levine},
+           familyi={L\bibinitperiod},
+           given={Naomi\bibnamedelima M.},
+           giveni={N\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=02cd9d79e14f81de21255b979e19e293}{%
+           family={Dietze},
+           familyi={D\bibinitperiod},
+           given={Michael\bibnamedelima C.},
+           giveni={M\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+        {{hash=939bdc09e31855e40106f7883d5cb582}{%
+           family={Kim},
+           familyi={K\bibinitperiod},
+           given={Yeonjoo},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=3062bec1da17322bd1e322523a1abe1a}{%
+           family={Swann},
+           familyi={S\bibinitperiod},
+           given={Abigail\bibnamedelimb L.\bibnamedelimi S.},
+           giveni={A\bibinitperiod\bibinitdelim L\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=ddc1726cf189c15802cf1d5ef196509d}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Ke},
+           giveni={K\bibinitperiod}}}%
+        {{hash=0edcd96c66b69c7e089ee52607e685a5}{%
+           family={Rollinson},
+           familyi={R\bibinitperiod},
+           given={Christine\bibnamedelima R.},
+           giveni={C\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+        {{hash=f16ea03f390cc6ca486544aef2046c4f}{%
+           family={Bras},
+           familyi={B\bibinitperiod},
+           given={Rafael\bibnamedelima L.},
+           giveni={R\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+        {{hash=38026ba4ee6b102b47bf3ffb41325c8f}{%
+           family={{al.}},
+           familyi={a\bibinitperiod},
+           given={et},
+           giveni={e\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Copernicus GmbH}%
+      }
+      \strng{namehash}{524aa0c2f0fd353be94d04f838ad5504}
+      \strng{fullhash}{16ba8824f68ea932066cc6b983b7133f}
+      \strng{bibnamehash}{524aa0c2f0fd353be94d04f838ad5504}
+      \strng{authorbibnamehash}{524aa0c2f0fd353be94d04f838ad5504}
+      \strng{authornamehash}{524aa0c2f0fd353be94d04f838ad5504}
+      \strng{authorfullhash}{16ba8824f68ea932066cc6b983b7133f}
+      \field{sortinit}{L}
+      \field{sortinithash}{2c7981aaabc885868aba60f0c09ee20f}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1991-962X}
+      \field{journaltitle}{Geoscientific Model Development Discussions}
+      \field{month}{3}
+      \field{title}{The Biophysics, Ecology, and Biogeochemistry of Functionally Diverse, Vertically- and Horizontally-Heterogeneous Ecosystems: The {{Ecosystem}} {{Demography}} Model, Version 2.2 - Part 1: Model Description}
+      \field{year}{2019}
+      \field{pages}{1\bibrangedash 53}
+      \range{pages}{53}
+      \verb{doi}
+      \verb 10.5194/gmd-2019-45
+      \endverb
+      \verb{file}
+      \verb /Users/ashiklom/Zotero/storage/28MXTUFP/Longo et al. - 2019 - The biophysics, ecology, and biogeochemistry of fu.pdf
       \endverb
     \endentry
     \entry{macbean2018strong}{article}{}
@@ -998,6 +1454,162 @@
       \range{pages}{18}
       \verb{doi}
       \verb 10.1016/j.rse.2006.02.028
+      \endverb
+    \endentry
+    \entry{meador1980twostream}{article}{}
+      \name{author}{2}{}{%
+        {{hash=8de160ff5a3a9d7728bfc4831f2cccc8}{%
+           family={Meador},
+           familyi={M\bibinitperiod},
+           given={W.\bibnamedelimi E.},
+           giveni={W\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+        {{hash=2d9554752fac360a03b1d50f7abf9efb}{%
+           family={Weaver},
+           familyi={W\bibinitperiod},
+           given={W.\bibnamedelimi R.},
+           giveni={W\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+      }
+      \strng{namehash}{675010e509e4118f40eec0dfae209827}
+      \strng{fullhash}{675010e509e4118f40eec0dfae209827}
+      \strng{bibnamehash}{675010e509e4118f40eec0dfae209827}
+      \strng{authorbibnamehash}{675010e509e4118f40eec0dfae209827}
+      \strng{authornamehash}{675010e509e4118f40eec0dfae209827}
+      \strng{authorfullhash}{675010e509e4118f40eec0dfae209827}
+      \field{sortinit}{M}
+      \field{sortinithash}{cfd219b90152c06204fab207bc6c7cab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{Existing two-stream approximations to radiative transfer theory for particulate media are shown to be represented by identical forms of coupled differential equations if the intensity is replaced by integrals of the intensity over hemispheres. One set of solutions thus suffices for all methods and provides convenient analytical comparisons. The equations also suggest modifications of the standard techniques so as to duplicate exact solutions for thin atmospheres and thus permit accurate determinations of the effects of typical aerosol layers. Numerical results for the plane albedos of plane-parallel atmospheres (single-scattering albedo = 0.8, 1.0; optical thickness = 0.25, 1, 4. 16; Henyey-Greenstein phase function with asymmetry factor 0.75) are given for conventional and modified Eddington approximations, conventional and modified two-point quadrature schemes, the hemispheric-constant method and the delta-function method, all for comparison with accurate discrete-ordinate solutions. A new two-stream approximation is introduced that reduces to the modified Eddington approximation in the limit of isotropic phase functions and to the exact solution in the limit of extreme anisotropic scattering. Comparisons of plane albedos and transmittances show the new method to be generally superior over a wide range of atmospheric conditions (including cloud and aerosol layers), especially in the case of nonconservative scattering.}
+      \field{issn}{0022-4928}
+      \field{journaltitle}{Journal of the Atmospheric Sciences}
+      \field{month}{3}
+      \field{number}{3}
+      \field{shorttitle}{Two-{{Stream Approximations}} to {{Radiative Transfer}} in {{Planetary Atmospheres}}}
+      \field{title}{Two-{{Stream Approximations}} to {{Radiative Transfer}} in {{Planetary Atmospheres}}: {{A Unified Description}} of {{Existing Methods}} and a {{New Improvement}}}
+      \field{volume}{37}
+      \field{year}{1980}
+      \true{nocite}
+      \field{pages}{630\bibrangedash 643}
+      \range{pages}{14}
+      \verb{doi}
+      \verb 10.1175/1520-0469(1980)037<0630:TSATRT>2.0.CO;2
+      \endverb
+      \verb{file}
+      \verb /home/ashiklom/MEGAsync/Zotero/Meador_Weaver_1980_Two-Stream.pdf
+      \endverb
+      \keyw{Radiative transfer model,RTM: Two-stream approximation,unread}
+    \endentry
+    \entry{medvigy2009mechanistic}{article}{}
+      \name{author}{5}{}{%
+        {{hash=76fa9c30e6b8434e15cccde8eaf49648}{%
+           family={Medvigy},
+           familyi={M\bibinitperiod},
+           given={D.},
+           giveni={D\bibinitperiod}}}%
+        {{hash=37891986c4844aa141145729582eecea}{%
+           family={Wofsy},
+           familyi={W\bibinitperiod},
+           given={S.\bibnamedelimi C.},
+           giveni={S\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+        {{hash=193cee60af409676927ad30057cd75d8}{%
+           family={Munger},
+           familyi={M\bibinitperiod},
+           given={J.\bibnamedelimi W.},
+           giveni={J\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+        {{hash=be89dfb585532c07b3d3938e27e72fbb}{%
+           family={Hollinger},
+           familyi={H\bibinitperiod},
+           given={D.\bibnamedelimi Y.},
+           giveni={D\bibinitperiod\bibinitdelim Y\bibinitperiod}}}%
+        {{hash=4aed7570be75eb9aa84651106e924255}{%
+           family={Moorcroft},
+           familyi={M\bibinitperiod},
+           given={P.\bibnamedelimi R.},
+           giveni={P\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \list{publisher}{1}{%
+        {[object Object]}%
+      }
+      \strng{namehash}{70d6e0c38cd6329bb3b7c0749d665399}
+      \strng{fullhash}{d6db263d78cc6d68c3ad2578b582fbca}
+      \strng{bibnamehash}{70d6e0c38cd6329bb3b7c0749d665399}
+      \strng{authorbibnamehash}{70d6e0c38cd6329bb3b7c0749d665399}
+      \strng{authornamehash}{70d6e0c38cd6329bb3b7c0749d665399}
+      \strng{authorfullhash}{d6db263d78cc6d68c3ad2578b582fbca}
+      \field{sortinit}{M}
+      \field{sortinithash}{cfd219b90152c06204fab207bc6c7cab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{Insights into how terrestrial ecosystems affect the Earth's response to changes in climate and rising atmospheric CO2 levels rely heavily on the predictions of terrestrial biosphere models (TBMs). These models contain detailed mechanistic representations of biological processes affecting terrestrial ecosystems; however, their ability to simultaneously predict field-based measurements of terrestrial vegetation dynamics and carbon fluxes has remained largely untested. In this study, we address this issue by developing a constrained implementation of a new structured TBM, the Ecosystem Demography model version 2 (ED2), which explicitly tracks the dynamics of fine-scale ecosystem structure and function. Carbon and water flux measurements from an eddy-flux tower are used in conjunction with forest inventory measurements of tree growth and mortality at Harvard Forest (42.5°{}N, 72.1°{}W) to estimate a number of important but weakly constrained model parameters. Evaluation against a decade of tower flux and forest dynamics measurements shows that the constrained ED2 model yields greatly improved predictions of annual net ecosystem productivity, carbon partitioning, and growth and mortality dynamics of both hardwood and conifer trees. The generality of the model formulation is then evaluated by comparing the model's predictions against measurements from two other eddy-flux towers and forest inventories of the northeastern United States and Quebec. Despite the markedly different composition throughout this region, the optimized model realistically predicts observed patterns of carbon fluxes and tree growth. These results demonstrate how TBMs parameterized with field-based measurements can provide quantitative insight into the underlying biological processes governing ecosystem composition, structure, and function at larger scales.}
+      \field{issn}{2156-2202}
+      \field{journaltitle}{Journal of Geophysical Research: Biogeosciences}
+      \field{month}{3}
+      \field{number}{G1}
+      \field{shorttitle}{Mechanistic Scaling of Ecosystem Function and Dynamics in Space and Time}
+      \field{title}{Mechanistic Scaling of Ecosystem Function and Dynamics in Space and Time: {{Ecosystem Demography}} Model Version 2}
+      \field{volume}{114}
+      \field{year}{2009}
+      \field{pages}{G01002}
+      \range{pages}{-1}
+      \verb{doi}
+      \verb 10.1029/2008JG000812
+      \endverb
+      \verb{file}
+      \verb /Users/ashiklom/Zotero/storage/QDFP2IUB/Medvigy et al. - 2009 - Mechanistic scaling of ecosystem function and dyna.pdf
+      \endverb
+      \keyw{0414 Biogeochemical cycles; processes; and modeling,0428 Carbon cycling,0439 Ecosystems; structure and dynamics,0466 Modeling,0476 Plant ecology,eastern United States,ecosystem dynamics,ecosystem structure,net ecosystem productivity (NEP),terrestrial biosphere model,unread}
+    \endentry
+    \entry{moorcroft_2001_method}{article}{}
+      \name{author}{3}{}{%
+        {{hash=4aed7570be75eb9aa84651106e924255}{%
+           family={Moorcroft},
+           familyi={M\bibinitperiod},
+           given={P.\bibnamedelimi R.},
+           giveni={P\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+        {{hash=eff36611ae08d4a657447980b7a3b4fc}{%
+           family={Hurtt},
+           familyi={H\bibinitperiod},
+           given={G.\bibnamedelimi C.},
+           giveni={G\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+        {{hash=ef9990d0cfd7f25b0442b3827c078b69}{%
+           family={Pacala},
+           familyi={P\bibinitperiod},
+           given={S.\bibnamedelimi W.},
+           giveni={S\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Wiley}%
+      }
+      \strng{namehash}{073304645e585fc51f1988cc3ded8deb}
+      \strng{fullhash}{073304645e585fc51f1988cc3ded8deb}
+      \strng{bibnamehash}{073304645e585fc51f1988cc3ded8deb}
+      \strng{authorbibnamehash}{073304645e585fc51f1988cc3ded8deb}
+      \strng{authornamehash}{073304645e585fc51f1988cc3ded8deb}
+      \strng{authorfullhash}{073304645e585fc51f1988cc3ded8deb}
+      \field{sortinit}{M}
+      \field{sortinithash}{cfd219b90152c06204fab207bc6c7cab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0012-9615}
+      \field{journaltitle}{Ecological Monographs}
+      \field{month}{11}
+      \field{number}{4}
+      \field{title}{A Method for Scaling Vegetation Dynamics: The Ecosystem Demography Model ({{ED}})}
+      \field{volume}{71}
+      \field{year}{2001}
+      \field{pages}{557\bibrangedash 586}
+      \range{pages}{30}
+      \verb{doi}
+      \verb 10.1890/0012-9615(2001)071[0557:amfsvd]2.0.co;2
       \endverb
     \endentry
     \entry{myneni1994relationship}{article}{}
@@ -1308,6 +1920,61 @@
       \field{type}{techreport}
       \field{year}{2013}
     \endentry
+    \entry{pasquarella2016imagery}{article}{}
+      \name{author}{4}{}{%
+        {{hash=b30977a7d1781aa2e03d507e983fdcf8}{%
+           family={Pasquarella},
+           familyi={P\bibinitperiod},
+           given={Valerie\bibnamedelima J.},
+           giveni={V\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=9e40f1d526927ce45c3faa2373b90924}{%
+           family={Holden},
+           familyi={H\bibinitperiod},
+           given={Christopher\bibnamedelima E.},
+           giveni={C\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+        {{hash=2b56212045f42a0def0e8e24c35b2c0f}{%
+           family={Kaufman},
+           familyi={K\bibinitperiod},
+           given={Les},
+           giveni={L\bibinitperiod}}}%
+        {{hash=c4149622f96da767a257daea4f0c5062}{%
+           family={Woodcock},
+           familyi={W\bibinitperiod},
+           given={Curtis\bibnamedelima E.},
+           giveni={C\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \strng{namehash}{0b68466447c474fd7dc215c67030e006}
+      \strng{fullhash}{294fe254d5ce20e7af6432675539f773}
+      \strng{bibnamehash}{0b68466447c474fd7dc215c67030e006}
+      \strng{authorbibnamehash}{0b68466447c474fd7dc215c67030e006}
+      \strng{authornamehash}{0b68466447c474fd7dc215c67030e006}
+      \strng{authorfullhash}{294fe254d5ce20e7af6432675539f773}
+      \field{sortinit}{P}
+      \field{sortinithash}{8d51b3d5b78d75b54308d706b9bbe285}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{With over 30~years of directly comparable Landsat satellite observations now freely available, and new imagery being added to the Landsat archive every day, Landsat time series analysis affords novel opportunities for ecosystem mapping, environmental monitoring and comparative ecology. This study presents a series of data-driven examples that illustrate the potential of using Landsat time series to further the study of land cover characterization, vegetation phenology and landscape dynamics. Our goal is to showcase how ecosystem properties and dynamics manifest in the Landsat data record, laying the foundation for better integration of remote sensing and ecology using Landsat time series. Our results suggest that time series provide valuable information on ecosystem cover, use and condition that could advance understanding of ecosystem function, resilience and dynamics. We have only just begun to understand how to use the complete record of Landsat observations for the study of ecology, and we hope this work will encourage future studies on quantifying and analyzing relationships between time series data, ecosystems and ecological processes.}
+      \field{issn}{2056-3485}
+      \field{journaltitle}{Remote Sensing in Ecology and Conservation}
+      \field{month}{8}
+      \field{shorttitle}{From Imagery to Ecology}
+      \field{title}{From Imagery to Ecology: Leveraging Time Series of All Available {{Landsat}} Observations to Map and Monitor Ecosystem State and Dynamics}
+      \field{year}{2016}
+      \field{pages}{n/a\bibrangedash n/a}
+      \range{pages}{-1}
+      \verb{doi}
+      \verb 10.1002/rse2.24
+      \endverb
+      \verb{file}
+      \verb /home/ashiklom/MEGAsync/Zotero/Pasquarella et al_2016_From imagery to.pdf
+      \endverb
+      \keyw{ecosystem dynamics,ecosystem structure,land cover,land cover / land use,Landsat,Notes,Notes: Skimmed,Phenology,RS: Satellite,Time series,time series analysis,vegetation mapping}
+    \endentry
     \entry{peylin2016new}{article}{}
       \name{author}{12}{}{%
         {{hash=dd89a920118851cf92f48f0c82f9904a}{%
@@ -1405,6 +2072,135 @@
       \verb{file}
       \verb /Users/ashiklom/Zotero/storage/3BD6PAWP/Peylin et al. - 2016 - A new stepwise carbon cycle data assimilation syst.pdf;/Users/ashiklom/Zotero/storage/Z75XBF3A/2016.html
       \endverb
+    \endentry
+    \entry{pinty2004synergy}{article}{}
+      \name{author}{5}{uniquelist=2}{%
+        {{hash=b9cd9b1f646236fcbc5d1edb19bf44b6}{%
+           family={Pinty},
+           familyi={P\bibinitperiod},
+           given={B.},
+           giveni={B\bibinitperiod}}}%
+        {{hash=8f4c5155e9cd8f508263a6a82e6a5ba4}{%
+           family={Gobron},
+           familyi={G\bibinitperiod},
+           given={N.},
+           giveni={N\bibinitperiod}}}%
+        {{hash=095128379724b759dd06aa98f8a489fc}{%
+           family={Widlowski},
+           familyi={W\bibinitperiod},
+           given={J.-L.},
+           giveni={J\bibinithyphendelim L\bibinitperiod}}}%
+        {{hash=41e6ec2be05e2a22d3b93050b1487d91}{%
+           family={Lavergne},
+           familyi={L\bibinitperiod},
+           given={T.},
+           giveni={T\bibinitperiod}}}%
+        {{hash=08c47749049ae7805e067ef63f0f6fbd}{%
+           family={Verstraete},
+           familyi={V\bibinitperiod},
+           given={M.\bibnamedelimi M.},
+           giveni={M\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \strng{namehash}{cfd38e743ea0a49240f944bc4f75988d}
+      \strng{fullhash}{15d4b7d07cb259a00b2dac7094cbdf3d}
+      \strng{bibnamehash}{cfd38e743ea0a49240f944bc4f75988d}
+      \strng{authorbibnamehash}{cfd38e743ea0a49240f944bc4f75988d}
+      \strng{authornamehash}{cfd38e743ea0a49240f944bc4f75988d}
+      \strng{authorfullhash}{15d4b7d07cb259a00b2dac7094cbdf3d}
+      \field{sortinit}{P}
+      \field{sortinithash}{8d51b3d5b78d75b54308d706b9bbe285}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{We devise a computer efficient and flexible inversion technique to retrieve vegetation canopy parameters, in particular the Leaf Area Index, from the radiance field emerging at the top of a structurally heterogeneous systems overlying an anisotropic spatially uniform surface background. The proposed inversion strategy focuses on a reanalysis of multiangle and multispectral measurements unhindered by the many specific constraints imposed by the operational application of the current algorithms and their associated limitations on data staging. This technique capitalizes on the decoupling between contributions due to the canopy only and those invoking the background reflectance properties. These contributions are decomposed into the wavelength dependent and independent contributions. A quasi-linear relationship is thus obtained between the radiance/reflectance emerging from the top of the canopy layer and the background reflectance. Although all individual contributions can be estimated from accurate three-dimensional radiation transfer models, we propose appropriate approximations in order to estimate the minor terms. These approximations exploit the relatively limited dependency exhibited by these relatively smaller contributions with respect to the azimuthal coordinate. Moreover, additional mathematical developments are proposed to further approximate these terms by their corresponding solutions obtained in the limit case of a plane-parallel turbid medium scenario. They require defining effective values of the state variables entering the plane-parallel turbid medium model. The resulting reflectance of a three-dimensional spatially heterogeneous vegetation layer is driven by a sum of contributions that can be precomputed offline on the basis of the three-dimensional and plane-parallel homogeneous turbid medium model capabilities. The decoupling of the intrinsic vegetation and the background contributions allows many of the contributions to be precomputed and stored in look-up tables. This development yields a simple and computer efficient inversion scheme that allows us to jointly retrieve the values of the main vegetation layer attributes and the underlying background radiative properties. Demonstration tests based on actual multiangular and multispectral data set are currently being investigated.}
+      \field{issn}{2156-2202}
+      \field{journaltitle}{Journal of Geophysical Research: Atmospheres}
+      \field{month}{11}
+      \field{number}{D21}
+      \field{title}{Synergy between 1-{{D}} and 3-{{D}} Radiation Transfer Models to Retrieve Vegetation Canopy Properties from Remote Sensing Data}
+      \field{volume}{109}
+      \field{year}{2004}
+      \true{nocite}
+      \field{pages}{D21205}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1029/2004JD005214
+      \endverb
+      \verb{file}
+      \verb /home/ashiklom/MEGAsync/Zotero/Pinty et al_2004_Synergy between 1-D.pdf
+      \endverb
+      \keyw{Biosphere/atmosphere interactions,Cloud physics and chemistry,inversion,Radiative transfer model,Remote sensing,RTM inversion,unread,vegetation canopy}
+    \endentry
+    \entry{pinty2006simplifying}{article}{}
+      \name{author}{6}{uniquelist=2}{%
+        {{hash=b9cd9b1f646236fcbc5d1edb19bf44b6}{%
+           family={Pinty},
+           familyi={P\bibinitperiod},
+           given={B.},
+           giveni={B\bibinitperiod}}}%
+        {{hash=41e6ec2be05e2a22d3b93050b1487d91}{%
+           family={Lavergne},
+           familyi={L\bibinitperiod},
+           given={T.},
+           giveni={T\bibinitperiod}}}%
+        {{hash=5cdd687a2b02c147ffd922e2318de9d3}{%
+           family={Dickinson},
+           familyi={D\bibinitperiod},
+           given={R.\bibnamedelimi E.},
+           giveni={R\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+        {{hash=095128379724b759dd06aa98f8a489fc}{%
+           family={Widlowski},
+           familyi={W\bibinitperiod},
+           given={J.-L.},
+           giveni={J\bibinithyphendelim L\bibinitperiod}}}%
+        {{hash=8f4c5155e9cd8f508263a6a82e6a5ba4}{%
+           family={Gobron},
+           familyi={G\bibinitperiod},
+           given={N.},
+           giveni={N\bibinitperiod}}}%
+        {{hash=08c47749049ae7805e067ef63f0f6fbd}{%
+           family={Verstraete},
+           familyi={V\bibinitperiod},
+           given={M.\bibnamedelimi M.},
+           giveni={M\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \strng{namehash}{c4ee9d61b1532e946d0498f4db71f2c1}
+      \strng{fullhash}{86d50018f01dc4305c886db6b3e04751}
+      \strng{bibnamehash}{c4ee9d61b1532e946d0498f4db71f2c1}
+      \strng{authorbibnamehash}{c4ee9d61b1532e946d0498f4db71f2c1}
+      \strng{authornamehash}{c4ee9d61b1532e946d0498f4db71f2c1}
+      \strng{authorfullhash}{86d50018f01dc4305c886db6b3e04751}
+      \field{sortinit}{P}
+      \field{sortinithash}{8d51b3d5b78d75b54308d706b9bbe285}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Remote sensing products, such as the fraction of reflected solar radiation flux, as well as the amount of radiation absorbed in the photosynthetically active spectral region and the Leaf Area Index (LAI), are operationally available from Space Agencies. Climate models may benefit from these products provided their one dimensional (1-D) radiation transfer schemes effectively represent the three dimensional (3-D) effects implied by the internal spatial variability of vegetation canopies, e.g., the leaf area density, at all scales and resolutions involved (say from 1 to 100 kilometers). Failing to do so leads to inherent inconsistencies between the domain-averaged reflected and absorbed fluxes, and the implied Leaf Area Index. We propose a comprehensive approach which introduces a parameterization of the internal variability of the LAI in the 1-D representation of the radiation scheme, called a domain-averaged structure factor, and provides a description of the radiant fluxes fully consistent with the LAI specified by remote sensing. We take this opportunity to revisit and update the two-stream formulations implemented in climate models to accurately estimate the fractions of radiation absorbed separately by the vegetation canopy and the underlying surface. This is achieved by isolating the contributions of the vegetation canopy alone, the background as seen through the canopy gaps and the multiple scattering between the vegetation layer and the background. The performance of this formulation is evaluated against results from Monte Carlo simulations relative to explicit realistic 3-D canopies to show that the proposed scheme correctly simulates both the amplitude and the angular variations of all radiant fluxes with respect to the solar zenith angle.}
+      \field{issn}{2156-2202}
+      \field{journaltitle}{Journal of Geophysical Research: Atmospheres}
+      \field{month}{1}
+      \field{number}{D2}
+      \field{title}{Simplifying the Interaction of Land Surfaces with Radiation for Relating Remote Sensing Products to Climate Models}
+      \field{volume}{111}
+      \field{year}{2006}
+      \true{nocite}
+      \field{pages}{D02116}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1029/2005JD005952
+      \endverb
+      \verb{file}
+      \verb /home/ashiklom/MEGAsync/Zotero/Pinty et al_2006_Simplifying the.pdf
+      \endverb
+      \keyw{0466 Modeling,0764 Energy balance,3322 Land/atmosphere interactions,albedo,Biosphere/atmosphere interactions,FAPAR,LAI,Leaf area index (LAI),Radiative transfer model,Remote sensing,RTM: Two-stream approximation}
     \endentry
     \entry{quaife2008assimilating}{article}{}
       \name{author}{7}{}{%
@@ -1526,6 +2322,95 @@
       \verb 10.1016/j.foreco.2004.06.029
       \endverb
     \endentry
+    \entry{schimel2015observing}{article}{}
+      \name{author}{10}{}{%
+        {{hash=c9a7897060222aeca1ab70d5d606d4d9}{%
+           family={Schimel},
+           familyi={S\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod}}}%
+        {{hash=9db5f3a3a78acb688259ad5e8aac83c7}{%
+           family={Pavlick},
+           familyi={P\bibinitperiod},
+           given={Ryan},
+           giveni={R\bibinitperiod}}}%
+        {{hash=8ff247c6ceb0d581178bb0069eebc2e4}{%
+           family={Fisher},
+           familyi={F\bibinitperiod},
+           given={Joshua\bibnamedelima B.},
+           giveni={J\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+        {{hash=1e711b214b6be1e132f823e4de73e84d}{%
+           family={Asner},
+           familyi={A\bibinitperiod},
+           given={Gregory\bibnamedelima P.},
+           giveni={G\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+        {{hash=0325cb6a48eeda221f204f3fc38362cf}{%
+           family={Saatchi},
+           familyi={S\bibinitperiod},
+           given={Sassan},
+           giveni={S\bibinitperiod}}}%
+        {{hash=2247739349c770d9d81b4df15017ea01}{%
+           family={Townsend},
+           familyi={T\bibinitperiod},
+           given={Philip},
+           giveni={P\bibinitperiod}}}%
+        {{hash=a6d73002d297362d28509e8b9c708abe}{%
+           family={Miller},
+           familyi={M\bibinitperiod},
+           given={Charles},
+           giveni={C\bibinitperiod}}}%
+        {{hash=38fa2e00bdbe773dbcc3d2882fbeed10}{%
+           family={Frankenberg},
+           familyi={F\bibinitperiod},
+           given={Christian},
+           giveni={C\bibinitperiod}}}%
+        {{hash=00f8428983c0d2eb3be4e4359fbadf88}{%
+           family={Hibbard},
+           familyi={H\bibinitperiod},
+           given={Kathy},
+           giveni={K\bibinitperiod}}}%
+        {{hash=a384bd84d45e80a955d18867658a45a7}{%
+           family={Cox},
+           familyi={C\bibinitperiod},
+           given={Peter},
+           giveni={P\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \list{publisher}{1}{%
+        {[object Object]}%
+      }
+      \strng{namehash}{e36af4b543246cfe9b15a100f0bdbba0}
+      \strng{fullhash}{ca70ca78ac11837b67e60182239072ac}
+      \strng{bibnamehash}{e36af4b543246cfe9b15a100f0bdbba0}
+      \strng{authorbibnamehash}{e36af4b543246cfe9b15a100f0bdbba0}
+      \strng{authornamehash}{e36af4b543246cfe9b15a100f0bdbba0}
+      \strng{authorfullhash}{ca70ca78ac11837b67e60182239072ac}
+      \field{sortinit}{S}
+      \field{sortinithash}{322b1d5276f2f6c1bccdcd15920dbee6}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Terrestrial ecosystem and carbon cycle feedbacks will significantly impact future climate, but their responses are highly uncertain. Models and tipping point analyses suggest the tropics and arctic/boreal zone carbon–{}climate feedbacks could be disproportionately large. In situ observations in those regions are sparse, resulting in high uncertainties in carbon fluxes and fluxes. Key parameters controlling ecosystem carbon responses, such as plant traits, are also sparsely observed in the tropics, with the most diverse biome on the planet treated as a single type in models. We analyzed the spatial distribution of in situ data for carbon fluxes, stocks and plant traits globally and also evaluated the potential of remote sensing to observe these quantities. New satellite data products go beyond indices of greenness and can address spatial sampling gaps for specific ecosystem properties and parameters. Because environmental conditions and access limit in situ observations in tropical and arctic/boreal environments, use of space-based techniques can reduce sampling bias and uncertainty about tipping point feedbacks to climate. To reliably detect change and develop the understanding of ecosystems needed for prediction, significantly, more data are required in critical regions. This need can best be met with a strategic combination of remote and in situ data, with satellite observations providing the dense sampling in space and time required to characterize the heterogeneity of ecosystem structure and function.}
+      \field{issn}{1365-2486}
+      \field{journaltitle}{Global Change Biology}
+      \field{month}{5}
+      \field{number}{5}
+      \field{title}{Observing Terrestrial Ecosystems and the Carbon Cycle from Space}
+      \field{volume}{21}
+      \field{year}{2015}
+      \field{pages}{1762\bibrangedash 1776}
+      \range{pages}{15}
+      \verb{doi}
+      \verb 10.1111/gcb.12822
+      \endverb
+      \verb{file}
+      \verb /home/ashiklom/MEGAsync/Zotero/Schimel et al_2015_Observing.pdf
+      \endverb
+      \keyw{arctic,boreal,carbon,climate feedback,diversity,fluroescence,Notes,Notes: Skimmed,RS: Satellite,spectroscopy,tropics}
+    \endentry
     \entry{schurmann2016constraining}{article}{}
       \name{author}{10}{}{%
         {{hash=40424e3d3138855ecf0dd74c749bc6b4}{%
@@ -1614,6 +2499,85 @@
       \verb /Users/ashiklom/Zotero/storage/U9LCYAYE/Schürmann et al. - 2016 - Constraining a land-surface model with multiple ob.pdf;/Users/ashiklom/Zotero/storage/SP4DUV2X/2016.html
       \endverb
     \endentry
+    \entry{sellers1985canopy}{article}{}
+      \name{author}{1}{}{%
+        {{hash=be46a973a53ac67126876b097059cb18}{%
+           family={Sellers},
+           familyi={S\bibinitperiod},
+           given={P.\bibnamedelimi J.},
+           giveni={P\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \list{publisher}{1}{%
+        {[object Object]}%
+      }
+      \strng{namehash}{be46a973a53ac67126876b097059cb18}
+      \strng{fullhash}{be46a973a53ac67126876b097059cb18}
+      \strng{bibnamehash}{be46a973a53ac67126876b097059cb18}
+      \strng{authorbibnamehash}{be46a973a53ac67126876b097059cb18}
+      \strng{authornamehash}{be46a973a53ac67126876b097059cb18}
+      \strng{authorfullhash}{be46a973a53ac67126876b097059cb18}
+      \field{sortinit}{S}
+      \field{sortinithash}{322b1d5276f2f6c1bccdcd15920dbee6}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0143-1161, 1366-5901}
+      \field{journaltitle}{International Journal of Remote Sensing}
+      \field{month}{8}
+      \field{number}{8}
+      \field{title}{Canopy Reflectance, Photosynthesis and Transpiration}
+      \field{volume}{6}
+      \field{year}{1985}
+      \true{nocite}
+      \field{pages}{1335\bibrangedash 1372}
+      \range{pages}{38}
+      \verb{doi}
+      \verb 10.1080/01431168508948283
+      \endverb
+      \verb{file}
+      \verb /home/ashiklom/MEGAsync/Zotero/Sellers_1985_Canopy reflectance,.pdf
+      \endverb
+      \keyw{Radiative transfer model,unread}
+    \endentry
+    \entry{suits1971calculation}{article}{}
+      \name{author}{1}{}{%
+        {{hash=12f3078a46c1eaf469292f87cf927fa6}{%
+           family={Suits},
+           familyi={S\bibinitperiod},
+           given={G},
+           giveni={G\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \strng{namehash}{12f3078a46c1eaf469292f87cf927fa6}
+      \strng{fullhash}{12f3078a46c1eaf469292f87cf927fa6}
+      \strng{bibnamehash}{12f3078a46c1eaf469292f87cf927fa6}
+      \strng{authorbibnamehash}{12f3078a46c1eaf469292f87cf927fa6}
+      \strng{authornamehash}{12f3078a46c1eaf469292f87cf927fa6}
+      \strng{authorfullhash}{12f3078a46c1eaf469292f87cf927fa6}
+      \field{sortinit}{S}
+      \field{sortinithash}{322b1d5276f2f6c1bccdcd15920dbee6}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{00344257}
+      \field{journaltitle}{Remote Sensing of Environment}
+      \field{title}{The Calculation of the Directional Reflectance of a Vegetative Canopy}
+      \field{volume}{2}
+      \field{year}{1971}
+      \true{nocite}
+      \field{pages}{117\bibrangedash 125}
+      \range{pages}{9}
+      \verb{doi}
+      \verb 10.1016/0034-4257(71)90085-X
+      \endverb
+    \endentry
     \entry{swann2010changes}{article}{}
       \name{author}{5}{}{%
         {{hash=eb1f1894409f2c63a79293fae581373d}{%
@@ -1675,8 +2639,95 @@
       \endverb
       \keyw{albedo,Biome: Arctic,biosphere-atmosphere interaction,Biosphere/atmosphere interactions,climate feedback,deciduous,radiative forcing,sea-ice,unread}
     \endentry
+    \entry{verhoef1984light}{article}{}
+      \name{author}{1}{}{%
+        {{hash=b6a336b97e4e3746154b369cb4c0afeb}{%
+           family={Verhoef},
+           familyi={V\bibinitperiod},
+           given={W.},
+           giveni={W\bibinitperiod}}}%
+      }
+      \strng{namehash}{b6a336b97e4e3746154b369cb4c0afeb}
+      \strng{fullhash}{b6a336b97e4e3746154b369cb4c0afeb}
+      \strng{bibnamehash}{b6a336b97e4e3746154b369cb4c0afeb}
+      \strng{authorbibnamehash}{b6a336b97e4e3746154b369cb4c0afeb}
+      \strng{authornamehash}{b6a336b97e4e3746154b369cb4c0afeb}
+      \strng{authorfullhash}{b6a336b97e4e3746154b369cb4c0afeb}
+      \field{sortinit}{V}
+      \field{sortinithash}{75dd7385c90b2252c3ae853a80ca853b}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{The scattering and extinction coefficients of the SAIL canopy reflectance model are derived for the case of a fixed arbitrary leaf inclination angle and a random leaf azimuth distribution. The SAIL model includes the uniform model of G. H. Suits as a special case and its main characteristics are that canopy variables such as leaf area index and the leaf inclination distribution function are used as input parameters and that it provides more realistic angular profiles of the directional reflectance as a function of the view angle or the solar zenith angle.}
+      \field{issn}{0034-4257}
+      \field{journaltitle}{Remote Sensing of Environment}
+      \field{month}{10}
+      \field{number}{2}
+      \field{shorttitle}{Light Scattering by Leaf Layers with Application to Canopy Reflectance Modeling}
+      \field{title}{Light Scattering by Leaf Layers with Application to Canopy Reflectance Modeling: {{The SAIL}} Model}
+      \field{volume}{16}
+      \field{year}{1984}
+      \field{pages}{125\bibrangedash 141}
+      \range{pages}{17}
+      \verb{doi}
+      \verb 10.1016/0034-4257(84)90057-9
+      \endverb
+      \verb{file}
+      \verb /Users/ashiklom/Zotero/storage/AAT575ZW/Verhoef - 1984 - Light scattering by leaf layers with application t.pdf
+      \endverb
+      \keyw{unread}
+    \endentry
+    \entry{verhoef2007unified}{article}{}
+      \name{author}{4}{uniquelist=1}{%
+        {{hash=583565a0c7501923513ee778c744fc5a}{%
+           family={Verhoef},
+           familyi={V\bibinitperiod},
+           given={Wout},
+           giveni={W\bibinitperiod}}}%
+        {{hash=031ef7950c9d13c93b67e2bbe53c7304}{%
+           family={Jia},
+           familyi={J\bibinitperiod},
+           given={Li},
+           giveni={L\bibinitperiod}}}%
+        {{hash=65b35c5d18a47db7be3c968ce1470dfb}{%
+           family={Xiao},
+           familyi={X\bibinitperiod},
+           given={Qing},
+           giveni={Q\bibinitperiod}}}%
+        {{hash=288765da4c4649fe6ee4ce1f5fd39a05}{%
+           family={Su},
+           familyi={S\bibinitperiod},
+           given={Z.},
+           giveni={Z\bibinitperiod}}}%
+      }
+      \strng{namehash}{c0d61f311edc105d535c04f9c397f43d}
+      \strng{fullhash}{6f0f2a887e0951903ef73ad666bdda19}
+      \strng{bibnamehash}{c0d61f311edc105d535c04f9c397f43d}
+      \strng{authorbibnamehash}{c0d61f311edc105d535c04f9c397f43d}
+      \strng{authornamehash}{c0d61f311edc105d535c04f9c397f43d}
+      \strng{authorfullhash}{6f0f2a887e0951903ef73ad666bdda19}
+      \field{sortinit}{V}
+      \field{sortinithash}{75dd7385c90b2252c3ae853a80ca853b}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0196-2892}
+      \field{journaltitle}{IEEE Transactions on Geoscience and Remote Sensing}
+      \field{month}{6}
+      \field{number}{6}
+      \field{title}{Unified {{Optical}}-{{Thermal Four}}-{{Stream Radiative Transfer Theory}} for {{Homogeneous Vegetation Canopies}}}
+      \field{volume}{45}
+      \field{year}{2007}
+      \field{pages}{1808\bibrangedash 1822}
+      \range{pages}{15}
+      \verb{doi}
+      \verb 10.1109/TGRS.2007.895844
+      \endverb
+    \endentry
     \entry{viskari2015modeldata}{article}{}
-      \name{author}{4}{}{%
+      \name{author}{4}{uniquelist=2}{%
         {{hash=7a28100c55d0b143b268b4764bafd44e}{%
            family={Viskari},
            familyi={V\bibinitperiod},
@@ -1701,11 +2752,11 @@
       \list{language}{1}{%
         {en}%
       }
-      \strng{namehash}{60bdedbe5b374cfbd33a1ddae18c56d9}
+      \strng{namehash}{0da5e08cc1374e0317ef14a167857bc4}
       \strng{fullhash}{681ac97d70319489d51099318c520fe2}
-      \strng{bibnamehash}{60bdedbe5b374cfbd33a1ddae18c56d9}
-      \strng{authorbibnamehash}{60bdedbe5b374cfbd33a1ddae18c56d9}
-      \strng{authornamehash}{60bdedbe5b374cfbd33a1ddae18c56d9}
+      \strng{bibnamehash}{0da5e08cc1374e0317ef14a167857bc4}
+      \strng{authorbibnamehash}{0da5e08cc1374e0317ef14a167857bc4}
+      \strng{authornamehash}{0da5e08cc1374e0317ef14a167857bc4}
       \strng{authorfullhash}{681ac97d70319489d51099318c520fe2}
       \field{sortinit}{V}
       \field{sortinithash}{75dd7385c90b2252c3ae853a80ca853b}
@@ -1730,6 +2781,68 @@
       \verb /Users/ashiklom/Zotero/storage/N934JIYS/Viskari et al. - 2015 - Model-data assimilation of multiple phenological o.pdf
       \endverb
       \keyw{data assimilation,Ecosystem Demography model,ED2,leaf-out,Phenology,prediction,senescence,terrestrial ecosystem models,unread}
+    \endentry
+    \entry{viskari_2019_influence}{article}{}
+      \name{author}{4}{uniquelist=2}{%
+        {{hash=7a28100c55d0b143b268b4764bafd44e}{%
+           family={Viskari},
+           familyi={V\bibinitperiod},
+           given={Toni},
+           giveni={T\bibinitperiod}}}%
+        {{hash=704a53e39b75cff660b297311c4b712d}{%
+           family={Shiklomanov},
+           familyi={S\bibinitperiod},
+           given={Alexey},
+           giveni={A\bibinitperiod}}}%
+        {{hash=02cd9d79e14f81de21255b979e19e293}{%
+           family={Dietze},
+           familyi={D\bibinitperiod},
+           given={Michael\bibnamedelima C.},
+           giveni={M\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+        {{hash=5e5d6fb54516acae35e17b887bb5eb02}{%
+           family={Serbin},
+           familyi={S\bibinitperiod},
+           given={Shawn\bibnamedelima P.},
+           giveni={S\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+      }
+      \name{editor}{1}{}{%
+        {{hash=bd113b84f49cb7eade3249730490ab37}{%
+           family={Poulter},
+           familyi={P\bibinitperiod},
+           given={BenjaminEditor},
+           giveni={B\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Public Library of Science (PLoS)}%
+      }
+      \strng{namehash}{7c48a592b38c60f66fd7df19f0639550}
+      \strng{fullhash}{3459900033fd19e6ea36d97cf9062be5}
+      \strng{bibnamehash}{7c48a592b38c60f66fd7df19f0639550}
+      \strng{authorbibnamehash}{7c48a592b38c60f66fd7df19f0639550}
+      \strng{authornamehash}{7c48a592b38c60f66fd7df19f0639550}
+      \strng{authorfullhash}{3459900033fd19e6ea36d97cf9062be5}
+      \strng{editorbibnamehash}{bd113b84f49cb7eade3249730490ab37}
+      \strng{editornamehash}{bd113b84f49cb7eade3249730490ab37}
+      \strng{editorfullhash}{bd113b84f49cb7eade3249730490ab37}
+      \field{sortinit}{V}
+      \field{sortinithash}{75dd7385c90b2252c3ae853a80ca853b}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1932-6203}
+      \field{journaltitle}{PLOS ONE}
+      \field{month}{7}
+      \field{number}{7}
+      \field{title}{The Influence of Canopy Radiation Parameter Uncertainty on Model Projections of Terrestrial Carbon and Energy Cycling}
+      \field{volume}{14}
+      \field{year}{2019}
+      \true{nocite}
+      \field{pages}{e0216512}
+      \range{pages}{-1}
+      \verb{doi}
+      \verb 10.1371/journal.pone.0216512
+      \endverb
     \endentry
     \entry{wang2004evaluation}{article}{}
       \name{author}{11}{}{%
@@ -1815,6 +2928,77 @@
       \range{pages}{14}
       \verb{doi}
       \verb 10.1016/j.rse.2004.02.007
+      \endverb
+    \endentry
+    \entry{weng_2015_scaling}{article}{}
+      \name{author}{8}{}{%
+        {{hash=b6bbe80b8092b14979339f1589e866c4}{%
+           family={Weng},
+           familyi={W\bibinitperiod},
+           given={E.\bibnamedelimi S.},
+           giveni={E\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=8b32bab3b2e1155032e1219aad16e6d4}{%
+           family={Malyshev},
+           familyi={M\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod}}}%
+        {{hash=fcd591abd1aa0b2fde45325d84f08b0c}{%
+           family={Lichstein},
+           familyi={L\bibinitperiod},
+           given={J.\bibnamedelimi W.},
+           giveni={J\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+        {{hash=aa93440197ac9c97e83c10ac4db06007}{%
+           family={Farrior},
+           familyi={F\bibinitperiod},
+           given={C.\bibnamedelimi E.},
+           giveni={C\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+        {{hash=44f1dfa51f2a0eb04d1d6a37fa548fbb}{%
+           family={Dybzinski},
+           familyi={D\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod}}}%
+        {{hash=6987c26bf5f9b6e119893b5d925c7b8c}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={T.},
+           giveni={T\bibinitperiod}}}%
+        {{hash=444b6528b6d759d2847a0bce4a9aa187}{%
+           family={Shevliakova},
+           familyi={S\bibinitperiod},
+           given={E.},
+           giveni={E\bibinitperiod}}}%
+        {{hash=ef9990d0cfd7f25b0442b3827c078b69}{%
+           family={Pacala},
+           familyi={P\bibinitperiod},
+           given={S.\bibnamedelimi W.},
+           giveni={S\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Copernicus GmbH}%
+      }
+      \strng{namehash}{dd364fa139c342afa5acd3660095c1dd}
+      \strng{fullhash}{8aa22cd0253fb01d338b031d24abe404}
+      \strng{bibnamehash}{dd364fa139c342afa5acd3660095c1dd}
+      \strng{authorbibnamehash}{dd364fa139c342afa5acd3660095c1dd}
+      \strng{authornamehash}{dd364fa139c342afa5acd3660095c1dd}
+      \strng{authorfullhash}{8aa22cd0253fb01d338b031d24abe404}
+      \field{sortinit}{W}
+      \field{sortinithash}{ecb89ff85896a47dc313960773ac311d}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1726-4189}
+      \field{journaltitle}{Biogeosciences}
+      \field{month}{5}
+      \field{number}{9}
+      \field{title}{Scaling from Individual Trees to Forests in an {{Earth}} {{System}} {{Modeling}} Framework Using a Mathematically Tractable Model of Height-Structured Competition}
+      \field{volume}{12}
+      \field{year}{2015}
+      \field{pages}{2655\bibrangedash 2694}
+      \range{pages}{40}
+      \verb{doi}
+      \verb 10.5194/bg-12-2655-2015
       \endverb
     \endentry
     \entry{wenzeyang2006modis}{article}{}
@@ -2081,38 +3265,15 @@
       \keyw{0480 Remote sensing,0840 Education: Evaluation and assessment,1640 Remote sensing,3359 Radiative processes,model intercomparison,Radiative transfer,unread,vegetation canopy}
     \endentry
   \enddatalist
-  \missing{Medvigy_2009_ED2}
-  \missing{Moorcroft_2001_ED}
-  \missing{SELLERS_1985_canopy}
-  \missing{Viskari_inreview_ED}
-  \missing{allen_1970_plant}
-  \missing{antonarakis_2014_imaging}
   \missing{asner_1998_biophysical}
-  \missing{combal_2003_retrieval}
   \missing{coyle_2015_laser}
-  \missing{dietze_capturing_2008}
   \missing{eitel_2016_beyond}
-  \missing{fisher_2017_vegetation}
   \missing{hapke_1981_brdf1}
   \missing{hapke_1981_brdf2}
-  \missing{jacquemoud_2009_prosail}
   \missing{jenkins_2003_allom}
   \missing{jenkins_2004_allom}
-  \missing{jetz2016_diversity}
   \missing{kennedy_2014_bringing}
-  \missing{kubelka_munk_1931}
-  \missing{lewis_2007_spectral}
-  \missing{meador_1980_twostream}
-  \missing{pasquarella_2016_imagery}
-  \missing{pinty_2004_synergy}
-  \missing{pinty_2006_simplifying}
-  \missing{schimel2015_observing}
-  \missing{suits_1971_calculation}
-  \missing{verhoef_1984_sail}
-  \missing{verhoef_2007_4sail}
   \missing{verrelst_2010_effects}
-  \missing{weng_2015_ppa}
-  \missing{widlowski_2007_third}
 \endrefsection
 \endinput
 

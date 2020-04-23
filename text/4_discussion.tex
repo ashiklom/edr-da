@@ -2,7 +2,7 @@
 
 The accurate simulation of canopy radiative transfer is key to a number of ecosystem processes, including photosynthesis, soil respiration, and hydrology.
 For its representation of radiative transfer, ED2 uses a modified version of the two-stream model of Sellers (1983) as implemented in the Community Land Model~\parencite{clm45_note} but adapted for multiple canopies.
-My comparison of this model against 4SAIL, a two-stream model with a long history of use in the remote sensing community~\parencite{jacquemoud_2009_prosail}, reveals some important differences in behavior, even independent of its multi-cohort nature.
+My comparison of this model against 4SAIL, a two-stream model with a long history of use in the remote sensing community~\parencite{jacquemoud2009prospect}, reveals some important differences in behavior, even independent of its multi-cohort nature.
 One key limitation is the representation of wood reflectance.
 In EDR, as in the Community Land Model, the backscatter of a layer is the average of leaf and wood reflectance weighted by their respective area indices.
 Although wood is an important scattering element at low LAI, it has widely been shown to have negligible contributions to canopy reflectance in mature dense stands, and where its contribution is significant, it is typically in the near infrared rather than the visible spectral range~\parencite{asner_1998_biophysical,malenovsky_2008_influence,verrelst_2010_effects}.
@@ -18,7 +18,7 @@ Future work could better leverage existing models of soil reflectance~\parencite
 That being said, the effects of different soil background are generally most pronounced at sites with low leaf area and/or high clumping, and should become less important as leaf area increases.
 The fact that EDR continues to monotonically increase its canopy brightness with increasing leaf area despite starting from a relatively bright soil background (Figure~\ref{fig:sensitivity_structure_single}; note that 4SAIL does not show this behavior) points to potential issues with the way EDR handles its boundary conditions.
 Fortunately, alternative efficient representations are available in the literature.
-For example, Pinty et al. (2004, 2006)\nocite{pinty_2004_synergy,pinty_2006_simplifying} define a one-dimensional, turbid-medium radiation scheme that calculates the contribution of soil reflectance separately for direct and diffuse radiation, and which has a more sophisticated treatment of bi-directional reflectance effects, which are currently lacking in EDR.
+For example, Pinty et al. (2004, 2006)\nocite{pinty2004synergy, pinty2006simplifying} define a one-dimensional, turbid-medium radiation scheme that calculates the contribution of soil reflectance separately for direct and diffuse radiation, and which has a more sophisticated treatment of bi-directional reflectance effects, which are currently lacking in EDR.
 Similarly, 4SAIL also offers a more sophisticated treatment of bi-directional reflectance effects.
 
 A key feature of EDR design is its representation of multiple co-existing plant cohorts competing for light within a single patch. 
@@ -26,20 +26,20 @@ As mentioned in the introduction, a previously-identified limitation of represen
 This effect was present in my results as well.
 In a closed canopy (high clumping factor), major changes in the leaf optical properties of lower cohorts had a minimal effect on overall canopy reflectance, and the effect was still muted in a highly clumped canopy (low clumping factor; Figure~\ref{fig:sensitivity_water_multi}).
 This problem may be further exacerbated by the over-prediction of total canopy reflectance discussed above, as this further reduces the absorbed radiation available to all canopies (but especially understory ones) for photosynthesis.
-One solution to this is the use of a finite crown area model~\parencite{dietze_capturing_2008};
+One solution to this is the use of a finite crown area model~\parencite{dietze2008capturing};
 unlike the implementation of canopy clumping discussed in this work, which effectively ``thins'' a layer but still does not provide the understory with any direct radiation, a finite crown area model introduces true gaps into the canopy, which can significantly stimulate understory growth. 
-An example implementation of this concept is the ``perfect plasticity approach''~\parencite{weng_2015_ppa} where trees above a certain height threshold share direct sunlight and compete for a fixed amount of horizontal space within the overstory.
-A useful avenue for development and parameterization of these models is comparison to more sophisticated and realistic three-dimensional representations of radiative transfer~\parencite[e.g.][]{widlowski_2007_third}, which are themselves too computationally demanding to be coupled to ecosystem models, but from which empirical distributions and response functions could be derived and against which the behavior of simpler models could be evaluated.
+An example implementation of this concept is the ``perfect plasticity approach''~\parencite{weng_2015_scaling} where trees above a certain height threshold share direct sunlight and compete for a fixed amount of horizontal space within the overstory.
+A useful avenue for development and parameterization of these models is comparison to more sophisticated and realistic three-dimensional representations of radiative transfer~\parencite[e.g.][]{widlowski2007third}, which are themselves too computationally demanding to be coupled to ecosystem models, but from which empirical distributions and response functions could be derived and against which the behavior of simpler models could be evaluated.
 
-A significant body of remote sensing literature argues that the inversion of coupled leaf-canopy radiative transfer models is ill-posed because of the collinearity of structure and biochemistry effects on canopy reflectance~\parencite[e.g.][]{combal_2003_retrieval,lewis_2007_spectral}.
+A significant body of remote sensing literature argues that the inversion of coupled leaf-canopy radiative transfer models is ill-posed because of the collinearity of structure and biochemistry effects on canopy reflectance~\parencite[e.g.][]{combal2003retrieval, lewis2007spectral}.
 Even with tight prior constraint on leaf optical properties from a large meta-analysis, I saw evidence of significant trade-offs between parameters.
 In particular, in this analysis, three parameters influenced canopy reflectance in virtually identical ways through modulating the (effective) leaf area index:
 specific leaf area, leaf biomass allometry, and clumping factor.
 This collinearity resulted in frequent mismatches between observed and modeled leaf area index despite high accuracy in modeled reflectance spectra (Figures~\ref{fig:lai_profile} and~\ref{fig:spec_error_all}).
 Additional measurements of poorly constrained but highly influential structural parameters should help alleviate this problem.
-Fortunately, these structural metrics are often effectively retrieved from LiDAR observations from terrestrial~\parencite{eitel_2016_beyond}, airborne~\cite{antonarakis_2014_imaging}, and satellite platforms~\cite{coyle_2015_laser}.
+Fortunately, these structural metrics are often effectively retrieved from LiDAR observations from terrestrial~\parencite{eitel_2016_beyond}, airborne~\cite{antonarakis2014imaging}, and satellite platforms~\cite{coyle_2015_laser}.
 
 Finally, despite many challenges related to canopy radiative transfer modeling, surface reflectance is nevertheless a promising approach for benchmarking and performing data assimilation on ecosystem model outputs.
-Remote sensing observations are unrivaled in their spatial completeness and extent, notably extending to regions like the tropics and high latitudes that are relatively undersampled but have a disproportionate impact on the global climate system~\parencite{schimel2015_observing} and/or global biodiversity~\cite{jetz2016_diversity}.
-At the same time, satellite time series provide multi-decadal records with relatively high temporal frequency, which have tremendous utility for calibrating model projections of past ecological dynamics~\parencite{kennedy_2014_bringing,pasquarella_2016_imagery}.
+Remote sensing observations are unrivaled in their spatial completeness and extent, notably extending to regions like the tropics and high latitudes that are relatively undersampled but have a disproportionate impact on the global climate system~\parencite{schimel2015observing} and/or global biodiversity~\cite{jetz_2016_monitoring}.
+At the same time, satellite time series provide multi-decadal records with relatively high temporal frequency, which have tremendous utility for calibrating model projections of past ecological dynamics~\parencite{kennedy_2014_bringing, pasquarella2016imagery}.
 Used in combination with other emerging data sources, including global trait databases and eddy covariance measurements, remote sensing can be a transformative force in ecosystem ecology.
