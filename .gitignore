@@ -85,9 +85,3 @@ msp_figures
 
 # LaTeX files
 *.auctex-auto
-*.aux
-*.bcf
-*.blg
-*.fdb_latexmk
-*.fls
-*.run.xml
