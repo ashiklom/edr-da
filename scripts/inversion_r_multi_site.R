@@ -48,6 +48,7 @@ psamps <- check_prior(prior, error = TRUE)
 
 # Define likelihood
 likelihood <- function(params) {
+  ## params <- psamps[1,]
   ll <- 0
   npft_param <- 10  # Number of PFT-specific parameters
   has_names <- !is.null(names(params))

@@ -1,7 +1,7 @@
 #!/usr/bin/env Rscript
 
 ## Priors
-import::from("magrittr", "%>%")
+library("magrittr", include.only = "%>%")
 
 load("priors/mvtraits_priors.RData")
 pfts <- rownames(means)
