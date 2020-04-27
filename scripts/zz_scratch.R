@@ -1,0 +1,102 @@
+samples <- BayesianTools::getSample(
+  samples_bt,
+  ## thin = "auto",
+  ## start = 10000,
+  coda = TRUE
+)
+
+# Gelman diagnostic
+block_size <- 10000
+block_step <- 5000
+nsamples <- nrow(samples[[1]])
+nblocks <- (samples)
+gd <- list()
+gw <- list()
+
+iblock <- 0
+done <- FALSE
+while (!done) {
+  iblock <- iblock + 1
+  message("Block ", iblock)
+  block_start <- 1 + (iblock - 1) * block_step
+  block_end <- block_start + (block_size - 1)
+  if (block_end > nsamples) {
+    block_end <- nsamples
+    done <- TRUE
+    message("Last one!")
+  }
+  s_sub <- window(samples, block_start, block_end)
+  tag <- paste(block_start, block_end, sep = ":")
+  gd[[tag]] <- coda::gelman.diag(s_sub, autoburnin = FALSE, multivariate = FALSE)$psrf[,1]
+  gw[[tag]] <- coda::geweke.diag(s_sub)
+}
+
+coda::gelman.diag(samples)
+
+s_sub <- window(samples, start = 5000)
+coda::gelman.diag(s_sub, autoburnin = FALSE)
+plot(s_sub[,1])
+
+plot(samples[,1])
+
+plot(purrr::map_dbl(gd, "par 1"), type = 'l')
+
+pnorm(gw[[17]][[1]]$z) > 0.05
+plot(s_sub[,"par 13"])
+
+
+zzz <- coda::as.mcmc(rnorm(5000))
+coda::geweke.diag(zzz)
+plot(zzz)
+
+
+##################################################
+zzz <- rnorm(10)
+
+# Convert to CDF -- 0-1
+zzz_p <- pnorm(zzz)
+
+# Transform to target distribution
+devtools::load_all()
+mvtnorm::qmvnorm(0.1, mean = prospect_means[1,], sigma = prospect_covars[,,1])
+
+##################################################
+sites <- readLines(here::here("other_site_data", "site_list"))
+site_structure <- readr::read_csv("other_site_data/site_structure.csv") %>%
+  dplyr::mutate(site_tag = paste0("sitesoil_", dplyr::row_number()))
+
+site_posterior <- tidy_posteriors %>%
+  dplyr::filter(grepl("sitesoil", variable))
+
+site_posterior_summary <- site_posterior %>%
+  dplyr::group_by(variable) %>%
+  dplyr::summarize(Mean = mean(value), SD = sd(value)) %>%
+  dplyr::ungroup()
+
+site_data <- site_structure %>%
+  dplyr::inner_join(site_posterior_summary, c("site_tag" = "variable")) %>%
+  sf::st_as_sf(coords = c("longitude", "latitude"), crs = 4326)
+
+basemap <- rnaturalearth::ne_states() %>%
+  sf::st_as_sf()
+
+basemap_sub <- basemap %>%
+  sf::st_crop(sf::st_buffer(sf::st_as_sfc(sf::st_bbox(site_data)), 2))
+ggplot(site_data) +
+  geom_sf(data = basemap_sub) +
+  geom_sf(aes(color = Mean), size = 4, pch = "x") +
+  scale_color_viridis_c() +
+  theme_bw()
+
+clrs <- c("prior" = "gray70", "posterior" = "black")
+ggplot(dplyr::filter(tidy_posteriors, grepl("sitesoil", variable))) +
+  aes(x = variable, y = value,
+      fill = type, color = type) +
+  geom_violin(position = position_identity()) +
+  scale_color_manual(values = clrs, aesthetics = c("color", "fill")) +
+  theme_bw() +
+  theme(
+    axis.text.x = element_text(angle = 90, vjust = 0.5),
+    axis.title.x = element_blank(),
+    axis.title.y = element_blank()
+  )
