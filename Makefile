@@ -1,7 +1,12 @@
-.PHONY: all clean
+.PHONY: all clean drake pdf
 
-all:
+all: pdf
+
+pdf: drake
 	cd text && make
+
+drake:
+	Rscript -e "drake::r_make()"
 
 clean:
 	cd text && make clean

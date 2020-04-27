@@ -85,3 +85,6 @@ msp_figures
 
 # LaTeX files
 *.auctex-auto
+
+# Drake files
+/.drake/

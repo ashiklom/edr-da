@@ -12,3 +12,6 @@ tmp/
 
 # Use the bbl file instead
 library.bib
+
+# Don't store compiled figures
+figures/
