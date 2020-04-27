@@ -1,5 +1,79 @@
 \section{Results}
 
+\subsection{Model calibration}
+
+\begin{figure}
+  \centering
+  \includegraphics{figures/pda-summary-pft}
+  \caption{\
+    Marginal prior (pre-calibration; grey) and posterior (post-calibration; black) distributions of PFT-specific parameters
+    related to leaf biochemistry and canopy structure.
+    Distributions are shown as violin plots (rotated and mirrored kernel density plots).
+  }\label{fig:pda_posteriors}
+\end{figure}
+
+Model calibration substantially improved the precision of all parameter estimates for all PFTs, even when prior distributions were strongly informative (Figure~\ref{fig:pda_posteriors}).
+
+% In most cases, the posterior distribution fell within the prior, but there were a few notable exceptions.
+Specifically, northern pines had significantly higher calibration estimates of chlorophyll content and leaf mass per area and significantly lower estimates of the orientation factor (though the prior on the latter was not based on data).
+Late hardwoods also had orientation factor estimates much lower than the prior, and also had significantly lower estimates of leaf mesophyll structure.
+
+% \begin{figure}
+%   \centering
+%   \includegraphics[width=\textwidth]{4_edr/figures/explore_spectra/errors_all.pdf}
+%   \caption{%
+%     Comparison between AVIRIS observations (black), posterior credible intervals on EDR predicted spectra (green), and posterior mean predictions using 4SAIL (red, dashed) for each site used in the calibration.
+%   }\label{fig:spec_error_all}
+% \end{figure}
+
+% \begin{figure}
+%   \centering
+%   \includegraphics[width=\textwidth]{4_edr/figures/explore_spectra/errors_vis.pdf}
+%   \caption{%
+%     Same as Figure~\ref{fig:spec_error_all}, but zoomed into the visible ($<$750 nm) spectral region.
+%   }\label{fig:spec_error_vis}
+% \end{figure}
+
+The ability of EDR to reproduce observed spectra at every site was strongly site-dependent (Figure~\ref{fig:spec_error_all}).
+At a majority of the sites, EDR systematically over-predicted reflectance in the visible range (Figure~\ref{fig:spec_error_vis}), while errors in the near-infrared region were more variable.
+As shown in the sensitivity analysis, this consistent over-prediction of visible reflectance is likely driven by wood reflectance (Figure~\ref{fig:wood_compare}).
+4SAIL also showed a lot of site-to-site variability in its performance, but generally performed better in the visible range than EDR\@.
+
+% \begin{figure}
+%   \centering
+%   \includegraphics[width=\textwidth]{4_edr/figures/explore_spectra/lai_scatter.pdf}
+%   \caption{\
+%     Predictions of leaf area index by EDR, compared to observed values.
+%     Colors indicate the plant functional type of the tallest cohort at each site.
+%     % TODO: Add by-PFT regression line
+%   }\label{fig:lai_validation}
+% \end{figure}
+
+The ability of EDR to reproduce observed leaf area index was also strongly site-dependent, with some of the accuracy explained by the functional type of the tallest cohort (Figure~\ref{fig:lai_validation}).
+In general, EDR tended to over-predict leaf area index for conifer-dominated stands and under-predict for hardwood-dominated stands.
+For mid- and late-hardwood-dominated stands in particular, EDR predicted substantial variability in leaf area index that was not present in the observations.
+
+% \begin{figure}
+%   \centering
+%   \includegraphics[width=\textwidth]{4_edr/figures/explore_spectra/ed_cumlai_plot.pdf}
+%   \caption{%
+%     Vertical profile of cumulative leaf area index and composition at each site in this analysis.
+%     Vertical black lines indicate the mean $\pm$ 1 standard deviation of the observed leaf area index.
+%     Sites are arranged in the same order as Figures~\ref{fig:spec_error_all} and~\ref{fig:spec_error_vis}.
+%   }\label{fig:lai_profile}
+% \end{figure}
+
+Mismatch between EDR predictions and AVIRIS reflectance were likely caused by a number of factors related to site composition and structure (Figures~\ref{fig:spec_error_vis} and~\ref{fig:lai_profile}).
+In some sites, the mismatch was most likely due to a mismatch in leaf area index, such as BI02, BI03, and MN06.
+Notably, at BI02 and BI03 (and several other sites), EDR and 4SAIL show opposite biases---EDR over-predicts visible reflectance but successfully captures the near-infrared reflectance, while 4SAIL does the opposite (Figure~\ref{fig:spec_error_all}).
+This can be linked to the two models' different responses to leaf area index revealed in the sensitivity analysis (Figure~\ref{fig:sensitivity_structure_single}).
+
+Where late hardwood trees were relatively abundant near the top of the canopy (Figure~\ref{fig:lai_profile}), EDR often over-predicted reflectance in the red (sites BH03, BH05, BH10, and BI01; Figure~\ref{fig:spec_error_vis}) even though the LAI retrieval was reasonably accurate.
+This was likely related to the low inversion estimate of late hardwood clumping factor (Figure~\ref{fig:pda_posteriors}), which tends to emphasize the much redder wood and soil background (Figure~\ref{fig:sensitivity_structure_single}).
+However, some other late hardwood-dominated sites showed good performance for both spectra and leaf area index, such as NC17, NC22, and OF04 (Figure~\ref{fig:spec_error_all}).
+Similarly, the high clumping factor estimate for late conifer trees (Figure~\ref{fig:pda_posteriors}) was compensated over-predicted leaf area index (driven by increases in the leaf biomass allometry coefficient; Figure~\ref{fig:lai_validation}), as in sites OF01, SF01, and SF04.
+More generally, EDR tended to perform best in mature stands comfortably dominated by early or mid hardwoods or northern pines.
+
 \subsection{Sensitivity analysis}
 
 % \begin{figure}
@@ -68,75 +142,3 @@ A significant part of this bias can be explained by the inclusion of wood reflec
 
 EDR canopy reflectance is highly sensitive to the properties of the tallest cohort, and shows virtually no sensitivity to the optical properties of lower cohorts (Figure~\ref{fig:sensitivity_water_multi}).
 Clumping (or reduced LAI) allow more light to penetrate the canopy and therefore increases the sensitivity of canopy reflectance to the properties of lower layers, but this sensitivity is effect is still significantly muted compared to the top canopy.
-
-
-\subsection{Model calibration}
-
-% \begin{figure}
-%   \centering
-%   \includegraphics[width=\textwidth]{4_edr/figures/explore_spectra/pda_summary.pdf}
-%   \caption{\
-%     Summary statistics for model calibration parameter prior and posterior distributions.
-%   }\label{fig:pda_posteriors}
-% \end{figure}
-
-Model calibration substantially improved the precision of almost all parameter estimates, even when prior distributions were strongly informative (Figure~\ref{fig:pda_posteriors}).
-In most cases, the posterior distribution fell within the prior, but there were a few notable exceptions.
-Specifically, northern pines had significantly higher calibration estimates of chlorophyll content and leaf mass per area and significantly lower estimates of the orientation factor (though the prior on the latter was not based on data).
-Late hardwoods also had orientation factor estimates much lower than the prior, and also had significantly lower estimates of leaf mesophyll structure.
-
-% \begin{figure}
-%   \centering
-%   \includegraphics[width=\textwidth]{4_edr/figures/explore_spectra/errors_all.pdf}
-%   \caption{%
-%     Comparison between AVIRIS observations (black), posterior credible intervals on EDR predicted spectra (green), and posterior mean predictions using 4SAIL (red, dashed) for each site used in the calibration.
-%   }\label{fig:spec_error_all}
-% \end{figure}
-
-% \begin{figure}
-%   \centering
-%   \includegraphics[width=\textwidth]{4_edr/figures/explore_spectra/errors_vis.pdf}
-%   \caption{%
-%     Same as Figure~\ref{fig:spec_error_all}, but zoomed into the visible ($<$750 nm) spectral region.
-%   }\label{fig:spec_error_vis}
-% \end{figure}
-
-The ability of EDR to reproduce observed spectra at every site was strongly site-dependent (Figure~\ref{fig:spec_error_all}).
-At a majority of the sites, EDR systematically over-predicted reflectance in the visible range (Figure~\ref{fig:spec_error_vis}), while errors in the near-infrared region were more variable.
-As shown in the sensitivity analysis, this consistent over-prediction of visible reflectance is likely driven by wood reflectance (Figure~\ref{fig:wood_compare}).
-4SAIL also showed a lot of site-to-site variability in its performance, but generally performed better in the visible range than EDR\@.
-
-% \begin{figure}
-%   \centering
-%   \includegraphics[width=\textwidth]{4_edr/figures/explore_spectra/lai_scatter.pdf}
-%   \caption{\
-%     Predictions of leaf area index by EDR, compared to observed values.
-%     Colors indicate the plant functional type of the tallest cohort at each site.
-%     % TODO: Add by-PFT regression line
-%   }\label{fig:lai_validation}
-% \end{figure}
-
-The ability of EDR to reproduce observed leaf area index was also strongly site-dependent, with some of the accuracy explained by the functional type of the tallest cohort (Figure~\ref{fig:lai_validation}).
-In general, EDR tended to over-predict leaf area index for conifer-dominated stands and under-predict for hardwood-dominated stands.
-For mid- and late-hardwood-dominated stands in particular, EDR predicted substantial variability in leaf area index that was not present in the observations.
-
-% \begin{figure}
-%   \centering
-%   \includegraphics[width=\textwidth]{4_edr/figures/explore_spectra/ed_cumlai_plot.pdf}
-%   \caption{%
-%     Vertical profile of cumulative leaf area index and composition at each site in this analysis.
-%     Vertical black lines indicate the mean $\pm$ 1 standard deviation of the observed leaf area index.
-%     Sites are arranged in the same order as Figures~\ref{fig:spec_error_all} and~\ref{fig:spec_error_vis}.
-%   }\label{fig:lai_profile}
-% \end{figure}
-
-Mismatch between EDR predictions and AVIRIS reflectance were likely caused by a number of factors related to site composition and structure (Figures~\ref{fig:spec_error_vis} and~\ref{fig:lai_profile}).
-In some sites, the mismatch was most likely due to a mismatch in leaf area index, such as BI02, BI03, and MN06.
-Notably, at BI02 and BI03 (and several other sites), EDR and 4SAIL show opposite biases---EDR over-predicts visible reflectance but successfully captures the near-infrared reflectance, while 4SAIL does the opposite (Figure~\ref{fig:spec_error_all}).
-This can be linked to the two models' different responses to leaf area index revealed in the sensitivity analysis (Figure~\ref{fig:sensitivity_structure_single}).
-
-Where late hardwood trees were relatively abundant near the top of the canopy (Figure~\ref{fig:lai_profile}), EDR often over-predicted reflectance in the red (sites BH03, BH05, BH10, and BI01; Figure~\ref{fig:spec_error_vis}) even though the LAI retrieval was reasonably accurate.
-This was likely related to the low inversion estimate of late hardwood clumping factor (Figure~\ref{fig:pda_posteriors}), which tends to emphasize the much redder wood and soil background (Figure~\ref{fig:sensitivity_structure_single}).
-However, some other late hardwood-dominated sites showed good performance for both spectra and leaf area index, such as NC17, NC22, and OF04 (Figure~\ref{fig:spec_error_all}).
-Similarly, the high clumping factor estimate for late conifer trees (Figure~\ref{fig:pda_posteriors}) was compensated over-predicted leaf area index (driven by increases in the leaf biomass allometry coefficient; Figure~\ref{fig:lai_validation}), as in sites OF01, SF01, and SF04.
-More generally, EDR tended to perform best in mature stands comfortably dominated by early or mid hardwoods or northern pines.
