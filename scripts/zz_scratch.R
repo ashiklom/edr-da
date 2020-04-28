@@ -116,3 +116,5 @@ ggplot(dplyr::filter(tidy_posteriors, grepl("sitesoil", variable))) +
     axis.title.x = element_blank(),
     axis.title.y = element_blank()
   )
+
+##################################################
