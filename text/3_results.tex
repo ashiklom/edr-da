@@ -4,15 +4,15 @@
 
 \begin{figure}
   \centering
-  \includegraphics{figures/pda-summary-pft}
-  \caption{\
+  \includegraphics{figures/posterior-pft}
+  \caption{\label{fig:posterior-pft}\
     Marginal prior (pre-calibration; grey) and posterior (post-calibration; black) distributions of PFT-specific parameters
     related to leaf biochemistry and canopy structure.
     Distributions are shown as violin plots (rotated and mirrored kernel density plots).
-  }\label{fig:pda_posteriors}
+  }
 \end{figure}
 
-Model calibration substantially improved the precision of all parameter estimates for all PFTs, even when prior distributions were strongly informative (Figure~\ref{fig:pda_posteriors}).
+Model calibration substantially improved the precision of all parameter estimates for all PFTs, even when prior distributions were strongly informative (Figure~\ref{fig:posterior-pft}).
 Calibrated parameters were different across different PFTs, with the largest differences in leaf traits.
 Specifically, hardwood PFTs had higher pigment concentrations (\emph{Cab} and \emph{Car}) and thinner leaves (higher SLA, lower \emph{Cm} and \emph{N}) than conifer PFTs.
 Among the hardwood PFTs, pigment concentrations declined with later successional status, but the pattern in leaf mechanical traits was more idiosyncratic, with Mid-successional hardwoods having lower SLA, lower \emph{N}, and higher \emph{Cm} than Early or Late successional hardwoods.
@@ -22,6 +22,21 @@ Mid hardwood had the highest leaf biomass allometry coefficient, followed by Pin
 Wood allometry coefficients were estimated to be around zero for all PFTs except Northern Pine.
 All PFTs were estimated to have strongly clumped canopies (clumping factor $< 0.5$), with the least clumped (highest clumping factor) canopy for Late conifer and the must clumped canopy for Late hardwood.
 Leaf orientation factors were around $\sim 0.25 - 0.3$ (leaves distributed somewhat more horizontally than randomly) for all PFTs except Early hardwood, where the estimate was much higher ($\sim 0.6$; more horizontally distributed leaves).
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\textwidth]{figures/posterior-soil}
+  \caption{\label{fig:posterior-soil}\
+    Site-specific relative soil moisture (0 = dry, 1 = wet) posterior estimates.
+    Sites are sorted in order of increasing weighted evergreen fraction.
+  }
+\end{figure}
+
+Calibration also provided information on site soil optical properties (Figure~\ref{fig:posterior-soil}).
+Relative soil moisture estimates varied across the entire range of possible values (0 to 1) across different sites, but most sites exhibited values between 0.25 and 0.75.
+On average, evergreen-dominated sites had slightly drier soils than hardwood-dominated sites
+(mean soil moisture estimate was 0.51 for evergreen fraction $< 0.5$ vs. 0.45 for evergreen fraction $\geq 0.5$),
+but variability among both evergreen- and hardwood-dominated sites was large.
 
 % \begin{figure}
 %   \centering
@@ -74,9 +89,9 @@ Notably, at BI02 and BI03 (and several other sites), EDR and 4SAIL show opposite
 This can be linked to the two models' different responses to leaf area index revealed in the sensitivity analysis (Figure~\ref{fig:sensitivity_structure_single}).
 
 Where late hardwood trees were relatively abundant near the top of the canopy (Figure~\ref{fig:lai_profile}), EDR often over-predicted reflectance in the red (sites BH03, BH05, BH10, and BI01; Figure~\ref{fig:spec_error_vis}) even though the LAI retrieval was reasonably accurate.
-This was likely related to the low inversion estimate of late hardwood clumping factor (Figure~\ref{fig:pda_posteriors}), which tends to emphasize the much redder wood and soil background (Figure~\ref{fig:sensitivity_structure_single}).
+This was likely related to the low inversion estimate of late hardwood clumping factor (Figure~\ref{fig:posterior-pft}), which tends to emphasize the much redder wood and soil background (Figure~\ref{fig:sensitivity_structure_single}).
 However, some other late hardwood-dominated sites showed good performance for both spectra and leaf area index, such as NC17, NC22, and OF04 (Figure~\ref{fig:spec_error_all}).
-Similarly, the high clumping factor estimate for late conifer trees (Figure~\ref{fig:pda_posteriors}) was compensated over-predicted leaf area index (driven by increases in the leaf biomass allometry coefficient; Figure~\ref{fig:lai_validation}), as in sites OF01, SF01, and SF04.
+Similarly, the high clumping factor estimate for late conifer trees (Figure~\ref{fig:posterior-pft}) was compensated over-predicted leaf area index (driven by increases in the leaf biomass allometry coefficient; Figure~\ref{fig:lai_validation}), as in sites OF01, SF01, and SF04.
 More generally, EDR tended to perform best in mature stands comfortably dominated by early or mid hardwoods or northern pines.
 
 \subsection{Sensitivity analysis}

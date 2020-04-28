@@ -3,5 +3,7 @@ library(magrittr)
 library(fs)
 library(ggplot2)
 library(here)
+library(readr)
+library(dplyr)
 
 pkgload::load_all(".", attach_testthat = FALSE)

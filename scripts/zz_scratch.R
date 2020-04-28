@@ -65,17 +65,33 @@ sites <- readLines(here::here("other_site_data", "site_list"))
 site_structure <- readr::read_csv("other_site_data/site_structure.csv") %>%
   dplyr::mutate(site_tag = paste0("sitesoil_", dplyr::row_number()))
 
-site_posterior <- tidy_posteriors %>%
-  dplyr::filter(grepl("sitesoil", variable))
 
 site_posterior_summary <- site_posterior %>%
   dplyr::group_by(variable) %>%
-  dplyr::summarize(Mean = mean(value), SD = sd(value)) %>%
+  dplyr::summarize(
+    Mean = mean(value),
+    SD = sd(value),
+    lo = quantile(value, 0.025),
+    hi = quantile(value, 0.975)
+  ) %>%
   dplyr::ungroup()
 
 site_data <- site_structure %>%
   dplyr::inner_join(site_posterior_summary, c("site_tag" = "variable")) %>%
   sf::st_as_sf(coords = c("longitude", "latitude"), crs = 4326)
+
+ggplot(site_data) +
+  aes(x = tot_dens, y = Mean, ymin = lo, ymax = hi,
+      color = frac_evergreen_wtd) +
+  geom_pointrange() +
+  scale_color_viridis_c() +
+  labs(x = "Stand density", y = "Relative soil moisture (0 - 1)",
+       color = "Weighted evergreen fraction") +
+  guides(color = guide_colorbar(title.position = "top", direction = "horizontal")) +
+  theme_bw() +
+  theme(legend.position = c(0.95, 0.99),
+        legend.justification = c(1, 1),
+        legend.background = element_blank())
 
 basemap <- rnaturalearth::ne_states() %>%
   sf::st_as_sf()

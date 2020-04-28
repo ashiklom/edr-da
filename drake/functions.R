@@ -63,23 +63,27 @@ pft_posterior_plot <- function(tidy_priors, tidy_posteriors) {
     )
 }
 
-soil_posterior_plot <- function(tidy_priors, tidy_posteriors) {
-  clrs <- c("prior" = "gray70", "posterior" = "black")
-  ggplot() +
-    aes(x = forcats::fct_inorder(pft), y = value,
-        fill = type, color = type) +
-    geom_violin(data = tidy_prior_sub) +
-    geom_violin(data = dplyr::filter(tidy_posteriors, !is.na(pft))) +
-    facet_wrap(
-      vars(forcats::fct_inorder(variable)),
-      scales = "free_y",
-      ncol = 2
+soil_moisture_plot <- function(tidy_posteriors, site_structure) {
+  site_posterior <- tidy_posteriors %>%
+    dplyr::filter(grepl("sitesoil", variable)) %>%
+    dplyr::inner_join(site_structure, c("variable" = "site_tag"))
+
+  ggplot(site_posterior) +
+    aes(x = forcats::fct_reorder(site_name, frac_evergreen_wtd), y = value,
+        fill = frac_evergreen_wtd, color = frac_evergreen_wtd) +
+    geom_violin() +
+    scale_color_viridis_c(
+      aesthetics = c("color", "fill"),
+      guide = guide_colorbar(title = "Weighted evergreen fraction",
+                             direction = "horizontal",
+                             title.position = "top")
     ) +
-    scale_color_manual(values = clrs, aesthetics = c("color", "fill")) +
+    labs(x = "Site code", y = "Soil moisture fraction (0 - 1)") +
     theme_bw() +
     theme(
       axis.text.x = element_text(angle = 90, vjust = 0.5),
-      axis.title.x = element_blank(),
-      axis.title.y = element_blank()
+      legend.position = c(0.98, 1),
+      legend.justification = c(1, 1),
+      legend.background = element_blank()
     )
 }
