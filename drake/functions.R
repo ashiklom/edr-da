@@ -1,5 +1,3 @@
-fs::dir_create(here::here("text", "figures"))
-
 last_result_file <- function() {
   info <- fs::dir_info(
     "multi_site_pda_results",
