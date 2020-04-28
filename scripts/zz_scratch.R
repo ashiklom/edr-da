@@ -118,3 +118,32 @@ ggplot(dplyr::filter(tidy_posteriors, grepl("sitesoil", variable))) +
   )
 
 ##################################################
+ggplot(site_lai_summary) +
+  aes(x = elai_mean, y = hite, color = pft) +
+  geom_segment(aes(yend = hite, xend = 0)) +
+  geom_point() +
+  facet_wrap(vars(site), scales = "free")
+
+site_lai_summary %>%
+  filter(site %in% bad_sites) %>%
+  ggplot() +
+  aes(x = elai_mean, y = hite, color = pft) +
+  geom_segment(aes(yend = hite, xend = 0)) +
+  geom_point() +
+  facet_wrap(vars(site), scales = "free")
+
+site_lai_summary
+
+##################################################
+bad_sites <- site_lai_total %>%
+  filter(elai_mean > 10) %>%
+  pull(site)
+
+inner_join(site_lai_total, lai_observed, "site") %>%
+  filter(!site %in% bad_sites) %>%
+  ggplot() +
+  aes(x = lai_mean, y = obs_LAI,
+      xmin = lai_lo, xmax = lai_hi) +
+  geom_pointrange() +
+  geom_abline(linetype = "dashed") +
+  coord_equal()
