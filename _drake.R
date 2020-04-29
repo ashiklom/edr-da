@@ -5,4 +5,12 @@ source("drake/globals.R")
 source("drake/functions.R")
 source("drake/plan.R")
 
-drake_config(plan)
+requireNamespace("future", quietly = TRUE)
+
+future::plan("multiprocess")
+
+drake_config(
+  plan,
+  parallelism = "future",
+  jobs = 6
+)
