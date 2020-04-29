@@ -325,14 +325,16 @@ predict_site_spectra <- function(params_matrix, site,
                                  dedup = FALSE,
                                  progress = FALSE) {
   site_list <- readLines("other_site_data/site_list")
-  stopifnot(site %in% site_list)
+  if (!site %in% site_list) {
+    stop("Site ", site, " is not in site_list")
+  }
   site_css_file <- list.files(
     file.path("sites", site),
     "\\.css$",
     full.names = TRUE
   ) %>% head(1)
   stopifnot(length(site_css_file) > 0, file.exists(site_css_file))
-  site_data <- PEcAn.ED2::read_css(site_css_file)
+  site_data <- read.table(site_css_file, header = TRUE)
   isite <- which(site == site_list)
 
   params_filtered_all <- filter_samples(params_matrix, dedup = dedup)
