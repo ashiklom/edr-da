@@ -160,4 +160,42 @@ summarize_lai_samples <- function(site_lai_samples) {
     ) %>%
     dplyr::ungroup()
 }
+
+tidy_site_spec <- function(site) {
+  rawobs <- load_observations(site)
+  colnames(rawobs) <- as.character(seq_len(NCOL(rawobs)))
+  dfobs <- as.data.frame(rawobs, row.names = PEcAnRTM::wavelengths(rawobs))
+  tibble::as_tibble(dfobs, rownames = "wavelength") %>%
+    dplyr::mutate(wavelength = as.numeric(wavelength)) %>%
+    tidyr::pivot_longer(-wavelength, names_to = "iobs", values_to = "observed")
+}
+
+spec_error_all_f <- function(observed_predicted) {
+  # Sort sites by aggregate bias
+  plot_dat <- observed_predicted %>%
+    group_by(site) %>%
+    mutate(site_mean_bias = mean(bias)) %>%
+    ungroup() %>%
+    mutate(site_f = forcats::fct_reorder(site, site_mean_bias))
+  ggplot(plot_dat) +
+    aes(x = wavelength) +
+    geom_ribbon(aes(ymin = pmax(albedo_r_q025, 0), ymax = albedo_r_q975),
+                fill = "gray70") +
+    ## geom_ribbon(aes(ymin = pmax(albedo_q025, 0), ymax = albedo_q975),
+    ##             fill = "gray50") +
+    geom_line(aes(y = observed, group = iobs)) +
+    facet_wrap(vars(site_f), scales = "fixed", ncol = 6) +
+    labs(x = "Wavelength (nm)", y = "Reflectance (0 - 1)") +
+    theme_bw()
+  # TODO Facet text inside plots --- use `geom_text`
+}
+
+spec_error_aggregate_f <- function(observed_predicted) {
+  ggplot(observed_predicted) +
+    aes(x = wavelength, y = bias, group = interaction(iobs, site)) +
+    geom_line(alpha = 0.2) +
+    geom_hline(yintercept = 0, color = "red") +
+    labs(x = "Wavelength (nm)",
+         y = expression("Predicted (mean)" - "observed reflectance")) +
+    theme_bw()
 }

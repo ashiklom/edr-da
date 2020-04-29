@@ -4,7 +4,7 @@
 
 \begin{figure}
   \centering
-  \includegraphics{figures/posterior-pft}
+  \includegraphics[width=\textwidth]{figures/posterior-pft}
   \caption{\label{fig:posterior-pft}\
     Marginal prior (pre-calibration; grey) and posterior (post-calibration; black) distributions of PFT-specific parameters
     related to leaf biochemistry and canopy structure.
@@ -38,26 +38,29 @@ On average, evergreen-dominated sites had slightly drier soils than hardwood-dom
 (mean soil moisture estimate was 0.51 for evergreen fraction $< 0.5$ vs. 0.45 for evergreen fraction $\geq 0.5$),
 but variability among both evergreen- and hardwood-dominated sites was large.
 
-% \begin{figure}
-%   \centering
-%   \includegraphics[width=\textwidth]{4_edr/figures/explore_spectra/errors_all.pdf}
-%   \caption{%
-%     Comparison between AVIRIS observations (black), posterior credible intervals on EDR predicted spectra (green), and posterior mean predictions using 4SAIL (red, dashed) for each site used in the calibration.
-%   }\label{fig:spec_error_all}
-% \end{figure}
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{figures/spec-error-all}
+  \caption{\label{fig:spec-error-all}\
+    Comparison between AVIRIS observed (black)
+    and EDR predicted (gray; 95\% posterior predictive interval)
+    surface reflectance for each site used in the calibration.
+  }
+\end{figure}
 
-% \begin{figure}
-%   \centering
-%   \includegraphics[width=\textwidth]{4_edr/figures/explore_spectra/errors_vis.pdf}
-%   \caption{%
-%     Same as Figure~\ref{fig:spec_error_all}, but zoomed into the visible ($<$750 nm) spectral region.
-%   }\label{fig:spec_error_vis}
-% \end{figure}
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{figures/spec-error-aggregate}
+  \caption{\label{fig:spec_error_vis}\
+    Difference between AVIRIS observed and EDR predicted (mean) site surface reflectance.
+    One line per site and observation is shown (some sites had multiple observations).
+  }
+\end{figure}
 
-The ability of EDR to reproduce observed spectra at every site was strongly site-dependent (Figure~\ref{fig:spec_error_all}).
-At a majority of the sites, EDR systematically over-predicted reflectance in the visible range (Figure~\ref{fig:spec_error_vis}), while errors in the near-infrared region were more variable.
-As shown in the sensitivity analysis, this consistent over-prediction of visible reflectance is likely driven by wood reflectance (Figure~\ref{fig:wood_compare}).
-4SAIL also showed a lot of site-to-site variability in its performance, but generally performed better in the visible range than EDR\@.
+% The ability of EDR to reproduce observed spectra at every site was strongly site-dependent (Figure~\ref{fig:spec-error-all}).
+% At a majority of the sites, EDR systematically over-predicted reflectance in the visible range (Figure~\ref{fig:spec_error_vis}), while errors in the near-infrared region were more variable.
+% As shown in the sensitivity analysis, this consistent over-prediction of visible reflectance is likely driven by wood reflectance (Figure~\ref{fig:wood_compare}).
+% 4SAIL also showed a lot of site-to-site variability in its performance, but generally performed better in the visible range than EDR\@.
 
 % \begin{figure}
 %   \centering

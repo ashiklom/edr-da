@@ -147,3 +147,60 @@ inner_join(site_lai_total, lai_observed, "site") %>%
   geom_pointrange() +
   geom_abline(linetype = "dashed") +
   coord_equal()
+
+##################################################
+nc18_spectra <- predict_site_spectra(
+  posterior_matrix, "NC18",
+  nsamp = 1000, dedup = TRUE, progress = TRUE
+)
+
+nc18_obs <- load_observations("NC18") %>%
+  `colnames<-`(., as.character(seq_len(NCOL(.)))) %>%
+  as.data.frame(., row.names = PEcAnRTM::wavelengths(.)) %>%
+  tibble::as_tibble(rownames = "wavelength") %>%
+  dplyr::mutate(wavelength = as.numeric(wavelength)) %>%
+  tidyr::pivot_longer(-wavelength, names_to = "iobs", values_to = "observed")
+
+ggplot(nc18_spectra) +
+  aes(x = wavelength, y = albedo_mean,
+      ymin = albedo_q025, ymax = albedo_q975) +
+  ## geom_ribbon(aes(ymin = pmax(albedo_r_q025, 0), ymax = albedo_r_q975),
+  ##             fill = "orange", alpha = 0.5) +
+  geom_ribbon(fill = "skyblue") +
+  geom_line(color = "blue4") +
+  geom_line(aes(x = wavelength, y = observed, group = iobs),
+            inherit.aes = FALSE,
+            data = nc18_obs)
+
+##################################################
+ggplot(predicted_spectra) +
+  aes(x = wavelength) +
+  geom_ribbon(aes(ymin = pmax(albedo_r_q025, 0), ymax = albedo_r_q975),
+              fill = "green3") +
+  geom_line(aes(y = observed, group = iobs), data = observed_spectra) +
+  facet_wrap(vars(site), scales = "fixed") +
+  labs(x = "Wavelength (nm)", y = "Reflectance (0 - 1)") +
+  theme_bw()
+
+obs_pred <- observed_spectra %>%
+  inner_join(predicted_spectra, c("site", "wavelength"))
+
+obs_pred %>%
+  mutate(bias = albedo_mean - observed,
+         bias2 = bias ^ 2) %>%
+  group_by(wavelength) %>%
+  summarize(
+    rmse = sqrt(mean(bias2)),
+    err_1 = sqrt(quantile(bias2, 0.75)),
+    err_2 = sqrt(quantile(bias2, 0.9)),
+    err_3 = sqrt(quantile(bias2, 0.95)),
+    err_max = sqrt(max(bias2))
+  ) %>%
+  ungroup() %>%
+  ggplot() +
+  aes(x = wavelength) +
+  geom_line(aes(y = rmse)) +
+  geom_line(aes(y = err_1), color = "orange") +
+  geom_line(aes(y = err_2), color = "red") +
+  geom_line(aes(y = err_3), color = "red4")
+
