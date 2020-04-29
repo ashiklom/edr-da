@@ -110,51 +110,48 @@ full_site_info <- function(site_list_file, site_dir) {
 }
 
 predict_lai <- function(site_details, tidy_posteriors, max_samples = 5000) {
-  .datatable.aware <- TRUE # nolint
-  site_dt <- data.table::as.data.table(site_details)
-  site_dt[, pft := factor(ipft, 1:5, c(
-    "Early_Hardwood", "North_Mid_Hardwood", "Late_Hardwood",
-    "Northern_Pine", "Late_Conifer"
-  ))]
-  tidy_params_dt <- data.table::as.data.table(tidy_posteriors)
+  site_dt <- site_details %>%
+    dplyr::mutate(pft = factor(ipft, 1:5, c(
+      "Early_Hardwood", "North_Mid_Hardwood", "Late_Hardwood",
+      "Northern_Pine", "Late_Conifer"
+    )))
+  tidy_params_dt <- tidy_posteriors %>%
+    dplyr::filter(variable %in% c("b1Bl", "SLA", "clumping_factor"))
   b2Bl <- purrr::map_dbl(allom_mu, "b2Bl")
   names(b2Bl) <- gsub("temperate\\.", "", names(b2Bl))
-  params_structure <- data.table::dcast(
-    tidy_params_dt[variable %in% c("b1Bl", "SLA", "clumping_factor")],
-    id + pft ~ variable,
-    value.var = "value"
-  )
-  params_structure[, b2Bl := b2Bl[pft]]  #nolint
-  params_structure_sub <- params_structure[
-    sample(nrow(params_structure), max_samples)
-  ]
-  site_lai_samples <- site_dt[
-    params_structure_sub,
-    on = "pft",
-    allow.cartesian = TRUE
-  ]
-  site_lai_samples[, bleaf := size2bl(dbh, b1Bl, b2Bl)] #nolint
-  site_lai_samples[, lai := nplant * bleaf * SLA] #nolint
-  site_lai_samples[, elai := lai * clumping_factor] #nolint
+  params_structure <- tidy_params_dt %>%
+    tidyr::pivot_wider(
+      names_from = "variable",
+      values_from = "value"
+    ) %>%
+    dplyr::mutate(b2Bl = b2Bl[pft])
+  nsamp <- min(max_samples, nrow(params_structure))
+  params_structure_sub <- params_structure %>%
+    dplyr::sample_n(nsamp, replace = FALSE)
+  site_lai_samples <- params_structure_sub %>%
+    dplyr::left_join(site_dt, "pft") %>%
+    dplyr::mutate(
+      bleaf = size2bl(dbh, b1Bl, b2Bl),
+      lai = nplant * bleaf * SLA,
+      elai = lai * clumping_factor
+    )
   site_lai_samples
 }
 
 summarize_lai_samples <- function(site_lai_samples) {
-  .datatable.aware <- TRUE #nolint
-  data.table::setDT(site_lai_samples)
-  site_lai_summary_dt = site_lai_samples[,
-     list(lai_mean = mean(lai),
-          lai_sd = sd(lai),
-          lai_lo = quantile(lai, 0.025),
-          lai_hi = quantile(lai, 0.975),
-          elai_mean = mean(elai),
-          elai_sd = sd(elai),
-          elai_lo = quantile(elai, 0.025),
-          elai_hi = quantile(elai, 0.975)),
-     c("site", "year", "pft", "ipft", "hite", "dbh", "nplant", "cohort")
-  ]
-  site_lai_summary = tibble::as_tibble(site_lai_summary_dt) %>%
-    purrr::modify(unname) %>%
+  site_lai_samples %>%
+    dplyr::group_by(site, year, pft, ipft, hite, dbh, nplant, cohort) %>%
+    dplyr::summarize(
+      lai_mean = mean(lai),
+      lai_sd = sd(lai),
+      lai_lo = quantile(lai, 0.025),
+      lai_hi = quantile(lai, 0.975),
+      elai_mean = mean(elai),
+      elai_sd = sd(elai),
+      elai_lo = quantile(elai, 0.025),
+      elai_hi = quantile(elai, 0.975)
+    ) %>%
+    dplyr::ungroup() %>%
     dplyr::group_by(site, year) %>%
     dplyr::arrange(hite) %>%
     dplyr::mutate(
@@ -162,5 +159,5 @@ summarize_lai_samples <- function(site_lai_samples) {
       cum_elai = cumsum(elai_mean)
     ) %>%
     dplyr::ungroup()
-  site_lai_summary
+}
 }
