@@ -61,19 +61,17 @@ edr_r <- function(pft, lai, wai, cai,
   # wavelengths
   if (nwl != NROW(wood_reflect)) wood_reflect <- wood_reflect[wli, ]
 
-  prosp_param_list <- purrr::transpose(list(N, Cab, Car, Cw, Cm)) %>%
-    purrr::map(unlist)
-  leaf_spectra <- lapply(prosp_param_list, PEcAnRTM::prospect, version = "5")
+  leaf_spectra <- Map(rrtm::prospect5, N, Cab, Car, Cw, Cm)
   leaf_reflect <- Reduce(
     cbind,
-    Map(function(x) x[, "reflectance"], leaf_spectra)
+    Map(function(x) x[["reflectance"]], leaf_spectra)
   )
-  leaf_reflect <- unclass(leaf_reflect)[wli,]
+  leaf_reflect <- leaf_reflect[wli,]
   leaf_trans <- Reduce(
     cbind,
-    Map(function(x) x[, "transmittance"], leaf_spectra)
+    Map(function(x) x[["transmittance"]], leaf_spectra)
   )
-  leaf_trans <- unclass(leaf_trans)[wli,]
+  leaf_trans <- leaf_trans[wli,]
 
   # Soil reflectance as a function of soil moisture
   soil_reflect <- hapke_soil(soil_moisture)[wli]
