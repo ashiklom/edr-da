@@ -124,13 +124,15 @@ ggplot(site_lai_summary) +
   geom_point() +
   facet_wrap(vars(site), scales = "free")
 
+plt_sites <- c("OF04", "SF03", "OF01", "GR08")
+plt_sites <- c("IDS35", "IDS34", "BH05")
 site_lai_summary %>%
-  filter(site %in% bad_sites) %>%
+  filter(site %in% plt_sites) %>%
   ggplot() +
-  aes(x = elai_mean, y = hite, color = pft) +
+  aes(x = cum_elai, y = hite, color = pft) +
   geom_segment(aes(yend = hite, xend = 0)) +
   geom_point() +
-  facet_wrap(vars(site), scales = "free")
+  facet_wrap(vars(site), scales = "fixed")
 
 site_lai_summary
 
