@@ -5,6 +5,7 @@ library(ggplot2)
 library(here)
 library(readr)
 library(dplyr)
+library(patchwork)
 
 stopifnot(
   requireNamespace("fst", quietly = TRUE)

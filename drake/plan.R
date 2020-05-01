@@ -86,5 +86,17 @@ plan <- drake_plan(
     file_out(!!path(figdir, "spec-error-aggregate.png")),
     spec_error_aggregate_f(observed_predicted),
     width = 5, height = 4, dpi = 300
+  ),
+  overestimate_sites = ggsave(
+    file_out(!!path(figdir, "overestimate-sites.png")),
+    lapply(
+      c("IDS35", "OF04", "SF03", "OF01", "GR08", "IDS34", "OF05"),
+      site_spec_dbh_plot,
+      observed_predicted = observed_predicted,
+      site_details = site_details
+    ) %>%
+      wrap_plots(guides = "collect", ncol = 2) +
+      guide_area(),
+    width = 8, height = 10, dpi = 300
   )
 )
