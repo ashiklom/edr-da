@@ -105,16 +105,15 @@ full_site_info <- function(site_list_file, site_dir) {
     dplyr::group_by(site, year) %>%
     dplyr::arrange(desc(hite)) %>%
     dplyr::mutate(cohort = dplyr::row_number()) %>%
-    dplyr::ungroup()
-  site_df
-}
-
-predict_lai <- function(site_details, tidy_posteriors, max_samples = 5000) {
-  site_dt <- site_details %>%
+    dplyr::ungroup() %>%
     dplyr::mutate(pft = factor(ipft, 1:5, c(
       "Early_Hardwood", "North_Mid_Hardwood", "Late_Hardwood",
       "Northern_Pine", "Late_Conifer"
     )))
+  site_df
+}
+
+predict_lai <- function(site_details, tidy_posteriors, max_samples = 5000) {
   tidy_params_dt <- tidy_posteriors %>%
     dplyr::filter(variable %in% c("b1Bl", "SLA", "clumping_factor"))
   b2Bl <- purrr::map_dbl(allom_mu, "b2Bl")
@@ -129,7 +128,7 @@ predict_lai <- function(site_details, tidy_posteriors, max_samples = 5000) {
   params_structure_sub <- params_structure %>%
     dplyr::sample_n(nsamp, replace = FALSE)
   site_lai_samples <- params_structure_sub %>%
-    dplyr::left_join(site_dt, "pft") %>%
+    dplyr::left_join(site_details, "pft") %>%
     dplyr::mutate(
       bleaf = size2bl(dbh, b1Bl, b2Bl),
       lai = nplant * bleaf * SLA,
