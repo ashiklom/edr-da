@@ -1,6 +1,9 @@
 #!/usr/bin/env Rscript
-## library(redr)
-requireNamespace("PEcAnRTM")
+## utils::install.packages(".", repos = NULL, type = "source")
+stopifnot(
+  requireNamespace("PEcAnRTM", quietly = TRUE),
+  requireNamespace("redr", quietly = TRUE)
+)
 pkgload::load_all(".", attach_testthat = FALSE)
 
 arg <- commandArgs(trailingOnly = TRUE)
