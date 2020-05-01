@@ -13,7 +13,8 @@ create_prior <- function(fix_allom2 = TRUE,
                          nsite = 1,
                          limits = FALSE,
                          best = TRUE,
-                         param_names = NULL) {
+                         param_names = NULL,
+                         site_specific_var = FALSE) {
   lower <- NULL
   upper <- NULL
   if (limits) {
@@ -32,9 +33,17 @@ create_prior <- function(fix_allom2 = TRUE,
       50, if (!fix_allom2) 50, # wood allom
       1, 1 # clumping, orient
     )
-    lower <- c(rep(pft_lower, npft), rep(0, nsite), 0, if (heteroskedastic) 0)
-    upper <- c(rep(pft_upper, npft), rep(1, nsite), 100, if (heteroskedastic) 100)
+    resid_lower <- if (heteroskedastic) c(0, 0) else 0
+    resid_upper <- if (heteroskedastic) c(100, 100) else 100
+    if (site_specific_var) {
+      resid_lower <- rep(resid_lower, each = nsite)
+      resid_upper <- rep(resid_upper, each = nsite)
+    }
+    lower <- c(rep(pft_lower, npft), rep(0, nsite), resid_lower)
+    upper <- c(rep(pft_upper, npft), rep(1, nsite), resid_upper)
   }
+  resid_best <- if (heteroskedastic) c(0.01, 0.01)
+  if (site_specific_var) resid_best <- rep(resid_best, each = nsite)
   bestval <- NULL
   if (best) {
     pft_best <- c(
@@ -47,8 +56,7 @@ create_prior <- function(fix_allom2 = TRUE,
     bestval <- c(
       rep(pft_best, npft),
       rep(0.5, nsite),
-      0.1,
-      if (heteroskedastic) 0.1
+      resid_best
     )
   }
   BayesianTools::createPrior(
@@ -56,16 +64,18 @@ create_prior <- function(fix_allom2 = TRUE,
       fix_allom2 = fix_allom2,
       heteroskedastic = heteroskedastic,
       verbose = verbose,
-      param_names = param_names
+      param_names = param_names,
+      site_specific_var = site_specific_var
     ),
-    sampler = create_prior_sampler(fix_allom2, heteroskedastic, nsite),
+    sampler = create_prior_sampler(fix_allom2, heteroskedastic, nsite, site_specific_var = site_specific_var),
     lower = lower, upper = upper, best = bestval
   )
 }
 
 #' @rdname create_prior
 #' @export
-create_prior_sampler <- function(fix_allom2 = TRUE, heteroskedastic = TRUE, nsite = 1) {
+create_prior_sampler <- function(fix_allom2 = TRUE, heteroskedastic = TRUE, nsite = 1,
+                                 site_specific_var = FALSE) {
   function(n = 1) {
     out <- numeric()
     for (i in seq_len(n)) {
@@ -81,7 +91,8 @@ create_prior_sampler <- function(fix_allom2 = TRUE, heteroskedastic = TRUE, nsit
       # HACK: Hard-coded uniform prior on soil moisture
       soil <- runif(nsite, 0, 1)
       names(soil) <- paste0("sitesoil_", seq_len(nsite))
-      resid <- if (heteroskedastic) rresidual2() else rresidual()
+      nresid <- if (site_specific_var) nsite else 1
+      resid <- if (heteroskedastic) rresidual2(nresid) else rresidual(nresid)
       curr_params <- purrr::pmap(
         list(
           prospect_params,
@@ -101,7 +112,7 @@ create_prior_sampler <- function(fix_allom2 = TRUE, heteroskedastic = TRUE, nsit
 #' @rdname create_prior
 #' @export
 create_prior_density <- function(fix_allom2 = TRUE, heteroskedastic = TRUE, verbose = TRUE,
-                                 param_names = NULL) {
+                                 param_names = NULL, site_specific_var = FALSE) {
   function(params) {
     if (!is.null(param_names)) {
       stopifnot(length(param_names) == length(params))
@@ -113,10 +124,33 @@ create_prior_density <- function(fix_allom2 = TRUE, heteroskedastic = TRUE, verb
       if (verbose) message("Invalid soil prior")
       return(-Inf)
     }
-    ld_resid <- if (heteroskedastic) dresidual2(params) else dresidual(params)
-    if (!all(is.finite(ld_resid))) {
+    # Residual
+    if (heteroskedastic) {
+      residual_slope <- params[grep("residual_slope", names(params))]
+      residual_intercept <- params[grep("residual_intercept", names(params))]
+      ld_resid <-
+        sum(dexp(
+          residual_slope,
+          prior_residual2$slope,
+          log = TRUE
+        )) +
+        sum(dexp(
+          residual_intercept,
+          prior_residual2$intercept,
+          log = TRUE
+        ))
+    } else {
+      residuals <- params[grep("residual", names(params))]
+      ld_resid <- dgamma(
+        residuals,
+        prior_residual[1],
+        prior_residual[2],
+        log = TRUE
+      )
+    }
+    if (!is.finite(ld_resid)) {
       if (verbose) message("Invalid residual prior")
-      print(tail(params, 1))
+      print(params)
       return(-Inf)
     }
     # Drop the residuals and soil parameters from the remaining parameter vector

@@ -152,8 +152,8 @@ prior_residual <- c(0.03, 1.5)
 
 #' @rdname rclumping
 #' @export
-rresidual <- function() {
-  rgamma(1, prior_residual[1], prior_residual[2]) %>%
+rresidual <- function(n = 1) {
+  rgamma(n, prior_residual[1], prior_residual[2]) %>%
     setNames("residual")
 }
 
@@ -172,16 +172,18 @@ dresidual <- function(params, log = TRUE) {
 
 #' @export
 prior_residual2 <- list(
-  intercept = c(0, 0.5),
-  slope = c(0, 10)
+  intercept = 10,
+  slope = 1
 )
 
 #' @rdname rclumping
 #' @export
-rresidual2 <- function() {
-  rint <- rnorm(1, prior_residual2$intercept[1], prior_residual2$intercept[2])
-  rslope <- rnorm(1, prior_residual2$slope[1], prior_residual2$slope[2])
-  c("residual_intercept" = rint, "residual_slope" = rslope)
+rresidual2 <- function(n = 1) {
+  rint <- rexp(n, prior_residual2$intercept)
+  names(rint) <- paste0("residual_intercept", seq_len(n))
+  rslope <- rexp(n, prior_residual2$slope)
+  names(rslope) <- paste0("residual_slope", seq_len(n))
+  c(rint, rslope)
 }
 
 #' @rdname rclumping

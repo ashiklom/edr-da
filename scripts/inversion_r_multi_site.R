@@ -1,7 +1,7 @@
 #!/usr/bin/env Rscript
-library(redr)
+## library(redr)
 requireNamespace("PEcAnRTM")
-## devtools::load_all(".")
+pkgload::load_all(".", attach_testthat = FALSE)
 
 arg <- commandArgs(trailingOnly = TRUE)
 resume <- isTRUE(arg[1] == "resume")
@@ -37,12 +37,15 @@ site_data_list <- purrr::map(site_files, read.table, header = TRUE)
 names(site_data_list) <- sites
 
 # Set up prior
-prior <- create_prior(nsite = nsite, heteroskedastic = FALSE, limits = TRUE)
+prior <- create_prior(nsite = nsite, heteroskedastic = TRUE,
+                      limits = TRUE, site_specific_var = TRUE)
 psamps <- prior$sampler()
 param_names <- names(psamps)
 # Re-create prior, but with parameter names
 message("Creating prior...")
-prior <- create_prior(nsite = nsite, heteroskedastic = FALSE, limits = TRUE, param_names = param_names)
+prior <- create_prior(nsite = nsite, heteroskedastic = TRUE,
+                      limits = TRUE, param_names = param_names,
+                      site_specific_var = TRUE)
 message("Testing prior...")
 psamps <- check_prior(prior, error = TRUE)
 
@@ -85,16 +88,12 @@ likelihood <- function(params) {
     }
 
     # Extract residuals
-    rss <- if (has_names) params["residual"] else tail(params, 1)
-    ## rs <- params["residual_slope"]
-    ## ri <- params["residual_intercept"]
+    ## rss <- if (has_names) params["residual"] else tail(params, 1)
+    rs <- params[grep("residual_slope", param_names)][i]
+    ri <- params[grep("residual_intercept", param_names)][i]
 
     # Remaining parameters are PFT-specific
-    pft_params_v <- if (has_names) {
-      params[!grepl("residual|sitesoil", names(params))]
-    } else {
-      head(params, -(nsite + 1))
-    }
+    pft_params_v <- params[!grepl("residual|sitesoil", param_names)]
     # Create a matrix nparam (rows) x npft (cols)
     pft_params <- matrix(pft_params_v, ncol = npft)
 
@@ -139,6 +138,7 @@ likelihood <- function(params) {
       ## message("Bad albedo for site: ", site)
       return(-1e20)
     }
+    rss <- ri + rs * albedo  # Heteroskedastic variance
     site_ll <- sum(dnorm(albedo, site_obs, rss, log = TRUE))
     if (!is.finite(site_ll)) {
       ## cat("-")
@@ -168,10 +168,11 @@ base_outdir <- "multi_site_pda_results"
 outdir <- file.path(base_outdir, sampdir)
 dir.create(outdir, recursive = TRUE)
 message("Storing results in: ", outdir)
+writeLines(param_names, file.path(outdir, "param_names.txt"))
 
 # Inversion settings
-niter <- 500
-max_iter <- 5e6
+niter <- 1000
+max_iter <- 1e7
 max_attempts <- floor(max_iter / niter)
 attempt <- 0
 threshold <- 1.2
@@ -187,8 +188,7 @@ samples <- BayesianTools::createBayesianSetup(
 )
 settings <- list(
   iterations = niter,
-  consoleUpdates = 10,
-  startValue = prior$sampler(ncores)
+  consoleUpdates = 10
 )
 
 if (resume) {
@@ -206,7 +206,7 @@ if (resume) {
 repeat {
   attempt <- attempt + 1
   message("Sampling attempt: ", attempt)
-  samples <- BayesianTools::runMCMC(samples, settings = settings)
+  samples <- BayesianTools::runMCMC(samples, sampler = "DREAMzs", settings = settings)
   saveRDS(samples, file.path(outdir, "current_samples.rds"))
   nsamp <- nrow(samples$chain[[1]])
   coda_samples <- BayesianTools::getSample(
@@ -215,26 +215,32 @@ repeat {
     thin = "auto",
     coda = TRUE
   )
-  gd <- coda::gelman.diag(
-    coda_samples,
-    multivariate = FALSE,
-    autoburnin = FALSE
-  )
-  psrf <- gd[["psrf"]][, 1]
-  names(psrf) <- param_names
-  exceeds <- psrf > threshold
-  if (any(exceeds)) {
-    message("The following parameters have not converged:")
-    print(psrf[exceeds])
+  gd <- tryCatch(
+    coda::gelman.diag(
+      coda_samples,
+      multivariate = TRUE,
+      autoburnin = FALSE
+    ),
+    error = function (e) NULL)
+  if (is.null(gd)) {
+    message("GD calc failed. No convergence.")
   } else {
-    neff <- coda::effectiveSize(coda_samples)
-    too_few <- neff < target_neff
-    if (!any(too_few)) {
-      message("Converged!")
-      break
+    psrf <- c(gd[["psrf"]][, 1], gd[["mpsrf"]])
+    names(psrf) <- c(param_names, "mpsrf")
+    exceeds <- psrf > threshold
+    if (any(exceeds)) {
+      message("The following parameters have not converged:")
+      print(psrf[exceeds])
+    } else {
+      neff <- coda::effectiveSize(coda_samples)
+      too_few <- neff < target_neff
+      if (!any(too_few)) {
+        message("Converged!")
+        break
+      }
+      message("Converged, but the following parameters have too few samples:")
+      print(neff[too_few])
     }
-    message("Converged, but the following parameters have too few samples:")
-    print(neff[too_few])
   }
 
   message("Resuming sampling...")
