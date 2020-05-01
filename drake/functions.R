@@ -198,3 +198,38 @@ spec_error_aggregate_f <- function(observed_predicted) {
          y = expression("Predicted (mean)" - "observed reflectance")) +
     theme_bw()
 }
+
+site_spec_dbh_plot <- function(site, observed_predicted, site_details) {
+  spec_sub <- observed_predicted %>%
+    dplyr::filter(site == !!site)
+
+  pspec <- ggplot(spec_sub) +
+    aes(x = wavelength) +
+    geom_ribbon(aes(ymin = pmax(albedo_r_q025, 0), ymax = albedo_r_q975),
+                fill = "gray70") +
+    geom_line(aes(y = observed, group = iobs)) +
+    labs(x = "Wavelength (nm)", y = "Reflectance (0 - 1)",
+         title = site) +
+    coord_cartesian(ylim = c(0, 0.7)) +
+    theme_bw()
+
+  dbh_dat <- site_details %>%
+    dplyr::filter(site == !!site)
+
+  pft_colors <- RColorBrewer::brewer.pal(5, "Set1")
+  names(pft_colors) <- levels(dbh_dat$pft)
+
+  pdbh <- ggplot(dbh_dat) +
+    aes(x = dbh, fill = pft) +
+    geom_histogram(binwidth = 5) +
+    coord_cartesian(xlim = c(0, 100)) +
+    labs(x = "DBH (cm)", y = "Count", fill = "PFT") +
+    scale_fill_manual(values = pft_colors, drop = FALSE) +
+    theme_bw() +
+    theme(
+      legend.position = c(1, 1),
+      legend.justification = c(1, 1),
+      legend.background = element_blank()
+    )
+  pspec + pdbh
+}
