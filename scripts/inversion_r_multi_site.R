@@ -167,7 +167,7 @@ if (FALSE) {
 
 # Create directory for storage
 sampdir <- strftime(Sys.time(), "%Y-%m-%d-%H%M")
-base_outdir <- "multi_site_pda_results"
+base_outdir <- "multi_site_pda_results-exp"
 outdir <- file.path(base_outdir, sampdir)
 dir.create(outdir, recursive = TRUE)
 message("Storing results in: ", outdir)
@@ -191,7 +191,8 @@ samples <- BayesianTools::createBayesianSetup(
 )
 settings <- list(
   iterations = niter,
-  consoleUpdates = 10
+  consoleUpdates = 10,
+  startValue = prior$sampler(ncores)
 )
 
 if (resume) {
@@ -209,7 +210,7 @@ if (resume) {
 repeat {
   attempt <- attempt + 1
   message("Sampling attempt: ", attempt)
-  samples <- BayesianTools::runMCMC(samples, sampler = "DREAMzs", settings = settings)
+  samples <- BayesianTools::runMCMC(samples, settings = settings)
   saveRDS(samples, file.path(outdir, "current_samples.rds"))
   nsamp <- nrow(samples$chain[[1]])
   coda_samples <- BayesianTools::getSample(
