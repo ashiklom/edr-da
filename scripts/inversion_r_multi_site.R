@@ -184,7 +184,7 @@ ncores <- 8
 
 # Create BayesianTools setup
 message("Creating setup")
-samples <- BayesianTools::createBayesianSetup(
+newsamples <- BayesianTools::createBayesianSetup(
   likelihood,
   prior,
   parallel = ncores
@@ -203,8 +203,12 @@ if (resume) {
   stopifnot(length(last_samplefile) > 0,
             file.exists(last_samplefile))
   samples <- readRDS(last_samplefile)
+  # Need this to reset parallelism
+  samples$setup$likelihood <- newsamples$likelihood
+  samples$setup$posterior <- newsamples$posterior
 } else {
   message("Starting fresh inversion")
+  samples <- newsamples
 }
 
 repeat {
