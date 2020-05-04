@@ -346,21 +346,26 @@ predict_site_spectra <- function(params_matrix, site,
                   pb = pb, wavelengths = waves)
   nulls <- vapply(result, is.null, logical(1))
   result <- result[!nulls]
-  albedos <- purrr::map(result, "albedo") %>%
-    purrr::map2_dfr(
-      params_filtered[!nulls, "residual"],
-      ~tibble::tibble(wavelength = waves, albedo = .x, albedo_r = rnorm(length(waves), .x, .y))
+  rslope <- params_filtered[!nulls, paste0("residual_slope", isite)]
+  rint <- params_filtered[!nulls, paste0("residual_intercept", isite)]
+  alb_list <- purrr::map(result, "albedo")
+  albedos <- purrr::pmap_dfr(
+    list(alb_list, rslope, rint),
+    ~tibble::tibble(
+      wavelength = waves,
+      albedo = .x,
+      albedo_r = rnorm(length(waves), ..1, ..1 * ..2 + ..3)
     )
-  ## albedos <- purrr::map_dfr(result, ~tibble::tibble(wavelength = waves, albedo = .[["albedo"]]), .id = "id")
+  )
   output <- albedos %>%
     dplyr::group_by(wavelength) %>%
     dplyr::summarize_if(
       is.numeric,
-      dplyr::funs(
-        mean = mean(.),
-        sd = sd(.),
-        q025 = quantile(., 0.025),
-        q975 = quantile(., 0.975)
+      list(
+        mean = ~mean(.),
+        sd = ~sd(.),
+        q025 = ~quantile(., 0.025),
+        q975 = ~quantile(., 0.975)
       )
     )
   output
@@ -401,6 +406,7 @@ run_edr_sample <- function(params, isite, site_data,
   if (!is.null(pb)) pb$tick()
   stopifnot(isite %% 1 == 0)
   has_names <- !is.null(names(params))
+  stopifnot(has_names)
   pft <- get_ipft(site_data[["pft"]])
   dbh <- site_data[["dbh"]]
   nplant <- site_data[["n"]]
@@ -417,23 +423,15 @@ run_edr_sample <- function(params, isite, site_data,
   hite <- hite[ihite]
 
   # Extract site-specific soil moisture
-  soil_moisture <- if (has_names) {
-    params[grepl(paste0("sitesoil_", isite, "$"), names(params))]
-  } else {
-    params[npft * npft_param + isite]
-  }
-  if (is.null(nsite)) nsite <- length(params) - 1 - (npft * npft_param)
-  stopifnot(nsite > 0)
+  soil_moisture <-  params[grepl(paste0("sitesoil_", isite, "$"), names(params))]
 
   # Extract residuals
-  rss <- if (has_names) params["residual"] else tail(params, 1)
+  rslope <- params[paste0("residual_intercept", isite)]
+  rint <- params[paste0("residual_intercept", isite)]
 
   # Remaining parameters are PFT-specific
-  pft_params_v <- if (has_names) {
-    params[!grepl("residual|sitesoil", names(params))]
-  } else {
-    head(params, -(nsite + 1))
-  }
+  pft_params_v <- params[!grepl("residual|sitesoil", names(params))]
+
   # Create a matrix nparam (rows) x npft (cols)
   pft_params <- matrix(pft_params_v, ncol = npft)
 

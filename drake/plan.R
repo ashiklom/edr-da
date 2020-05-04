@@ -1,13 +1,12 @@
 plan <- drake_plan(
-  pda_result_file = last_result_file(),
   posterior_matrix = {
-    samples_bt <- readRDS(pda_result_file)
+    samples_bt <- readRDS(file_in(!!pda_result_file))
     posterior_matrix <- BayesianTools::getSample(
       samples_bt,
       thin = "auto",
-      start = 15000
+      start = !!pda_start
     )
-    colnames(posterior_matrix) <- readLines(file_in("param_names.txt"))
+    colnames(posterior_matrix) <- readLines(file_in(!!param_names_file))
     posterior_matrix
   },
   tidy_posteriors = target(

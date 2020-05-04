@@ -1,9 +1,5 @@
-last_result_file <- function() {
-  info <- fs::dir_info(
-    "multi_site_pda_results",
-    recurse = TRUE,
-    glob = "*.rds"
-  )
+last_result_file <- function(basedir = "multi_site_pda_results") {
+  info <- fs::dir_info(basedir, recurse = TRUE, glob = "*.rds")
   info %>%
     dplyr::arrange(change_time) %>%
     tail(1) %>%
@@ -178,10 +174,13 @@ spec_error_all_f <- function(observed_predicted) {
     mutate(site_f = forcats::fct_reorder(site, site_mean_bias))
   ggplot(plot_dat) +
     aes(x = wavelength) +
-    geom_ribbon(aes(ymin = pmax(albedo_r_q025, 0), ymax = albedo_r_q975),
-                fill = "gray70") +
-    ## geom_ribbon(aes(ymin = pmax(albedo_q025, 0), ymax = albedo_q975),
-    ##             fill = "gray50") +
+    geom_ribbon(aes(ymin = pmax(albedo_r_q025, 0),
+                    ymax = pmin(albedo_r_q975, 1)),
+                fill = "gray80") +
+    geom_ribbon(aes(ymin = pmax(albedo_q025, 0),
+                    ymax = pmin(albedo_q975, 1)),
+                fill = "green3") +
+    geom_line(aes(y = albedo_mean), color = "green4", size = 1) +
     geom_line(aes(y = observed, group = iobs)) +
     facet_wrap(vars(site_f), scales = "fixed", ncol = 6) +
     labs(x = "Wavelength (nm)", y = "Reflectance (0 - 1)") +
