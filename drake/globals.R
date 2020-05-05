@@ -8,5 +8,5 @@ site_structure_file <- here("other_site_data", "site_structure.csv")
 fft_lai_file <- here("other_site_data", "NASA_FFT_LAI_FPAR_Data.csv")
 
 pda_result_file <- last_result_file("multi_site_pda_results-exp")
-pda_start <- 6000
+pda_start <- 10000
 param_names_file <- path(path_dir(pda_result_file), "param_names.txt")
