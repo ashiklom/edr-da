@@ -1,5 +1,6 @@
 #!/usr/bin/env Rscript
 ## utils::install.packages(".", repos = NULL, type = "source")
+## commandArgs <- function(...) c("ss")
 stopifnot(
   requireNamespace("PEcAnRTM", quietly = TRUE),
   requireNamespace("redr", quietly = TRUE)
@@ -8,6 +9,7 @@ pkgload::load_all(".", attach_testthat = FALSE)
 
 argv <- commandArgs(trailingOnly = TRUE)
 
+stopifnot(all(argv %in% c("resume", "hetero", "ss")))
 resume <- "resume" %in% argv
 HETEROSKEDASTIC <- "hetero" %in% argv
 SITE_SPECIFIC <- "ss" %in% argv
@@ -225,7 +227,7 @@ if (resume) {
 repeat {
   attempt <- attempt + 1
   message("Sampling attempt: ", attempt)
-  samples <- BayesianTools::runMCMC(samples, settings = settings)
+  samples <- BayesianTools::runMCMC(samples, settings = settings, sampler = "DREAMzs")
   saveRDS(samples, file.path(outdir, "current_samples.rds"))
   nsamp <- nrow(samples$chain[[1]])
   coda_samples <- BayesianTools::getSample(

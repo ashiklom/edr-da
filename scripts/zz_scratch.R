@@ -175,11 +175,3 @@ ggplot(nc18_spectra) +
             data = nc18_obs)
 
 ##################################################
-
-
-  ## coord_cartesian(xlim = c(10, 40), ylim = c(0.6, 1))
-
-ggplot(both_ndvi) +
-  aes(x = nir_pred, y = nir_obs) +
-  geom_point() +
-  geom_abline()
