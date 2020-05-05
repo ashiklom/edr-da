@@ -59,15 +59,38 @@ pft_posterior_plot <- function(tidy_priors, tidy_posteriors) {
     )
 }
 
-soil_moisture_plot <- function(tidy_posteriors, site_structure) {
+soil_moisture_plot <- function(tidy_posteriors, site_structure_data) {
+  site_structure <- site_structure_data %>%
+    dplyr::mutate(x = forcats::fct_reorder(site_name, frac_evergreen_wtd))
+
   site_posterior <- tidy_posteriors %>%
     dplyr::filter(grepl("sitesoil", variable)) %>%
     dplyr::inner_join(site_structure, c("variable" = "site_tag"))
 
+  last_hw_site <- site_structure %>%
+    dplyr::filter(frac_evergreen_wtd <= 0.5) %>%
+    dplyr::arrange(dplyr::desc(frac_evergreen_wtd)) %>%
+    dplyr::slice(1) %>%
+    dplyr::pull(x)
+
+  site_posterior_summary <- site_posterior %>%
+    dplyr::group_by(EG = frac_evergreen_wtd > 0.5) %>%
+    dplyr::summarize(Mean = mean(value),
+                     SD = sd(value)) %>%
+    dplyr::ungroup() %>%
+    dplyr::mutate(
+      x = as.numeric(last_hw_site) + 0.5 + c(-3, 3),
+      lab = sprintf("%.2f (%.2f)", Mean, SD)
+    )
+
   ggplot(site_posterior) +
-    aes(x = forcats::fct_reorder(site_name, frac_evergreen_wtd), y = value,
+    aes(x = x, y = value,
         fill = frac_evergreen_wtd, color = frac_evergreen_wtd) +
     geom_violin() +
+    geom_vline(xintercept = as.numeric(last_hw_site) + 0.5,
+               linetype = "dashed") +
+    geom_text(aes(x = x, y = 0, label = lab), data = site_posterior_summary,
+              inherit.aes = FALSE) +
     scale_color_viridis_c(
       aesthetics = c("color", "fill"),
       guide = guide_colorbar(title = "Weighted evergreen fraction",
