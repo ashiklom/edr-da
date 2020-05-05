@@ -125,55 +125,50 @@ likelihood <- function(params) {
     cai <- rep(1, ncohort)
 
     # Call RTM
-    result <- tryCatch(
-      edr_r(pft, lai, wai, cai,
-            N, Cab, Car, Cw, Cm,
-            orient_factor, clumping_factor,
-            soil_moisture,
-            direct_sky_frac,
-            czen,
-            wavelengths = waves),
-      error = function(e) NULL)
-    if (is.null(result)) {
-      return(-1e20)
-    }
+    result <- edr_r(pft, lai, wai, cai,
+                    N, Cab, Car, Cw, Cm,
+                    orient_factor, clumping_factor,
+                    soil_moisture,
+                    direct_sky_frac,
+                    czen,
+                    wavelengths = waves)
     albedo <- result[["albedo"]]
-    if (any(!is.finite(albedo)) || any(albedo < 0) || any(albedo > 1)) {
-      return(-1e20)
-    }
+    stopifnot(
+      all(is.finite(albedo)),
+      all(albedo >= 0),
+      all(albedo <= 1)
+    )
     # Extract residuals
     if (HETEROSKEDASTIC) {
       rs <- params[grep(
-        paste0("residual_slope", if (SITE_SPECIFIC) i),
+        paste0("residual_slope", if (SITE_SPECIFIC) i, "$"),
         param_names
       )]
       ri <- params[grep(
-        paste0("residual_intercept", if (SITE_SPECIFIC) i),
+        paste0("residual_intercept", if (SITE_SPECIFIC) i, "$"),
         param_names
       )]
-      rss <- ri + rs * albedo  # Heteroskedastic variance
+      rss <- ri + rs * albedo
     } else {
-      rss <- params[grep(paste0("residual", if (SITE_SPECIFIC) i))]
+      rss <- params[grep(
+        paste0("residual", if (SITE_SPECIFIC) i, "$"),
+        param_names
+      )]
     }
 
-    # NOTE: Subtraction down-weights sites with multiple observations
-    site_ll <- sum(dnorm(albedo, site_obs, rss, log = TRUE)) - log(nobs) * log(nwl)
-    if (!is.finite(site_ll)) {
-      return(-1e20)
-    }
+    site_ll <- sum(dnorm(albedo, site_obs, rss, log = TRUE))
+    # NOTE: Down-weight sites with multiple observations
+    site_ll <- site_ll - log(nobs) * log(nwl)
+    stopifnot(is.finite(site_ll))
     ll <- ll + site_ll
   } # end site loop
   ll
 }
 
-if (FALSE) {
-  param <- readRDS("good_param.rds")
-  likelihood(param)
-  profvis::profvis({
-    for (i in 1:5) {
-      l <- likelihood(param)
-    }
-  })
+# Test likelihood evaluation
+for (i in 1:5) {
+  message("Testing ", i)
+  print(likelihood(psamps[i,]))
 }
 
 # Create directory for storage
