@@ -65,6 +65,8 @@ likelihood <- function(params) {
     site <- sites[i]
     site_data <- site_data_list[[site]]
     site_obs <- observed[, colnames(observed) == site]
+    nobs <- NCOL(site_obs)
+    nwl <- NROW(site_obs)
 
     dbh <- site_data[["dbh"]]
     pft_orig <- site_data[["pft"]]
@@ -144,7 +146,8 @@ likelihood <- function(params) {
       return(-1e20)
     }
     rss <- ri + rs * albedo  # Heteroskedastic variance
-    site_ll <- sum(dnorm(albedo, site_obs, rss, log = TRUE))
+    # NOTE: Subtraction down-weights sites with multiple observations
+    site_ll <- sum(dnorm(albedo, site_obs, rss, log = TRUE)) - log(nobs) * log(nwl)
     if (!is.finite(site_ll)) {
       ## cat("-")
       ## message("Likelihood calculation failed for site ", site)
