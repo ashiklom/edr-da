@@ -4,7 +4,7 @@
 
 \begin{figure}
   \centering
-  \includegraphics[width=\textwidth]{figures/posterior-pft}
+  \includegraphics[width=\textwidth]{figures/h-ss/posterior-pft}
   \caption{\label{fig:posterior-pft}\
     Marginal prior (pre-calibration; grey) and posterior (post-calibration; black) distributions of PFT-specific parameters
     related to leaf biochemistry and canopy structure.
@@ -12,20 +12,24 @@
   }
 \end{figure}
 
-Model calibration substantially improved the precision of all parameter estimates for all PFTs, even when prior distributions were strongly informative (Figure~\ref{fig:posterior-pft}).
-Calibrated parameters were different across different PFTs, with the largest differences in leaf traits.
-Specifically, hardwood PFTs had higher pigment concentrations (\emph{Cab} and \emph{Car}) and thinner leaves (higher SLA, lower \emph{Cm} and \emph{N}) than conifer PFTs.
-Among the hardwood PFTs, pigment concentrations declined with later successional status, but the pattern in leaf mechanical traits was more idiosyncratic, with Mid-successional hardwoods having lower SLA, lower \emph{N}, and higher \emph{Cm} than Early or Late successional hardwoods.
-Among the conifer PFTs, Pine had higher \emph{N}, \emph{Cm}, and \emph{SLA} and lower pigment concentrations than Late Conifer.
-Differences in calibrated estimates for canopy structural parameters were more subtle.
-Mid hardwood had the highest leaf biomass allometry coefficient, followed by Pine, and Late hardwood, and comparably low values for Early hardwood and Late conifer.
-Wood allometry coefficients were estimated to be around zero for all PFTs except Northern Pine.
-All PFTs were estimated to have strongly clumped canopies (clumping factor $< 0.5$), with the least clumped (highest clumping factor) canopy for Late conifer and the must clumped canopy for Late hardwood.
-Leaf orientation factors were around $\sim 0.25 - 0.3$ (leaves distributed somewhat more horizontally than randomly) for all PFTs except Early hardwood, where the estimate was much higher ($\sim 0.6$; more horizontally distributed leaves).
+Model calibration substantially improved the precision of all parameter estimates for all PFTs, even though prior distributions were informative (Figure~\ref{fig:posterior-pft}).
+For leaf traits, PFT rankings of the posterior estimates largely followed the relative positions of the priors.
+The effective number of leaf layers (PROSPECT \emph{N} parameter) was higher for needleleaved than broadleaved PFTs, with the highest value for Northern Pine and the lowest value for Mid Hardwood.
+Estimated total chlorophyll contents (\emph{Cab}) were similar across all PFTs, with the highest value for Mid Hardwood followed closely by Early Hardwood, slightly lower values for Late Hardwood and Late Conifer, and by far the lowest values for Northern Pine.
+Estimated total carotenoid contents (\emph{Car}) were highest in Late Conifer, followed by North Mid Hardwood, Early Hardwood, and comparably low values for Late Hardwood and Northern Pine.
+Estimated water contents (\emph{Cw}) were higher in the needleleaved PFTs than the broadloaved PFTs, and, among the latter, declined with later successional stage.
+Estimated leaf dry matter contents (\emph{Cm}) were similar across all PFTs.
+Finally, estimated specific leaf area (SLA) was highest in Early Hardwood, followed by Late Hardwood and Mid Hardwood, and was comparably low for Northern Pine and Late Conifer.
+
+Unlike leaf traits, canopy structure traits had PFT-agnostic priors, but the calibration still produced significant differentiation among PFTs.
+The leaf biomass allometry coefficient (\emph{b1Bl}) was similar for Early Hardwood, Late Hardwood, and Northern Pine, but much higher for Mid Hardwood and much lower for Late Conifer.
+The wood biomass allometry coefficient (\emph{b1Bw}) was higher in needleleaved PFTs than broadleaved PFTs, with an exceptionally high value (above the 95\% CI of the prior) for Northern Pine.
+Canopy clumping factor estimates were highest in Early Hardwood and Northern Pine, lower in Mid and Late Hardwood, and lowest in Late Conifer.
+Leaf orientation factor estimates were highest in Early and Late Hardwood, lower for Northern Pine, and lowest in Mid Hardwood and Late Conifer.
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=\textwidth]{figures/posterior-soil}
+  \includegraphics[width=\textwidth]{figures/h-ss/posterior-soil}
   \caption{\label{fig:posterior-soil}\
     Site-specific relative soil moisture (0 = dry, 1 = wet) posterior estimates.
     Sites are sorted in order of increasing weighted evergreen fraction.
@@ -40,7 +44,7 @@ but variability among both evergreen- and hardwood-dominated sites was large.
 
 \begin{figure}
   \centering
-  \includegraphics[width=\textwidth]{figures/spec-error-all}
+  \includegraphics[width=\textwidth]{figures/h-ss/spec-error-all}
   \caption{\label{fig:spec-error-all}\
     Comparison between AVIRIS observed (black)
     and EDR predicted (gray; 95\% posterior predictive interval)
@@ -51,13 +55,14 @@ but variability among both evergreen- and hardwood-dominated sites was large.
 \begin{figure}
   \centering
   \includegraphics[width=\textwidth]{figures/spec-error-aggregate}
-  \caption{\label{fig:spec_error_vis}\
+  \caption{\label{fig:spec-error-aggregate}\
     Difference between AVIRIS observed and EDR predicted (mean) site surface reflectance.
     One line per site and observation is shown (some sites had multiple observations).
   }
 \end{figure}
 
-% The ability of EDR to reproduce observed spectra at every site was strongly site-dependent (Figure~\ref{fig:spec-error-all}).
+The ability of EDR to reproduce observed spectra at every site was site-dependent (Figures~\ref{fig:spec-error-all} and~\ref{fig:spec-error-aggregate}).
+The largest
 % At a majority of the sites, EDR systematically over-predicted reflectance in the visible range (Figure~\ref{fig:spec_error_vis}), while errors in the near-infrared region were more variable.
 % As shown in the sensitivity analysis, this consistent over-prediction of visible reflectance is likely driven by wood reflectance (Figure~\ref{fig:wood_compare}).
 % 4SAIL also showed a lot of site-to-site variability in its performance, but generally performed better in the visible range than EDR\@.
