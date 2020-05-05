@@ -113,8 +113,8 @@ likelihood <- function(params) {
     SLA <- pft_params[6, ]
     b1Bl <- pft_params[7, ]
     b1Bw <- pft_params[8, ]
-    orient_factor <- pft_params[9, ]
-    clumping_factor <- pft_params[10, ]
+    clumping_factor <- pft_params[9, ]
+    orient_factor <- pft_params[10, ]
 
     # Calculate allometries
     bleaf <- size2bl(dbh, b1Bl[pft], b2Bl[pft])
