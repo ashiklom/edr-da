@@ -31,7 +31,7 @@ create_prior <- function(fix_allom2 = TRUE,
       10000, # SLA
       50, if (!fix_allom2) 50, # leaf allom
       50, if (!fix_allom2) 50, # wood allom
-      1, 1 # clumping, orient
+      1, 0.6 # clumping, orient
     )
     resid_lower <- if (heteroskedastic) c(0, 0) else 0
     resid_upper <- if (heteroskedastic) c(100, 100) else 100

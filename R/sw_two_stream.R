@@ -88,7 +88,13 @@ sw_two_stream <- function(czen,
   phi2 <- 0.877 * (1 - 2 * phi1)
   mu_bar <- (1 - phi1 * log(1 + phi2 / phi1) / phi2) / phi2
   mu_bar[orient_factor == 0] <- 1
-  stopifnot(all(is.finite(mu_bar)))
+  if (!all(is.finite(mu_bar))) {
+    ibad <- which(!is.finite(mu_bar))
+    stop(
+      "mu_bar calculation failed with orient_factor: ",
+      paste(orient_factor[ibad], collapse = ", ")
+    )
+  }
   ##########
 
   # Size of solution matrix

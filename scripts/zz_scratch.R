@@ -175,3 +175,9 @@ ggplot(nc18_spectra) +
             data = nc18_obs)
 
 ##################################################
+mubar <- function(orient_factor) {
+  phi1 <- 0.5 - orient_factor * (0.633 + 0.33 * orient_factor)
+  phi2 <- 0.877 * (1 - 2 * phi1)
+  mu_bar <- (1 - phi1 * log(1 + phi2 / phi1) / phi2) / phi2
+  mu_bar
+}
