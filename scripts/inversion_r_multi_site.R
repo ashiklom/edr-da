@@ -73,11 +73,11 @@ likelihood <- function(params) {
     nplant <- site_data[["n"]]
     ncohort <- length(dbh)
 
-    # Calculate heights and height order (tallest first)
+    # Calculate heights and height order (shorest first)
     hite <- dbh2h(dbh, pft)
-    ihite <- order(hite, decreasing = TRUE)
+    ihite <- order(hite, decreasing = FALSE)
 
-    # Order cohorts by decreasing height (tallest first)
+    # Order cohorts by decreasing height (shortest first)
     dbh <- dbh[ihite]
     pft <- pft[ihite]
     nplant <- nplant[ihite]

@@ -62,7 +62,7 @@ ss_*.po*
 
 old_pdfs
 old_rdata
-multi_site_pda_results
+multi_site_pda_results*
 
 # Automatically generated scripts
 qsub_ed_*_site*.sh
