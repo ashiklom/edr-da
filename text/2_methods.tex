@@ -2,12 +2,18 @@
 
 \subsection{Model description}
 
-The Ecosystem Demography version 2 (ED2) model simulates plot-level vegetation dynamics and biogeochemistry~\parencite{moorcroft_2001_method, medvigy2009mechanistic, longo_2019_ed1}.
+The Ecosystem Demography version 2.2 (ED2) model simulates plot-level vegetation dynamics and biogeochemistry~\parencite{moorcroft_2001_method, medvigy2009mechanistic, longo_2019_ed1}.
 By grouping individuals of similar size, structure, and composition together into cohorts, ED2 is capable of modeling patch-level competition in a computationally efficient manner.
+Relevant to this work, ED2 includes a multi-layer canopy radiative transfer model that is a generalization of the two-layer two-stream radiative transfer scheme in CLM 4.5~\parencite{clm45_note}, which in turn is derived from \textcite{sellers1985canopy}.
+A complete description of the model derivation is provided in the supplementary information of \textcite{longo_2019_ed1}, but for completeness, we provide an abbreviated description below:
 
-Relevant to this work, ED2 includes a multi-layer canopy radiative transfer model that is a generalization of the two-stream solution of Sellers (1985). \nocite{sellers1985canopy}
-In its default configuration, the ED2 radiative transfer model solves for the overall hemispherical (i.e.\ diffuse) canopy albedo in two spectral ``bands''---visible and near-infrared---as a function of each cohort's leaf area index and PFT-specific parameters for leaf and wood reflectance and transmittance, canopy clumping factor, and leaf orientation factor.
-The equations used are mostly adapted from the Community Land Model\parencite{clm45_note}, but a summary of key features is as follows:
+Let $n$ be the number of cohorts in a patch, with $1$ being the shortest and $n$ being the tallest.
+The ED2 radiative transfer model calculates the total hemispherical upward and downward flux at each cohort, as well as at the ground ($0$) and the interface above the canopy ($n+1$).
+The ED2 radiative transfer model solves for the upward and downward flux at $n+2$ levels in the canopy
+The ED2 radiative transfer model solves for the overall hemispherical (i.e.\ diffuse) surface albedo
+in two spectral ``bands''---visible and near-infrared---as a function of
+each cohort's leaf and wood area indices and
+PFT-specific parameters for leaf and wood reflectance and transmittance, canopy clumping factor, and leaf orientation factor.
 
 The direct radiation flux is modeled as an exponential attenuation curve through the canopy based on each layer's transmissivity ($\tau_r$),
 which in turn is a function of the total area index ($TAI$) of the canopy layer and the inverse optical depth ($\mu_r$):
