@@ -6,9 +6,16 @@ stopifnot(
 )
 pkgload::load_all(".", attach_testthat = FALSE)
 
-arg <- commandArgs(trailingOnly = TRUE)
-resume <- isTRUE(arg[1] == "resume")
+argv <- commandArgs(trailingOnly = TRUE)
+
+resume <- "resume" %in% argv
+HETEROSKEDASTIC <- "hetero" %in% argv
+SITE_SPECIFIC <- "ss" %in% argv
+NCORES <- 8
+
 message("Value of resume is: ", resume)
+message("Value of heteroskedastic is: ", HETEROSKEDASTIC)
+message("Value of site_specific is: ", SITE_SPECIFIC)
 
 # Constants
 npft <- 5       # Early, mid, late hardwood, early & late conifer
@@ -40,28 +47,26 @@ site_data_list <- purrr::map(site_files, read.table, header = TRUE)
 names(site_data_list) <- sites
 
 # Set up prior
-prior <- create_prior(nsite = nsite, heteroskedastic = TRUE,
-                      limits = TRUE, site_specific_var = TRUE)
+prior <- create_prior(nsite = nsite, heteroskedastic = HETEROSKEDASTIC,
+                      limits = TRUE, site_specific_var = SITE_SPECIFIC)
 psamps <- prior$sampler()
 param_names <- names(psamps)
 # Re-create prior, but with parameter names
 message("Creating prior...")
-prior <- create_prior(nsite = nsite, heteroskedastic = TRUE,
+prior <- create_prior(nsite = nsite, heteroskedastic = HETEROSKEDASTIC,
                       limits = TRUE, param_names = param_names,
-                      site_specific_var = TRUE)
+                      site_specific_var = SITE_SPECIFIC)
 message("Testing prior...")
 psamps <- check_prior(prior, error = TRUE)
 
 # Define likelihood
 likelihood <- function(params) {
-  ## params <- psamps[1,]
   ll <- 0
   npft_param <- 10  # Number of PFT-specific parameters
   has_names <- !is.null(names(params))
   # NOTE: Sample here to improve efficiency by quickly rejecting site where
-  # params fail.
+  # params fail
   for (i in sample(nsite)) { # site loop
-    ## i <- 1
     site <- sites[i]
     site_data <- site_data_list[[site]]
     site_obs <- observed[, colnames(observed) == site]
@@ -89,15 +94,10 @@ likelihood <- function(params) {
 
     # Extract site-specific soil moisture
     soil_moisture <- if (has_names) {
-      params[grepl(paste0("sitesoil_", i, "$"), names(params))] 
+      params[grepl(paste0("sitesoil_", i, "$"), names(params))]
     } else {
       params[npft * npft_param + i]
     }
-
-    # Extract residuals
-    ## rss <- if (has_names) params["residual"] else tail(params, 1)
-    rs <- params[grep("residual_slope", param_names)][i]
-    ri <- params[grep("residual_intercept", param_names)][i]
 
     # Remaining parameters are PFT-specific
     pft_params_v <- params[!grepl("residual|sitesoil", param_names)]
@@ -135,28 +135,34 @@ likelihood <- function(params) {
             wavelengths = waves),
       error = function(e) NULL)
     if (is.null(result)) {
-      ## cat("-")
-      ## message("Failed for site: ", site)
       return(-1e20)
     }
     albedo <- result[["albedo"]]
     if (any(!is.finite(albedo)) || any(albedo < 0) || any(albedo > 1)) {
-      ## cat("-")
-      ## message("Bad albedo for site: ", site)
       return(-1e20)
     }
-    rss <- ri + rs * albedo  # Heteroskedastic variance
+    # Extract residuals
+    if (HETEROSKEDASTIC) {
+      rs <- params[grep(
+        paste0("residual_slope", if (SITE_SPECIFIC) i),
+        param_names
+      )]
+      ri <- params[grep(
+        paste0("residual_intercept", if (SITE_SPECIFIC) i),
+        param_names
+      )]
+      rss <- ri + rs * albedo  # Heteroskedastic variance
+    } else {
+      rss <- params[grep(paste0("residual", if (SITE_SPECIFIC) i))]
+    }
+
     # NOTE: Subtraction down-weights sites with multiple observations
     site_ll <- sum(dnorm(albedo, site_obs, rss, log = TRUE)) - log(nobs) * log(nwl)
     if (!is.finite(site_ll)) {
-      ## cat("-")
-      ## message("Likelihood calculation failed for site ", site)
       return(-1e20)
     }
     ll <- ll + site_ll
   } # end site loop
-  ## cat("x")
-  ## message("success")
   ll
 }
 
@@ -172,20 +178,25 @@ if (FALSE) {
 
 # Create directory for storage
 sampdir <- strftime(Sys.time(), "%Y-%m-%d-%H%M")
-base_outdir <- "multi_site_pda_results-exp"
+outtag <- paste(
+  if (HETEROSKEDASTIC) "hetero" else "homo",
+  if (SITE_SPECIFIC) "sitespecific" else "pooled",
+  sep = "-"
+)
+base_outdir <- file.path("multi_site_pda_results", outtag)
 outdir <- file.path(base_outdir, sampdir)
 dir.create(outdir, recursive = TRUE)
 message("Storing results in: ", outdir)
 writeLines(param_names, file.path(outdir, "param_names.txt"))
 
 # Inversion settings
-niter <- 1000
+niter <- 5000
 max_iter <- 1e7
 max_attempts <- floor(max_iter / niter)
 attempt <- 0
 threshold <- 1.2
 target_neff <- 500
-ncores <- 8
+ncores <- NCORES
 
 # Create BayesianTools setup
 message("Creating setup")
