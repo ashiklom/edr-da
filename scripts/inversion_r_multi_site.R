@@ -58,7 +58,9 @@ likelihood <- function(params) {
   ll <- 0
   npft_param <- 10  # Number of PFT-specific parameters
   has_names <- !is.null(names(params))
-  for (i in seq_len(nsite)) { # site loop
+  # NOTE: Sample here to improve efficiency by quickly rejecting site where
+  # params fail.
+  for (i in sample(nsite)) { # site loop
     ## i <- 1
     site <- sites[i]
     site_data <- site_data_list[[site]]
