@@ -227,12 +227,16 @@ site_spec_dbh_plot <- function(site, observed_predicted, site_details) {
 
   pspec <- ggplot(spec_sub) +
     aes(x = wavelength) +
-    geom_ribbon(aes(ymin = pmax(albedo_r_q025, 0), ymax = albedo_r_q975),
+    geom_ribbon(aes(ymin = pmax(albedo_r_q025, 0), ymax = pmin(albedo_r_q975, 1)),
                 fill = "gray70") +
+    geom_ribbon(aes(ymin = pmax(albedo_q025, 0),
+                    ymax = pmin(albedo_q975, 1)),
+                fill = "green3") +
+    geom_line(aes(y = albedo_mean), color = "green4", size = 1) +
     geom_line(aes(y = observed, group = iobs)) +
     labs(x = "Wavelength (nm)", y = "Reflectance (0 - 1)",
          title = site) +
-    coord_cartesian(ylim = c(0, 0.7)) +
+    coord_cartesian(ylim = c(0, 1.0)) +
     theme_bw()
 
   dbh_dat <- site_details %>%
@@ -254,4 +258,40 @@ site_spec_dbh_plot <- function(site, observed_predicted, site_details) {
       legend.background = element_blank()
     )
   pspec + pdbh
+}
+
+calc_ndvi <- function(dat, vcol) {
+  dat %>%
+    dplyr::filter(wavelength %in% c(690, 800)) %>%
+    tidyr::pivot_wider(
+      names_from = "wavelength",
+      values_from = all_of(vcol)
+    ) %>%
+    dplyr::rename(nir = `800`, red = `690`) %>%
+    dplyr::mutate(ndvi = (nir - red) / (nir + red))
+}
+
+calc_ndvi_bysite <- function(observed_spectra, predicted_spectra,
+                             site_structure) {
+  obs_ndvi <- calc_ndvi(observed_spectra, "observed")
+  pred_ndvi <- predicted_spectra %>%
+    dplyr::select(wavelength, site, albedo_mean) %>%
+    calc_ndvi("albedo_mean")
+  obs_ndvi %>%
+    dplyr::inner_join(pred_ndvi, "site", suffix = c("_obs", "_pred")) %>%
+    dplyr::left_join(site_structure, c("site" = "site_name"))
+}
+
+ndvi_dbh_plot <- function(both_ndvi) {
+  ggplot(both_ndvi) +
+    aes(x = mean_dbh) +
+    geom_point(aes(y = ndvi_obs, shape = "observed")) +
+    geom_smooth(aes(y = ndvi_obs, linetype = "observed"),
+                method = "lm", se = FALSE, color = "black") +
+    geom_point(aes(y = ndvi_pred, shape = "predicted")) +
+    geom_smooth(aes(y = ndvi_pred, linetype = "predicted"),
+                method = "lm", se = FALSE, color = "black") +
+    labs(x = "Mean DBH (cm)", y = "NDVI") +
+    scale_shape_manual(values = c("observed" = 19, predicted = 3)) +
+    theme_bw()
 }

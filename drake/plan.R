@@ -86,16 +86,37 @@ plan <- drake_plan(
     spec_error_aggregate_f(observed_predicted),
     width = 5, height = 4, dpi = 300
   ),
-  overestimate_sites = ggsave(
-    file_out(!!path(figdir, "overestimate-sites.png")),
+  late_conifer_sites = ggsave(
+    file_out(!!path(figdir, "late-conifer-sites.png")),
     lapply(
-      c("IDS35", "OF04", "SF03", "OF01", "GR08", "IDS34", "OF05"),
+      c("AK06", "AK60", "IDS35",
+        "MN04", "NC09", "OF01",
+        "SF01", "SF04"),
       site_spec_dbh_plot,
       observed_predicted = observed_predicted,
       site_details = site_details
     ) %>%
-      wrap_plots(guides = "collect", ncol = 2) +
+      wrap_plots(guides = "collect", ncol = 3) +
       guide_area(),
-    width = 8, height = 10, dpi = 300
+    width = 12, height = 8, dpi = 300
+  ),
+  all_sites_spec_dbh = ggsave(
+    file_out(!!path(figdir, "all-sites-spec-dbh.png")),
+    lapply(
+      sort(unique(site_details$site)),
+      site_spec_dbh_plot,
+      observed_predicted = observed_predicted,
+      site_details = site_details
+    ) %>%
+      wrap_plots(guides = "collect", ncol = 2),
+    width = 8, height = 50, dpi = 300,
+    limitsize = FALSE
+  ),
+  both_ndvi = calc_ndvi_bysite(observed_spectra, predicted_spectra,
+                               site_structure_data),
+  ndvi_dbh_png = ggsave(
+    file_out(!!path(figdir, "ndvi-dbh.png")),
+    ndvi_dbh_plot(both_ndvi),
+    width = 6.4, height = 5.2, dpi = 300
   )
 )

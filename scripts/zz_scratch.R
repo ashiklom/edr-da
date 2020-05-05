@@ -127,7 +127,7 @@ ggplot(site_lai_summary) +
 plt_sites <- c("OF04", "SF03", "OF01", "GR08")
 plt_sites <- c("IDS35", "IDS34", "BH05")
 site_lai_summary %>%
-  filter(site %in% plt_sites) %>%
+  ## filter(site %in% plt_sites) %>%
   ggplot() +
   aes(x = cum_elai, y = hite, color = pft) +
   geom_segment(aes(yend = hite, xend = 0)) +
@@ -142,13 +142,13 @@ bad_sites <- site_lai_total %>%
   pull(site)
 
 inner_join(site_lai_total, lai_observed, "site") %>%
-  filter(!site %in% bad_sites) %>%
+  ## filter(!site %in% bad_sites) %>%
   ggplot() +
-  aes(x = lai_mean, y = obs_LAI,
-      xmin = lai_lo, xmax = lai_hi) +
+  aes(x = elai_mean, y = obs_LAI,
+      xmin = elai_lo, xmax = elai_hi) +
   geom_pointrange() +
-  geom_abline(linetype = "dashed") +
-  coord_equal()
+  geom_abline(linetype = "dashed")
+  ## coord_equal()
 
 ##################################################
 nc18_spectra <- predict_site_spectra(
@@ -175,34 +175,11 @@ ggplot(nc18_spectra) +
             data = nc18_obs)
 
 ##################################################
-ggplot(predicted_spectra) +
-  aes(x = wavelength) +
-  geom_ribbon(aes(ymin = pmax(albedo_r_q025, 0), ymax = albedo_r_q975),
-              fill = "green3") +
-  geom_line(aes(y = observed, group = iobs), data = observed_spectra) +
-  facet_wrap(vars(site), scales = "fixed") +
-  labs(x = "Wavelength (nm)", y = "Reflectance (0 - 1)") +
-  theme_bw()
 
-obs_pred <- observed_spectra %>%
-  inner_join(predicted_spectra, c("site", "wavelength"))
 
-obs_pred %>%
-  mutate(bias = albedo_mean - observed,
-         bias2 = bias ^ 2) %>%
-  group_by(wavelength) %>%
-  summarize(
-    rmse = sqrt(mean(bias2)),
-    err_1 = sqrt(quantile(bias2, 0.75)),
-    err_2 = sqrt(quantile(bias2, 0.9)),
-    err_3 = sqrt(quantile(bias2, 0.95)),
-    err_max = sqrt(max(bias2))
-  ) %>%
-  ungroup() %>%
-  ggplot() +
-  aes(x = wavelength) +
-  geom_line(aes(y = rmse)) +
-  geom_line(aes(y = err_1), color = "orange") +
-  geom_line(aes(y = err_2), color = "red") +
-  geom_line(aes(y = err_3), color = "red4")
+  ## coord_cartesian(xlim = c(10, 40), ylim = c(0.6, 1))
 
+ggplot(both_ndvi) +
+  aes(x = nir_pred, y = nir_obs) +
+  geom_point() +
+  geom_abline()
