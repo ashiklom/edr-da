@@ -154,7 +154,7 @@ prior_residual <- c(0.03, 1.5)
 #' @export
 rresidual <- function(n = 1) {
   rgamma(n, prior_residual[1], prior_residual[2]) %>%
-    setNames("residual")
+    setNames(paste0("residual", seq_len(n)))
 }
 
 #' @rdname rclumping
@@ -167,7 +167,7 @@ dresidual <- function(params, log = TRUE) {
     x <- tail(params, 1)
   }
   dgamma(x, prior_residual[1], prior_residual[2], log = log) %>%
-    setNames("residual")
+    setNames(paste0("residual", seq_len(n)))
 }
 
 #' @export

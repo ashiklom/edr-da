@@ -93,6 +93,9 @@ create_prior_sampler <- function(fix_allom2 = TRUE, heteroskedastic = TRUE, nsit
       names(soil) <- paste0("sitesoil_", seq_len(nsite))
       nresid <- if (site_specific_var) nsite else 1
       resid <- if (heteroskedastic) rresidual2(nresid) else rresidual(nresid)
+      if (!site_specific_var) {
+        names(resid) <- gsub("[[:digit:]]+", "", names(resid))
+      }
       curr_params <- purrr::pmap(
         list(
           prospect_params,
@@ -141,12 +144,12 @@ create_prior_density <- function(fix_allom2 = TRUE, heteroskedastic = TRUE, verb
         ))
     } else {
       residuals <- params[grep("residual", names(params))]
-      ld_resid <- dgamma(
+      ld_resid <- sum(dgamma(
         residuals,
         prior_residual[1],
         prior_residual[2],
         log = TRUE
-      )
+      ))
     }
     if (!is.finite(ld_resid)) {
       if (verbose) message("Invalid residual prior")
