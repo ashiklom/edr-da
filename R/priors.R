@@ -133,7 +133,14 @@ prior_orient <- c(6, 4) * 3
 #' @rdname rclumping
 #' @export
 rorient <- function() {
+  ntry <- 1
   out <- 2 * rbeta(length(pfts), prior_orient[1], prior_orient[2]) - 1
+  while (any(out > 0.6)) {
+    ibad <- out > 0.6
+    ntry <- ntry + 1
+    if (ntry > 100) stop("Too many tries. Something is wrong with orient.")
+    out[ibad] <- 2 * rbeta(sum(ibad), prior_orient[1], prior_orient[2]) - 1
+  }
   names(out) <- paste(pfts, allom_names[1], sep = ".")
   out
 }
