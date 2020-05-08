@@ -63,7 +63,8 @@ plan <- drake_plan(
     predict_site_spectra(
       posterior_matrix,
       inversion_site_list,
-      nsamp = 500, dedup = TRUE, progress = FALSE
+      nsamp = 500, dedup = TRUE, progress = FALSE,
+      run_config = !!run_config
     ) %>%
       dplyr::mutate(site = inversion_site_list),
     dynamic = map(inversion_site_list)

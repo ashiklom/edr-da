@@ -323,7 +323,8 @@ convert_ed_params <- function(params, vis = 400:700, nir = 701:1300, fix_allom2 
 predict_site_spectra <- function(params_matrix, site,
                                  nsamp = 500,
                                  dedup = FALSE,
-                                 progress = FALSE) {
+                                 progress = FALSE,
+                                 run_config = "homo-pooled") {
   site_list <- readLines("other_site_data/site_list")
   if (!site %in% site_list) {
     stop("Site ", site, " is not in site_list")
@@ -346,8 +347,21 @@ predict_site_spectra <- function(params_matrix, site,
                   pb = pb, wavelengths = waves)
   nulls <- vapply(result, is.null, logical(1))
   result <- result[!nulls]
-  rslope <- params_filtered[!nulls, paste0("residual_slope", isite)]
-  rint <- params_filtered[!nulls, paste0("residual_intercept", isite)]
+  if (run_config == "homo-pooled") {
+    rint <- params_filtered[!nulls, "residual"]
+    rslope <- 0
+  } else if (run_config == "hetero-pooled") {
+    rint <- params_filtered[!nulls, "residual_intercept"]
+    rslope <- params_filtered[!nulls, "residual_slope"]
+  } else if (run_config == "homo-sitespecific") {
+    rint <- params_filtered[!nulls, paste0("residual", isite)]
+    rslope <- 0
+  } else if (run_config == "hetero-sitespecific") {
+    rint <- params_filtered[!nulls, paste0("residual_intercept", isite)]
+    rslope <- params_filtered[!nulls, paste0("residual_slope", isite)]
+  } else {
+    stop("Invalid run config: ", run_config)
+  }
   alb_list <- purrr::map(result, "albedo")
   albedos <- purrr::pmap_dfr(
     list(alb_list, rslope, rint),

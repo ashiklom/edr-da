@@ -181,3 +181,10 @@ mubar <- function(orient_factor) {
   mu_bar <- (1 - phi1 * log(1 + phi2 / phi1) / phi2) / phi2
   mu_bar
 }
+
+##################################################
+Sys.setenv("RUN_CONFIG" = "hetero-pooled")
+loadd("posterior_matrix", cache = dc)
+loadd("inversion_site_list", cache = dc)
+site <- inversion_site_list[6]
+params_matrix <- posterior_matrix
