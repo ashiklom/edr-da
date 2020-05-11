@@ -1,3 +1,0 @@
-#!/bin/bash
-
-rsync -avz --copy-links --progress --exclude="*/spec_history.rds" geo:~/dietzelab/edr-da/sync_data/ sync_data

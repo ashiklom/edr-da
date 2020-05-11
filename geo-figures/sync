@@ -1,8 +1,0 @@
-#!/bin/bash
-
-rsync -avz --progress \
-    --include="msp*" \
-    --include="*.pdf" \
-    --include="figures" \
-    --exclude="*" \
-    geo:~/dietzelab/edr-da/ed-outputs/ .
