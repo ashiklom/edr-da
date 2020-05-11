@@ -144,8 +144,8 @@ bad_sites <- site_lai_total %>%
 inner_join(site_lai_total, lai_observed, "site") %>%
   ## filter(!site %in% bad_sites) %>%
   ggplot() +
-  aes(x = elai_mean, y = obs_LAI,
-      xmin = elai_lo, xmax = elai_hi) +
+  aes(x = lai_mean, y = obs_LAI,
+      xmin = lai_lo, xmax = lai_hi) +
   geom_pointrange() +
   geom_abline(linetype = "dashed")
   ## coord_equal()
@@ -186,5 +186,63 @@ mubar <- function(orient_factor) {
 Sys.setenv("RUN_CONFIG" = "hetero-pooled")
 loadd("posterior_matrix", cache = dc)
 loadd("inversion_site_list", cache = dc)
-site <- inversion_site_list[6]
-params_matrix <- posterior_matrix
+loadd("site_lai_total", cache = dc)
+loadd("site_details", cache = dc)
+loadd("lai_observed", cache = dc)
+
+site_lai_total %>%
+  arrange(desc(lai_mean))
+
+##################################################
+site <- "BI06"
+site_df <- site_details %>% filter(site == !!site)
+obs <- lai_observed %>% filter(site == !!site)
+b1Bl <- purrr::map_dbl(allom_mu, "b1Bl") %>% exp()
+names(b1Bl) <- gsub("temperate\\.", "", names(b1Bl))
+b2Bl <- purrr::map_dbl(allom_mu, "b2Bl")
+names(b2Bl) <- gsub("temperate\\.", "", names(b2Bl))
+pm <- prospect_means
+rownames(pm) <- gsub("temperate\\.", "", rownames(pm))
+SLA <- pm[,"SLA"]
+
+albl <- list()
+lail <- list()
+for (bbnp in c(0.001, 0.005, 0.01, 0.03, 0.05, 0.1, 0.5, 1, 2, 3, 4)) {
+  b1Bl["Northern_Pine"] <- bbnp
+  site_lai <- site_df %>%
+    mutate(bleaf = size2bl(dbh, b1Bl[pft], b2Bl[pft]),
+           lai = nplant * SLA[pft] * bleaf,
+           hite = dbh2h(dbh, ipft)) %>%
+    arrange(hite)
+  tag <- as.character(bbnp)
+  lail[[tag]] <- site_lai
+  albl[[tag]] <- edr_r(
+    site_lai$pft,
+    site_lai$lai,
+    rep(0, nrow(site_lai)),
+    rep(1, nrow(site_lai)),
+    N = pm[,"prospect_N"],
+    Cab = pm[, "prospect_Cab"],
+    Car = pm[, "prospect_Car"],
+    Cw = pm[, "prospect_Cw"],
+    Cm = pm[, "prospect_Cm"],
+    orient_factor = rep(0.5, 5),
+    clumping_factor = rep(1, 5),
+    soil_moisture = 0.8,
+    direct_sky_frac = 0.9,
+    czen = 1
+  )[["albedo"]]
+}
+
+lai_sums <- purrr::map_dbl(lail, function(x) sum(x$lai))
+
+r <- do.call(cbind, albl)
+matplot(400:2500, r, type = "l")
+legend(
+  "topright",
+  as.character(round(lai_sums, 1)),
+  lty = seq_along(lai_sums),
+  col = seq_along(lai_sums)
+)
+
+plot(out$albedo, type = 'l')
