@@ -123,6 +123,9 @@ likelihood <- function(params) {
     lai <- nplant * bleaf * SLA[pft]
     wai <- wai_allometry(dbh, nplant, b1Bw[pft], b2Bw[pft])
 
+    # Incorporate LAI values in the likelihood.
+    ll <- ll + sum(dexp(lai, log = TRUE)) + sum(dexp(wai, 0.5, log = TRUE))
+
     # Cohort area index is constant (no crown radius model)
     cai <- rep(1, ncohort)
 
