@@ -1,6 +1,6 @@
 #!/usr/bin/env Rscript
 ## utils::install.packages(".", repos = NULL, type = "source")
-## commandArgs <- function(...) c("ss")
+## commandArgs <- function(...) c("hetero")
 stopifnot(
   requireNamespace("PEcAnRTM", quietly = TRUE),
   requireNamespace("redr", quietly = TRUE)
@@ -123,8 +123,11 @@ likelihood <- function(params) {
     lai <- nplant * bleaf * SLA[pft]
     wai <- wai_allometry(dbh, nplant, b1Bw[pft], b2Bw[pft])
 
-    # Incorporate LAI values in the likelihood.
-    ll <- ll + sum(dexp(lai, log = TRUE)) + sum(dexp(wai, 0.5, log = TRUE))
+    # Incorporate LAI values in the likelihood. These are weighted to receive
+    # 10% the weight of the spectra likelihood.
+    ll <- ll +
+      dexp(sum(lai), log = TRUE) * nwl / 10 +
+      dexp(sum(wai), log = TRUE) * nwl / 10
 
     # Cohort area index is constant (no crown radius model)
     cai <- rep(1, ncohort)
