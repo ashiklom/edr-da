@@ -161,9 +161,8 @@ likelihood <- function(params) {
       )]
     }
 
-    site_ll <- sum(dnorm(albedo, site_obs, rss, log = TRUE))
-    # NOTE: Down-weight sites with multiple observations
-    site_ll <- site_ll - log(nobs) * log(nwl)
+    # Down-weight sites with multiple observations
+    site_ll <- sum(dnorm(albedo, site_obs, rss, log = TRUE)) / nobs
     stopifnot(is.finite(site_ll))
     ll <- ll + site_ll
   } # end site loop
