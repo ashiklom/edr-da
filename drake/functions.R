@@ -295,3 +295,15 @@ ndvi_dbh_plot <- function(both_ndvi) {
     scale_shape_manual(values = c("observed" = 19, predicted = 3)) +
     theme_bw()
 }
+
+lai_predicted_observed_plot <- function(site_lai_total, lai_observed) {
+  plot_dat <- dplyr::inner_join(site_lai_total, lai_observed, "site")
+  ggplot(plot_dat) +
+    aes(x = lai_mean, xmin = lai_lo, xmax = lai_hi,
+        y = obs_LAI, ymin = obs_LAI_lo, ymax = obs_LAI_hi) +
+    geom_pointrange() +
+    geom_errorbarh() +
+    geom_abline(linetype = "dashed") +
+    labs(x = "Predicted LAI", y = "Observed LAI") +
+    theme_bw()
+}

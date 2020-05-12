@@ -58,6 +58,11 @@ plan <- drake_plan(
       obs_LAI_hi = obs_LAI + obs_LAI_SD
     ) %>%
     filter_if(is.numeric, all_vars(. > 0)),
+  lai_pred_obs_plot = ggsave(
+    file_out(!!path(figdir, "lai-pred-obs.png")),
+    lai_predicted_observed_plot(site_lai_total, lai_observed),
+    width = 6, height = 5, dpi = 300
+  ),
   inversion_site_list = readLines(file_in(!!site_list_file)),
   predicted_spectra = target(
     predict_site_spectra(
