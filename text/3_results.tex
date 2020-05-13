@@ -4,7 +4,7 @@
 
 \begin{figure}
   \centering
-  \includegraphics[width=\textwidth]{figures/h-ss/posterior-pft}
+  \includegraphics[width=\textwidth]{figures/posterior-pft}
   \caption{\label{fig:posterior-pft}\
     Marginal prior (pre-calibration; grey) and posterior (post-calibration; black) distributions of PFT-specific parameters
     related to leaf biochemistry and canopy structure.
@@ -29,7 +29,7 @@ Leaf orientation factor estimates were highest in Early and Late Hardwood, lower
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=\textwidth]{figures/h-ss/posterior-soil}
+  \includegraphics[width=\textwidth]{figures/posterior-soil}
   \caption{\label{fig:posterior-soil}\
     Site-specific relative soil moisture (0 = dry, 1 = wet) posterior estimates.
     Sites are sorted in order of increasing weighted evergreen fraction.
@@ -44,7 +44,7 @@ but this difference was not significant due to large variability among both ever
 
 \begin{figure}
   \centering
-  \includegraphics[width=\textwidth]{figures/h-ss/spec-error-all}
+  \includegraphics[width=\textwidth]{figures/spec-error-all}
   \caption{\label{fig:spec-error-all}\
     Comparison between AVIRIS observed (black)
     and EDR predicted (mean prediction in green, 95\% posterior predictive interval in gray)
@@ -69,7 +69,7 @@ while predictions in the visible range agreed well with observations in all but 
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=\textwidth]{figures/h-ss/ndvi-dbh}
+  \includegraphics[width=\textwidth]{figures/ndvi-dbh}
   \caption{\label{fig:ndvi-dbh}\
     Predicted and observed site normalized difference vegetation index (NDVI, with Red = 690 nm and NIR = 800 nm)
     as a function of site mean diameter at breast height (DBH), with linear regression.
@@ -78,7 +78,7 @@ while predictions in the visible range agreed well with observations in all but 
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=\textwidth]{figures/h-ss/late-conifer-sites}
+  \includegraphics[width=\textwidth]{figures/late-conifer-sites}
   \caption{\label{fig:late-conifer-sites}\
     Predicted and observed surface reflectance, and histogram of observed diameter at breast height (DBH) census observations,
     for sites with large Late Conifer presence.
@@ -94,17 +94,17 @@ the inaccurate predicted spectra at these sites were likely driven by the calibr
 % As shown in the sensitivity analysis, this consistent over-prediction of visible reflectance is likely driven by wood reflectance (Figure~\ref{fig:wood_compare}).
 % 4SAIL also showed a lot of site-to-site variability in its performance, but generally performed better in the visible range than EDR\@.
 
-% \begin{figure}
-%   \centering
-%   \includegraphics[width=\textwidth]{4_edr/figures/explore_spectra/lai_scatter.pdf}
-%   \caption{\
-%     Predictions of leaf area index by EDR, compared to observed values.
-%     Colors indicate the plant functional type of the tallest cohort at each site.
-%     % TODO: Add by-PFT regression line
-%   }\label{fig:lai_validation}
-% \end{figure}
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{figures/lai-pred-obs}
+  \caption{\
+    Predictions of leaf area index by EDR, compared to observed values.
+    % Colors indicate the plant functional type of the tallest cohort at each site.
+    % TODO: Add by-PFT regression line
+  }\label{fig:lai-pred-obs}
+\end{figure}
 
-The ability of EDR to reproduce observed leaf area index was also strongly site-dependent, with some of the accuracy explained by the functional type of the tallest cohort (Figure~\ref{fig:lai_validation}).
+The ability of EDR to reproduce observed leaf area index was also strongly site-dependent, with some of the accuracy explained by the functional type of the tallest cohort (Figure~\ref{fig:lai-pred-obs}).
 In general, EDR tended to over-predict leaf area index for conifer-dominated stands and under-predict for hardwood-dominated stands.
 For mid- and late-hardwood-dominated stands in particular, EDR predicted substantial variability in leaf area index that was not present in the observations.
 
@@ -126,7 +126,7 @@ This can be linked to the two models' different responses to leaf area index rev
 Where late hardwood trees were relatively abundant near the top of the canopy (Figure~\ref{fig:lai_profile}), EDR often over-predicted reflectance in the red (sites BH03, BH05, BH10, and BI01; Figure~\ref{fig:spec_error_vis}) even though the LAI retrieval was reasonably accurate.
 This was likely related to the low inversion estimate of late hardwood clumping factor (Figure~\ref{fig:posterior-pft}), which tends to emphasize the much redder wood and soil background (Figure~\ref{fig:sensitivity_structure_single}).
 However, some other late hardwood-dominated sites showed good performance for both spectra and leaf area index, such as NC17, NC22, and OF04 (Figure~\ref{fig:spec_error_all}).
-Similarly, the high clumping factor estimate for late conifer trees (Figure~\ref{fig:posterior-pft}) was compensated over-predicted leaf area index (driven by increases in the leaf biomass allometry coefficient; Figure~\ref{fig:lai_validation}), as in sites OF01, SF01, and SF04.
+Similarly, the high clumping factor estimate for late conifer trees (Figure~\ref{fig:posterior-pft}) was compensated over-predicted leaf area index (driven by increases in the leaf biomass allometry coefficient; Figure~\ref{fig:lai-pred-obs}), as in sites OF01, SF01, and SF04.
 More generally, EDR tended to perform best in mature stands comfortably dominated by early or mid hardwoods or northern pines.
 
 \subsection{Sensitivity analysis}

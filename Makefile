@@ -1,8 +1,8 @@
 .PHONY: all clean drake pdf sync
 
-all: pdf
+all: drake pdf
 
-pdf: drake
+pdf:
 	cd text && make
 
 drake:
