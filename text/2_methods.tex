@@ -1,121 +1,197 @@
 \section{Methods}
 
-\subsection{Model description}
+\subsection{ED2 model description}
 
 The Ecosystem Demography version 2.2 (ED2) model simulates plot-level vegetation dynamics and biogeochemistry~\parencite{moorcroft_2001_method, medvigy2009mechanistic, longo_2019_ed1}.
 By grouping individuals of similar size, structure, and composition together into cohorts, ED2 is capable of modeling patch-level competition in a computationally efficient manner.
 Relevant to this work, ED2 includes a multi-layer canopy radiative transfer model that is a generalization of the two-layer two-stream radiative transfer scheme in CLM 4.5~\parencite{clm45_note}, which in turn is derived from \textcite{sellers1985canopy}.
 A complete description of the model derivation is provided in the supplementary information of \textcite{longo_2019_ed1}, but for completeness, we provide an abbreviated description below:
 
-Let $n$ be the number of cohorts in a patch, with $1$ being the shortest and $n$ being the tallest.
-The ED2 radiative transfer model calculates the total hemispherical upward and downward flux at each cohort, as well as at the ground ($0$) and the interface above the canopy ($n+1$).
-The ED2 radiative transfer model solves for the upward and downward flux at $n+2$ levels in the canopy
-The ED2 radiative transfer model solves for the overall hemispherical (i.e.\ diffuse) surface albedo
-in two spectral ``bands''---visible and near-infrared---as a function of
-each cohort's leaf and wood area indices and
-PFT-specific parameters for leaf and wood reflectance and transmittance, canopy clumping factor, and leaf orientation factor.
-
-The direct radiation flux is modeled as an exponential attenuation curve through the canopy based on each layer's transmissivity ($\tau_r$),
-which in turn is a function of the total area index ($TAI$) of the canopy layer and the inverse optical depth ($\mu_r$):
-
-\begin{equation}\label{eq:tau_r}
-  \tau_r = e ^ {- \frac{TAI}{\mu_r}}
-\end{equation}
-
-The total area index ($TAI$) is the sum of the wood area index ($WAI$) and the effective leaf area index, with the latter calculated as the product of the true leaf area index ($LAI$) and the clumping factor ($c$, defined on the interval $(0, 1)$ where 0 is a ``black hole''---all leaf mass concentrated in a single point---and 1 is a homogenous closed canopy):
-
-\begin{equation}\label{eq:tai}
-  TAI = c LAI + WAI
-\end{equation}
-
-% TODO: Explain where WAI comes from, especially since it's relevant to the analysis.
-
-The true leaf area index for each PFT is calcluated in two stages:
-First, the total leaf biomass is calculated from the diameter at breast height via an exponential allometric equation parameterized for each PFT\@.
-Second, the leaf biomass is converted to leaf area index through the PFT-specific specific leaf area (SLA).
-
-The optical depth is calculated based on the projected area ($p$) and the solar zenith angle ($\theta$):
+Let $n$ be the number of cohorts in a patch.
+The full canopy radiation profile in ED2 is then defined by a vector $X$ that contains two fluxes---upward ($F_{up,i}$) and downward ($F_{down,i}$)---for each cohort level $i$, plus a downward flux from the atmosphere ($F_{down,sky}$) and an upward flux from the ground ($F_{up,ground}$) surface (total size $2n + 2$):
 
 \begin{equation}
-  \mu_r = \frac{\cos{\theta}}{p}
+  X =
+  \begin{bmatrix}
+    F_{up,ground} \\
+    F_{down,1} \\
+    F_{up, 1} \\
+    ... \\
+    F_{down,i} \\
+    F_{up,i} \\
+    ... \\
+    F_{down,n} \\
+    F_{up,n} \\
+    F_{down,sky}
+  \end{bmatrix}
 \end{equation}
 
-The projected area ($p$) is a function of the leaf orientation factor ($f$):
+ED2 solves this vector using the following matrix equation:
 
-\begin{equation}\label{eq:phi1}
-  \phi_1 = 0.5 - f (0.633 + 0.33 f) \\
+\begin{equation}
+  M \times X = Y
 \end{equation}
 
-\begin{equation}\label{eq:phi2}
-  \phi_2 = 0.877 (1 - 2 \phi_1) \\
+where $M$ is a $(2n + 2) \times (2n + 2)$ coefficient matrix and $Y$ is a $2n + 2$ vector.
+The full form of $Y$ is as follows:
+
+\begin{equation}
+  Y =
+  \begin{bmatrix}
+    S_0 a_{ground} () \\
+    S_1 r(\psi)_1 \left[ 1 - r_0 r_1 (1 - \alpha_0) (1 - \tau_0) (1 - \alpha_1) (1 - \tau_1) \right] (1 - \tau(\psi)_1) (1 - \alpha_1) \\
+    S_1 \left[ 1 - r_1 r_2 (1 - \alpha_1) (1 - \tau_1) (1 - \alpha_2) (1 - \tau_2) \right] (1 - \tau(\psi)_1) (1 - \alpha_1) (1 - r(\psi)_1) \\
+    \ldots \\
+    S_i r(\psi)_i \left[ i - r_{i-1} r_i (1 - \alpha_{i-1}) (1 - \tau_{i-1}) (1 - \alpha_i) (1 - \tau_i) \right] (1 - \tau(\psi)_i) (1 - \alpha_i) \\
+    S_i \left[ 1 - r_i r_{i+1} (1 - \alpha_i) (i - \tau_i) (1 - \alpha_{i+1}) (1 - \tau_{i+1}) \right] (1 - \tau(\psi)_i) (1 - \alpha_i) (1 - r(\psi)_i) \\
+    \ldots \\
+    S_n r(\psi)_n \left[ 1 - r_{n-1} r_n (1 - \alpha_{n-1}) (1 - \tau_{n-1}) (1 - \alpha_n) (1 - \tau_n) \right] (1 - \tau(\psi)_n) (1 - \alpha_n) \\
+    S_1 \left[ 1 - r_n r_{n+1} (1 - \alpha_n) (1 - \tau_n) (1 - \alpha_{n+1}) (1 - \tau_{n+1}) \right] (1 - \tau(\psi)_n) (1 - \alpha_n) (1 - r(\psi)_n) \\
+    SW_{sky}
+  \end{bmatrix}
+\end{equation}
+
+Here, $a_{ground}$ is the albedo of the ground under the canopy and $SW_{sky}$ is the incident shortwave hemispherical flux from the sky;
+both are exogenous inputs to the model.
+$S_i$ is the direct ("beam") radiation at layer $i$, and is calculated in a loop as follows:
+
+\begin{equation}
+  S_i = S_{i + 1} \tau(\psi)_i
+\end{equation}
+
+with $S_{n+1}$ as the incident direct solar flux, an exogenous input.
+
+Other coefficients are
+backscatter of direct ($r(\psi)_{i}$, given zenith angle $\psi$) and diffuse ($r_{i}$) radiation,
+interception of direct ($tau(\psi)_{i}$) and diffuse ($tau_{i}$) radiation,
+and absorption ($\alpha_{i}$).
+Derivations of each of these coefficients is given later in this section.
+
+The coefficient matrix $M$ is a sparse matrix with zero elements every except the diagonal and first-order off-diagonal elements; for example, for $n=3$:
+
+\begin{equation}
+  M = \begin{bmatrix}
+    1 & 0 & 0 & 0 & 0 & 0 \\
+    m_{2,1} & m_{2,2} & m_{2,3} & 0 & 0 & 0 \\
+    0 & m_{3,2} & m_{3,3} & m_{4,3} & 0 & 0 \\
+    0 & 0 & m_{4,3} & m_{4,4} & m_{4,5} & 0 \\
+    0 & 0 & 0 & m_{5,4} & m_{5,5} & m_{5,6} \\
+    0 & 0 & 0 & 0 & 0 & 1 \\
+  \end{bmatrix}
+\end{equation}
+
+For $i = 1,2,3...n$ where $n$ is the number of cohorts, the $m$ terms are defined as follows:
+
+\begin{align}
+  \begin{split}
+    m_{1,1} &= 1\\
+    m_{2i,2i-1} &= - \left[ \tau_i + (1 - \tau_i)(1 - \alpha_i)(1 - r_i) \right]\\
+    m_{2i,2i} &= -r_{i-1} \left[ \tau_i + (1 - \tau_i)(1 - \alpha_i)(1 - r_i) \right] (1 - \alpha_{i-1})(1 - \tau_{i-1})\\
+    m_{2i,2i+1} &= 1 - r_{i-1} r_i (1 - \alpha_{i-1})(1 - \tau_{i-1})(1 - \alpha_i)(1 - \tau_i)\\
+    m_{2i+1,2i} &= 1 - r_i r_{i+1} (1 - \alpha_i)(1 - \tau_i)(1 - \alpha_{i+1})(1 - \tau_{i+1})\\
+    m_{2i,2i} &= -r_{i+1} \left[ \tau_i + (1 - \tau_i)(1 - \alpha_i)(1 - r_i) \right] (1 - \alpha_{i+1})(1 - \tau_{i+1})\\
+    m_{2i+1,2i+2} &= - \left[ \tau_i + (1 - \tau_i)(1 - \alpha_i)(1 - r_i) \right]\\
+    m_{2n+2,2n+2} &= 1
+  \end{split}
+\end{align}
+
+Canopy optical property coefficients are derived as follows:
+
+Following \textcite{clm45_note}, forward- ($\nu$) and backscattering ($\omega$) of canopy elements (leaves or stems) are defined as a function of those elements' reflectance ($R$) and transmittance ($T$; wood transmittance is assumed to be zero).
+(We use index $p$ to refer to plant functional type and $p(i)$ to refer to the plant functional type of cohort $i$).
+
+\begin{align}
+  \begin{split}
+    \nu_{i, leaf} &= R_{p(i), leaf} + T_{p(i), leaf}\\
+    \nu_{i, wood} &= R_{p(i), wood}\\
+  \end{split}
+\end{align}
+
+\begin{align}
+  \begin{split}
+    \omega_{i, leaf} &= \frac{R_{p(i), leaf} + T_{p(i), leaf} + \frac{1}{4} (R_{p(i), leaf}-T_{p(i), leaf})(1 - \chi)^2}{2 (R_{p(i), leaf}+T_{p(i), leaf})}\\
+    \omega_{i, wood} &= \frac{R_{p(i), wood} + \frac{1}{4} (R_{p(i), wood})(1 - \chi)^2}{2 R_{p(i), wood}}
+  \end{split}
+\end{align}
+
+Both of these quantities are calculated independently for leaves and wood, and then averaged based on the relative effective area of leaves ($L_{i}$) and wood ($W_{i}$) within a canopy layer.
+
+\begin{equation}
+  \nu_{i} = \nu_{i, leaf} \frac{L_{i}}{L_{i} + W_{i}} + \nu_{i, wood} (1 - \frac{L_{i}}{L_{i} + W_{i}})
 \end{equation}
 
 \begin{equation}
-  p = \phi_1 + \phi_2 \cos{\theta} 
+  \omega_{i} = \omega_{i, leaf} \frac{L_{i}}{L_{i} + W_{i}} + \omega_{wood} (1 - \frac{L_{i}}{L_{i} + W_{i}})
 \end{equation}
 
-% TODO: Explain where all of these constants come from.
-
-The diffuse radiation flux is more complicated because light is scattered internally within canopy layers.
-Unlike the Community Land Model, which solves only for sunlit and shaded leaves,
-ED2 calculates the full canopy radiation profile by parameterizing the two-stream equations for each layer (as well as soil and atmosphere boundary conditions)
-and then using a linear system solver to solve for the radiation profile.
-For each layer, leaf and wood forward scattering ($\omega_+$) are just the sums of their respective reflectance ($r$) and transmittance ($t$) values:
+To account for non-uniform distribution of leaves within a canopy, ED2 has a PFT-specific \emph{clumping factor} ($q$) parameter that serves as a scaling factor on leaf area index.
+Therefore the effective leaf area ($L$) is related to the true leaf area index ($LAI$) by:
 
 \begin{equation}
-   \omega_+ = r + t 
+  L_{i} = LAI_{i} \times q_{p(i)}
 \end{equation}
 
-Leaf and wood backscatter ($\omega_-$) are a function of their respective reflectance and transmittance values as well as the leaf orientation factor ($f$):
-
-\begin{equation}\label{eq:backscatter_leaf}
-   \omega_- = \frac{r + t + 0.25 (r - t) {(1 + f)} ^ 2}{2 (r + t)} 
-\end{equation}
-
-% TODO: More explanation about these equations. 
-
-Overall scatter ($\iota$) and backscatter ($\beta$) of all elements in a canopy layer is modeled as the average of leaf and wood scatter, weighted by their respective area indices:
-
-\begin{equation}\label{eq:wl}
-  w_l = \frac{LAI}{LAI + WAI}
-\end{equation}
-
-\begin{equation}\label{eq:ww}
-  w_w = \frac{WAI}{LAI + WAI}
-\end{equation}
-
-\begin{equation}\label{eq:scatter}
-  \iota = w_l \omega_{+,l} + w_w \omega_{+,w}
-\end{equation}
-
-\begin{equation}\label{eq:backscatter}
-  \beta = w_l \omega_{-,l} + w_w \omega_{-,w}
-\end{equation}
-
-The inverse optical depth for diffuse radiation ($\mu_f$) is calculated from the coefficients $\phi_1$ and $\phi_2$ (see equations~\ref{eq:phi1} and~\ref{eq:phi2}):
+The directional extinction coefficient ($K(\psi)_p$)---closely related to the inverse optical depth for direct radiation ($\mu_{0,p}$)---can be expressed as:
 
 \begin{equation}
-   \mu_f = \frac{1 - \phi_1 \ln{(1 + \frac{\phi_2}{\phi_1 \phi_2})}}{\phi_2} 
+  K(\psi)_p = \mu_{0,p}^{-1} = \frac{G(\psi)_{p}}{cos(\psi)}
 \end{equation}
 
-Note that $\mu_f$ simplifies to 1 when orientation factor is 0 (random, spherical distribution of leaf angles).
-Collectively, these coefficients are used to calculate the optical depth for diffuse radiation ($\tau_f$):
+where $G(\psi)_{p}$ describes the mean projection per unit leaf area (or ``relative projected leaf area'') in direction $\psi$.
+
+The leaf angle distribution function used in ED2 is the same as the one used in CLM 4.5 \parencite{clm45_note}:
 
 \begin{equation}
-  \epsilon = 1 - 2\beta
+  G(\psi)_{p} = \phi_{1,p} + \phi_{2,p} cos(\psi)
 \end{equation}
 
 \begin{equation}
-  \lambda = \frac{\sqrt{(1 - \epsilon\iota) (1 - \iota)}}{\mu_f}
+  \phi_{1,p} = 0.5 - 0.633 \chi_{p} - 0.33 \chi_{p}^2
 \end{equation}
 
 \begin{equation}
-  \tau_f = e ^ {\lambda TAI}
+  \phi_{2,p} = 0.877 (1 - 2 \phi_{1,p})
 \end{equation}
 
-The remaining coefficients are described in the Community Land Model manual~\parencite{clm45_note}.
-% Should probably finish this as an appendix or something at some point.
-% TODO: Mike wants this fleshed out more -- comment "What coefficients?"
+where $\chi$ is the \emph{leaf orientation factor} parameter, defined such that -1 is perfectly vertical leaves, 1 is perfectly horizontal leaves, and 0 is randomly distributed leaf angles.
+
+Coefficients $\phi_{1,p}$ and $\phi_{2,p}$ are also used to define the inverse optical depth for diffuse radiation per unit plant area ($\bar\mu_{p}$) (subscript $p$ is omitted from the next three equations for convenience):
+
+\begin{equation}
+  \bar\mu = \frac{1}{\phi_{2}}\left( 1 - \frac{\phi_{1}}{\phi_{2}} \ln\left( 1 + \frac{\phi_{2}}{\phi_{1}}\right) \right)
+\end{equation}
+
+The beam backscatter (or "upscatter") coefficient for direct radiation, $\beta_0$, is defined as:
+
+\begin{equation}
+  \beta_{0} = a_s(\psi) \frac{1 + \bar\mu K(\psi)}{\bar\mu_{p} K(\psi)_{p}}
+\end{equation}
+
+where $a_s(\psi)$ is the single scattering albedo coefficient, defined as (subscript $p$ dropped for simplicity):
+
+\begin{equation}
+  a_s(\psi) = \frac{1}{2}
+  \frac{G(\psi)}{\cos\psi \phi_2 + G(\psi)}
+  \left(
+    1 -
+    \frac{\cos\psi \phi_1}{\cos\psi + G(\psi)}
+    \ln\left(
+      \frac{\cos\psi \phi_1 + \cos\psi \phi_2 + G(\psi)}{\cos\psi \phi_1}
+    \right)
+  \right)
+\end{equation}
+
+(For simplicity, $a_s$ here is equivalent to $\frac{a_s}{\omega}$ in \textcite{clm45_note} equation 3.15, where $\omega$ is the leaf backscatter.)
+
+The transmissivity of a layer to direct radiation for solar zenith angle $\psi$ ($\tau(\psi)_i$) is given by
+
+\begin{equation}
+  \tau(\psi)_i = \exp(-K(\psi)_{p(i)} TAI_i)
+\end{equation}
+
+where $TAI_{i}$ is the total plant area index (sum of effective leaf area index, $L_{i}$, and wood area index, $W_{i}$).
+
+\subsection{ED2-PROSPECT coupling}
 
 By default, ED takes as parameters PFT-specific leaf and wood reflectance and transmittance values with one value each for the visible and near-infrared spectral regions. 
 For this analysis, I first modified ED to take an arbitrary number of leaf and wood reflectance transmittance values.
