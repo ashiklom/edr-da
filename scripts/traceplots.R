@@ -1,7 +1,7 @@
 library(magrittr)
 source("drake/functions.R")
 
-for (conf in c("homo-pooled", "hetero-pooled",
+for (conf in c("hetero-pooled", "homo-pooled",
                "homo-sitespecific", "hetero-sitespecific")) {
   message("Plotting ", conf)
   f <- last_result_file(file.path("multi_site_pda_results", conf))
