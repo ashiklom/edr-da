@@ -246,3 +246,16 @@ legend(
 )
 
 plot(out$albedo, type = 'l')
+
+##################################################
+drake::loadd("site_details", cache = dc)
+drake::loadd("lai_observed", cache = dc)
+drake::loadd("site_lai_total", cache = dc)
+drake::loadd("tidy_posteriors", cache = dc)
+
+ggplot(sail_tidy) +
+  aes(x = wavelength, y = value, linetype = "stream") +
+  geom_line() +
+  facet_wrap(vars(site), scales = "fixed")
+
+tidy_posteriors

@@ -84,7 +84,7 @@ plan <- drake_plan(
     mutate(bias = albedo_mean - observed),
   spec_error_all = ggsave(
     file_out(!!path(figdir, "spec-error-all.png")),
-    spec_error_all_f(observed_predicted),
+    spec_error_all_f(observed_predicted, sail_predictions),
     width = 10, height = 14, dpi = 300
   ),
   spec_error_aggregate = ggsave(
@@ -124,5 +124,7 @@ plan <- drake_plan(
     file_out(!!path(figdir, "ndvi-dbh.png")),
     ndvi_dbh_plot(both_ndvi),
     width = 6.4, height = 5.2, dpi = 300
-  )
+  ),
+  sail_predictions = tidy_sail_predictions(site_details, site_lai_total,
+                                           tidy_posteriors)
 )

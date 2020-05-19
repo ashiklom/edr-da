@@ -188,13 +188,16 @@ tidy_site_spec <- function(site) {
     tidyr::pivot_longer(-wavelength, names_to = "iobs", values_to = "observed")
 }
 
-spec_error_all_f <- function(observed_predicted) {
+spec_error_all_f <- function(observed_predicted, sail_predictions) {
   # Sort sites by aggregate bias
   plot_dat <- observed_predicted %>%
     group_by(site) %>%
     mutate(site_mean_bias = mean(bias)) %>%
     ungroup() %>%
     mutate(site_f = forcats::fct_reorder(site, site_mean_bias))
+  sail_sub <- sail_predictions %>%
+    semi_join(observed_predicted, "wavelength") %>%
+    mutate(site_f = factor(site, levels(plot_dat[["site_f"]])))
   ggplot(plot_dat) +
     aes(x = wavelength) +
     geom_ribbon(aes(ymin = pmax(albedo_r_q025, 0),
@@ -205,8 +208,11 @@ spec_error_all_f <- function(observed_predicted) {
                 fill = "green3") +
     geom_line(aes(y = albedo_mean), color = "green4", size = 1) +
     geom_line(aes(y = observed, group = iobs)) +
+    geom_line(aes(y = value, linetype = stream, group = stream),
+              color = "red", data = sail_sub) +
     facet_wrap(vars(site_f), scales = "fixed", ncol = 6) +
-    labs(x = "Wavelength (nm)", y = "Reflectance (0 - 1)") +
+    labs(x = "Wavelength (nm)", y = "Reflectance (0 - 1)",
+         linetype = "4SAIL stream") +
     theme_bw()
   # TODO Facet text inside plots --- use `geom_text`
 }
@@ -306,4 +312,65 @@ lai_predicted_observed_plot <- function(site_lai_total, lai_observed) {
     geom_abline(linetype = "dashed") +
     labs(x = "Predicted LAI", y = "Observed LAI") +
     theme_bw()
+}
+
+tidy_sail_predictions <- function(site_details, site_lai_total,
+                                  tidy_posteriors) {
+  site_tags <- tibble::tibble(
+    site = readLines(site_list_file),
+    site_tag = paste0("sitesoil_", seq_along((site)))
+  )
+
+  sail_input <- site_details %>%
+    group_by(site) %>%
+    arrange(desc(hite), .by_group = TRUE) %>%
+    slice(1) %>%
+    ungroup() %>%
+    left_join(site_lai_total, c("site", "year")) %>%
+    left_join(site_tags, "site")
+
+  posterior_means <- tidy_posteriors %>%
+    group_by(pft, variable) %>%
+    summarize(value = mean(value)) %>%
+    ungroup()
+
+  soil_means <- posterior_means %>%
+    filter(grepl("sitesoil", variable)) %>%
+    select(site_tag = variable, soil_moisture = value)
+
+  posterior_params <- posterior_means %>%
+    filter(grepl("prospect_", variable) | variable == "orient_factor") %>%
+    tidyr::pivot_wider(names_from = "variable", values_from = "value")
+
+  sail_input2 <- sail_input %>%
+    left_join(posterior_params, "pft") %>%
+    left_join(soil_means, "site_tag") %>%
+    mutate(leaf_theta = acos((1 + orient_factor) / 2))
+
+  sail_output <- sail_input2 %>%
+    mutate(
+      sail_result = purrr::pmap(list(
+        prospect_N, prospect_Cab, prospect_Car, prospect_Cw, prospect_Cm,
+        leaf_theta, elai_mean, soil_moisture
+      ), ~PEcAnRTM::pro4sail(c(..1, ..2, ..3, 0, ..4, ..5,  # PROSPECt
+                               ..6, 0, 2,  # Leaf angle
+                               ..7, 0,     # LAI, hot spot
+                               0, 0, 0,    # Angles
+                               ..8)))
+    )
+
+  sail_output_proc <- sail_output %>%
+    select(site, sail_result) %>%
+    mutate(
+      wavelength = purrr::map(sail_result, PEcAnRTM::wavelengths),
+      bhr = purrr::map(sail_result, ~.x[, "bi-hemispherical"]) %>% purrr::map(as.numeric),
+      dhr = purrr::map(sail_result, ~.x[, "directional_hemispherical"]) %>% purrr::map(as.numeric),
+      hdr = purrr::map(sail_result, ~.x[, "hemispherical_directional"]) %>% purrr::map(as.numeric),
+      bdr = purrr::map(sail_result, ~.x[, "bi-directional"]) %>% purrr::map(as.numeric)
+    ) %>%
+    select(-sail_result) %>%
+    tidyr::unnest(wavelength:bdr)
+
+  sail_output_proc %>%
+    tidyr::pivot_longer(bhr:bdr, names_to = "stream", values_to = "value")
 }
