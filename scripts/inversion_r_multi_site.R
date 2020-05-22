@@ -123,11 +123,10 @@ likelihood <- function(params) {
     lai <- nplant * bleaf * SLA[pft]
     wai <- wai_allometry(dbh, nplant, b1Bw[pft], b2Bw[pft])
 
-    # Incorporate LAI values in the likelihood. These are weighted to receive
-    # 10% the weight of the spectra likelihood.
+    # Incorporate LAI and WAI values in the likelihood.
     ll <- ll +
-      dexp(sum(lai), log = TRUE) +
-      dexp(sum(wai), log = TRUE)
+      dlnorm(sum(lai), 1, 0.5, log = TRUE) +
+      dlnorm(sum(wai), 0, 1, log = TRUE)
     if (!is.finite(ll)) return(-Inf)
 
     # Cohort area index is constant (no crown radius model)
@@ -187,6 +186,7 @@ sampdir <- strftime(Sys.time(), "%Y-%m-%d-%H%M")
 outtag <- paste(
   if (HETEROSKEDASTIC) "hetero" else "homo",
   if (SITE_SPECIFIC) "sitespecific" else "pooled",
+  "lnorm",
   sep = "-"
 )
 base_outdir <- file.path("multi_site_pda_results", outtag)

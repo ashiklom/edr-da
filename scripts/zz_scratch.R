@@ -259,3 +259,8 @@ ggplot(sail_tidy) +
   facet_wrap(vars(site), scales = "fixed")
 
 tidy_posteriors
+
+##################################################
+curve(dlnorm(x, 1, 0.5), 0, 12, n = 1000)
+curve(dlnorm(x, 0, 1), 0, 5, n = 1000)
+## curve(plnorm(x, 1, 1), 0, 12, n = 1000)
