@@ -84,7 +84,7 @@ likelihood <- function(params) {
     nplant <- site_data[["n"]]
     ncohort <- length(dbh)
 
-    # Calculate heights and height order (shorest first)
+    # Calculate heights and height order (shortest first)
     hite <- dbh2h(dbh, pft)
     ihite <- order(hite, decreasing = FALSE)
 
@@ -126,26 +126,30 @@ likelihood <- function(params) {
     # Incorporate LAI values in the likelihood. These are weighted to receive
     # 10% the weight of the spectra likelihood.
     ll <- ll +
-      dexp(sum(lai), log = TRUE) * nwl / 10 +
-      dexp(sum(wai), log = TRUE) * nwl / 10
+      dexp(sum(lai), log = TRUE) +
+      dexp(sum(wai), log = TRUE)
+    if (!is.finite(ll)) return(-Inf)
 
     # Cohort area index is constant (no crown radius model)
     cai <- rep(1, ncohort)
 
     # Call RTM
-    result <- edr_r(pft, lai, wai, cai,
-                    N, Cab, Car, Cw, Cm,
-                    orient_factor, clumping_factor,
-                    soil_moisture,
-                    direct_sky_frac,
-                    czen,
-                    wavelengths = waves)
+    result <- tryCatch(
+      edr_r(pft, lai, wai, cai,
+            N, Cab, Car, Cw, Cm,
+            orient_factor, clumping_factor,
+            soil_moisture,
+            direct_sky_frac,
+            czen,
+            wavelengths = waves),
+      error = function(e) NULL)
+    if (is.null(result)) {
+      return(-Inf)
+    }
     albedo <- result[["albedo"]]
-    stopifnot(
-      all(is.finite(albedo)),
-      all(albedo >= 0),
-      all(albedo <= 1)
-    )
+    if (!is.finite(albedo) || any(albedo > 1) || any(albedo < 0)) {
+      return(-Inf)
+    }
     # Extract residuals
     if (HETEROSKEDASTIC) {
       rs <- params[grep(
@@ -166,7 +170,7 @@ likelihood <- function(params) {
 
     # Down-weight sites with multiple observations
     site_ll <- sum(dnorm(albedo, site_obs, rss, log = TRUE)) / nobs
-    stopifnot(is.finite(site_ll))
+    if (!is.finite(site_ll)) return(-Inf)
     ll <- ll + site_ll
   } # end site loop
   ll
