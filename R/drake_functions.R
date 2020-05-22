@@ -347,16 +347,16 @@ predict_site_spectra <- function(params_matrix, site,
                   pb = pb, wavelengths = waves)
   nulls <- vapply(result, is.null, logical(1))
   result <- result[!nulls]
-  if (run_config == "homo-pooled") {
+  if (grepl("homo-pooled", run_config)) {
     rint <- params_filtered[!nulls, "residual"]
     rslope <- 0
-  } else if (run_config == "hetero-pooled") {
+  } else if (grepl("hetero-pooled", run_config)) {
     rint <- params_filtered[!nulls, "residual_intercept"]
     rslope <- params_filtered[!nulls, "residual_slope"]
-  } else if (run_config == "homo-sitespecific") {
+  } else if (grepl("homo-sitespecific", run_config)) {
     rint <- params_filtered[!nulls, paste0("residual", isite)]
     rslope <- 0
-  } else if (run_config == "hetero-sitespecific") {
+  } else if (grepl("hetero-sitespecific", run_config)) {
     rint <- params_filtered[!nulls, paste0("residual_intercept", isite)]
     rslope <- params_filtered[!nulls, paste0("residual_slope", isite)]
   } else {
