@@ -191,13 +191,18 @@ tidy_site_spec <- function(site) {
 spec_error_all_f <- function(observed_predicted, sail_predictions) {
   # Sort sites by aggregate bias
   plot_dat <- observed_predicted %>%
-    group_by(site) %>%
-    mutate(site_mean_bias = mean(bias)) %>%
-    ungroup() %>%
-    mutate(site_f = forcats::fct_reorder(site, site_mean_bias))
+    dplyr::group_by(site) %>%
+    dplyr::mutate(site_mean_bias = mean(bias)) %>%
+    dplyr::ungroup() %>%
+    dplyr::mutate(site_f = forcats::fct_reorder(site, site_mean_bias))
   sail_sub <- sail_predictions %>%
-    semi_join(observed_predicted, "wavelength") %>%
-    mutate(site_f = factor(site, levels(plot_dat[["site_f"]])))
+    dplyr::semi_join(observed_predicted, "wavelength") %>%
+    dplyr::mutate(site_f = factor(site, levels(plot_dat[["site_f"]])))
+  sail_avg <- sail_sub %>%
+    tidyr::pivot_wider(names_from = "stream", values_from = "value") %>%
+    # Same configuration as EDR -- assume incident radiation is 90% direct, 10%
+    # diffuse
+    dplyr::mutate(value = 0.9 * dhr + 0.1 * bhr)
   ggplot(plot_dat) +
     aes(x = wavelength) +
     geom_ribbon(aes(ymin = pmax(albedo_r_q025, 0),
@@ -208,11 +213,9 @@ spec_error_all_f <- function(observed_predicted, sail_predictions) {
                 fill = "green3") +
     geom_line(aes(y = albedo_mean), color = "green4", size = 1) +
     geom_line(aes(y = observed, group = iobs)) +
-    geom_line(aes(y = value, linetype = stream, group = stream),
-              color = "red", data = sail_sub) +
+    geom_line(aes(y = value), color = "red", data = sail_avg) +
     facet_wrap(vars(site_f), scales = "fixed", ncol = 6) +
-    labs(x = "Wavelength (nm)", y = "Reflectance (0 - 1)",
-         linetype = "4SAIL stream") +
+    labs(x = "Wavelength (nm)", y = "Reflectance (0 - 1)") +
     theme_bw()
   # TODO Facet text inside plots --- use `geom_text`
 }
