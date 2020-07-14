@@ -92,12 +92,23 @@ plan <- drake_plan(
     spec_error_aggregate_f(observed_predicted),
     width = 5, height = 4, dpi = 300
   ),
-  late_conifer_sites = ggsave(
-    file_out(!!path(figdir, "late-conifer-sites.png")),
+  underpredict_sites = ggsave(
+    file_out(!!path(figdir, "underpredict-sites.png")),
     lapply(
-      c("AK06", "AK60", "IDS35",
-        "MN04", "NC09", "OF01",
-        "SF01", "SF04"),
+      c("IDS34", "OF01", "OF05", "OF04", "IDS40",
+        "OF02", "AK06", "GR08", "AK60", "IDS36"),
+      site_spec_dbh_plot,
+      observed_predicted = observed_predicted,
+      site_details = site_details
+    ) %>%
+      wrap_plots(guides = "collect", ncol = 3) +
+      guide_area(),
+    width = 12, height = 8, dpi = 300
+  ),
+  overpredict_sites = ggsave(
+    file_out(!!path(figdir, "overpredict-sites.png")),
+    lapply(
+      c("NC22", "MN02", "NC17", "NC10", "MN04", "NC21"),
       site_spec_dbh_plot,
       observed_predicted = observed_predicted,
       site_details = site_details
