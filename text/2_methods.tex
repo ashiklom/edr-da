@@ -229,23 +229,19 @@ I examined the sensitivity of total canopy reflectance to the optical properties
 
 \subsection{Model calibration}
 
-For model calibration, I selected 47 sites from the NASA Forest Functional Types (FFT) field campaign that contained plot-level inventory data (stem density, species identity, and DBH) coincident with observations of the NASA Airborne Visible/Infrared Imaging Spectrometer (AVIRIS).
+For model calibration, we selected 47 sites from the NASA Forest Functional Types (FFT) field campaign that contained plot-level inventory data (stem density, species identity, and DBH) coincident with observations of the NASA Airborne Visible/Infrared Imaging Spectrometer (AVIRIS).
 These sites are mostly located in the United States Upper Midwest with several sites also in upstate New York and western Maryland, and include stands dominated by either evergreen or deciduous trees and spanning a wide range of structures, from dense groups of saplings (bottom right) to sparse groups of large trees (top left) (Figure~\ref{fig:sites}).
 Based on ED's PFT definitions, these sites contained a total of five different temperate plant functional types: Early successional hardwood, northern mid-successional hardwood, late successional hardwood, northern pine, and late successional conifer.
 
-% \begin{figure}
-%   \centering
-%   \includegraphics[width=\textwidth]{figures/sites_both.pdf}
-%   \caption{\
-%     Sites selected for analysis, in ``stand structure'' (\textit{main figure}) and geographic (\textit{inset}) space.
-%     Colors indicate the fraction of the stand that is made up of evergreen PFTs.
-%     %Large points with labels indicate sites that were selected for forward simulations.
-%     % TODO: Dietze -- (1) Axes are reversed relative to Andrews ESM paper. (2) Stand density values are way too low. Basically, check against Andrews ESM paper and try to match units.
-%   }\label{fig:sites}
-% \end{figure}
-% TODO: Change colors to be top cohort
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{figures/sitemap}
+  \caption{\
+    Sites selected for analysis, in ``stand structure'' (\textit{main figure}) and geographic (\textit{inset}) space.
+  }\label{fig:sites}
+\end{figure}
 
-I calibrated EDR using the same general Bayesian inversion as in Chapter 3.
+We calibrated EDR using the same general Bayesian inversion as in Chapter 3.
 The inversion fit all sites simultaneously, such that at every MCMC iteration, the algorithm proposed a set of all parameter values for each PFT and simulated spectra for each site based on its observed composition and structure.
 Because of unrealistic values in the shortwave infrared spectral region in the AVIRIS observations, likely caused by faulty atmospheric correction, I only calibrated the model with observations from 400 to 1300 \unit{nm}.
 In addition, I changed the fixed variance model used in Chapters 2 and 3 to a two-parameter heteroskedastic variance model ($\sigma = a + bX$) to account for the fact that both model and observation errors are typically proportional to reflectance values.

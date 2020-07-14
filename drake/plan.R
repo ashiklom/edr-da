@@ -169,5 +169,40 @@ plan <- drake_plan(
     width = 6.4, height = 5.2, dpi = 300
   ),
   sail_predictions = tidy_sail_predictions(site_details, site_lai_total,
-                                           tidy_posteriors)
+                                           tidy_posteriors),
+  site_structure_plot = {
+    site_structure_sf <- sf::st_as_sf(site_structure_data,
+                                      coords = c("longitude", "latitude"),
+                                      crs = 4326)
+
+    bbox <- sf::st_bbox(site_structure_sf) %>%
+      sf::st_as_sfc() %>%
+      sf::st_transform(5070) %>%
+      sf::st_bbox()
+    usa <- rnaturalearth::ne_states(country = c("United States of America", "Canada"),
+                                    returnclass = "sf")
+
+    plot_map <- ggplot() +
+      geom_sf(data = usa, fill = NA) +
+      geom_sf(data = site_structure_sf, size = 1.2) +
+      coord_sf(xlim = bbox[c(1,3)], ylim = bbox[c(2,4)], crs = 5070) +
+      theme_bw() +
+      theme(plot.background = element_blank())
+    plot_travis <- ggplot(site_structure_data) +
+      aes(x = mean_dbh, y = tot_dens * 5000) +
+      geom_point() +
+      labs(x = "Mean diameter (cm)",
+           y = expression("Stem density" ~ (trees ~ ha^-1))) +
+      theme_bw()
+    layout <- c(
+      area(1, 1, 100, 100),
+      area(2, 40, 50, 98)
+    )
+    finalplot <- plot_travis + plot_map + plot_layout(design = layout)
+    ggsave(
+      file_out(!!path(figdir, "sitemap.png")),
+      finalplot,
+      width = 6, height = 4, units = "in", dpi = 300
+    )
+  }
 )
