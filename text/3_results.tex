@@ -52,24 +52,7 @@ The largest differences between observed and mean predicted reflectance were in 
 while predictions in the visible range agreed well with observations in all but a few cases.
 That said, the EDR predictive interval overlapped observations in all but a few individual cases, suggesting that our estimates of model uncertainty are realistic.
 Predictions from the EDR model were closer to observations than predictions by the PRO4SAIL model across most sites, with the latter significantly overestimating reflectance in all but a few specific cases.
-
-\begin{figure}[ht]
-  \centering
-  \includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{figures/overpredict-sites}
-  \caption{\label{fig:late-conifer-sites}\
-    Predicted and observed surface reflectance, and histogram of observed diameter at breast height (DBH) census observations,
-    for sites with large Late Conifer presence.
-  }
-\end{figure}
-
-Mismatch between observed and predicted reflectance was primarily explained by two factors.
-First, EDR predictions of surface reflectance were more closely related to stand maturity (represented by mean DBH) at each site than in the observations (Figure~\ref{fig:ndvi-dbh}).
-Second, EDR predictions were particularly inaccurate at sites where Late Conifer was the dominant PFT (Figure~\ref{fig:late-conifer-sites});
-the inaccurate predicted spectra at these sites were likely driven by the calibration algorithm's really high estimate for wood allometry and therefore high wood area index (Figure~\ref{fig:posterior-pft}).
-
-% At a majority of the sites, EDR systematically over-predicted reflectance in the visible range (Figure~\ref{fig:spec_error_vis}), while errors in the near-infrared region were more variable.
-% As shown in the sensitivity analysis, this consistent over-prediction of visible reflectance is likely driven by wood reflectance (Figure~\ref{fig:wood_compare}).
-% 4SAIL also showed a lot of site-to-site variability in its performance, but generally performed better in the visible range than EDR\@.
+We did not observe any consistent patterns in mismatch between observed and EDR predicted reflectance with respect to tree size or composition (Figures~\ref{fig:tree-sites-q0}--\ref{fig:tree-sites-LC}).
 
 \begin{figure}
   \centering
