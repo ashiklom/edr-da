@@ -29,10 +29,11 @@ Calibration provided only limited constraint on site-specific soil optical prope
   \centering
   \includegraphics[width=\textwidth]{figures/spec-error-all}
   \caption{\label{fig:spec-error-all}\
-    Comparison between AVIRIS observed (black)
-    and EDR predicted (mean prediction in green, 95\% posterior predictive interval in gray)
+    Comparison between AVIRIS observed (black),
+    EDR predicted (mean prediction in green, 95\% posterior predictive interval in gray),
+    and PRO4SAIL predicted (red)
     surface reflectance for each site used in the calibration.
-    Sites are sorted in order of decreasing mean difference between observed and predicted reflectance
+    Sites are sorted in order of decreasing mean difference between observed and EDR predicted reflectance
     (largest underestimates first, largest overestimates last).
   }
 \end{figure}
@@ -47,17 +48,10 @@ Calibration provided only limited constraint on site-specific soil optical prope
 \end{figure}
 
 The ability of EDR to reproduce observed spectra at every site was site-dependent (Figures~\ref{fig:spec-error-all} and~\ref{fig:spec-error-aggregate}).
-The largest differences between predicted and observed reflectance were in the near-infrared region, particularly from 775 to 1100 nm,
+The largest differences between observed and mean predicted reflectance were in the near-infrared region, particularly from 775 to 1100 nm,
 while predictions in the visible range agreed well with observations in all but a few cases.
-
-\begin{figure}[ht]
-  \centering
-  \includegraphics[width=\textwidth]{figures/ndvi-dbh}
-  \caption{\label{fig:ndvi-dbh}\
-    Predicted and observed site normalized difference vegetation index (NDVI, with Red = 690 nm and NIR = 800 nm)
-    as a function of site mean diameter at breast height (DBH), with linear regression.
-  }
-\end{figure}
+That said, the EDR predictive interval overlapped observations in all but a few individual cases, suggesting that our estimates of model uncertainty are realistic.
+Predictions from the EDR model were closer to observations than predictions by the PRO4SAIL model across most sites, with the latter significantly overestimating reflectance in all but a few specific cases.
 
 \begin{figure}[ht]
   \centering
