@@ -8,37 +8,37 @@ Relevant to this work, ED2 includes a multi-layer canopy radiative transfer mode
 A complete description of the model derivation is provided in the supplementary information of \citet{longo_2019_ed1}, but for completeness, we provide an abbreviated description below:
 
 Let $n$ be the number of cohorts in a patch.
-The full canopy radiation profile in ED2 is then defined by a vector $X$ that contains two fluxes---upward ($F_{up,i}$) and downward ($F_{down,i}$)---for each cohort level $i$, plus a downward flux from the atmosphere ($F_{down,sky}$) and an upward flux from the ground ($F_{up,ground}$) surface (total size $2n + 2$):
+The full canopy radiation profile in ED2 is then defined by a vector $\vec{X}$ that contains two fluxes---upward ($\vec{F}_{\up,i}$) and downward ($F_{\down,i}$)---for each cohort level $i$, plus a downward flux from the atmosphere ($F_{\down,\sky}$) and an upward flux from the ground ($F_{\up,\ground}$) surface (total size $2n + 2$):
 
 \begin{equation}
-  X =
+  \vec{X} =
   \begin{bmatrix}
-    F_{up,ground} \\
-    F_{down,1} \\
-    F_{up, 1} \\
+    F_{\up,\ground} \\
+    F_{\down,1} \\
+    F_{\up, 1} \\
     ... \\
-    F_{down,i} \\
-    F_{up,i} \\
+    F_{\down,i} \\
+    F_{\up,i} \\
     ... \\
-    F_{down,n} \\
-    F_{up,n} \\
-    F_{down,sky}
+    F_{\down,n} \\
+    F_{\up,n} \\
+    F_{\down,\sky}
   \end{bmatrix}
 \end{equation}
 
 ED2 solves this vector using the following matrix equation:
 
 \begin{equation}
-  M \times X = Y
+  \mat{M} \times \vec{X} = \vec{Y}
 \end{equation}
 
-where $M$ is a $(2n + 2) \times (2n + 2)$ coefficient matrix and $Y$ is a $2n + 2$ vector.
-The full form of $Y$ is as follows:
+where $\mat{M}$ is a $(2n + 2) \times (2n + 2)$ coefficient matrix and $\vec{Y}$ is a $2n + 2$ vector.
+The full form of $\vec{Y}$ is as follows:
 
 \begin{equation}
-  Y =
+  \vec{Y} =
   \begin{bmatrix}
-    S_0 a_{ground} () \\
+    S_0 a_{\ground} \\
     S_1 r(\psi)_1 \left[ 1 - r_0 r_1 (1 - \alpha_0) (1 - \tau_0) (1 - \alpha_1) (1 - \tau_1) \right] (1 - \tau(\psi)_1) (1 - \alpha_1) \\
     S_1 \left[ 1 - r_1 r_2 (1 - \alpha_1) (1 - \tau_1) (1 - \alpha_2) (1 - \tau_2) \right] (1 - \tau(\psi)_1) (1 - \alpha_1) (1 - r(\psi)_1) \\
     \ldots \\
@@ -47,11 +47,11 @@ The full form of $Y$ is as follows:
     \ldots \\
     S_n r(\psi)_n \left[ 1 - r_{n-1} r_n (1 - \alpha_{n-1}) (1 - \tau_{n-1}) (1 - \alpha_n) (1 - \tau_n) \right] (1 - \tau(\psi)_n) (1 - \alpha_n) \\
     S_1 \left[ 1 - r_n r_{n+1} (1 - \alpha_n) (1 - \tau_n) (1 - \alpha_{n+1}) (1 - \tau_{n+1}) \right] (1 - \tau(\psi)_n) (1 - \alpha_n) (1 - r(\psi)_n) \\
-    SW_{sky}
+    \mathrm{SW}_{\sky}
   \end{bmatrix}
 \end{equation}
 
-Here, $a_{ground}$ is the albedo of the ground under the canopy and $SW_{sky}$ is the incident shortwave hemispherical flux from the sky;
+Here, $a_{\ground}$ is the albedo of the ground under the canopy and $\mathrm{SW}_{\sky}$ is the incident shortwave hemispherical flux from the sky;
 both are exogenous inputs to the model.
 $S_i$ is the direct ("beam") radiation at layer $i$, and is calculated in a loop as follows:
 
@@ -67,10 +67,10 @@ interception of direct ($tau(\psi)_{i}$) and diffuse ($tau_{i}$) radiation,
 and absorption ($\alpha_{i}$).
 Derivations of each of these coefficients is given later in this section.
 
-The coefficient matrix $M$ is a sparse matrix with zero elements every except the diagonal and first-order off-diagonal elements; for example, for $n=3$:
+The coefficient matrix $\mat{M}$ is a sparse matrix with zero elements every except the diagonal and first-order off-diagonal elements; for example, for $n=3$:
 
 \begin{equation}
-  M = \begin{bmatrix}
+  \mat{M} = \begin{bmatrix}
     1 & 0 & 0 & 0 & 0 & 0 \\
     m_{2,1} & m_{2,2} & m_{2,3} & 0 & 0 & 0 \\
     0 & m_{3,2} & m_{3,3} & m_{4,3} & 0 & 0 \\
@@ -102,39 +102,40 @@ Following \citet{clm45_note}, forward- ($\nu$) and backscattering ($\omega$) of 
 
 \begin{align}
   \begin{split}
-    \nu_{i, leaf} &= R_{p(i), leaf} + T_{p(i), leaf}\\
-    \nu_{i, wood} &= R_{p(i), wood}\\
+    \nu_{i, \leaf} &= R_{p(i), \leaf} + T_{p(i), \leaf}\\
+    \nu_{i, \wood} &= R_{p(i), \wood}\\
   \end{split}
 \end{align}
 
 \begin{align}
   \begin{split}
-    \omega_{i, leaf} &= \frac{R_{p(i), leaf} + T_{p(i), leaf} + \frac{1}{4} (R_{p(i), leaf}-T_{p(i), leaf})(1 - \chi)^2}{2 (R_{p(i), leaf}+T_{p(i), leaf})}\\
-    \omega_{i, wood} &= \frac{R_{p(i), wood} + \frac{1}{4} (R_{p(i), wood})(1 - \chi)^2}{2 R_{p(i), wood}}
+    \omega_{i, \leaf} &= \frac{R_{p(i), \leaf} + T_{p(i), \leaf} + \frac{1}{4} (R_{p(i), \leaf}-T_{p(i), \leaf})(1 - \chi_{p(i)})^2}{2 (R_{p(i), \leaf}+T_{p(i), \leaf})}\\
+    \omega_{i, \wood} &= \frac{R_{p(i), \wood} + \frac{1}{4} (R_{p(i), \wood})(1 - \chi_{p(i)})^2}{2 R_{p(i), \wood}}
   \end{split}
 \end{align}
 
+where $\chi$ is the \emph{leaf orientation factor} parameter, defined such that $-1$ is perfectly vertical leaves, 1 is perfectly horizontal leaves, and 0 is randomly distributed leaf angles.
 Both of these quantities are calculated independently for leaves and wood, and then averaged based on the relative effective area of leaves ($L_{i}$) and wood ($W_{i}$) within a canopy layer.
 
 \begin{equation}
-  \nu_{i} = \nu_{i, leaf} \frac{L_{i}}{L_{i} + W_{i}} + \nu_{i, wood} (1 - \frac{L_{i}}{L_{i} + W_{i}})
+  \nu_{i} = \nu_{i, \leaf} \frac{L_{i}}{L_{i} + W_{i}} + \nu_{i, \wood} (1 - \frac{L_{i}}{L_{i} + W_{i}})
 \end{equation}
 
 \begin{equation}
-  \omega_{i} = \omega_{i, leaf} \frac{L_{i}}{L_{i} + W_{i}} + \omega_{wood} (1 - \frac{L_{i}}{L_{i} + W_{i}})
+  \omega_{i} = \omega_{i, \leaf} \frac{L_{i}}{L_{i} + W_{i}} + \omega_{\wood} (1 - \frac{L_{i}}{L_{i} + W_{i}})
 \end{equation}
 
 To account for non-uniform distribution of leaves within a canopy, ED2 has a PFT-specific \emph{clumping factor} ($q$) parameter that serves as a scaling factor on leaf area index.
-Therefore the effective leaf area ($L$) is related to the true leaf area index ($LAI$) by:
+Therefore the effective leaf area ($L$) is related to the true leaf area index ($\LAI$) by:
 
 \begin{equation}
-  L_{i} = LAI_{i} \times q_{p(i)}
+  L_{i} = \LAI_{i} \times q_{p(i)}
 \end{equation}
 
 The directional extinction coefficient ($K(\psi)_p$)---closely related to the inverse optical depth for direct radiation ($\mu_{0,p}$)---can be expressed as:
 
 \begin{equation}
-  K(\psi)_p = \mu_{0,p}^{-1} = \frac{G(\psi)_{p}}{cos(\psi)}
+  K(\psi)_p = \mu_{0,p}^{-1} = \frac{G(\psi)_{p}}{\cos(\psi)}
 \end{equation}
 
 where $G(\psi)_{p}$ describes the mean projection per unit leaf area (or ``relative projected leaf area'') in direction $\psi$.
@@ -142,7 +143,7 @@ where $G(\psi)_{p}$ describes the mean projection per unit leaf area (or ``relat
 The leaf angle distribution function used in ED2 is the same as the one used in CLM 4.5 \citep{clm45_note}:
 
 \begin{equation}
-  G(\psi)_{p} = \phi_{1,p} + \phi_{2,p} cos(\psi)
+  G(\psi)_{p} = \phi_{1,p} + \phi_{2,p} \cos(\psi)
 \end{equation}
 
 \begin{equation}
@@ -152,8 +153,6 @@ The leaf angle distribution function used in ED2 is the same as the one used in 
 \begin{equation}
   \phi_{2,p} = 0.877 (1 - 2 \phi_{1,p})
 \end{equation}
-
-where $\chi$ is the \emph{leaf orientation factor} parameter, defined such that -1 is perfectly vertical leaves, 1 is perfectly horizontal leaves, and 0 is randomly distributed leaf angles.
 
 Coefficients $\phi_{1,p}$ and $\phi_{2,p}$ are also used to define the inverse optical depth for diffuse radiation per unit plant area ($\bar\mu_{p}$) (subscript $p$ is omitted from the next three equations for convenience):
 
@@ -186,26 +185,26 @@ where $a_s(\psi)$ is the single scattering albedo coefficient, defined as (subsc
 The transmissivity of a layer to direct radiation for solar zenith angle $\psi$ ($\tau(\psi)_i$) is given by
 
 \begin{equation}
-  \tau(\psi)_i = \exp(-K(\psi)_{p(i)} TAI_i)
+  \tau(\psi)_i = \exp(-K(\psi)_{p(i)} \TAI_i)
 \end{equation}
 
-where $TAI_{i}$ is the total plant area index (sum of effective leaf area index, $L_{i}$, and wood area index, $W_{i}$).
+where $\TAI_{i}$ is the total plant area index (sum of effective leaf area index, $L_{i}$, and wood area index, $W_{i}$).
 
 \subsection{ED2-PROSPECT coupling}
 
-By default, ED2 performs canopy shortwave radiative transfer calculations for two broad spectral regions: visible (400--700 nm) and near-infrared (700--2500 nm).
+By default, ED2 performs canopy shortwave radiative transfer calculations for two broad spectral regions: visible (400--700 \unit{nm}) and near-infrared (700--2500 \unit{nm}).
 For each of these regions, ED2 has user-defined prescribed leaf and wood reflectance and transmittance for each PFT, and calculates soil reflectance as the average of constant wet and dry soil reflectance values weighted by the relative soil moisture (0 = fully dry, 1 = fully wet).
-In this study, we modified ED2 to perform the same canopy radiative transfer calculations but in 1 nm increments across the range 400--2500 nm.
+In this study, we modified ED2 to perform the same canopy radiative transfer calculations but in 1 \unit{nm} increments across the range 400--2500 \unit{nm}.
 We then simulated leaf reflectance and transmittance using the PROSPECT 5 leaf RTM,
 which predicts leaf optical properties as a function of number of five parameters:
 Effective number of leaf mesophyll layers (unitless, >= 1),
-total chlorophyll content ($\mu$g cm$^{-2}$),
-total carotenoid content ($\mu$g cm$^{-2}$),
-water content (g cm$^{-2}$),
-and dry matter content (g cm$^{-2}$)
+total chlorophyll content (\unit{\mu g ~ cm^{-2}}),
+total carotenoid content (\unit{\mu g ~ cm^{-2}}),
+water content (\unit{g ~ cm^{-2}}),
+and dry matter content (\unit{g ~ cm^{-2}})
 \citep{feret2008prospect4}.
-For wood reflectance, we used a single representative spectrum---the mean of all wood spectra from \citet{asner_1998_biophysical} Asner (1998), resampled to 1 nm resolution---for all PFTs.
-For soil reflectance, we used the same approach as the ED2 default (weighted average of wet and dry soil reflectance), but with full 1 nm soil spectra from Hapke (REF). % TODO: Flesh this out
+For wood reflectance, we used a single representative spectrum---the mean of all wood spectra from \citet{asner_1998_biophysical}, resampled to 1 \unit{nm} resolution---for all PFTs.
+For soil reflectance, we used the same approach as the ED2 default (weighted average of wet and dry soil reflectance), but with full 1 \unit{nm} soil spectra from Hapke (REF). % TODO: Flesh this out
 The final coupled PROSPECT-ED canopy radiative transfer model (hereafter known as ``EDR'') has 9 parameters for each PFT---
 5 parameters for PROSPECT, specific leaf area, the intercept of the leaf allometry (slope was fixed), and clumping and orientation factors---and one site-specific parameter---the relative soil moisture.
 
@@ -248,7 +247,7 @@ Based on ED's PFT definitions, these sites contained a total of five different t
 
 I calibrated EDR using the same general Bayesian inversion as in Chapter 3.
 The inversion fit all sites simultaneously, such that at every MCMC iteration, the algorithm proposed a set of all parameter values for each PFT and simulated spectra for each site based on its observed composition and structure.
-Because of unrealistic values in the shortwave infrared spectral region in the AVIRIS observations, likely caused by faulty atmospheric correction, I only calibrated the model with observations from 400 to 1300 nm.
+Because of unrealistic values in the shortwave infrared spectral region in the AVIRIS observations, likely caused by faulty atmospheric correction, I only calibrated the model with observations from 400 to 1300 \unit{nm}.
 In addition, I changed the fixed variance model used in Chapters 2 and 3 to a two-parameter heteroskedastic variance model ($\sigma = a + bX$) to account for the fact that both model and observation errors are typically proportional to reflectance values.
 To generate the initial history state files required by EDR, I ran ED2 itself for one day in midsummer (July 1), starting from vegetation initial conditions based on observed composition and structure.
 
