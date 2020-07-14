@@ -94,18 +94,11 @@ soil_moisture_plot <- function(tidy_posteriors, site_structure_data) {
               inherit.aes = FALSE) +
     scale_color_viridis_c(
       aesthetics = c("color", "fill"),
-      guide = guide_colorbar(title = "Weighted evergreen fraction",
-                             direction = "horizontal",
-                             title.position = "top")
+      guide = guide_colorbar(title = "Weighted evergreen fraction")
     ) +
     labs(x = "Site code", y = "Soil moisture fraction (0 - 1)") +
     theme_bw() +
-    theme(
-      axis.text.x = element_text(angle = 90, vjust = 0.5),
-      legend.position = c(0.98, 1),
-      legend.justification = c(1, 1),
-      legend.background = element_blank()
-    )
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5))
 }
 
 full_site_info <- function(site_list_file, site_dir) {
