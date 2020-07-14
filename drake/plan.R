@@ -92,6 +92,58 @@ plan <- drake_plan(
     spec_error_aggregate_f(observed_predicted),
     width = 5, height = 4, dpi = 300
   ),
+  small_tree_sites = {
+    sites <- site_details %>%
+      dplyr::group_by(site) %>%
+      dplyr::summarize(max_dbh = max(dbh)) %>%
+      dplyr::filter(max_dbh < 27.5) %>%
+      dplyr::pull(site)
+    plt <- lapply(sites, site_spec_dbh_plot,
+                  observed_predicted = observed_predicted,
+                  site_details = site_details) %>%
+      wrap_plots(guides = "collect", ncol = 3) +
+      guide_area()
+    ggsave(
+      file_out(!!path(figdir, "small-tree-sites.png")),
+      plt,
+      width = 12, height = 8, dpi = 300
+    )
+  },
+  med_tree_sites = {
+    sites <- site_details %>%
+      dplyr::group_by(site) %>%
+      dplyr::summarize(max_dbh = max(dbh)) %>%
+      dplyr::filter(max_dbh >= quantile(max_dbh, 0.25) &
+                      max_dbh <= quantile(max_dbh, 0.75)) %>%
+      dplyr::pull(site)
+    plt <- lapply(sites, site_spec_dbh_plot,
+                  observed_predicted = observed_predicted,
+                  site_details = site_details) %>%
+      wrap_plots(guides = "collect", ncol = 3) +
+      guide_area()
+    ggsave(
+      file_out(!!path(figdir, "med-tree-sites.png")),
+      plt,
+      width = 12, height = 8, dpi = 300
+    )
+  },
+  big_tree_sites = {
+    sites <- site_details %>%
+      dplyr::group_by(site) %>%
+      dplyr::summarize(max_dbh = max(dbh)) %>%
+      dplyr::filter(max_dbh > quantile(max_dbh, 0.75)) %>%
+      dplyr::pull(site)
+    plt <- lapply(sites, site_spec_dbh_plot,
+                  observed_predicted = observed_predicted,
+                  site_details = site_details) %>%
+      wrap_plots(guides = "collect", ncol = 3) +
+      guide_area()
+    ggsave(
+      file_out(!!path(figdir, "big-tree-sites.png")),
+      plt,
+      width = 12, height = 8, dpi = 300
+    )
+  },
   underpredict_sites = ggsave(
     file_out(!!path(figdir, "underpredict-sites.png")),
     lapply(
