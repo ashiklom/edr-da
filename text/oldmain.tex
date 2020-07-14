@@ -1,0 +1,69 @@
+\documentclass{article}
+
+\title{Cutting out the middle man: Calibrating and validating a dynamic vegetation model using remotely sensed surface reflectance}
+\author{%
+  Alexey N. Shiklomanov$^{1*}$ \and
+  Michael C. Dietze$^{2}$ \and
+  Istem Fer$^{3}$ \and
+  Toni Viskari$^{3}$ \and
+  Shawn Serbin$^{4}$
+}
+
+\date{%
+  \begin{flushleft}
+    \begin{small}
+      $^{1}$ NASA Goddard Space Flight Center, Greenbelt, MD, USA\\%
+      $^{2}$ Department of Earth and Environment, Boston University, Boston, MA, USA\\%
+      $^{3}$ Finnish Meteorological Institute, Helsinki, Finland\\%
+      $^{4}$ Brookhaven National Laboratory, Brookhaven, NY, USA\\%
+      \medskip
+      $^{*}$ \emph{Corresponding author}\\%
+      NASA Goddard Space Flight Center\\%
+      8800 Greenbelt Rd., Building 33\\%
+      Greenbelt, MD 20771\\%
+      Email: alexey.shiklomanov@nasa.gov Phone: 240--784--9862
+    \end{small}
+  \end{flushleft}
+}
+
+% \usepackage[utf8]{inputenc}
+% \usepackage{babel,csquotes,xpatch}
+% \usepackage{url}
+
+\usepackage[
+backend=biber,
+style=authoryear,
+uniquename=false
+]{biblatex}
+\addbibresource{library.bib}
+% \addbibresource{other.bib}
+
+% Increase stretchiness instead of breaking justification
+\sloppy
+
+\usepackage{float}
+\usepackage[bf]{caption}
+% \usepackage{subfig}
+\usepackage{graphicx}
+
+\usepackage{amsmath}
+
+% \usepackage{booktabs}
+% \usepackage{array}
+
+\begin{document}
+
+\maketitle
+\input{1_introduction.tex}
+\input{2_methods.tex}
+\input{3_results.tex}
+\input{4_discussion.tex}
+\input{5_conclusions.tex}
+
+\section{References}
+
+\printbibliography
+
+\input{6_supplement.tex}
+
+\end{document}

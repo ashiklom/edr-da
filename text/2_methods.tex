@@ -2,10 +2,10 @@
 
 \subsection{ED2 model description}
 
-The Ecosystem Demography version 2.2 (ED2) model simulates plot-level vegetation dynamics and biogeochemistry~\parencite{moorcroft_2001_method, medvigy2009mechanistic, longo_2019_ed1}.
+The Ecosystem Demography version 2.2 (ED2) model simulates plot-level vegetation dynamics and biogeochemistry~\citep{moorcroft_2001_method, medvigy2009mechanistic, longo_2019_ed1}.
 By grouping individuals of similar size, structure, and composition together into cohorts, ED2 is capable of modeling patch-level competition in a computationally efficient manner.
-Relevant to this work, ED2 includes a multi-layer canopy radiative transfer model that is a generalization of the two-layer two-stream radiative transfer scheme in CLM 4.5~\parencite{clm45_note}, which in turn is derived from \textcite{sellers1985canopy}.
-A complete description of the model derivation is provided in the supplementary information of \textcite{longo_2019_ed1}, but for completeness, we provide an abbreviated description below:
+Relevant to this work, ED2 includes a multi-layer canopy radiative transfer model that is a generalization of the two-layer two-stream radiative transfer scheme in CLM 4.5~\citep{clm45_note}, which in turn is derived from \citet{sellers1985canopy}.
+A complete description of the model derivation is provided in the supplementary information of \citet{longo_2019_ed1}, but for completeness, we provide an abbreviated description below:
 
 Let $n$ be the number of cohorts in a patch.
 The full canopy radiation profile in ED2 is then defined by a vector $X$ that contains two fluxes---upward ($F_{up,i}$) and downward ($F_{down,i}$)---for each cohort level $i$, plus a downward flux from the atmosphere ($F_{down,sky}$) and an upward flux from the ground ($F_{up,ground}$) surface (total size $2n + 2$):
@@ -97,7 +97,7 @@ For $i = 1,2,3...n$ where $n$ is the number of cohorts, the $m$ terms are define
 
 Canopy optical property coefficients are derived as follows:
 
-Following \textcite{clm45_note}, forward- ($\nu$) and backscattering ($\omega$) of canopy elements (leaves or stems) are defined as a function of those elements' reflectance ($R$) and transmittance ($T$; wood transmittance is assumed to be zero).
+Following \citet{clm45_note}, forward- ($\nu$) and backscattering ($\omega$) of canopy elements (leaves or stems) are defined as a function of those elements' reflectance ($R$) and transmittance ($T$; wood transmittance is assumed to be zero).
 (We use index $p$ to refer to plant functional type and $p(i)$ to refer to the plant functional type of cohort $i$).
 
 \begin{align}
@@ -139,7 +139,7 @@ The directional extinction coefficient ($K(\psi)_p$)---closely related to the in
 
 where $G(\psi)_{p}$ describes the mean projection per unit leaf area (or ``relative projected leaf area'') in direction $\psi$.
 
-The leaf angle distribution function used in ED2 is the same as the one used in CLM 4.5 \parencite{clm45_note}:
+The leaf angle distribution function used in ED2 is the same as the one used in CLM 4.5 \citep{clm45_note}:
 
 \begin{equation}
   G(\psi)_{p} = \phi_{1,p} + \phi_{2,p} cos(\psi)
@@ -181,7 +181,7 @@ where $a_s(\psi)$ is the single scattering albedo coefficient, defined as (subsc
   \right)
 \end{equation}
 
-(For simplicity, $a_s$ here is equivalent to $\frac{a_s}{\omega}$ in \textcite{clm45_note} equation 3.15, where $\omega$ is the leaf backscatter.)
+(For simplicity, $a_s$ here is equivalent to $\frac{a_s}{\omega}$ in \citet{clm45_note} equation 3.15, where $\omega$ is the leaf backscatter.)
 
 The transmissivity of a layer to direct radiation for solar zenith angle $\psi$ ($\tau(\psi)_i$) is given by
 
@@ -203,8 +203,8 @@ total chlorophyll content ($\mu$g cm$^{-2}$),
 total carotenoid content ($\mu$g cm$^{-2}$),
 water content (g cm$^{-2}$),
 and dry matter content (g cm$^{-2}$)
-\parencite{feret2008prospect4}.
-For wood reflectance, we used a single representative spectrum---the mean of all wood spectra from Asner (1998), resampled to 1 nm resolution---for all PFTs. \nocite{asner_1998_biophysical}
+\citep{feret2008prospect4}.
+For wood reflectance, we used a single representative spectrum---the mean of all wood spectra from \citet{asner_1998_biophysical} Asner (1998), resampled to 1 nm resolution---for all PFTs.
 For soil reflectance, we used the same approach as the ED2 default (weighted average of wet and dry soil reflectance), but with full 1 nm soil spectra from Hapke (REF). % TODO: Flesh this out
 The final coupled PROSPECT-ED canopy radiative transfer model (hereafter known as ``EDR'') has 9 parameters for each PFT---
 5 parameters for PROSPECT, specific leaf area, the intercept of the leaf allometry (slope was fixed), and clumping and orientation factors---and one site-specific parameter---the relative soil moisture.
@@ -253,7 +253,7 @@ In addition, I changed the fixed variance model used in Chapters 2 and 3 to a tw
 To generate the initial history state files required by EDR, I ran ED2 itself for one day in midsummer (July 1), starting from vegetation initial conditions based on observed composition and structure.
 
 For priors on the five PROSPECT parameters and specific leaf area, I performed a hierarchical multivariate analysis (see Chapter 1) on PROSPECT parameters estimated from chapter 3 and, where available, direct measurements of specific leaf area. 
-For priors on the leaf biomass allometry parameters, I fit a multivariate normal distribution to allometry coefficients from Jenkins et al.~(2003, 2004) using the \texttt{PEcAn.allometry} package. \nocite{jenkins_2003_allom,jenkins_2004_allom} 
+For priors on the leaf biomass allometry parameters, I fit a multivariate normal distribution to allometry coefficients from \citet{jenkins_2003_allom,jenkins_2004_allom} using the \texttt{PEcAn.allometry} package.
 For the clumping factor, I used a uniform prior across its full range (0 to 1), and for the leaf orientation factor, I used a weakly informative re-scaled beta distribution centered on 0.5.
 
 To alleviate issues with strong collinearity between the two allometry coefficients and the specific leaf area, I decided to remove the allometry exponent coefficient (but not the intercept) from the calibration by fixing it at its prior mean for each plant functional type.
