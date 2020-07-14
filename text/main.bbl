@@ -55,7 +55,7 @@
       \field{labeldatesource}{year}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{abstract}{The composition and structure of vegetation are key attributes of ecosystems, affecting their current and future carbon, water, and energy fluxes. Information on these attributes has traditionally come from ground-based inventories of the plant canopy within small sample plots. Here we show how imaging spectrometry and waveform lidar can be used to provide spatially comprehensive estimates of forest canopy composition and structure that can improve the accuracy of the carbon flux predictions of a size-structured terrestrial biosphere model, reducing its root-mean-square errors from 85\%–{}104\% to 37\%–{}57\%. The improvements are qualitatively and quantitatively similar to those obtained from simulations initialized with ground measurements and approximately double the estimated rate of ecosystem carbon uptake as compared to a potential vegetation simulation. These results suggest that terrestrial biosphere model simulations can utilize modern remote-sensing data on vegetation composition and structure to improve their predictions of the current and near-term future functioning of the terrestrial biosphere.}
+      \field{abstract}{The composition and structure of vegetation are key attributes of ecosystems, affecting their current and future carbon, water, and energy fluxes. Information on these attributes has traditionally come from ground-based inventories of the plant canopy within small sample plots. Here we show how imaging spectrometry and waveform lidar can be used to provide spatially comprehensive estimates of forest canopy composition and structure that can improve the accuracy of the carbon flux predictions of a size-structured terrestrial biosphere model, reducing its root-mean-square errors from 85\%–104\% to 37\%–57\%. The improvements are qualitatively and quantitatively similar to those obtained from simulations initialized with ground measurements and approximately double the estimated rate of ecosystem carbon uptake as compared to a potential vegetation simulation. These results suggest that terrestrial biosphere model simulations can utilize modern remote-sensing data on vegetation composition and structure to improve their predictions of the current and near-term future functioning of the terrestrial biosphere.}
       \field{issn}{1944-8007}
       \field{journaltitle}{Geophysical Research Letters}
       \field{month}{4}
@@ -67,9 +67,6 @@
       \range{pages}{-1}
       \verb{doi}
       \verb 10.1002/2013GL058373
-      \endverb
-      \verb{file}
-      \verb /home/ashiklom/MEGAsync/Zotero/Antonarakis et al_2014_Imaging.pdf
       \endverb
       \keyw{0428 Carbon cycling,0439 Ecosystems: structure and dynamics,0480 Remote sensing,1637 Regional climate change,3238 Prediction,carbon fluxes,Ecosystem Demography model 2 (ED2),ecosystem dynamics,ecosystem model,Forest Structure and Composition,Harvard Forest,Hyperspectral,initial conditions,LiDAR,Notes,Notes: Skimmed,RS: Imaging spectroscopy,RS: LiDAR}
     \endentry
@@ -112,9 +109,6 @@
       \range{pages}{6}
       \verb{doi}
       \verb 10.1126/science.1155121
-      \endverb
-      \verb{file}
-      \verb /home/ashiklom/MEGAsync/Zotero/Bonan_2008_Forests and Climate.pdf
       \endverb
       \keyw{Biosphere/atmosphere interactions,Notes,Notes: read in full}
     \endentry
@@ -227,8 +221,9 @@
       \field{labeltitlesource}{title}
       \field{isbn}{9780120188253}
       \field{issn}{0065-2687}
-      \field{journaltitle}{Theory of Climate, Proceedings of a Symposium Commemorating the Two-Hundredth Anniversary of the Academy of Sciences of Lisbon}
+      \field{journaltitle}{Advances in Geophysics}
       \field{title}{Land Surface Processes and Climate-Surface Albedos and Energy Balance}
+      \field{volume}{25}
       \field{year}{1983}
       \field{pages}{305\bibrangedash 353}
       \range{pages}{49}
@@ -327,9 +322,6 @@
       \range{pages}{10}
       \verb{doi}
       \verb 10.1016/j.foreco.2008.07.034
-      \endverb
-      \verb{file}
-      \verb /home/ashiklom/MEGAsync/Zotero/Dietze et al_2008_Capturing diversity.pdf
       \endverb
       \keyw{Allometry,Crown radius,Crown shape,DBH,Hierarchical Bayes,Propagating uncertainty}
     \endentry
@@ -439,7 +431,7 @@
       \field{labeldatesource}{year}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{shorttitle}
-      \field{abstract}{The PROSPECT leaf optical model has, to date, combined the effects of photosynthetic pigments, but a finer discrimination among the key pigments is important for physiological and ecological applications of remote sensing. Here we present a new calibration and validation of PROSPECT that separates plant pigment contributions to the visible spectrum using several comprehensive datasets containing hundreds of leaves collected in a wide range of ecosystem types. These data include leaf biochemical (chlorophyll a, chlorophyll b, carotenoids, water, and dry matter) and optical properties (directional–{}hemispherical reflectance and transmittance measured from 400~nm to 2450~nm). We first provide distinct in vivo specific absorption coefficients for each biochemical constituent and determine an average refractive index of the leaf interior. Then we invert the model on independent datasets to check the prediction of the biochemical content of intact leaves. The main result of this study is that the new chlorophyll and carotenoid specific absorption coefficients agree well with available in vitro absorption spectra, and that the new refractive index displays interesting spectral features in the visible, in accordance with physical principles. Moreover, we improve the chlorophyll estimation (RMSE = 9~\textmu{}g/cm2) and obtain very encouraging results with carotenoids (RMSE = 3~\textmu{}g/cm2). Reconstruction of reflectance and transmittance in the 400–{}2450~nm wavelength domain using PROSPECT is also excellent, with small errors and low to negligible biases. Improvements are particularly noticeable for leaves with low pigment content.}
+      \field{abstract}{The PROSPECT leaf optical model has, to date, combined the effects of photosynthetic pigments, but a finer discrimination among the key pigments is important for physiological and ecological applications of remote sensing. Here we present a new calibration and validation of PROSPECT that separates plant pigment contributions to the visible spectrum using several comprehensive datasets containing hundreds of leaves collected in a wide range of ecosystem types. These data include leaf biochemical (chlorophyll a, chlorophyll b, carotenoids, water, and dry matter) and optical properties (directional–hemispherical reflectance and transmittance measured from 400~nm to 2450~nm). We first provide distinct in vivo specific absorption coefficients for each biochemical constituent and determine an average refractive index of the leaf interior. Then we invert the model on independent datasets to check the prediction of the biochemical content of intact leaves. The main result of this study is that the new chlorophyll and carotenoid specific absorption coefficients agree well with available in vitro absorption spectra, and that the new refractive index displays interesting spectral features in the visible, in accordance with physical principles. Moreover, we improve the chlorophyll estimation (RMSE = 9~\textmu g/cm2) and obtain very encouraging results with carotenoids (RMSE = 3~\textmu g/cm2). Reconstruction of reflectance and transmittance in the 400–2450~nm wavelength domain using PROSPECT is also excellent, with small errors and low to negligible biases. Improvements are particularly noticeable for leaves with low pigment content.}
       \field{issn}{0034-4257}
       \field{journaltitle}{Remote Sensing of Environment}
       \field{month}{6}
@@ -458,60 +450,60 @@
       \endverb
       \keyw{chlorophyll,Hyperspectral data,leaf optical properties,leaf pigments,Notes,Notes: read in full,Pigments,Radiative transfer model,Remote sensing,RTM inversion,RTM: PROSPECT}
     \endentry
-    \entry{fisher2017vegetation}{article}{}
+    \entry{fisher2018vegetation}{article}{}
       \name{author}{28}{uniquelist=2}{%
         {{hash=e0647ff3fa39b4f88515d0dbc290df83}{%
            family={Fisher},
            familyi={F\bibinitperiod},
-           given={Rosie\bibnamedelima A},
+           given={Rosie\bibnamedelima A.},
            giveni={R\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
         {{hash=ccaecd2ec50ed5d9d9eb682a41f25b5e}{%
            family={Koven},
            familyi={K\bibinitperiod},
-           given={Charles\bibnamedelima D},
+           given={Charles\bibnamedelima D.},
            giveni={C\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
         {{hash=8ecaddb19c5c8f9771d6b4e54fe8ef6b}{%
            family={Anderegg},
            familyi={A\bibinitperiod},
-           given={William\bibnamedelimb R\bibnamedelima L},
+           given={William\bibnamedelimb R.\bibnamedelimi L.},
            giveni={W\bibinitperiod\bibinitdelim R\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
         {{hash=263b7043157ee94f461dba1b8369db41}{%
            family={Christoffersen},
            familyi={C\bibinitperiod},
-           given={Bradley\bibnamedelima O},
+           given={Bradley\bibnamedelima O.},
            giveni={B\bibinitperiod\bibinitdelim O\bibinitperiod}}}%
         {{hash=02cd9d79e14f81de21255b979e19e293}{%
            family={Dietze},
            familyi={D\bibinitperiod},
-           given={Michael\bibnamedelima C},
+           given={Michael\bibnamedelima C.},
            giveni={M\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
-        {{hash=6db2b9922a07e01779173a55b6a15c17}{%
+        {{hash=e6c6a3c0f2d0af712972ea33184a6788}{%
            family={Farrior},
            familyi={F\bibinitperiod},
-           given={Caroline},
-           giveni={C\bibinitperiod}}}%
+           given={Caroline\bibnamedelima E.},
+           giveni={C\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
         {{hash=bda783654b6b264513d6439194b1bec9}{%
            family={Holm},
            familyi={H\bibinitperiod},
-           given={Jennifer\bibnamedelima A},
+           given={Jennifer\bibnamedelima A.},
            giveni={J\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
-        {{hash=cc67fc87c3c575dd02954c07360d2b57}{%
+        {{hash=cd0011ba511aefa6ed1d74131a9f6a85}{%
            family={Hurtt},
            familyi={H\bibinitperiod},
-           given={George},
-           giveni={G\bibinitperiod}}}%
+           given={George\bibnamedelima C.},
+           giveni={G\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
         {{hash=930f4d6bce49a9c2210a9d8fe7590cb5}{%
            family={Knox},
            familyi={K\bibinitperiod},
-           given={Ryan\bibnamedelima G},
+           given={Ryan\bibnamedelima G.},
            giveni={R\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
         {{hash=152d8b8514fa228404ca461dee6e7fd6}{%
            family={Lawrence},
            familyi={L\bibinitperiod},
-           given={Peter\bibnamedelima J},
+           given={Peter\bibnamedelima J.},
            giveni={P\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
-        {{hash=efa2296ef928b40323b9d735b14145ef}{%
-           family={Lichststein},
+        {{hash=ec4414d6ef5bad538ef9d1de04fb2c5d}{%
+           family={Lichstein},
            familyi={L\bibinitperiod},
            given={Jeremy\bibnamedelima W.},
            giveni={J\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
@@ -523,7 +515,7 @@
         {{hash=187203ead5b2f78fcd9a5da18e818a65}{%
            family={Matheny},
            familyi={M\bibinitperiod},
-           given={Ashley\bibnamedelima M},
+           given={Ashley\bibnamedelima M.},
            giveni={A\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
         {{hash=a7b2f93b854558a0ad5bf07c5cab812d}{%
            family={Medvigy},
@@ -533,28 +525,28 @@
         {{hash=0aecb344d60bd35f9128dfaedb4c6037}{%
            family={{Muller-Landau}},
            familyi={M\bibinitperiod},
-           given={Helene\bibnamedelima C},
+           given={Helene\bibnamedelima C.},
            giveni={H\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
         {{hash=6602976b65ab566a916b3b703891fe51}{%
            family={Powell},
            familyi={P\bibinitperiod},
-           given={Thomas\bibnamedelima L},
+           given={Thomas\bibnamedelima L.},
            giveni={T\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
         {{hash=5e5d6fb54516acae35e17b887bb5eb02}{%
            family={Serbin},
            familyi={S\bibinitperiod},
-           given={Shawn\bibnamedelima P},
+           given={Shawn\bibnamedelima P.},
            giveni={S\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
         {{hash=0774f9968b6e88f60c94eaf2e96fe412}{%
            family={Sato},
            familyi={S\bibinitperiod},
            given={Hisashi},
            giveni={H\bibinitperiod}}}%
-        {{hash=4045b9d1f7aab7dfa51d84709a1bdf11}{%
+        {{hash=7f23be306d0353207ec7a19c0823916b}{%
            family={Shuman},
            familyi={S\bibinitperiod},
-           given={Jacquelyn},
-           giveni={J\bibinitperiod}}}%
+           given={Jacquelyn\bibnamedelima K.},
+           giveni={J\bibinitperiod\bibinitdelim K\bibinitperiod}}}%
         {{hash=6820851ebfe044fde445b304fe732415}{%
            family={Smith},
            familyi={S\bibinitperiod},
@@ -563,7 +555,7 @@
         {{hash=f7df0e5e60d9ea1ffa01045c2b260c76}{%
            family={Trugman},
            familyi={T\bibinitperiod},
-           given={Anna\bibnamedelima T},
+           given={Anna\bibnamedelima T.},
            giveni={A\bibinitperiod\bibinitdelim T\bibinitperiod}}}%
         {{hash=7a28100c55d0b143b268b4764bafd44e}{%
            family={Viskari},
@@ -595,11 +587,11 @@
            familyi={Z\bibinitperiod},
            given={Tao},
            giveni={T\bibinitperiod}}}%
-        {{hash=6b8911caa0d5dee60565004f112e2b11}{%
+        {{hash=b478585fc3d6ec0ae8a0a3f2c0420999}{%
            family={Moorcroft},
            familyi={M\bibinitperiod},
-           given={Paul},
-           giveni={P\bibinitperiod}}}%
+           given={Paul\bibnamedelima R.},
+           giveni={P\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
       }
       \list{language}{1}{%
         {en}%
@@ -608,28 +600,32 @@
         {[object Object]}%
       }
       \strng{namehash}{42ddd2f7a0f48e0996fce3ba38639690}
-      \strng{fullhash}{3adab169064bc924159c2af22b4bd4d1}
+      \strng{fullhash}{b56fea5f55fc6554300d2d7a20db2cab}
       \strng{bibnamehash}{42ddd2f7a0f48e0996fce3ba38639690}
       \strng{authorbibnamehash}{42ddd2f7a0f48e0996fce3ba38639690}
       \strng{authornamehash}{42ddd2f7a0f48e0996fce3ba38639690}
-      \strng{authorfullhash}{3adab169064bc924159c2af22b4bd4d1}
+      \strng{authorfullhash}{b56fea5f55fc6554300d2d7a20db2cab}
       \field{sortinit}{F}
       \field{sortinithash}{669c706c6f1fbf3b5a83d26f1d9e9e72}
       \field{extradatescope}{labelyear}
       \field{labeldatesource}{year}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{shorttitle}
-      \field{abstract}{Numerous current efforts seek to improve the representation of ecosystem ecology and vegetation demographic processes within Earth System Models (ESMs). These developments are widely viewed as an important step in developing greater realism in predictions of future ecosystem states and fluxes. Increased realism, however, leads to increased model complexity, with new features raising a suite of ecological questions that require empirical constraints. Here, we review the developments that permit the representation of plant demographics in ESMs, and identify issues raised by these developments that highlight important gaps in ecological understanding. These issues inevitably translate into uncertainty in model projections but also allow models to be applied to new processes and questions concerning the dynamics of real-world ecosystems. We argue that stronger and more innovative connections to data, across the range of scales considered, are required to address these gaps in understanding. The development of first-generation land surface models as a unifying framework for ecophysiological understanding stimulated much research into plant physiological traits and gas exchange. Constraining predictions at ecologically relevant spatial and temporal scales will require a similar investment of effort and intensified inter-disciplinary communication. This article is protected by copyright. All rights reserved.}
-      \field{issn}{1365-2486}
+      \field{issn}{13541013}
       \field{journaltitle}{Global Change Biology}
-      \field{month}{9}
-      \field{shorttitle}{Vegetation {{Demographics}} in {{Earth System Models}}}
-      \field{title}{Vegetation {{Demographics}} in {{Earth System Models}}: A Review of Progress and Priorities}
-      \field{year}{2017}
-      \field{pages}{n/a\bibrangedash n/a}
-      \range{pages}{-1}
+      \field{month}{1}
+      \field{number}{1}
+      \field{shorttitle}{Vegetation Demographics in {{Earth System Models}}}
+      \field{title}{Vegetation Demographics in {{Earth System Models}}: {{A}} Review of Progress and Priorities}
+      \field{volume}{24}
+      \field{year}{2018}
+      \field{pages}{35\bibrangedash 54}
+      \range{pages}{20}
       \verb{doi}
       \verb 10.1111/gcb.13910
+      \endverb
+      \verb{file}
+      \verb /Users/ashiklom/Zotero/storage/894CMUSU/Fisher et al. - 2018 - Vegetation demographics in Earth System Models A .pdf;/Users/ashiklom/Zotero/storage/ZC5DS5G4/Fisher et al. - 2017 - Vegetation Demographics in Earth System Models a .pdf
       \endverb
       \keyw{Carbon Cycle,Demographics,DGVM,Earth System Model,Ecosystem,Vegetation}
     \endentry
@@ -1069,6 +1065,9 @@
       \verb{doi}
       \verb 10.1038/nplants.2016.39
       \endverb
+      \verb{file}
+      \verb /Users/ashiklom/Zotero/storage/Z2X56PQ6/Jetz et al. - 2016 - Monitoring plant functional diversity from space.pdf
+      \endverb
       \keyw{Hyperspectral,review,RS: Airborne,unread}
     \endentry
     \entry{keenan2016global}{article}{}
@@ -1216,7 +1215,6 @@
       \field{abstract}{This chapter contains sections titled: Introduction Overview of the Bethy Model Assimilation of Fapar Assimilation of Surface Temperature Data Requirements Results Summary and Conclusion}
       \field{booktitle}{Land {{Surface Hydrology}}, {{Meteorology}}, and {{Climate}}: {{Observations}} and {{Modeling}}}
       \field{isbn}{978-1-118-66558-9}
-      \field{note}{\_eprint: https://agupubs.onlinelibrary.wiley.com/doi/pdf/10.1029/WS003p0177}
       \field{title}{Assimilation of {{FAPAR}} and {{Surface Temperature}} into a {{Land Surface}} and {{Vegetation Model}}}
       \field{year}{2001}
       \field{pages}{177\bibrangedash 200}
@@ -1257,7 +1255,7 @@
       \field{labeldatesource}{year}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{abstract}{Spectral invariants can be considered fundamental descriptors of the impact of canopy structure on canopy scattering where the scattering objects are large compared with the wavelength of radiation. The paper uses the concept of canopy spectral invariants to explore scaling relationships within canopy scattering. A new approximation to the leaf-level PROSPECT scattering model of Jacquemoud and Baret [Jacquemoud, S., \& Baret, F. (1990). PROSPECT: A model of leaf optical properties spectra. Remote Sensing of Environment, 34, 75–{}91.] is developed by applying the spectral invariant approach to leaf internal scattering, in a similar manner to that which has been used to describe canopy-level scattering. We show that it is possible to express both the canopy- and leaf-level single scattering albedo as a function of canopy spectral invariants. This approach provides a framework through which structural information can be maintained in a self-consistent manner across multiple scales from leaf- to canopy-level scattering, at least for the simple canopy architectures considered. It is demonstrated that the nesting of scales described in these relationships implies limits to the retrieval of absolute concentrations of any biochemical constituents or absolute quantities of the amount of scattering material from hyperspectral observations of total scattering. The implication is that in general it may not be possible to separate the components of structural and biochemical influences on measured total scattering signals.}
+      \field{abstract}{Spectral invariants can be considered fundamental descriptors of the impact of canopy structure on canopy scattering where the scattering objects are large compared with the wavelength of radiation. The paper uses the concept of canopy spectral invariants to explore scaling relationships within canopy scattering. A new approximation to the leaf-level PROSPECT scattering model of Jacquemoud and Baret [Jacquemoud, S., \& Baret, F. (1990). PROSPECT: A model of leaf optical properties spectra. Remote Sensing of Environment, 34, 75–91.] is developed by applying the spectral invariant approach to leaf internal scattering, in a similar manner to that which has been used to describe canopy-level scattering. We show that it is possible to express both the canopy- and leaf-level single scattering albedo as a function of canopy spectral invariants. This approach provides a framework through which structural information can be maintained in a self-consistent manner across multiple scales from leaf- to canopy-level scattering, at least for the simple canopy architectures considered. It is demonstrated that the nesting of scales described in these relationships implies limits to the retrieval of absolute concentrations of any biochemical constituents or absolute quantities of the amount of scattering material from hyperspectral observations of total scattering. The implication is that in general it may not be possible to separate the components of structural and biochemical influences on measured total scattering signals.}
       \field{issn}{0034-4257}
       \field{journaltitle}{Remote Sensing of Environment}
       \field{month}{7}
@@ -1695,7 +1693,7 @@
       \field{labeldatesource}{year}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{shorttitle}
-      \field{abstract}{Insights into how terrestrial ecosystems affect the Earth's response to changes in climate and rising atmospheric CO2 levels rely heavily on the predictions of terrestrial biosphere models (TBMs). These models contain detailed mechanistic representations of biological processes affecting terrestrial ecosystems; however, their ability to simultaneously predict field-based measurements of terrestrial vegetation dynamics and carbon fluxes has remained largely untested. In this study, we address this issue by developing a constrained implementation of a new structured TBM, the Ecosystem Demography model version 2 (ED2), which explicitly tracks the dynamics of fine-scale ecosystem structure and function. Carbon and water flux measurements from an eddy-flux tower are used in conjunction with forest inventory measurements of tree growth and mortality at Harvard Forest (42.5°{}N, 72.1°{}W) to estimate a number of important but weakly constrained model parameters. Evaluation against a decade of tower flux and forest dynamics measurements shows that the constrained ED2 model yields greatly improved predictions of annual net ecosystem productivity, carbon partitioning, and growth and mortality dynamics of both hardwood and conifer trees. The generality of the model formulation is then evaluated by comparing the model's predictions against measurements from two other eddy-flux towers and forest inventories of the northeastern United States and Quebec. Despite the markedly different composition throughout this region, the optimized model realistically predicts observed patterns of carbon fluxes and tree growth. These results demonstrate how TBMs parameterized with field-based measurements can provide quantitative insight into the underlying biological processes governing ecosystem composition, structure, and function at larger scales.}
+      \field{abstract}{Insights into how terrestrial ecosystems affect the Earth's response to changes in climate and rising atmospheric CO2 levels rely heavily on the predictions of terrestrial biosphere models (TBMs). These models contain detailed mechanistic representations of biological processes affecting terrestrial ecosystems; however, their ability to simultaneously predict field-based measurements of terrestrial vegetation dynamics and carbon fluxes has remained largely untested. In this study, we address this issue by developing a constrained implementation of a new structured TBM, the Ecosystem Demography model version 2 (ED2), which explicitly tracks the dynamics of fine-scale ecosystem structure and function. Carbon and water flux measurements from an eddy-flux tower are used in conjunction with forest inventory measurements of tree growth and mortality at Harvard Forest (42.5°N, 72.1°W) to estimate a number of important but weakly constrained model parameters. Evaluation against a decade of tower flux and forest dynamics measurements shows that the constrained ED2 model yields greatly improved predictions of annual net ecosystem productivity, carbon partitioning, and growth and mortality dynamics of both hardwood and conifer trees. The generality of the model formulation is then evaluated by comparing the model's predictions against measurements from two other eddy-flux towers and forest inventories of the northeastern United States and Quebec. Despite the markedly different composition throughout this region, the optimized model realistically predicts observed patterns of carbon fluxes and tree growth. These results demonstrate how TBMs parameterized with field-based measurements can provide quantitative insight into the underlying biological processes governing ecosystem composition, structure, and function at larger scales.}
       \field{issn}{2156-2202}
       \field{journaltitle}{Journal of Geophysical Research: Biogeosciences}
       \field{month}{3}
@@ -1758,6 +1756,9 @@
       \range{pages}{30}
       \verb{doi}
       \verb 10.1890/0012-9615(2001)071[0557:amfsvd]2.0.co;2
+      \endverb
+      \verb{file}
+      \verb /Users/ashiklom/Zotero/storage/KYK9GKVU/Moorcroft et al. - 2001 - A method for scaling vegetation dynamics the ecos.pdf
       \endverb
     \endentry
     \entry{myneni1994relationship}{article}{}
@@ -1859,9 +1860,6 @@
       \range{pages}{41}
       \verb{doi}
       \verb 10.1007/978-94-017-7291-4_4
-      \endverb
-      \verb{file}
-      \verb /home/ashiklom/MEGAsync/Zotero/Niinemets_2016_Within-Canopy.pdf
       \endverb
       \keyw{Acclimation,Carotenoids,chlorophyll content,Dry mass per unit area,Isoprene emission,leaf age,leaf life span,leaf morphology,Nitrogen content,Nitrogen partitioning,Notes,Notes: read in full,Optimization,Photosynthetic capacity,plant physiology,Shade tolerance}
     \endentry
@@ -2246,7 +2244,7 @@
       \field{labeldatesource}{year}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{abstract}{{$<$}p{$><$}strong{$>$}Abstract.{$<$}/strong{$>$} Large uncertainties in land surface models (LSMs) simulations still arise from inaccurate forcing, poor description of land surface heterogeneity (soil and vegetation properties), incorrect model parameter values and incomplete representation of biogeochemical processes. The recent increase in the number and type of carbon cycle-related observations, including both in situ and remote sensing measurements, has opened a new road to optimize model parameters via robust statistical model–{}data integration techniques, in order to reduce the uncertainties of simulated carbon fluxes and stocks. In this study we present a carbon cycle data assimilation system that assimilates three major data streams, namely the Moderate Resolution Imaging Spectroradiometer (MODIS)-Normalized Difference Vegetation Index (NDVI) observations of vegetation activity, net ecosystem exchange (NEE) and latent heat (LE) flux measurements at more than 70 sites (FLUXNET), as well as atmospheric CO\textsubscript{2} concentrations at 53 surface stations, in order to optimize the main parameters (around 180 parameters in total) of the Organizing Carbon and Hydrology in Dynamics Ecosystems (ORCHIDEE) LSM (version 1.9.5 used for the Coupled Model Intercomparison Project Phase 5 (CMIP5) simulations). The system relies on a stepwise approach that assimilates each data stream in turn, propagating the information gained on the parameters from one step to the next. {$<$}br{$><$}br{$>$} Overall, the ORCHIDEE model is able to achieve a consistent fit to all three data streams, which suggests that current LSMs have reached the level of development to assimilate these observations. The assimilation of MODIS-NDVI (step 1) reduced the growing season length in ORCHIDEE for temperate and boreal ecosystems, thus decreasing the global mean annual gross primary production (GPP). Using FLUXNET data (step 2) led to large improvements in the seasonal cycle of the NEE and LE fluxes for all ecosystems (i.e., increased amplitude for temperate ecosystems). The assimilation of atmospheric CO\textsubscript{2}, using the general circulation model (GCM) of the Laboratoire de Météorologie Dynamique (LMDz; step 3), provides an overall constraint (i.e., constraint on large-scale net CO\textsubscript{2} fluxes), resulting in an improvement of the fit to the observed atmospheric CO\textsubscript{2} growth rate. Thus, the optimized model predicts a land C (carbon) sink of around 2.2 PgC yr\textsuperscript{-1} (for the 2000–{}2009 period), which is more compatible with current estimates from the Global Carbon Project (GCP) than the prior value. The consistency of the stepwise approach is evaluated with back-compatibility checks. The final optimized model (after step 3) does not significantly degrade the fit to MODIS-NDVI and FLUXNET data that were assimilated in the first two steps, suggesting that a stepwise approach can be used instead of the more ``challenging'' implementation of a simultaneous optimization in which all data streams are assimilated together. Most parameters, including the scalar of the initial soil carbon pool size, changed during the optimization with a large error reduction. This work opens new perspectives for better predictions of the land carbon budgets.{$<$}/p{$>$}}
+      \field{abstract}{{$<$}p{$><$}strong{$>$}Abstract.{$<$}/strong{$>$} Large uncertainties in land surface models (LSMs) simulations still arise from inaccurate forcing, poor description of land surface heterogeneity (soil and vegetation properties), incorrect model parameter values and incomplete representation of biogeochemical processes. The recent increase in the number and type of carbon cycle-related observations, including both in situ and remote sensing measurements, has opened a new road to optimize model parameters via robust statistical model–data integration techniques, in order to reduce the uncertainties of simulated carbon fluxes and stocks. In this study we present a carbon cycle data assimilation system that assimilates three major data streams, namely the Moderate Resolution Imaging Spectroradiometer (MODIS)-Normalized Difference Vegetation Index (NDVI) observations of vegetation activity, net ecosystem exchange (NEE) and latent heat (LE) flux measurements at more than 70 sites (FLUXNET), as well as atmospheric CO\textsubscript{2} concentrations at 53 surface stations, in order to optimize the main parameters (around 180 parameters in total) of the Organizing Carbon and Hydrology in Dynamics Ecosystems (ORCHIDEE) LSM (version 1.9.5 used for the Coupled Model Intercomparison Project Phase 5 (CMIP5) simulations). The system relies on a stepwise approach that assimilates each data stream in turn, propagating the information gained on the parameters from one step to the next. {$<$}br{$><$}br{$>$} Overall, the ORCHIDEE model is able to achieve a consistent fit to all three data streams, which suggests that current LSMs have reached the level of development to assimilate these observations. The assimilation of MODIS-NDVI (step 1) reduced the growing season length in ORCHIDEE for temperate and boreal ecosystems, thus decreasing the global mean annual gross primary production (GPP). Using FLUXNET data (step 2) led to large improvements in the seasonal cycle of the NEE and LE fluxes for all ecosystems (i.e., increased amplitude for temperate ecosystems). The assimilation of atmospheric CO\textsubscript{2}, using the general circulation model (GCM) of the Laboratoire de Météorologie Dynamique (LMDz; step 3), provides an overall constraint (i.e., constraint on large-scale net CO\textsubscript{2} fluxes), resulting in an improvement of the fit to the observed atmospheric CO\textsubscript{2} growth rate. Thus, the optimized model predicts a land C (carbon) sink of around 2.2 PgC yr\textsuperscript{-1} (for the 2000–2009 period), which is more compatible with current estimates from the Global Carbon Project (GCP) than the prior value. The consistency of the stepwise approach is evaluated with back-compatibility checks. The final optimized model (after step 3) does not significantly degrade the fit to MODIS-NDVI and FLUXNET data that were assimilated in the first two steps, suggesting that a stepwise approach can be used instead of the more ``challenging'' implementation of a simultaneous optimization in which all data streams are assimilated together. Most parameters, including the scalar of the initial soil carbon pool size, changed during the optimization with a large error reduction. This work opens new perspectives for better predictions of the land carbon budgets.{$<$}/p{$>$}}
       \field{issn}{1991-959X}
       \field{journaltitle}{Geoscientific Model Development}
       \field{month}{9}
@@ -2257,7 +2255,7 @@
       \field{pages}{3321\bibrangedash 3346}
       \range{pages}{26}
       \verb{doi}
-      \verb https://doi.org/10.5194/gmd-9-3321-2016
+      \verb 10.5194/gmd-9-3321-2016
       \endverb
       \verb{file}
       \verb /Users/ashiklom/Zotero/storage/3BD6PAWP/Peylin et al. - 2016 - A new stepwise carbon cycle data assimilation syst.pdf;/Users/ashiklom/Zotero/storage/Z75XBF3A/2016.html
@@ -2644,7 +2642,7 @@
       \field{labeldatesource}{year}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{abstract}{Terrestrial ecosystem and carbon cycle feedbacks will significantly impact future climate, but their responses are highly uncertain. Models and tipping point analyses suggest the tropics and arctic/boreal zone carbon–{}climate feedbacks could be disproportionately large. In situ observations in those regions are sparse, resulting in high uncertainties in carbon fluxes and fluxes. Key parameters controlling ecosystem carbon responses, such as plant traits, are also sparsely observed in the tropics, with the most diverse biome on the planet treated as a single type in models. We analyzed the spatial distribution of in situ data for carbon fluxes, stocks and plant traits globally and also evaluated the potential of remote sensing to observe these quantities. New satellite data products go beyond indices of greenness and can address spatial sampling gaps for specific ecosystem properties and parameters. Because environmental conditions and access limit in situ observations in tropical and arctic/boreal environments, use of space-based techniques can reduce sampling bias and uncertainty about tipping point feedbacks to climate. To reliably detect change and develop the understanding of ecosystems needed for prediction, significantly, more data are required in critical regions. This need can best be met with a strategic combination of remote and in situ data, with satellite observations providing the dense sampling in space and time required to characterize the heterogeneity of ecosystem structure and function.}
+      \field{abstract}{Terrestrial ecosystem and carbon cycle feedbacks will significantly impact future climate, but their responses are highly uncertain. Models and tipping point analyses suggest the tropics and arctic/boreal zone carbon–climate feedbacks could be disproportionately large. In situ observations in those regions are sparse, resulting in high uncertainties in carbon fluxes and fluxes. Key parameters controlling ecosystem carbon responses, such as plant traits, are also sparsely observed in the tropics, with the most diverse biome on the planet treated as a single type in models. We analyzed the spatial distribution of in situ data for carbon fluxes, stocks and plant traits globally and also evaluated the potential of remote sensing to observe these quantities. New satellite data products go beyond indices of greenness and can address spatial sampling gaps for specific ecosystem properties and parameters. Because environmental conditions and access limit in situ observations in tropical and arctic/boreal environments, use of space-based techniques can reduce sampling bias and uncertainty about tipping point feedbacks to climate. To reliably detect change and develop the understanding of ecosystems needed for prediction, significantly, more data are required in critical regions. This need can best be met with a strategic combination of remote and in situ data, with satellite observations providing the dense sampling in space and time required to characterize the heterogeneity of ecosystem structure and function.}
       \field{issn}{1365-2486}
       \field{journaltitle}{Global Change Biology}
       \field{month}{5}
@@ -2741,7 +2739,7 @@
       \field{pages}{2999\bibrangedash 3026}
       \range{pages}{28}
       \verb{doi}
-      \verb https://doi.org/10.5194/gmd-9-2999-2016
+      \verb 10.5194/gmd-9-2999-2016
       \endverb
       \verb{file}
       \verb /Users/ashiklom/Zotero/storage/U9LCYAYE/Schürmann et al. - 2016 - Constraining a land-surface model with multiple ob.pdf;/Users/ashiklom/Zotero/storage/SP4DUV2X/2016.html
@@ -2784,9 +2782,6 @@
       \range{pages}{38}
       \verb{doi}
       \verb 10.1080/01431168508948283
-      \endverb
-      \verb{file}
-      \verb /home/ashiklom/MEGAsync/Zotero/Sellers_1985_Canopy reflectance,.pdf
       \endverb
       \keyw{Radiative transfer model,unread}
     \endentry
@@ -2835,9 +2830,6 @@
       \range{pages}{5}
       \verb{doi}
       \verb 10.1073/pnas.1116706108
-      \endverb
-      \verb{file}
-      \verb /home/ashiklom/MEGAsync/Zotero/Swann et al_2012_Mid-latitude.pdf
       \endverb
       \keyw{Biosphere/atmosphere interactions,ecoclimate,ecosystem-climate interactions,energy budget,land cover change,land use change,unread}
     \endentry
@@ -2963,12 +2955,12 @@
       \field{labeldatesource}{year}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{abstract}{Coupling radiative transfer models for the soil background and vegetation canopy layers is facilitated by means of the four-stream flux interaction concept and use of the adding method. Also the coupling to a state-of-the-art atmospheric radiative transfer model like MODTRAN4 can be established in this way, thus enabling the realistic simulation of top-of-atmosphere radiances detected by space-borne remote sensing instruments. Possible applications of coupled modeling vary from mission design to parameter retrieval and data assimilation. This paper introduces a modified Hapke soil BRDF model, a robust version of the PROSPECT leaf model, and a modernized canopy radiative transfer model called 4SAIL2. The latter is a hybrid two-layer version of SAIL accommodating horizontal and vertical heterogeneities, featuring improved modeling of the hot spot effect and output of canopy absorptances. The integrated model is simply called SLC (soil–{}leaf-canopy) and has been implemented as a speed-optimized Windows DLL which allows efficient use of computer resources even when simulating massive amounts of hyperspectral multi-angular observations. In this paper various examples of possible model output are shown, including simulated satellite image products. First validation results have been obtained from atmospherically corrected hyperspectral multi-angular CHRIS-PROBA data of the Upper Rhine Valley in Germany.}
+      \field{abstract}{Coupling radiative transfer models for the soil background and vegetation canopy layers is facilitated by means of the four-stream flux interaction concept and use of the adding method. Also the coupling to a state-of-the-art atmospheric radiative transfer model like MODTRAN4 can be established in this way, thus enabling the realistic simulation of top-of-atmosphere radiances detected by space-borne remote sensing instruments. Possible applications of coupled modeling vary from mission design to parameter retrieval and data assimilation. This paper introduces a modified Hapke soil BRDF model, a robust version of the PROSPECT leaf model, and a modernized canopy radiative transfer model called 4SAIL2. The latter is a hybrid two-layer version of SAIL accommodating horizontal and vertical heterogeneities, featuring improved modeling of the hot spot effect and output of canopy absorptances. The integrated model is simply called SLC (soil–leaf-canopy) and has been implemented as a speed-optimized Windows DLL which allows efficient use of computer resources even when simulating massive amounts of hyperspectral multi-angular observations. In this paper various examples of possible model output are shown, including simulated satellite image products. First validation results have been obtained from atmospherically corrected hyperspectral multi-angular CHRIS-PROBA data of the Upper Rhine Valley in Germany.}
       \field{issn}{0034-4257}
       \field{journaltitle}{Remote Sensing of Environment}
       \field{month}{7}
       \field{number}{2}
-      \field{title}{Coupled Soil–{}Leaf-Canopy and Atmosphere Radiative Transfer Modeling to Simulate Hyperspectral Multi-Angular Surface Reflectance and {{TOA}} Radiance Data}
+      \field{title}{Coupled Soil–Leaf-Canopy and Atmosphere Radiative Transfer Modeling to Simulate Hyperspectral Multi-Angular Surface Reflectance and {{TOA}} Radiance Data}
       \field{volume}{109}
       \field{year}{2007}
       \field{pages}{166\bibrangedash 182}
@@ -3019,7 +3011,7 @@
       \field{labeldatesource}{year}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{abstract}{Our limited ability to accurately simulate leaf phenology is a leading source of uncertainty in models of ecosystem carbon cycling. We evaluate if continuously updating canopy state variables with observations is beneficial for predicting phenological events. We employed ensemble adjustment Kalman filter (EAKF) to update predictions of leaf area index (LAI) and leaf extension using tower-based photosynthetically active radiation (PAR) and moderate resolution imaging spectrometer (MODIS) data for 2002–{}2005 at Willow Creek, Wisconsin, USA, a mature, even-aged, northern hardwood, deciduous forest. The ecosystem demography model version 2 (ED2) was used as the prediction model, forced by offline climate data. EAKF successfully incorporated information from both the observations and model predictions weighted by their respective uncertainties. The resulting estimate reproduced the observed leaf phenological cycle in the spring and the fall better than a parametric model prediction. These results indicate that during spring the observations contribute most in determining the correct bud-burst date, after which the model performs well, but accurately modeling fall leaf senesce requires continuous model updating from observations. While the predicted net ecosystem exchange (NEE) of CO2 precedes tower observations and unassimilated model predictions in the spring, overall the prediction follows observed NEE better than the model alone. Our results show state data assimilation successfully simulates the evolution of plant leaf phenology and improves model predictions of forest NEE.}
+      \field{abstract}{Our limited ability to accurately simulate leaf phenology is a leading source of uncertainty in models of ecosystem carbon cycling. We evaluate if continuously updating canopy state variables with observations is beneficial for predicting phenological events. We employed ensemble adjustment Kalman filter (EAKF) to update predictions of leaf area index (LAI) and leaf extension using tower-based photosynthetically active radiation (PAR) and moderate resolution imaging spectrometer (MODIS) data for 2002–2005 at Willow Creek, Wisconsin, USA, a mature, even-aged, northern hardwood, deciduous forest. The ecosystem demography model version 2 (ED2) was used as the prediction model, forced by offline climate data. EAKF successfully incorporated information from both the observations and model predictions weighted by their respective uncertainties. The resulting estimate reproduced the observed leaf phenological cycle in the spring and the fall better than a parametric model prediction. These results indicate that during spring the observations contribute most in determining the correct bud-burst date, after which the model performs well, but accurately modeling fall leaf senesce requires continuous model updating from observations. While the predicted net ecosystem exchange (NEE) of CO2 precedes tower observations and unassimilated model predictions in the spring, overall the prediction follows observed NEE better than the model alone. Our results show state data assimilation successfully simulates the evolution of plant leaf phenology and improves model predictions of forest NEE.}
       \field{issn}{1939-5582}
       \field{journaltitle}{Ecological Applications}
       \field{month}{3}
@@ -3096,6 +3088,9 @@
       \range{pages}{-1}
       \verb{doi}
       \verb 10.1371/journal.pone.0216512
+      \endverb
+      \verb{file}
+      \verb /Users/ashiklom/Zotero/storage/BALZPMMC/Viskari et al. - 2019 - The influence of canopy radiation parameter uncert.pdf
       \endverb
     \endentry
     \entry{weng_2015_scaling}{article}{}
@@ -3620,7 +3615,7 @@
       \field{labeldatesource}{year}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{abstract}{Satellite observations for the Arctic and boreal region may contain information of vegetation, soil, snow, snowmelt, and/or other surface water bodies. We investigated the impacts of vegetation, soil, snow and surface water on empirical vegetation/snow indices on a tundra ecosystem area located around Utqiaġvik (formerly Barrow) of Alaska with the Moderate Resolution Imaging Spectrometer (MODIS) images in 2001–{}2014. Empirical vegetation indices, such as normalized difference vegetation index (NDVI), enhanced vegetation index (EVI), the index of near infrared of vegetation (NIRv), and modified EVI (EVI2), have been used to monitor vegetation. Normalized difference snow index (NDSI) has been widely applied to monitor snow. The vegetation cover fraction (VGCF), the soil cover fraction (SOILCF), the snow cover fraction (SNOWCF), the surface water body cover fraction (WaterBodyCF), the fractional absorption of photosynthetically active radiation (PAR) by vegetation chlorophyll (fAPARchl), the fractional absorption of PAR by non-chlorophyll components of the vegetation (fAPARnon-chl), and the fractional absorption of PAR by the entire canopy (fAPARcanopy) are retrieved with the MODIS images and a coupled Leaf-Vegetation-Soil-Snow-Surface water body radiative transfer model, LVS3. The vegetation indices (NDVI, EVI, EVI2 and NIRv) differ from VGCF, fAPARchl, fAPARnon-chl, and fAPARcanopy. In addition to vegetation, we find that soil, snow and surface water also have impacts on vegetation indices NDVI, EVI (EVI2), and NIRv. Presence of snow makes lower the observed values of NDVI, EVI2 and NIRv. After snowmelt is gone, the vegetation indices (NDVI, EVI, EVI2 and NIRv) linearly decrease with SOILCF and WaterBodyCF, and WaterBodyCF has stronger impacts on these vegetation indices than SOILCF. The relationship between EVI and snow is complicated. NDSI non-linearly increases with SNOWCF, but linearly increases with sum of SNOWCF and WaterBodyCF (sum~=~0.5893~\texttimes{}~NDSI +0.4342, R2~=~0.976). NDSI linearly decreases with VGCF, and the relationship between NDSI and SOILCF is complex. Retrievals of VGCF, fAPARchl, fAPARnon-chl and fAPARcanopy with the LVS3 model provide alternatives for vegetation monitoring and ecological modeling.}
+      \field{abstract}{Satellite observations for the Arctic and boreal region may contain information of vegetation, soil, snow, snowmelt, and/or other surface water bodies. We investigated the impacts of vegetation, soil, snow and surface water on empirical vegetation/snow indices on a tundra ecosystem area located around Utqiaġvik (formerly Barrow) of Alaska with the Moderate Resolution Imaging Spectrometer (MODIS) images in 2001–2014. Empirical vegetation indices, such as normalized difference vegetation index (NDVI), enhanced vegetation index (EVI), the index of near infrared of vegetation (NIRv), and modified EVI (EVI2), have been used to monitor vegetation. Normalized difference snow index (NDSI) has been widely applied to monitor snow. The vegetation cover fraction (VGCF), the soil cover fraction (SOILCF), the snow cover fraction (SNOWCF), the surface water body cover fraction (WaterBodyCF), the fractional absorption of photosynthetically active radiation (PAR) by vegetation chlorophyll (fAPARchl), the fractional absorption of PAR by non-chlorophyll components of the vegetation (fAPARnon-chl), and the fractional absorption of PAR by the entire canopy (fAPARcanopy) are retrieved with the MODIS images and a coupled Leaf-Vegetation-Soil-Snow-Surface water body radiative transfer model, LVS3. The vegetation indices (NDVI, EVI, EVI2 and NIRv) differ from VGCF, fAPARchl, fAPARnon-chl, and fAPARcanopy. In addition to vegetation, we find that soil, snow and surface water also have impacts on vegetation indices NDVI, EVI (EVI2), and NIRv. Presence of snow makes lower the observed values of NDVI, EVI2 and NIRv. After snowmelt is gone, the vegetation indices (NDVI, EVI, EVI2 and NIRv) linearly decrease with SOILCF and WaterBodyCF, and WaterBodyCF has stronger impacts on these vegetation indices than SOILCF. The relationship between EVI and snow is complicated. NDSI non-linearly increases with SNOWCF, but linearly increases with sum of SNOWCF and WaterBodyCF (sum~=~0.5893~\texttimes ~NDSI +0.4342, R2~=~0.976). NDSI linearly decreases with VGCF, and the relationship between NDSI and SOILCF is complex. Retrievals of VGCF, fAPARchl, fAPARnon-chl and fAPARcanopy with the LVS3 model provide alternatives for vegetation monitoring and ecological modeling.}
       \field{issn}{0034-4257}
       \field{journaltitle}{Remote Sensing of Environment}
       \field{month}{4}
@@ -3706,6 +3701,7 @@
       \endverb
     \endentry
   \enddatalist
+  \keyalias{fisher2017vegetation}{fisher2018vegetation}
   \missing{asner_1998_biophysical}
   \missing{coyle_2015_laser}
   \missing{eitel_2016_beyond}
