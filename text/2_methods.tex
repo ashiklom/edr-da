@@ -132,6 +132,27 @@ Therefore the effective leaf area ($L$) is related to the true leaf area index (
   L_{i} = \LAI_{i} \times q_{p(i)}
 \end{equation}
 
+The leaf area of a cohort ($\LAI_{i}$) is calculated as a function of leaf biomass ($B_{\leaf, i}$, \unit{kg C ~ plant^{-1}}), specific leaf area ($\SLA_{p}$, \unit{m^2 ~ kgC^{-1}}), and stem density ($n_{\plant}$, \unit{plants ~ m^{-2}}):
+
+\begin{equation}
+  \LAI_{i} = n_{\plant, i} B_{\leaf, i} \SLA_{p(i)}
+\end{equation}
+
+In turn, $B_{\leaf, i}$ is calculated from cohort diameter at breast height ($\DBH_{i}$, \unit{cm}) according to the following allometric equations:
+
+\begin{equation}
+  B_{\leaf, i} = \b1bl_{p(i)} \DBH_{i}^{\b2bl_{p(i)}}
+\end{equation}
+
+where $\b1bl_{p(i)}$ and $\b2bl_{p(i)}$ are PFT-specific parameters.
+The wood area of a cohort ($\WAI_{i}$) is calculated directly from DBH according to a similar allometric equation:
+
+\begin{equation}
+  \WAI_{i} = n_{\plant, i} \b1bw_{p(i)} \DBH_{i}^{\b2bw_{p(i)}}
+\end{equation}
+
+where $\b1bw_{p(i)}$ and $\b2bw_{p(i)}$ are PFT-specific parameters.
+
 The directional extinction coefficient ($K(\psi)_p$)---closely related to the inverse optical depth for direct radiation ($\mu_{0,p}$)---can be expressed as:
 
 \begin{equation}
@@ -197,41 +218,42 @@ For each of these regions, ED2 has user-defined prescribed leaf and wood reflect
 In this study, we modified ED2 to perform the same canopy radiative transfer calculations but in 1 \unit{nm} increments across the range 400--2500 \unit{nm}.
 We then simulated leaf reflectance and transmittance using the PROSPECT 5 leaf RTM,
 which predicts leaf optical properties as a function of number of five parameters:
-Effective number of leaf mesophyll layers (unitless, >= 1),
-total chlorophyll content (\unit{\mu g ~ cm^{-2}}),
-total carotenoid content (\unit{\mu g ~ cm^{-2}}),
-water content (\unit{g ~ cm^{-2}}),
-and dry matter content (\unit{g ~ cm^{-2}})
+Effective number of leaf mesophyll layers (\emph{N}, unitless, >= 1),
+total chlorophyll content (\emph{Cab}, \unit{\mu g ~ cm^{-2}}),
+total carotenoid content (\emph{Car}, \unit{\mu g ~ cm^{-2}}),
+water content (\emph{Cw}, \unit{g ~ cm^{-2}}),
+and dry matter content (\emph{Cm}, \unit{g ~ cm^{-2}})
 \citep{feret2008prospect4}.
 For wood reflectance, we used a single representative spectrum---the mean of all wood spectra from \citet{asner_1998_biophysical}, resampled to 1 \unit{nm} resolution---for all PFTs.
-For soil reflectance, we used the same approach as the ED2 default (weighted average of wet and dry soil reflectance), but with full 1 \unit{nm} soil spectra from Hapke (REF). % TODO: Flesh this out
+For soil reflectance, we used the same approach as the ED2 default (weighted average of wet and dry soil reflectance, according to relative soil moisture parameter, $\varrho_{\soil}$, unitless, 0--1), but with full 1 \unit{nm} soil spectra from Hapke (REF). % TODO: Flesh this out
 The final coupled PROSPECT-ED canopy radiative transfer model (hereafter known as ``EDR'') has 9 parameters for each PFT---
 5 parameters for PROSPECT, specific leaf area, the intercept of the leaf allometry (slope was fixed), and clumping and orientation factors---and one site-specific parameter---the relative soil moisture.
 
-\subsection{Sensitivity analysis}
+% \subsection{Sensitivity analysis}
 
-To provide a basis for understanding the behavior of EDR, I performed a one-at-a-time sensitivity analysis to explore how its reflectance predictions vary with each leaf optical and canopy structural parameter.
-To assess the mathematical foundation of the EDR canopy model (i.e.\ the Sellers two-stream scheme) without the confounding influence of multiple cohorts, I first performed this sensitivity analysis on a simulated plot containing only a single mature tree cohort.
-For comparison, I also included simulations using the 4SAIL canopy radiative transfer model.
-The 4SAIL model simulates four reflectance ``streams''---diffuse (hemispherical) and direct (directional) reflectance for both diffuse and direct incident radiation---\
-but because EDR only simulates diffuse reflectance and its input is dominated by direct radiation (at least on sunny days, which are necessary for satellite and high-altitude airborne data), I used the ``directional-hemispherical'' output for all comparisons.
-For its representation of leaf angle distribution, 4SAIL uses an ellipsoidal model that takes as input the mean leaf inclination angle ($\theta$), which is related to EDR's leaf orientation factor ($f$) by:
+% To provide a basis for understanding the behavior of EDR, I performed a one-at-a-time sensitivity analysis to explore how its reflectance predictions vary with each leaf optical and canopy structural parameter.
+% To assess the mathematical foundation of the EDR canopy model (i.e.\ the Sellers two-stream scheme) without the confounding influence of multiple cohorts, I first performed this sensitivity analysis on a simulated plot containing only a single mature tree cohort.
+% For comparison, I also included simulations using the 4SAIL canopy radiative transfer model.
+% The 4SAIL model simulates four reflectance ``streams''---diffuse (hemispherical) and direct (directional) reflectance for both diffuse and direct incident radiation---\
+% but because EDR only simulates diffuse reflectance and its input is dominated by direct radiation (at least on sunny days, which are necessary for satellite and high-altitude airborne data), I used the ``directional-hemispherical'' output for all comparisons.
+% For its representation of leaf angle distribution, 4SAIL uses an ellipsoidal model that takes as input the mean leaf inclination angle ($\theta$), which is related to EDR's leaf orientation factor ($\chi$) by:
 
-\begin{equation}\label{eq:orient_lidf}
-  \cos \theta = \frac{1 + f}{2}
-\end{equation}
+% \begin{equation}\label{eq:orient_lidf}
+%   \cos \theta = \frac{1 + \chi}{2}
+% \end{equation}
 
-Unlike EDR, 4SAIL does not account for canopy clumping.
-(4SAIL does have a ``hot spot'' parameter to account for strong bi-directional reflectance effects from structurally heterogeneous canopies, but this parameter only affects the bi-directional reflectance, which was not used in this analysis).
+% Unlike EDR, 4SAIL does not account for canopy clumping.
+% (4SAIL does have a ``hot spot'' parameter to account for strong bi-directional reflectance effects from structurally heterogeneous canopies, but this parameter only affects the bi-directional reflectance, which was not used in this analysis).
 
-To investigate the way EDR models interactions between canopy layers, I also performed a similar sensitivity analysis on a simulated plot with two cohorts---a dominant early successional cohort and a sub-dominant mid-successional cohort.
-I examined the sensitivity of total canopy reflectance to the optical properties of both the dominant and sub-dominant cohort, and looked at how this sensitivity was affected by clumping in the upper cohort.
+% To investigate the way EDR models interactions between canopy layers, I also performed a similar sensitivity analysis on a simulated plot with two cohorts---a dominant early successional cohort and a sub-dominant mid-successional cohort.
+% I examined the sensitivity of total canopy reflectance to the optical properties of both the dominant and sub-dominant cohort, and looked at how this sensitivity was affected by clumping in the upper cohort.
 
-\subsection{Model calibration}
+\subsection{Site and data description}
 
-For model calibration, we selected 47 sites from the NASA Forest Functional Types (FFT) field campaign that contained plot-level inventory data (stem density, species identity, and DBH) coincident with observations of the NASA Airborne Visible/Infrared Imaging Spectrometer (AVIRIS).
-These sites are mostly located in the United States Upper Midwest with several sites also in upstate New York and western Maryland, and include stands dominated by either evergreen or deciduous trees and spanning a wide range of structures, from dense groups of saplings (bottom right) to sparse groups of large trees (top left) (Figure~\ref{fig:sites}).
-Based on ED's PFT definitions, these sites contained a total of five different temperate plant functional types: Early successional hardwood, northern mid-successional hardwood, late successional hardwood, northern pine, and late successional conifer.
+For model calibration, we selected 54 sites from the NASA Forest Functional Types (FFT) field campaign that contained plot-level inventory data (stem density, species identity, and diameter at breast height, DBH) coincident with observations of the NASA Airborne Visible/Infrared Imaging Spectrometer-Classic (AVIRIS-Classic).
+These sites are located in the United States Upper Midwest, upstate New York, and western Maryland, and include stands dominated by either evergreen or deciduous trees and spanning a wide range of structures, from dense groups of saplings to sparse groups of large trees (Figure~\ref{fig:sites}).
+We grouped the tree species in these sites into five different plant functional types (PFTs) as defined by ED2:
+Early successional hardwood, northern mid-successional hardwood, late successional hardwood, northern pine, and late successional conifer.
 
 \begin{figure}
   \centering
@@ -241,18 +263,59 @@ Based on ED's PFT definitions, these sites contained a total of five different t
   }\label{fig:sites}
 \end{figure}
 
-We calibrated EDR using the same general Bayesian inversion as in Chapter 3.
-The inversion fit all sites simultaneously, such that at every MCMC iteration, the algorithm proposed a set of all parameter values for each PFT and simulated spectra for each site based on its observed composition and structure.
-Because of unrealistic values in the shortwave infrared spectral region in the AVIRIS observations, likely caused by faulty atmospheric correction, I only calibrated the model with observations from 400 to 1300 \unit{nm}.
-In addition, I changed the fixed variance model used in Chapters 2 and 3 to a two-parameter heteroskedastic variance model ($\sigma = a + bX$) to account for the fact that both model and observation errors are typically proportional to reflectance values.
-To generate the initial history state files required by EDR, I ran ED2 itself for one day in midsummer (July 1), starting from vegetation initial conditions based on observed composition and structure.
+AVIRIS-Classic measures directional surface reflectance from 365 to 2500 \unit{nm} at approximately 10 \unit{nm} increments.
+% TODO: Spatial averaging?
+However, because of unrealistic values in the shortwave infrared spectral region (>1300 \unit{nm}) in the AVIRIS observations (likely caused by faulty atmospheric correction), we only used observations from 400 to 1300 \unit{nm} for model calibration and validation.
 
-For priors on the five PROSPECT parameters and specific leaf area, I performed a hierarchical multivariate analysis (see Chapter 1) on PROSPECT parameters estimated from chapter 3 and, where available, direct measurements of specific leaf area. 
-For priors on the leaf biomass allometry parameters, I fit a multivariate normal distribution to allometry coefficients from \citet{jenkins_2003_allom,jenkins_2004_allom} using the \texttt{PEcAn.allometry} package.
-For the clumping factor, I used a uniform prior across its full range (0 to 1), and for the leaf orientation factor, I used a weakly informative re-scaled beta distribution centered on 0.5.
+\subsection{Model calibration}
 
-To alleviate issues with strong collinearity between the two allometry coefficients and the specific leaf area, I decided to remove the allometry exponent coefficient (but not the intercept) from the calibration by fixing it at its prior mean for each plant functional type.
+To estimate EDR parameters from AVIRIS observations, we used a Bayesian approach that builds on our previous work at the leaf scale \citep{shiklomanov2016quantifying}.
+For a parameter vector $\vec{\Theta}$ and matrix of observations $\mat{X}$, the typical form of Bayes' rule is given by:
+
+\begin{equation}
+  P(\vec{\Theta} | \mat{X}) ~ \underbrace{P(\mat{X} | \vec{\Theta})}{\text{Likelihood}} \underbrace{P(\vec{\Theta})}{\text{Prior}}
+\end{equation}
+
+Rather than performing a separate calibration at each site, we performed a single calibration across all sites.
+Our overall likelihood was therefore the product of the likelihood at each site; i.e. for site $s$:
+
+\begin{equation}
+  P(\mat{X} | \vec{\Theta}) = \prod_{s=1}^{n_{\site}} P(\mat{X}_{s} | \vec{\Theta})
+\end{equation}
+
+The likelihood at each site $s$ is based on how well EDR predicted surface reflectance ($R_{\mathrm{pred}, s}$) matches that site's observed AVIRIS surface reflectance ($\mat{X}_{s}$)
+given the known forest composition at that site ($\mathrm{comp}_{s}$) and the current estimate of the overall parameter vector.
+Similar to \citet{shiklomanov2016quantifying}, we assumed that a normally-distributed residual error between predicted and observed reflectance.
+However, to account for the large differences in the range of feasible reflectance values in different wavelength regions
+(for vegetation, reflectance in the 400-700 \unit{nm} range is typically much lower than in the 700-1400 \unit{nm} range),
+we used a heteroskedastic error model, whereby the residual variance term was a linear function of the predicted reflectance (with slope $m_{r}$ and intercept $b_{r}$).
+In addition, to mitigate sampling issues related to EDR's saturating response to increasing total LAI, we added an additional term to our likelihood that assigns a fixed lognormal probability distribution (with parameters 1 and 0.5, respectively) to the EDR predicted LAI for a given site ($\LAI_{\mathrm{pred}, s}$).
+The expression for the site-specific likelihood is therefore:
+
+\begin{equation}
+  R_{\mathrm{pred}, s}, \LAI_{\mathrm{pred}, s} = \EDR(\vec{\Theta} | \mathrm{comp}_{s})
+\end{equation}
+
+\begin{equation}
+  P(\mat{X}_{s} | \vec{\Theta}) =
+  \mathrm{Normal}(\mat{X}_{s} | R_{\mathrm{pred}, s}, m R_{\mathrm{pred}, s} + b)
+  \mathrm{LogNormal}(\LAI_{\mathrm{pred}, s} | 1, 0.5)
+\end{equation}
+
+Therefore, our parameter vector $\vec{\Theta}$ consists of the following:
+10 EDR parameters per PFT ($\vec{\Theta}_{p}$)---the 5 parameters of the PROSPECT 5 model (\emph{N}, \emph{Cab}, \emph{Car}, \emph{Cw}, \emph{Cm}) and 5 EDR parameters related to canopy structure ($q$, $\chi$, $\SLA$, $\b1bl$, $\b1bw$)---,
+1 parameter per site (relative soil moisture, $\varrho_{\soil, s}$),
+and the residual slope ($m$) and intercept ($b$).
+(With 5 PFTs and 54 sites, this means that $\vec{\Theta}$ has length $(10 \times 5) + 54 + 2 = 106$).
+
+For priors on the 5 PROSPECT parameters and SLA, we performed a hierarchical multivariate analysis \citep{shiklomanov2020does} on PROSPECT parameters estimated from \citep[][Chapter 3]{shiklomanov_dissertation} and, where available, direct measurements of SLA.
+For priors on the leaf biomass allometry parameters, we fit a multivariate normal distribution to allometry coefficients from \citet{jenkins_2003_allom,jenkins_2004_allom} using the \texttt{PEcAn.allometry} package.
+For the clumping factor, we used a uniform prior across its full range (0 to 1), and for the leaf orientation factor, we used a weakly informative re-scaled beta distribution centered on 0.5.
+
+To alleviate issues with strong collinearity between the allometry parameters and the specific leaf area, we fixed the allometry exponent parameters ($\b2bl$ and $\b2bw$) to their prior means for each plant functional type.
 Doing so dramatically improved the stability of the inversion algorithm and the accuracy of the results.
+
+\subsection{Analysis}
 
 I evaluated the performance of the calibrated model by comparing the posterior credible intervals of modeled spectra against the AVIRIS observations at each site.
 To assess the role of model structure in predictive error, I also included predictions using the 4SAIL model parameterized with the posterior means from the EDR calibration (except for clumping factor, which is absent from 4SAIL).
