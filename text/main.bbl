@@ -1,4 +1,4 @@
-\begin{thebibliography}{57}
+\begin{thebibliography}{59}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{{\tt #1}}
 \providecommand{\urlprefix}{URL }
@@ -13,6 +13,11 @@ Antonarakis, A.~S., Munger, J.~W., and Moorcroft, P.~R.: Imaging Spectroscopy-
   and Lidar-Derived Estimates of Canopy Composition and Structure to Improve
   Predictions of Forest Carbon Fluxes and Ecosystem Dynamics, Geophysical
   Research Letters, 41, 2013GL058\,373, \doi{10.1002/2013GL058373}, 2014.
+
+\bibitem[{Asner(1998)}]{asner1998biophysical}
+Asner, G.~P.: Biophysical and {{Biochemical Sources}} of {{Variability}} in
+  {{Canopy Reflectance}}, Remote Sensing of Environment, 64, 234--253,
+  \doi{10.1016/S0034-4257(98)00014-5}, 1998.
 
 \bibitem[{Bonan(2008)}]{bonan2008forests}
 Bonan, G.~B.: Forests and {{Climate Change}}: {{Forcings}}, {{Feedbacks}}, and
@@ -348,6 +353,11 @@ Swann, A. L.~S., Fung, I.~Y., and Chiang, J. C.~H.: Mid-Latitude Afforestation
   Shifts General Circulation and Tropical Precipitation, Proceedings of the
   National Academy of Sciences, 109, 712--716, \doi{10.1073/pnas.1116706108},
   2012.
+
+\bibitem[{{ter Braak} and Vrugt(2008)}]{terbraak2008differential}
+{ter Braak}, C. J.~F. and Vrugt, J.~A.: Differential {{Evolution Markov Chain}}
+  with Snooker Updater and Fewer Chains, Statistics and Computing, 18,
+  435--446, \doi{10.1007/s11222-008-9104-9}, 2008.
 
 \bibitem[{Verhoef(1984)}]{verhoef1984light}
 Verhoef, W.: Light Scattering by Leaf Layers with Application to Canopy

@@ -224,7 +224,7 @@ total carotenoid content (\emph{Car}, \unit{\mu g ~ cm^{-2}}),
 water content (\emph{Cw}, \unit{g ~ cm^{-2}}),
 and dry matter content (\emph{Cm}, \unit{g ~ cm^{-2}})
 \citep{feret2008prospect4}.
-For wood reflectance, we used a single representative spectrum---the mean of all wood spectra from \citet{asner_1998_biophysical}, resampled to 1 \unit{nm} resolution---for all PFTs.
+For wood reflectance, we used a single representative spectrum---the mean of all wood spectra from \citet{asner1998biophysical}, resampled to 1 \unit{nm} resolution---for all PFTs.
 For soil reflectance, we used the simple Hapke soil submodel used in the Soil-Leaf-Canopy RTM \citep{verhoef2007coupled}, whereby soil reflectance is the average of prescribed wet and dry soil reflectance spectra weighted by a relative soil moisture parameter ($\varrho_{\soil}$, unitless, 0--1).
 The final coupled PROSPECT-ED canopy radiative transfer model (hereafter known as ``EDR'') has 12 parameters for each PFT---
 5 parameters for PROSPECT, specific leaf area, two parameters each for the leaf and wood allometries, and clumping and orientation factors---and one site-specific parameter---the relative soil moisture.
@@ -254,19 +254,19 @@ To estimate EDR parameters from AVIRIS observations, we used a Bayesian approach
 For a parameter vector $\vec{\Theta}$ and matrix of observations $\mat{X}$, the typical form of Bayes' rule is given by:
 
 \begin{equation}
-  P(\vec{\Theta} | \mat{X}) ~ \underbrace{P(\mat{X} | \vec{\Theta})}_{\text{Likelihood}} \underbrace{P(\vec{\Theta})}_{\text{Prior}}
+  P(\vec{\Theta} | \mat{X}) \sim \underbrace{P(\mat{X} | \vec{\Theta})}_{\text{Likelihood}} \underbrace{P(\vec{\Theta})}_{\text{Prior}}
 \end{equation}
 
 Rather than performing a separate calibration at each site, we performed a single calibration across all sites.
 Our overall likelihood was therefore the product of the likelihood at each site; i.e. for site $s$:
 
 \begin{equation}
-  P(\mat{X} | \vec{\Theta}) = \prod_{s=1}^{n_{\site}} P(\mat{X}_{s} | \vec{\Theta})
+  P(\mat{X} | \vec{\Theta}) = \prod_{s} P(\mat{X}_{s} | \vec{\Theta})
 \end{equation}
 
 The likelihood at each site $s$ is based on how well EDR predicted surface reflectance ($R_{\mathrm{pred}, s}$) matches that site's observed AVIRIS surface reflectance ($\mat{X}_{s}$)
 given the known forest composition at that site ($\mathrm{comp}_{s}$) and the current estimate of the overall parameter vector.
-Similar to \citet{shiklomanov2016quantifying}, we assumed that a normally-distributed residual error between predicted and observed reflectance.
+Similar to \citet{shiklomanov2016quantifying}, we assumed a normally-distributed residual error between predicted and observed reflectance.
 However, to account for the large differences in the range of feasible reflectance values in different wavelength regions
 (for vegetation, reflectance in the 400-700 \unit{nm} range is typically much lower than in the 700-1400 \unit{nm} range),
 we used a heteroskedastic error model, whereby the residual variance term was a linear function of the predicted reflectance (with slope $m_{r}$ and intercept $b_{r}$).
@@ -279,24 +279,24 @@ The expression for the site-specific likelihood is therefore:
 
 \begin{equation}
   P(\mat{X}_{s} | \vec{\Theta}) =
-  \mathrm{Normal}(\mat{X}_{s} | R_{\mathrm{pred}, s}, m R_{\mathrm{pred}, s} + b)
+  \mathrm{Normal}(\mat{X}_{s} | R_{\mathrm{pred}, s}, m R_{\mathrm{pred}, s} + b) ~
   \mathrm{LogNormal}(\LAI_{\mathrm{pred}, s} | 1, 0.5)
 \end{equation}
 
 Therefore, our parameter vector $\vec{\Theta}$ consists of the following:
-10 EDR parameters per PFT ($\vec{\Theta}_{p}$)---the 5 parameters of the PROSPECT 5 model (\emph{N}, \emph{Cab}, \emph{Car}, \emph{Cw}, \emph{Cm}) and 5 EDR parameters related to canopy structure ($q$, $\chi$, $\SLA$, $\bbbl$, $\bbbw$)---,
+10 EDR parameters per PFT---5 parameters for the PROSPECT 5 model (\emph{N}, \emph{Cab}, \emph{Car}, \emph{Cw}, \emph{Cm}) and 5 EDR parameters related to canopy structure ($q$, $\chi$, $\SLA$, $\bbbl$, $\bbbw$)---,
 1 parameter per site (relative soil moisture, $\varrho_{\soil, s}$),
 and the residual slope ($m$) and intercept ($b$).
 (With 5 PFTs and 54 sites, this means that $\vec{\Theta}$ has length $(10 \times 5) + 54 + 2 = 106$).
 
-For priors on the 5 PROSPECT parameters and SLA, we performed a hierarchical multivariate analysis \citep{shiklomanov2020does} on PROSPECT parameters estimated from \citep[][Chapter 3]{shiklomanov_dissertation} and, where available, direct measurements of SLA.
+For priors on the PROSPECT 5 parameters and SLA, we performed a hierarchical multivariate analysis \citep{shiklomanov2020does} on PROSPECT parameters estimated from \citep[][Chapter 3]{shiklomanov_dissertation} and, where available, direct measurements of SLA.
 For priors on the leaf biomass allometry parameters, we fit a multivariate normal distribution to allometry coefficients from \citet{jenkins2003nationalscale,jenkins2004comprehensive} using the \texttt{PEcAn.allometry} package.
 For the clumping factor, we used a uniform prior across its full range (0 to 1), and for the leaf orientation factor, we used a weakly informative re-scaled beta distribution centered on 0.5.
 
 To alleviate issues with strong collinearity between the allometry parameters and the specific leaf area, we fixed the allometry exponent parameters ($\bebl$ and $\bebw$) to their prior means for each plant functional type.
 Doing so dramatically improved the stability of the inversion algorithm and the accuracy of the results.
 
-We fit this model using the Differential Evolution with Snooker Update (``DEzs'') Markov-Chain Monte Carlo (MCMC) sampling algorithm \citep{terbraak2008differential} as implemented in the R package \texttt{BayesianTools} \citet{bayesiantools}.
+We fit this model using the Differential Evolution with Snooker Update (``DEzs'') Markov-Chain Monte Carlo (MCMC) sampling algorithm \citep{terbraak2008differential} as implemented in the R package \texttt{BayesianTools} \citep{bayesiantools}.
 We ran the algorithm using 8 independent chains for as many iterations as required to achieve convergence, assessed according to a Gelman-Rubin Potential Scale Reduction Factor (PSRF) diagnostic value of less than 1.1 for all parameters \citep{gelman1992inference}.
 
 \subsection{Analysis}
