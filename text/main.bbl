@@ -1,4 +1,4 @@
-\begin{thebibliography}{50}
+\begin{thebibliography}{57}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{{\tt #1}}
 \providecommand{\urlprefix}{URL }
@@ -69,6 +69,16 @@ Fisher, R., McDowell, N., Purves, D., Moorcroft, P., Sitch, S., Cox, P.,
   Limitations, New Phytologist, 187, 666--681,
   \doi{10.1111/j.1469-8137.2010.03340.x}, 2010.
 
+\bibitem[{Gelman and Rubin(1992)}]{gelman1992inference}
+Gelman, A. and Rubin, D.~B.: Inference from Iterative Simulation Using Multiple
+  Sequences, Statistical Science, 7, 457--472, 1992.
+
+\bibitem[{Hartig et~al.(2019)Hartig, Minunno, and { Paul}}]{bayesiantools}
+Hartig, F., Minunno, F., and { Paul}, S.: BayesianTools: General-Purpose MCMC
+  and SMC Samplers and Tools for Bayesian Statistics,
+  \urlprefix\url{https://CRAN.R-project.org/package=BayesianTools}, r package
+  version 0.1.7, 2019.
+
 \bibitem[{Heinze et~al.(2019)Heinze, Eyring, Friedlingstein, Jones, Balkanski,
   Collins, Fichefet, Gao, Hall, Ivanova, and {al.}}]{heinze_2019_esd_reviews}
 Heinze, C., Eyring, V., Friedlingstein, P., Jones, C., Balkanski, Y., Collins,
@@ -96,6 +106,20 @@ Jacquemoud, S., Verhoef, W., Baret, F., Bacour, C., {Zarco-Tejada}, P.~J.,
   Models: {{A}} Review of Use for Vegetation Characterization, Remote Sensing
   of Environment, 113, Supplement 1, S56--S66, \doi{10.1016/j.rse.2008.01.026},
   2009.
+
+\bibitem[{Jenkins et~al.(2003)Jenkins, Chojnacky, Heath, and
+  Birdsey}]{jenkins2003nationalscale}
+Jenkins, J.~C., Chojnacky, D.~C., Heath, L.~S., and Birdsey, R.~A.:
+  National-{{Scale Biomass Estimators}} for {{United States}} Tree Species,
+  Forest Science, 49, 12--35, 2003.
+
+\bibitem[{Jenkins et~al.(2004)Jenkins, Chojnacky, Heath, and
+  Birdsey}]{jenkins2004comprehensive}
+Jenkins, J.~C., Chojnacky, D.~C., Heath, L.~S., and Birdsey, R.~A.:
+  Comprehensive Database of Diameter-Based Biomass Regressions for {{North
+  American}} Tree Species, Tech. Rep. NE-GTR-319, {U.S. Department of
+  Agriculture, Forest Service, Northeastern Research Station}, {Newtown Square,
+  PA}, \doi{10.2737/NE-GTR-319}, 2004.
 
 \bibitem[{Jetz et~al.(2016)Jetz, {Cavender-Bares}, Pavlick, Schimel, Davis,
   Asner, Guralnick, Kattge, Latimer, Moorcroft, Schaepman, Schildhauer,
@@ -290,6 +314,27 @@ Sch{\"u}rmann, G.~J., Kaminski, T., K{\"o}stler, C., Carvalhais, N.,
 Sellers, P.~J.: Canopy Reflectance, Photosynthesis and Transpiration,
   International Journal of Remote Sensing, 6, 1335--1372,
   \doi{10.1080/01431168508948283}, 1985.
+
+\bibitem[{Shiklomanov(2018)}]{shiklomanov_dissertation}
+Shiklomanov, A.~N.: Improving Ecological Forecasts Using Model and Data
+  Constraints, Ph.D. thesis, Boston University, 2018.
+
+\bibitem[{Shiklomanov et~al.(2016)Shiklomanov, Dietze, Viskari, Townsend, and
+  Serbin}]{shiklomanov2016quantifying}
+Shiklomanov, A.~N., Dietze, M.~C., Viskari, T., Townsend, P.~A., and Serbin,
+  S.~P.: Quantifying the Influences of Spectral Resolution on Uncertainty in
+  Leaf Trait Estimates through a {{Bayesian}} Approach to {{RTM}} Inversion,
+  Remote Sensing of Environment, 183, 226--238,
+  \doi{10.1016/j.rse.2016.05.023}, 2016.
+
+\bibitem[{Shiklomanov et~al.(2020)Shiklomanov, Cowdery, Bahn, Byun, Jansen,
+  Kramer, Minden, Niinemets, Onoda, Soudzilovskaia, and
+  Dietze}]{shiklomanov2020does}
+Shiklomanov, A.~N., Cowdery, E.~M., Bahn, M., Byun, C., Jansen, S., Kramer, K.,
+  Minden, V., Niinemets, {\"U}., Onoda, Y., Soudzilovskaia, N.~A., and Dietze,
+  M.~C.: Does the Leaf Economic Spectrum Hold within Plant Functional Types?
+  {{A Bayesian}} Multivariate Trait Meta-analysis, Ecological Applications, 30,
+  \doi{10.1002/eap.2064}, 2020.
 
 \bibitem[{Swann et~al.(2010)Swann, Fung, Levis, Bonan, and
   Doney}]{swann2010changes}
