@@ -19,6 +19,11 @@ plan <- drake_plan(
     pft_posterior_plot(tidy_priors, tidy_posteriors),
     width = 6, height = 7, dpi = 300
   ),
+  prior_posterior_present = ggsave(
+    file_out(!!path(figdir, "posterior-pft-presentation.png")),
+    pft_posterior_plot(tidy_priors, tidy_posteriors, ncol = 4),
+    width = 12, height = 6, dpi = 300
+  ),
   site_structure_data = file_in(!!site_structure_file) %>%
     read_csv(col_types = "cnnnnnnclc") %>%
     mutate(site_tag = paste0("sitesoil_", row_number())),
@@ -86,6 +91,15 @@ plan <- drake_plan(
     file_out(!!path(figdir, "spec-error-all.png")),
     spec_error_all_f(observed_predicted, sail_predictions),
     width = 10, height = 14, dpi = 300
+  ),
+  spec_error_all_presentation = ggsave(
+    file_out(!!path(figdir, "spec-error-all-presentation.png")),
+    spec_error_all_f(observed_predicted, sail_predictions, ncol = 8) +
+      theme(axis.text.x = element_text(size = rel(0.75)),
+            legend.position = c(1, 0),
+            legend.justification = c(1, 0),
+            legend.direction = "horizontal"),
+    width = 10, height = 8, dpi = 300
   ),
   spec_error_aggregate = ggsave(
     file_out(!!path(figdir, "spec-error-aggregate.png")),

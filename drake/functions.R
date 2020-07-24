@@ -31,26 +31,39 @@ tidy_param_matrix <- function(mat, type) {
     split_params("param")
 }
 
-pft_posterior_plot <- function(tidy_priors, tidy_posteriors) {
+pft_posterior_plot <- function(tidy_priors, tidy_posteriors, ncol = 2) {
+  lvls <- c("prospect_N", "prospect_Cab", "prospect_Car",
+            "prospect_Cw", "prospect_Cm",
+            "SLA",
+            "b1Bl", "b1Bw",
+            "clumping_factor", "orient_factor")
+  lbls <- c("'# mesophyll layers'", "Chlorophyll ~ (mu * g ~ cm^-2)",
+            "Carotenoids (mu * g ~ cm^-2)", "'Leaf water content' ~ (g ~ cm^-2)",
+            "'Leaf dry matter content' ~ (g ~ cm^-2)",
+            "'Specific leaf area' ~ (kg ~ m^-2)",
+            "'Leaf biomass allometry'", "'Wood biomass allometry'",
+            "'Canopy clumping' ~ ('0, 1')", "'Leaf orientation factor' ~ ('-1, 1')")
   tidy_prior_sub <- tidy_priors %>%
     dplyr::filter(
       # Clipped because priors are much wider than posteriors
       !(variable == "b1Bl" & value > 0.3),
       !(variable == "b1Bw" & value > 0.4),
       !is.na(pft)
-    )
+    ) %>%
+    dplyr::mutate(variable = factor(variable, lvls, lbls))
   clrs <- c("prior" = "gray70", "posterior" = "black")
- 
+
+  tidy_posterior2 <- tidy_posteriors %>%
+    dplyr::filter(!is.na(pft)) %>%
+    dplyr::mutate(variable = factor(variable, lvls, lbls))
+
   ggplot() +
     aes(x = forcats::fct_inorder(pft), y = value,
         fill = type, color = type) +
     geom_violin(data = tidy_prior_sub) +
-    geom_violin(data = dplyr::filter(tidy_posteriors, !is.na(pft))) +
-    facet_wrap(
-      vars(forcats::fct_inorder(variable)),
-      scales = "free_y",
-      ncol = 2
-    ) +
+    geom_violin(data = tidy_posterior2) +
+    facet_wrap(vars(variable), scales = "free_y", ncol = ncol,
+               labeller = label_parsed) +
     scale_color_manual(values = clrs, aesthetics = c("color", "fill")) +
     theme_bw() +
     theme(
@@ -182,7 +195,7 @@ tidy_site_spec <- function(site) {
     tidyr::pivot_longer(-wavelength, names_to = "iobs", values_to = "observed")
 }
 
-spec_error_all_f <- function(observed_predicted, sail_predictions) {
+spec_error_all_f <- function(observed_predicted, sail_predictions, ncol = 6) {
   # Sort sites by aggregate bias
   plot_dat <- observed_predicted %>%
     dplyr::group_by(site) %>%
@@ -200,16 +213,27 @@ spec_error_all_f <- function(observed_predicted, sail_predictions) {
   ggplot(plot_dat) +
     aes(x = wavelength) +
     geom_ribbon(aes(ymin = pmax(albedo_r_q025, 0),
-                    ymax = pmin(albedo_r_q975, 1)),
-                fill = "gray80") +
+                    ymax = pmin(albedo_r_q975, 1),
+                    fill = "95% PI")) +
     geom_ribbon(aes(ymin = pmax(albedo_q025, 0),
-                    ymax = pmin(albedo_q975, 1)),
-                fill = "green3") +
-    geom_line(aes(y = albedo_mean), color = "green4", size = 1) +
-    geom_line(aes(y = observed, group = iobs)) +
-    geom_line(aes(y = value), color = "red", data = sail_avg) +
-    facet_wrap(vars(site_f), scales = "fixed", ncol = 6) +
+                    ymax = pmin(albedo_q975, 1),
+                    fill = "95% CI")) +
+    geom_line(aes(y = albedo_mean, color = "EDR"), size = 1) +
+    geom_line(aes(y = observed, group = iobs, color = "AVIRIS")) +
+    geom_line(aes(y = value, color = "SAIL"), data = sail_avg) +
+    facet_wrap(vars(site_f), scales = "fixed", ncol = ncol) +
     labs(x = "Wavelength (nm)", y = "Reflectance (0 - 1)") +
+    scale_fill_manual(
+      name = "",
+      values = c("95% PI" = "gray80",
+                 "95% CI" = "green3")
+    ) +
+    scale_color_manual(
+      name = "",
+      values = c("EDR" = "green4",
+                 "AVIRIS" = "black",
+                 "SAIL" = "red")
+    ) +
     theme_bw()
   # TODO Facet text inside plots --- use `geom_text`
 }
