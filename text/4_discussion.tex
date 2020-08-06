@@ -1,11 +1,39 @@
 \section{Discussion}
 
-The accurate simulation of canopy radiative transfer is key to a number of ecosystem processes, including photosynthesis, soil respiration, and hydrology.
-For its representation of radiative transfer, ED2 uses a modified version of the two-stream model of \citet{sellers1985canopy} as implemented in the Community Land Model~\citep{clm45_note} but adapted for multiple canopies.
+Calibrating and validating vegetation models using optical remote sensing data typically involves derived data products (e.g., MODIS GPP) that rely on their own models;
+in other words, ``bringing the observations closer to the models''.
+In this study, we presented an alternative approach whereby we bring the models closer to the observations by training a vegetation model to simulate full-range hyperspectral surface reflectance as observed by optical remote sensing instruments.
+We then demonstrated how this approach could be used to calibrate the model against airborne imaging spectroscopy data from AVIRIS-Classic.
+We found that such calibration reduced uncertainties in parameters related to leaf biochemistry and canopy structure, even for parameters with well-informed priors (Figure~\ref{fig:posterior-pft}).
+Moreover, we found that that the calibrated model was able to reproduce observed surface reflectance (Figures~\ref{fig:spec-error-all} and~\ref{fig:spec-error-aggregate}) and leaf area index (Figure~\ref{fig:lai-pred-obs}) reasonably well across large number of structurally, compositionally, and geographically diverse sites (Figure~\ref{fig:sites}).
 
-A key feature of EDR design is its representation of multiple co-existing plant cohorts competing for light within a single patch.
+Compared to previous similar efforts that have coupled vegetation models to external canopy radiative transfer models~\citep{knorr2001assimilation, nouvellon2001coupling, quaife2008assimilating},
+our work is novel because it uses a canopy radiative transfer formulation that \emph{already exists inside the model itself}.
+This reduces the number of new assumptions and variables we have to introduce and increases the extent to which constraint on canopy radiative transfer parameters propagates to other related processes in the model;
+this is particularly given our past work showing that model predictions of ecosystem fluxes and composition are highly sensitive to radiative transfer parameters~\citep{viskari_2019_influence}.
 
+The canopy radiative transfer model in ED-2.2 is derived from the two-stream model of \citet{sellers1985canopy} and adapted to a multi-level canopy.
+Similar versions of this two-stream formulation are present in other land surface models, including CLM~\citep{clm45_note}, SiB~\citep{baker2008seasonal}, Noah~\citep{niu2011community}, tRIBS-VEGGIE~\citep{ivanov2008vegetationhydrology}, IMOGEN~\citep{huntingford2008quantifying}, and JULES~\citep{best_2011_joint}.
+Although the exact parameterization and implementation differs across these models, the similarity of the underlying conceptual framework means that our approach should be directly transferable to all of these models as well.
+
+One limitation of the two-stream canopy radiative transfer approach in the context of remote sensing is the absence of any angular information in the output.
+More precisely, the quantity simulated by EDR is the bi-hemispherical reflectance (BHR), whereas the atmospherically-corrected AVIRIS-Classic quantity is closest to the hemispherical-directional reflectance factor (HDRF)~\citep[\emph{sensu}]{schaepman-strub2006reflectance}.
+Under specific sun-sensor geometries and atmospheric and illumination conditions, canopy reflectance can have a significant angular dependence, especially in sparse or structurally complex canopies~\citep[e.g., ``hot spot effect'']{maignan2004bidirectional, schaepman-strub2006reflectance}.
+However, in simulations of black spruce canopy BHR and HDRF under different conditions, \citet{schaepman-strub2006reflectance} find differences of no more than 2\% between these quantities in the 650--670 \unit{nm} region, which are smaller than the width of the predictive uncertainty intervals in our results for the same wavelengths (Figure~\ref{fig:spec-error-all}).
+Moreover, the lower altitude and narrow field-of-view of the AVIRIS-Classic instrument used in this study mean that all observer zenith angles are effectively nadir or very close,
+Finally, multiple versions of the two-stream approximation developed over the last 20 years have been validated against reflectance from more complex 3D ray-tracing simulations and remotely sensed observations, and none have identified treatment of angular effects as the primary source of uncertainty~\citep{hogan_2018_fast, yuan2017reexamination, pinty2004synergy}.
+We therefore conclude that additional computational and conceptual challenges (as well as parameter uncertainties) associated with treatment of angular effects in similar models are unwarranted.
+
+A related issue is the missing or simplistic treatment of two- and three-dimensional heterogeneity in canopy structure.
+Namely, the treatment of leaves as infinitely small elements randomly distributed through the canopy space neglects complex realities of the canopy light environment such as gaps and shading.
+In EDR, self-shading is handled via the clumping factor parameter, which functions only as a scalar correction on the leaf area index (Equation~\ref{eqn:elai}).
+A key feature of EDR design is its representation of multiple co-existing plant cohorts competing for light within a single patch;
+however, horizontal heterogeneity and competition between these cohorts is ignored.
+Improved representation of lateral energy transfer can improve the accuracy of simulations of the canopy light environment, and recent theoretical advances show that this can be accomplished without a significant loss in computational performance~\citep{hogan_2018_fast}.
+Treatment of horizontal competition also plays an important role in the outcomes of competition for light between different plants~\citep{fisher2018vegetation}.
 A useful avenue for development and parameterization of these models is comparison to more sophisticated and realistic three-dimensional representations of radiative transfer~\citep[e.g.][]{widlowski2007third}, which are themselves too computationally demanding to be coupled to ecosystem models, but from which empirical distributions and response functions could be derived and against which the behavior of simpler models could be evaluated.
+
+The accurate simulation of canopy radiative transfer is key to a number of ecosystem processes, including photosynthesis, soil respiration, and hydrology.
 
 % TODO: Do this analysis?
 A significant body of remote sensing literature argues that the inversion of coupled leaf-canopy radiative transfer models is ill-posed because of the collinearity of structure and biochemistry effects on canopy reflectance~\citep[e.g.][]{combal2003retrieval, lewis2007spectral}.

@@ -129,6 +129,7 @@ To account for non-uniform distribution of leaves within a canopy, ED2 has a PFT
 Therefore the effective leaf area ($L$) is related to the true leaf area index ($\LAI$) by:
 
 \begin{equation}
+  \label{eqn:elai}
   L_{i} = \LAI_{i} \times q_{p(i)}
 \end{equation}
 
@@ -304,7 +305,7 @@ We ran the algorithm using 8 independent chains for as many iterations as requir
 To assess the extent to which AVIRIS-Classic observations were able to constrain parameter estimates, we compared the prior and posterior distributions for all parameters.
 
 To evaluate the performance of the calibrated model, we compared the posterior credible and predicted 95\% intervals of EDR-predicted spectra against the AVIRIS observations at each site.
-To assess the role of model structure in predictive error, we also included predictions using the PRO4SAIL model \citet{jacquemoud2009prospect} parameterized with the posterior means from the EDR calibration.
+To assess the role of model structure in predictive error, we also included predictions of the bi-hemispherical reflectance by the PRO4SAIL model \citet{jacquemoud2009prospect} parameterized with the posterior means from the EDR calibration.
 Directly comparing these two models is challenging because, unlike EDR, PRO4SAIL cannot accommodate vertical heterogeneity in tree composition and canopy structure.
 Therefore, PRO4SAIL is parameterized according to a single set of average leaf optical and canopy structural properties for the entire canopy.
 For our comparison, we parameterized PRO4SAIL for each site as follows:
