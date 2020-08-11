@@ -246,8 +246,8 @@ Early successional hardwood, northern mid-successional hardwood, late succession
 \end{figure}
 
 AVIRIS-Classic measures directional surface reflectance from 365 to 2500 \unit{nm} at approximately 10 \unit{nm} increments.
-% TODO: Spatial averaging?
 However, because of unrealistic values in the shortwave infrared spectral region (>1300 \unit{nm}) in the AVIRIS observations (likely caused by faulty atmospheric correction), we only used observations from 400 to 1300 \unit{nm} for model calibration and validation.
+Following \citet{shiklomanov2016quantifying}, we used the relative spectral response functions of AVIRIS-Classic to relate the 1 \unit{nm} EDR predictions to the 10 \unit{nm} AVIRIS-Classic measurements.
 
 \subsection{Model calibration}
 
@@ -259,7 +259,7 @@ For a parameter vector $\vec{\Theta}$ and matrix of observations $\mat{X}$, the 
 \end{equation}
 
 Rather than performing a separate calibration at each site, we performed a single calibration across all sites.
-Our overall likelihood was therefore the product of the likelihood at each site; i.e. for site $s$:
+Therefore, our overall likelihood ($P(\mat{X} | \vec{\Theta})$) was the product of the likelihood at each site ($P(\mat{X}_{s} | \vec{\Theta})$, for site $s$):
 
 \begin{equation}
   P(\mat{X} | \vec{\Theta}) = \prod_{s} P(\mat{X}_{s} | \vec{\Theta})
@@ -270,7 +270,7 @@ given the known forest composition at that site ($\mathrm{comp}_{s}$) and the cu
 Similar to \citet{shiklomanov2016quantifying}, we assumed a normally-distributed residual error between predicted and observed reflectance.
 However, to account for the large differences in the range of feasible reflectance values in different wavelength regions
 (for vegetation, reflectance in the 400-700 \unit{nm} range is typically much lower than in the 700-1400 \unit{nm} range),
-we used a heteroskedastic error model, whereby the residual variance term was a linear function of the predicted reflectance (with slope $m_{r}$ and intercept $b_{r}$).
+we used a heteroskedastic error model where the residual variance was a linear function of the predicted reflectance (with slope $m_{r}$ and intercept $b_{r}$).
 In addition, to mitigate sampling issues related to EDR's saturating response to increasing total LAI, we added an additional term to our likelihood that assigns a fixed lognormal probability distribution (with parameters 1 and 0.5, respectively) to the EDR predicted LAI for a given site ($\LAI_{\mathrm{pred}, s}$).
 The expression for the site-specific likelihood is therefore:
 
@@ -291,8 +291,8 @@ and the residual slope ($m$) and intercept ($b$).
 (With 5 PFTs and 54 sites, this means that $\vec{\Theta}$ has length $(10 \times 5) + 54 + 2 = 106$).
 
 For priors on the PROSPECT 5 parameters and SLA, we performed a hierarchical multivariate analysis \citep{shiklomanov2020does} on PROSPECT parameters estimated from \citep[][Chapter 3]{shiklomanov_dissertation} and, where available, direct measurements of SLA.
-For priors on the leaf biomass allometry parameters, we fit a multivariate normal distribution to allometry coefficients from \citet{jenkins2003nationalscale,jenkins2004comprehensive} using the \texttt{PEcAn.allometry} package.
-For the clumping factor, we used a uniform prior across its full range (0 to 1), and for the leaf orientation factor, we used a weakly informative re-scaled beta distribution centered on 0.5.
+For priors on the leaf biomass allometry parameters, we fit a multivariate normal distribution to allometry coefficients from \citet{jenkins2003nationalscale,jenkins2004comprehensive} using the \texttt{PEcAn.allometry} package (\url{https://github.com/pecanproject/pecan/tree/develop/modules/allometry}).
+For the clumping factor, we used a uniform prior across its full range (0 to 1), and for the leaf orientation factor, we used a weakly informative beta distribution re-scaled to the range $(-1, 1)$ and centered on 0.5.
 
 To alleviate issues with strong collinearity between the allometry parameters and the specific leaf area, we fixed the allometry exponent parameters ($\bebl$ and $\bebw$) to their prior means for each plant functional type.
 Doing so dramatically improved the stability of the inversion algorithm and the accuracy of the results.
