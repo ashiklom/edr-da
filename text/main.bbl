@@ -7,13 +7,6 @@
   \providecommand{\doi}{https://doi.org/\discretionary{}{}{}\begingroup
   \urlstyle{rm}\Url}\fi
 
-\bibitem[{Antonarakis et~al.(2014)Antonarakis, Munger, and
-  Moorcroft}]{antonarakis2014imaging}
-Antonarakis, A.~S., Munger, J.~W., and Moorcroft, P.~R.: Imaging Spectroscopy-
-  and Lidar-Derived Estimates of Canopy Composition and Structure to Improve
-  Predictions of Forest Carbon Fluxes and Ecosystem Dynamics, Geophysical
-  Research Letters, 41, 2013GL058\,373, \doi{10.1002/2013GL058373}, 2014.
-
 \bibitem[{Asner(1998)}]{asner1998biophysical}
 Asner, G.~P.: Biophysical and {{Biochemical Sources}} of {{Variability}} in
   {{Canopy Reflectance}}, Remote Sensing of Environment, 64, 234--253,
@@ -171,6 +164,18 @@ Jetz, W., {Cavender-Bares}, J., Pavlick, R., Schimel, D., Davis, F.~W., Asner,
 Keenan, T.~F. and Niinemets, {\"U}.: Global Leaf Trait Estimates Biased Due to
   Plasticity in the Shade, Nature Plants, 3, 16\,201,
   \doi{10.1038/nplants.2016.201}, 2016.
+
+\bibitem[{Kennedy et~al.(2014)Kennedy, Andr{\'e}fou{\"e}t, Cohen, G{\'o}mez,
+  Griffiths, Hais, Healey, Helmer, Hostert, Lyons, Meigs, Pflugmacher, Phinn,
+  Powell, Scarth, Sen, Schroeder, Schneider, Sonnenschein, Vogelmann, Wulder,
+  and Zhu}]{kennedy2014bringing}
+Kennedy, R.~E., Andr{\'e}fou{\"e}t, S., Cohen, W.~B., G{\'o}mez, C., Griffiths,
+  P., Hais, M., Healey, S.~P., Helmer, E.~H., Hostert, P., Lyons, M.~B., Meigs,
+  G.~W., Pflugmacher, D., Phinn, S.~R., Powell, S.~L., Scarth, P., Sen, S.,
+  Schroeder, T.~A., Schneider, A., Sonnenschein, R., Vogelmann, J.~E., Wulder,
+  M.~A., and Zhu, Z.: Bringing an Ecological View of Change to
+  {{Landsat}}-Based Remote Sensing, Frontiers in Ecology and the Environment,
+  12, 339--346, \doi{10.1890/130066}, 2014.
 
 \bibitem[{Knorr and Lakshmi(2001)}]{knorr2001assimilation}
 Knorr, W. and Lakshmi, V.: Assimilation of {{FAPAR}} and {{Surface
