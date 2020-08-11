@@ -148,7 +148,14 @@
 
 \begin{abstract}
   %% TODO
-TEXT
+  Ecosystem models are often calibrated and/or validated against derived remote sensing data products (e.g. MODIS LAI).
+  However, these data products are generally based on their own models, whose assumptions may not be compatible with those of the ecosystem model in question, and whose uncertainties are usually not well quantified.
+  Here, we develop an alternative approach whereby we modify an ecosystem model to predict full-range, high spectral resolution surface reflectance, which can then be compared directly against airborne and satellite data.
+  Specifically, we coupled the two-stream representation of canopy radiative transfer in the Ecosystem Demography (ED2) model with a leaf radiative transfer model (PROSPECT 5) and a simple soil reflectance model.
+  We then calibrated this model using airborne imaging spectroscopy (AVIRIS) and survey data from 54 temperate forest plots in the northeastern United States.
+  The calibration successfully constrained the posterior distributions of model parameters related to leaf biochemistry and morphology and canopy structure for five plant functional types.
+  The calibrated model was able to accurately reproduce surface reflectance and leaf area index for sites with highly varied forest composition and structure, using a single common set of parameters (i.e., not site-specific parameters).
+  We conclude that modeling surface reflectance is a promising avenue for calibration and validation of dynamic vegetation models using remote sensing data.
 \end{abstract}
 
 
@@ -164,21 +171,10 @@ TEXT
 %% The following commands are for the statements about the availability of data sets and/or software code corresponding to the manuscript.
 %% It is strongly recommended to make use of these sections in case data sets and/or software code have been part of your research the article is based on.
 
-% \codeavailability{TEXT} %% use this section when having only software code available
-
-
-% \dataavailability{TEXT} %% use this section when having only data sets available
-
-
-% TODO
-\codedataavailability{TEXT} %% use this section when having data sets and software code available
-
-
-% \sampleavailability{TEXT} %% use this section when having geoscientific samples available
-
-
-% \videosupplement{TEXT} %% use this section when having video supplements available
-
+\codedataavailability{
+  All of the code and data required to reproduce this study are publicly available via an Open Science Framework (OSF) project, located at
+  \url{https://osf.io/b6umf/}.
+} %% use this section when having data sets and software code available
 
 \appendix
 \input{6_supplement.tex}
@@ -211,14 +207,17 @@ TEXT
   The authors declare no competing interests.
 } %% this section is mandatory even if you declare that no competing interests are present
 
-% \disclaimer{TEXT} %% optional section
-
 \begin{acknowledgements}
-  % TODO
-TEXT
+  This work was supported financially by
+  NASA awards NNX14AH65G and NNX16AO13H,
+  by NSF Awards 1655095 and 1457890,
+  and by NASA's Surface Biology and Geology (SBG) mission study.
+  Cyberinfrastructure for this work was provided by the
+  Boston University Department of Earth and Environment,
+  Brookhaven National Laboratory,
+  Pacific Northwest National Laboratory,
+  and NASA High-End Computing.
 \end{acknowledgements}
-
-
 
 
 %% REFERENCES
