@@ -1,4 +1,4 @@
-\begin{thebibliography}{59}
+\begin{thebibliography}{66}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{{\tt #1}}
 \providecommand{\urlprefix}{URL }
@@ -18,6 +18,22 @@ Antonarakis, A.~S., Munger, J.~W., and Moorcroft, P.~R.: Imaging Spectroscopy-
 Asner, G.~P.: Biophysical and {{Biochemical Sources}} of {{Variability}} in
   {{Canopy Reflectance}}, Remote Sensing of Environment, 64, 234--253,
   \doi{10.1016/S0034-4257(98)00014-5}, 1998.
+
+\bibitem[{Baker et~al.(2008)Baker, Prihodko, Denning, Goulden, Miller, and
+  da~Rocha}]{baker2008seasonal}
+Baker, I.~T., Prihodko, L., Denning, A.~S., Goulden, M., Miller, S., and
+  da~Rocha, H.~R.: Seasonal Drought Stress in the {{Amazon}}: {{Reconciling}}
+  Models and Observations, Journal of Geophysical Research: Biogeosciences,
+  113, \doi{10.1029/2007JG000644}, 2008.
+
+\bibitem[{Best et~al.(2011)Best, Pryor, Clark, Rooney, Essery, M{\'e}nard,
+  Edwards, Hendry, Porson, Gedney, and {al.}}]{best_2011_joint}
+Best, M.~J., Pryor, M., Clark, D.~B., Rooney, G.~G., Essery, R. L.~H.,
+  M{\'e}nard, C.~B., Edwards, J.~M., Hendry, M.~A., Porson, A., Gedney, N., and
+  {al.}, e.: The {{Joint}} {{UK}} {{Land}} {{Environment}} {{Simulator}}
+  ({{JULES}}), Model Description - Part 1: Energy and Water Fluxes,
+  Geoscientific Model Development, 4, 677--699, \doi{10.5194/gmd-4-677-2011},
+  2011.
 
 \bibitem[{Bonan(2008)}]{bonan2008forests}
 Bonan, G.~B.: Forests and {{Climate Change}}: {{Forcings}}, {{Feedbacks}}, and
@@ -45,12 +61,6 @@ Dickinson, R.~E.: Land Surface Processes and Climate-Surface Albedos and Energy
   Balance, Advances in Geophysics, 25, 305--353,
   \doi{10.1016/s0065-2687(08)60176-4}, 1983{\natexlab{b}}.
 
-\bibitem[{Dietze et~al.(2008)Dietze, Wolosin, and Clark}]{dietze2008capturing}
-Dietze, M.~C., Wolosin, M.~S., and Clark, J.~S.: Capturing Diversity and
-  Interspecific Variability in Allometries: {{A}} Hierarchical Approach, Forest
-  Ecology and Management, 256, 1939--1948, \doi{10.1016/j.foreco.2008.07.034},
-  2008.
-
 \bibitem[{Fensholt et~al.(2004)Fensholt, Sandholt, and
   Rasmussen}]{fensholt2004evaluation}
 Fensholt, R., Sandholt, I., and Rasmussen, M.~S.: Evaluation of {{MODIS LAI}},
@@ -66,13 +76,18 @@ Feret, J.-B., Fran{\c c}ois, C., Asner, G.~P., Gitelson, A.~A., Martin, R.~E.,
   Separating Photosynthetic Pigments, Remote Sensing of Environment, 112,
   3030--3043, \doi{10.1016/j.rse.2008.02.012}, 2008.
 
-\bibitem[{Fisher et~al.(2010)Fisher, McDowell, Purves, Moorcroft, Sitch, Cox,
-  Huntingford, Meir, and Ian~Woodward}]{fisher_2010_assessing}
-Fisher, R., McDowell, N., Purves, D., Moorcroft, P., Sitch, S., Cox, P.,
-  Huntingford, C., Meir, P., and Ian~Woodward, F.: Assessing Uncertainties in a
-  Second-Generation Dynamic Vegetation Model Caused by Ecological Scale
-  Limitations, New Phytologist, 187, 666--681,
-  \doi{10.1111/j.1469-8137.2010.03340.x}, 2010.
+\bibitem[{Fisher et~al.(2018)Fisher, Koven, Anderegg, Christoffersen, Dietze,
+  Farrior, Holm, Hurtt, Knox, Lawrence, Lichstein, Longo, Matheny, Medvigy,
+  {Muller-Landau}, Powell, Serbin, Sato, Shuman, Smith, Trugman, Viskari,
+  Verbeeck, Weng, Xu, Xu, Zhang, and Moorcroft}]{fisher2018vegetation}
+Fisher, R.~A., Koven, C.~D., Anderegg, W. R.~L., Christoffersen, B.~O., Dietze,
+  M.~C., Farrior, C.~E., Holm, J.~A., Hurtt, G.~C., Knox, R.~G., Lawrence,
+  P.~J., Lichstein, J.~W., Longo, M., Matheny, A.~M., Medvigy, D.,
+  {Muller-Landau}, H.~C., Powell, T.~L., Serbin, S.~P., Sato, H., Shuman,
+  J.~K., Smith, B., Trugman, A.~T., Viskari, T., Verbeeck, H., Weng, E., Xu,
+  C., Xu, X., Zhang, T., and Moorcroft, P.~R.: Vegetation Demographics in
+  {{Earth System Models}}: {{A}} Review of Progress and Priorities, Global
+  Change Biology, 24, 35--54, \doi{10.1111/gcb.13910}, 2018.
 
 \bibitem[{Gelman and Rubin(1992)}]{gelman1992inference}
 Gelman, A. and Rubin, D.~B.: Inference from Iterative Simulation Using Multiple
@@ -103,6 +118,23 @@ Hogan, R.~J., Quaife, T., and Braghiere, R.: Fast Matrix Treatment of 3-{{D}}
   Radiative Transfer in Vegetation Canopies: {{SPARTACUS}}-{{Vegetation}} 1.1,
   Geoscientific Model Development, 11, 339--350, \doi{10.5194/gmd-11-339-2018},
   2018.
+
+\bibitem[{Huntingford et~al.(2008)Huntingford, Fisher, Mercado, Booth, Sitch,
+  Harris, Cox, Jones, Betts, Malhi, Harris, Collins, and
+  Moorcroft}]{huntingford2008quantifying}
+Huntingford, C., Fisher, R.~A., Mercado, L., Booth, B.~B., Sitch, S., Harris,
+  P.~P., Cox, P.~M., Jones, C.~D., Betts, R.~A., Malhi, Y., Harris, G.~R.,
+  Collins, M., and Moorcroft, P.: Towards Quantifying Uncertainty in
+  Predictions of {{Amazon}} `Dieback', Philosophical Transactions of the Royal
+  Society B: Biological Sciences, 363, 1857--1864,
+  \doi{10.1098/rstb.2007.0028}, 2008.
+
+\bibitem[{Ivanov et~al.(2008)Ivanov, Bras, and
+  Vivoni}]{ivanov2008vegetationhydrology}
+Ivanov, V.~Y., Bras, R.~L., and Vivoni, E.~R.: Vegetation-Hydrology Dynamics in
+  Complex Terrain of Semiarid Areas: 1. {{A}} Mechanistic Approach to Modeling
+  Dynamic Feedbacks, Water Resources Research, 44, \doi{10.1029/2006WR005588},
+  2008.
 
 \bibitem[{Jacquemoud et~al.(2009)Jacquemoud, Verhoef, Baret, Bacour,
   {Zarco-Tejada}, Asner, Fran{\c c}ois, and Ustin}]{jacquemoud2009prospect}
@@ -154,6 +186,21 @@ Knorr, W., Kaminski, T., Scholze, M., Gobron, N., Pinty, B., Giering, R., and
   Model, Journal of Geophysical Research: Biogeosciences, 115,
   \doi{10.1029/2009JG001119}, 2010.
 
+\bibitem[{Koven et~al.(2020)Koven, Knox, Fisher, Chambers, Christoffersen,
+  Davies, Detto, Dietze, Faybishenko, Holm, Huang, Kovenock, Kueppers, Lemieux,
+  Massoud, McDowell, {Muller-Landau}, Needham, Norby, Powell, Rogers, Serbin,
+  Shuman, Swann, Varadharajan, Walker, Wright, and Xu}]{koven2020benchmarking}
+Koven, C.~D., Knox, R.~G., Fisher, R.~A., Chambers, J.~Q., Christoffersen,
+  B.~O., Davies, S.~J., Detto, M., Dietze, M.~C., Faybishenko, B., Holm, J.,
+  Huang, M., Kovenock, M., Kueppers, L.~M., Lemieux, G., Massoud, E., McDowell,
+  N.~G., {Muller-Landau}, H.~C., Needham, J.~F., Norby, R.~J., Powell, T.,
+  Rogers, A., Serbin, S.~P., Shuman, J.~K., Swann, A. L.~S., Varadharajan, C.,
+  Walker, A.~P., Wright, S.~J., and Xu, C.: Benchmarking and Parameter
+  Sensitivity of Physiological and Vegetation Dynamics Using the {{Functionally
+  Assembled Terrestrial Ecosystem Simulator}} ({{FATES}}) at {{Barro Colorado
+  Island}}, {{Panama}}, Biogeosciences, 17, 3017--3044,
+  \doi{10.5194/bg-17-3017-2020}, 2020.
+
 \bibitem[{Lewis and Disney(2007)}]{lewis2007spectral}
 Lewis, P. and Disney, M.: Spectral Invariants and Scattering across Multiple
   Scales from Within-Leaf to Canopy, Remote Sensing of Environment, 109,
@@ -189,15 +236,20 @@ MacBean, N., Maignan, F., Bacour, C., Lewis, P., Peylin, P., Guanter, L.,
   Modelled Global Carbon Uptake Using Solar-Induced Chlorophyll Fluorescence
   Data, Scientific Reports, 8, 1973, \doi{10.1038/s41598-018-20024-w}, 2018.
 
-\bibitem[{Malenovsky et~al.(2008)Malenovsky, Martin, Homolova,
-  {Gastellu-Etchegorry}, {Zurita-Milla}, Schaepman, Pokorny, Clevers, and
-  Cudlin}]{malenovsky_2008_influence}
-Malenovsky, Z., Martin, E., Homolova, L., {Gastellu-Etchegorry}, J.,
-  {Zurita-Milla}, R., Schaepman, M., Pokorny, R., Clevers, J., and Cudlin, P.:
-  Influence of Woody Elements of a {{Norway}} Spruce Canopy on Nadir
-  Reflectance Simulated by the {{DART}} Model at Very High Spatial Resolution,
-  Remote Sensing of Environment, 112, 1--18, \doi{10.1016/j.rse.2006.02.028},
-  2008.
+\bibitem[{Maignan et~al.(2004)Maignan, Br{\'e}on, and
+  Lacaze}]{maignan2004bidirectional}
+Maignan, F., Br{\'e}on, F.~M., and Lacaze, R.: Bidirectional Reflectance of
+  {{Earth}} Targets: Evaluation of Analytical Models Using a Large Set of
+  Spaceborne Measurements with Emphasis on the {{Hot Spot}}, Remote Sensing of
+  Environment, 90, 210--220, \doi{10.1016/j.rse.2003.12.006}, 2004.
+
+\bibitem[{McMahon et~al.(2011)McMahon, Harrison, Armbruster, Bartlein, Beale,
+  Edwards, Kattge, Midgley, Morin, and Prentice}]{mcmahon2011improving}
+McMahon, S.~M., Harrison, S.~P., Armbruster, W.~S., Bartlein, P.~J., Beale,
+  C.~M., Edwards, M.~E., Kattge, J., Midgley, G., Morin, X., and Prentice,
+  I.~C.: Improving Assessment and Modelling of Climate Change Impacts on Global
+  Terrestrial Biodiversity, Trends in Ecology \& Evolution, 26, 249--259,
+  \doi{10.1016/j.tree.2011.02.012}, 2011.
 
 \bibitem[{Medvigy et~al.(2009)Medvigy, Wofsy, Munger, Hollinger, and
   Moorcroft}]{medvigy2009mechanistic}
@@ -226,6 +278,15 @@ Niinemets, {\"U}.: Within-{{Canopy Variations}} in {{Functional Leaf Traits}}:
   P.~R., no.~42 in Advances in {{Photosynthesis}} and {{Respiration}}, pp.
   101--141, {[object Object]}, \doi{10.1007/978-94-017-7291-4_4}, 2016.
 
+\bibitem[{Niu et~al.(2011)Niu, Yang, Mitchell, Chen, Ek, Barlage, Kumar,
+  Manning, Niyogi, Rosero, Tewari, and Xia}]{niu2011community}
+Niu, G.-Y., Yang, Z.-L., Mitchell, K.~E., Chen, F., Ek, M.~B., Barlage, M.,
+  Kumar, A., Manning, K., Niyogi, D., Rosero, E., Tewari, M., and Xia, Y.: The
+  Community {{Noah}} Land Surface Model with Multiparameterization Options
+  ({{Noah}}-{{MP}}): 1. {{Model}} Description and Evaluation with Local-Scale
+  Measurements, Journal of Geophysical Research: Atmospheres, 116,
+  \doi{10.1029/2010JD015139}, 2011.
+
 \bibitem[{Nouvellon et~al.(2001)Nouvellon, Moran, Seen, Bryant, Rambal, Ni,
   B{\'e}gu{\'e}, Chehbouni, Emmerich, Heilman, and Qi}]{nouvellon2001coupling}
 Nouvellon, Y., Moran, M.~S., Seen, D.~L., Bryant, R., Rambal, S., Ni, W.,
@@ -246,6 +307,11 @@ Oleson, K.~W., Lawrence, D.~M., Bonan, G.~B., Drewniak, B., Huang, M., Koven,
   Version 4.5 of the {{Community}} {{Land}} {{Model}} ({{CLM}}), Tech. Rep.
   NCAR/TN-503+STR, {NCAR Earth System Laboratory Climate and Global Dynamics
   Division}, 2013.
+
+\bibitem[{Pacala and Deutschman(1995)}]{pacala_1995_details_that_matter}
+Pacala, S.~W. and Deutschman, D.~H.: Details That Matter: The Spatial
+  Distribution of Individual Trees Maintains Forest Ecosystem Function, Oikos,
+  74, 357, \doi{10.2307/3545980}, 1995.
 
 \bibitem[{Pasquarella et~al.(2016)Pasquarella, Holden, Kaufman, and
   Woodcock}]{pasquarella2016imagery}
@@ -269,14 +335,6 @@ Pinty, B., Gobron, N., Widlowski, J.-L., Lavergne, T., and Verstraete, M.~M.:
   Vegetation Canopy Properties from Remote Sensing Data, Journal of Geophysical
   Research: Atmospheres, 109, D21\,205, \doi{10.1029/2004JD005214}, 2004.
 
-\bibitem[{Pinty et~al.(2006)Pinty, Lavergne, Dickinson, Widlowski, Gobron, and
-  Verstraete}]{pinty2006simplifying}
-Pinty, B., Lavergne, T., Dickinson, R.~E., Widlowski, J.-L., Gobron, N., and
-  Verstraete, M.~M.: Simplifying the Interaction of Land Surfaces with
-  Radiation for Relating Remote Sensing Products to Climate Models, Journal of
-  Geophysical Research: Atmospheres, 111, D02\,116, \doi{10.1029/2005JD005952},
-  2006.
-
 \bibitem[{Quaife et~al.(2008)Quaife, Lewis, De~Kauwe, Williams, Law, Disney,
   and Bowyer}]{quaife2008assimilating}
 Quaife, T., Lewis, P., De~Kauwe, M., Williams, M., Law, B.~E., Disney, M., and
@@ -297,6 +355,13 @@ Running, S.~W., Nemani, R.~R., Heinsch, F.~A., Zhao, M., Reeves, M., and
   Hashimoto, H.: A {{Continuous Satellite}}-{{Derived Measure}} of {{Global
   Terrestrial Primary Production}}, BioScience, 54, 547--560,
   \doi{10.1641/0006-3568(2004)054[0547:ACSMOG]2.0.CO;2}, 2004.
+
+\bibitem[{{Schaepman-Strub} et~al.(2006){Schaepman-Strub}, Schaepman, Painter,
+  Dangel, and Martonchik}]{schaepman-strub2006reflectance}
+{Schaepman-Strub}, G., Schaepman, M.~E., Painter, T.~H., Dangel, S., and
+  Martonchik, J.~V.: Reflectance Quantities in Optical Remote
+  Sensing\textemdash Definitions and Case Studies, Remote Sensing of
+  Environment, 103, 27--42, \doi{10.1016/j.rse.2006.03.002}, 2006.
 
 \bibitem[{Schimel et~al.(2015)Schimel, Pavlick, Fisher, Asner, Saatchi,
   Townsend, Miller, Frankenberg, Hibbard, and Cox}]{schimel2015observing}
@@ -384,14 +449,6 @@ Viskari, T., Shiklomanov, A., Dietze, M.~C., and Serbin, S.~P.: The Influence
   Carbon and Energy Cycling, PLOS ONE, 14, e0216\,512,
   \doi{10.1371/journal.pone.0216512}, 2019.
 
-\bibitem[{Weng et~al.(2015)Weng, Malyshev, Lichstein, Farrior, Dybzinski,
-  Zhang, Shevliakova, and Pacala}]{weng_2015_scaling}
-Weng, E.~S., Malyshev, S., Lichstein, J.~W., Farrior, C.~E., Dybzinski, R.,
-  Zhang, T., Shevliakova, E., and Pacala, S.~W.: Scaling from Individual Trees
-  to Forests in an {{Earth}} {{System}} {{Modeling}} Framework Using a
-  Mathematically Tractable Model of Height-Structured Competition,
-  Biogeosciences, 12, 2655--2694, \doi{10.5194/bg-12-2655-2015}, 2015.
-
 \bibitem[{Widlowski et~al.(2007)Widlowski, Taberner, Pinty, {Bruniquel-Pinel},
   Disney, Fernandes, {Gastellu-Etchegorry}, Gobron, Kuusk, Lavergne, Leblanc,
   Lewis, Martin, M{\~o}ttus, North, Qin, Robustelli, Rochdi, Ruiloba, Soler,
@@ -423,6 +480,13 @@ Widlowski, J.-L., Mio, C., Disney, M., Adams, J., Andredakis, I., Atzberger,
   Fourth Phase of the Radiative Transfer Model Intercomparison ({{RAMI}})
   Exercise: {{Actual}} Canopy Scenarios and Conformity Testing, Remote Sensing
   of Environment, 169, 418--437, \doi{10.1016/j.rse.2015.08.016}, 2015.
+
+\bibitem[{Yuan et~al.(2017)Yuan, Dai, Dickinson, Pinty, Shangguan, Zhang, Wang,
+  and Zhu}]{yuan2017reexamination}
+Yuan, H., Dai, Y., Dickinson, R.~E., Pinty, B., Shangguan, W., Zhang, S., Wang,
+  L., and Zhu, S.: Reexamination and Further Development of Two-Stream Canopy
+  Radiative Transfer Models for Global Land Modeling, Journal of Advances in
+  Modeling Earth Systems, 9, 113--129, \doi{10.1002/2016MS000773}, 2017.
 
 \bibitem[{Zhang et~al.(2020)Zhang, Yao, Huemmrich, Middleton, Lyapustin, and
   Wang}]{zhang2020evaluating}
