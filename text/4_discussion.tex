@@ -24,9 +24,9 @@ Moreover, the lower altitude and narrow field-of-view of the AVIRIS-Classic inst
 Finally, multiple versions of the two-stream approximation developed over the last 20 years have been validated against reflectance from more complex 3D ray-tracing simulations and remotely sensed observations, and none have identified treatment of angular effects as the primary source of uncertainty~\citep{hogan_2018_fast, yuan2017reexamination, pinty2004synergy}.
 We therefore conclude that additional computational and conceptual challenges (as well as parameter uncertainties) associated with treatment of angular effects in similar models are unwarranted.
 
-A related issue is the missing or simplistic treatment of two- and three-dimensional heterogeneity in canopy structure.
-Namely, the treatment of leaves as infinitely small elements randomly distributed through the canopy space neglects complex realities of the canopy light environment such as gaps and shading.
-In EDR, self-shading is handled via the clumping factor parameter, which functions only as a scalar correction on the leaf area index (Equation~\ref{eqn:elai}).
+A related issue is the missing or simplistic treatment of two- and three-dimensional heterogeneity in canopy structure in EDR.
+For one, the treatment of leaves as infinitely small elements randomly distributed through the canopy space---a common feature of all two-stream approximations---neglects complex realities of the canopy light environment such as gaps and self-shading.
+In EDR, self-shading is handled via the clumping factor parameter, which functions as a scalar correction on the leaf area index (Equation~\ref{eqn:elai}).
 A key feature of EDR design is its representation of multiple co-existing plant cohorts competing for light within a single patch;
 however, horizontal heterogeneity and competition between these cohorts is ignored.
 Improved representation of lateral energy transfer can improve the accuracy of simulations of the canopy light environment, and recent theoretical advances show that this can be accomplished without a significant loss in computational performance~\citep{hogan_2018_fast}.
@@ -36,15 +36,15 @@ A useful avenue for development and parameterization of these models is comparis
 The accurate simulation of canopy radiative transfer is key to a number of ecosystem processes, including photosynthesis, soil respiration, and hydrology.
 
 % TODO: Do this analysis?
-A significant body of remote sensing literature argues that the inversion of coupled leaf-canopy radiative transfer models is ill-posed because of the collinearity of structure and biochemistry effects on canopy reflectance~\citep[e.g.][]{combal2003retrieval, lewis2007spectral}.
-Even with tight prior constraint on leaf optical properties from a large meta-analysis, I saw evidence of significant trade-offs between parameters.
-In particular, in this analysis, three parameters influenced canopy reflectance in virtually identical ways through modulating the (effective) leaf area index:
-specific leaf area, leaf biomass allometry, and clumping factor.
-This collinearity resulted in frequent mismatches between observed and modeled leaf area index despite high accuracy in modeled reflectance spectra (Figures~\ref{fig:lai_profile} and~\ref{fig:spec_error_all}).
-Additional measurements of poorly constrained but highly influential structural parameters should help alleviate this problem.
-Fortunately, these structural metrics are often effectively retrieved from LiDAR observations from terrestrial~\citep{eitel_2016_beyond}, airborne~\citep{antonarakis2014imaging}, and satellite platforms~\citep{coyle_2015_laser}.
+% A significant body of remote sensing literature argues that the inversion of coupled leaf-canopy radiative transfer models is ill-posed because of the collinearity of structure and biochemistry effects on canopy reflectance~\citep[e.g.][]{combal2003retrieval, lewis2007spectral}.
+% Even with tight prior constraint on leaf optical properties from a large meta-analysis, I saw evidence of significant trade-offs between parameters.
+% In particular, in this analysis, three parameters influenced canopy reflectance in virtually identical ways through modulating the (effective) leaf area index:
+% specific leaf area, leaf biomass allometry, and clumping factor.
+% This collinearity resulted in frequent mismatches between observed and modeled leaf area index despite high accuracy in modeled reflectance spectra (Figures~\ref{fig:lai_profile} and~\ref{fig:spec_error_all}).
+% Additional measurements of poorly constrained but highly influential structural parameters should help alleviate this problem.
+% Fortunately, these structural metrics are often effectively retrieved from LiDAR observations from terrestrial~\citep{eitel_2016_beyond}, airborne~\citep{antonarakis2014imaging}, and satellite platforms~\citep{coyle_2015_laser}.
 
 Finally, despite many challenges related to canopy radiative transfer modeling, surface reflectance is nevertheless a promising approach for benchmarking and performing data assimilation on ecosystem model outputs.
 Remote sensing observations are unrivaled in their spatial completeness and extent, notably extending to regions like the tropics and high latitudes that are relatively undersampled but have a disproportionate impact on the global climate system~\citep{schimel2015observing} and/or global biodiversity~\citep{jetz_2016_monitoring}.
-At the same time, satellite time series provide multi-decadal records with relatively high temporal frequency, which have tremendous utility for calibrating model projections of past ecological dynamics~\citep{kennedy_2014_bringing, pasquarella2016imagery}.
+At the same time, satellite time series provide multi-decadal records with relatively high temporal frequency, which have tremendous utility for calibrating model projections of past ecological dynamics~\citep{kennedy2014bringing, pasquarella2016imagery}.
 Used in combination with other emerging data sources, including global trait databases and eddy covariance measurements, remote sensing can be a transformative force in ecosystem ecology.
