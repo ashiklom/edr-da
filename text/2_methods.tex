@@ -236,6 +236,7 @@ For model calibration, we selected 54 sites from the NASA Forest Functional Type
 These sites are located in the United States Upper Midwest, upstate New York, and western Maryland, and include stands dominated by either evergreen or deciduous trees and spanning a wide range of structures, from dense groups of saplings to sparse groups of large trees (Figure~\ref{fig:sites}).
 We grouped the tree species in these sites into five different plant functional types (PFTs) as defined by ED2:
 Early successional hardwood, northern mid-successional hardwood, late successional hardwood, northern pine, and late successional conifer.
+The mappings of tree species onto these PFTs are provided as a CSV-formatted table in the file \texttt{inst/pfts-species.csv} in the source code repository for this project (see Code and Data Availability section).
 
 \begin{figure}
   \centering
@@ -255,7 +256,7 @@ To estimate EDR parameters from AVIRIS observations, we used a Bayesian approach
 For a parameter vector $\vec{\Theta}$ and matrix of observations $\mat{X}$, the typical form of Bayes' rule is given by:
 
 \begin{equation}
-  P(\vec{\Theta} | \mat{X}) \sim \underbrace{P(\mat{X} | \vec{\Theta})}_{\text{Likelihood}} \underbrace{P(\vec{\Theta})}_{\text{Prior}}
+  \underbrace{P(\vec{\Theta} | \mat{X})}_{\text{Posterior}} \sim \underbrace{P(\mat{X} | \vec{\Theta})}_{\text{Likelihood}} \underbrace{P(\vec{\Theta})}_{\text{Prior}}
 \end{equation}
 
 Rather than performing a separate calibration at each site, we performed a single calibration across all sites.
@@ -270,7 +271,7 @@ given the known forest composition at that site ($\mathrm{comp}_{s}$) and the cu
 Similar to \citet{shiklomanov2016quantifying}, we assumed a normally-distributed residual error between predicted and observed reflectance.
 However, to account for the large differences in the range of feasible reflectance values in different wavelength regions
 (for vegetation, reflectance in the 400-700 \unit{nm} range is typically much lower than in the 700-1400 \unit{nm} range),
-we used a heteroskedastic error model where the residual variance was a linear function of the predicted reflectance (with slope $m_{r}$ and intercept $b_{r}$).
+we used a heteroskedastic error model where the residual variance was a linear function of the predicted reflectance (with slope $m$ and intercept $b$).
 In addition, to mitigate sampling issues related to EDR's saturating response to increasing total LAI, we added an additional term to our likelihood that assigns a fixed lognormal probability distribution (with parameters 1 and 0.5, respectively) to the EDR predicted LAI for a given site ($\LAI_{\mathrm{pred}, s}$).
 The expression for the site-specific likelihood is therefore:
 
