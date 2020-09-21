@@ -228,7 +228,7 @@ and dry matter content (\emph{Cm}, \unit{g ~ cm^{-2}})
 For wood reflectance, we used a single representative spectrum---the mean of all wood spectra from \citet{asner1998biophysical}, resampled to 1 \unit{nm} resolution---for all PFTs.
 For soil reflectance, we used the simple Hapke soil submodel used in the Soil-Leaf-Canopy RTM \citep{verhoef2007coupled}, whereby soil reflectance is the average of prescribed wet and dry soil reflectance spectra weighted by a relative soil moisture parameter ($\varrho_{\soil}$, unitless, 0--1).
 The final coupled PROSPECT-ED canopy radiative transfer model (hereafter known as ``EDR'') has 12 parameters for each PFT---
-5 parameters for PROSPECT, specific leaf area, two parameters each for the leaf and wood allometries, and clumping and orientation factors---and one site-specific parameter---the relative soil moisture.
+5 parameters for PROSPECT, specific leaf area, two parameters each for the leaf and wood allometries, and clumping and orientation factors---and one site-specific parameter---the relative soil moisture (Table \ref{tab:parameters}).
 
 \subsection{Site and data description}
 
@@ -284,7 +284,7 @@ The expression for the site-specific likelihood is therefore:
   \mathrm{LogNormal}(\LAI_{\mathrm{pred}, s} | 1, 0.5)
 \end{equation}
 
-Therefore, our parameter vector $\vec{\Theta}$ consists of the following:
+Therefore, our parameter vector $\vec{\Theta}$ consists of the following (summarized in Table \ref{tab:parameters}):
 10 EDR parameters per PFT---5 parameters for the PROSPECT 5 model (\emph{N}, \emph{Cab}, \emph{Car}, \emph{Cw}, \emph{Cm}) and 5 EDR parameters related to canopy structure ($q$, $\chi$, $\SLA$, $\bbbl$, $\bbbw$)---,
 1 parameter per site (relative soil moisture, $\varrho_{\soil, s}$),
 and the residual slope ($m$) and intercept ($b$).
@@ -299,6 +299,37 @@ Doing so dramatically improved the stability of the inversion algorithm and the 
 
 We fit this model using the Differential Evolution with Snooker Update (``DEzs'') Markov-Chain Monte Carlo (MCMC) sampling algorithm \citep{terbraak2008differential} as implemented in the R package \texttt{BayesianTools} \citep{bayesiantools}.
 We ran the algorithm using 8 independent chains for as many iterations as required to achieve convergence, assessed according to a Gelman-Rubin Potential Scale Reduction Factor (PSRF) diagnostic value of less than 1.1 for all parameters \citep{gelman1992inference}.
+
+\begin{table}
+  \caption{EDR parameters and prior distributions}
+  \label{tab:parameters}
+  \begin{tabular}{llp{2.2in}ll}
+    \tophline
+    Type & Name & Description & Unit & Prior \\
+    \middlehline
+    \multirow[t]{5}{1.4in}{\parbox[t]{1.4in}{Leaf RTM parameters\\(1 per PFT)}}
+    & \emph{N} & Effective number of leaf mesophyll layers & unitless & $\mathrm{MvNormal}(\vec{\mu}, \mat{\Sigma})$$^1$ \\
+    & \emph{Cab} & Total leaf chlorophyll content & \unit{\mu g ~ cm^-2} & $\mathrm{MvNormal}(\vec{\mu}, \mat{\Sigma})$$^1$ \\
+    & \emph{Car} & Total leaf carotenoid content & \unit{\mu g ~ cm^-2} & $\mathrm{MvNormal}(\vec{\mu}, \mat{\Sigma})$$^1$ \\
+    & \emph{Cw} & Leaf water content & \unit{g ~ cm^-2} & $\mathrm{MvNormal}(\vec{\mu}, \mat{\Sigma})$$^1$ \\
+    & \emph{Cm} & Leaf dry matter content & \unit{g ~ cm^-2} & $\mathrm{MvNormal}(\vec{\mu}, \mat{\Sigma})$$^1$ \\
+    \multirow[t]{5}{1.4in}{\parbox[t]{1.4in}{Canopy RTM parameters\\(1 per PFT)}}
+    & $\SLA$ & Specific leaf area & \unit{kg ~ m^-2} & $\mathrm{MvNormal}(\vec{\mu}, \mat{\Sigma})$$^1$ \\
+    & $q$ & Canopy clumping factor & unitless & $\mathrm{Uniform}(0, 1)$ \\
+    & $\chi$ & Leaf orientation factor & unitless & $2 \times \mathrm{Beta}(18, 12) - 1$ \\
+    & $\bbbl$ & Leaf biomass allometry base & unitless & $\mathrm{LogNormal}(m_{l}, s_{l})$$^2$ \\
+    & $\bbbw$ & Wood biomass allometry base & unitless & $\mathrm{LogNormal}(m_{w}, s_{w})$$^2$\\
+    \multirow[t]{3}{1.4in}{Other parameters}
+    & $\varrho_{\soil, s}$ & Relative soil moisture content at site $s$ & unitless & $\mathrm{Uniform}(0, 1)$ \\
+    & $a$ & Residual slope & unitless & $\mathrm{Exponential}(1)$ \\
+    & $b$ & Residual intercept & unitless & $\mathrm{Exponential}(10)$ \\
+    \bottomhline
+  \end{tabular}
+  \belowtable{
+    $^1$ PFT-specific multivariate normal distribution fit to PROSPECT parameters and SLA from Shiklomanov (2018), chapter 3.\\
+    $^2$ PFT-specific results from Bayesian fits of allometric equations to allometry data from \citet{jenkins2003nationalscale,jenkins2004comprehensive} using the \texttt{PEcAn.allometry} package.
+  }
+\end{table}
 
 \subsection{Analysis}
 
