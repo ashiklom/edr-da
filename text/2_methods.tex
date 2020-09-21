@@ -46,7 +46,7 @@ The full form of $\vec{Y}$ is as follows:
     S_i \left[ 1 - r_i r_{i+1} (1 - \alpha_i) (i - \tau_i) (1 - \alpha_{i+1}) (1 - \tau_{i+1}) \right] (1 - \tau(\psi)_i) (1 - \alpha_i) (1 - r(\psi)_i) \\
     \ldots \\
     S_n r(\psi)_n \left[ 1 - r_{n-1} r_n (1 - \alpha_{n-1}) (1 - \tau_{n-1}) (1 - \alpha_n) (1 - \tau_n) \right] (1 - \tau(\psi)_n) (1 - \alpha_n) \\
-    S_1 \left[ 1 - r_n r_{n+1} (1 - \alpha_n) (1 - \tau_n) (1 - \alpha_{n+1}) (1 - \tau_{n+1}) \right] (1 - \tau(\psi)_n) (1 - \alpha_n) (1 - r(\psi)_n) \\
+    S_n \left[ 1 - r_n r_{n+1} (1 - \alpha_n) (1 - \tau_n) (1 - \alpha_{n+1}) (1 - \tau_{n+1}) \right] (1 - \tau(\psi)_n) (1 - \alpha_n) (1 - r(\psi)_n) \\
     \mathrm{SW}_{\sky}
   \end{bmatrix}
 \end{equation}
@@ -59,7 +59,7 @@ $S_i$ is the direct ("beam") radiation at layer $i$, and is calculated in a loop
   S_i = S_{i + 1} \tau(\psi)_i
 \end{equation}
 
-with $S_{n+1}$ as the incident direct solar flux, an exogenous input.
+with $S_{n+1}$ as the incident direct solar flux at the top of the canopy ($i = n + 1$), an exogenous input.
 
 Other coefficients are
 backscatter of direct ($r(\psi)_{i}$, given zenith angle $\psi$) and diffuse ($r_{i}$) radiation,
@@ -89,7 +89,7 @@ For $i = 1,2,3...n$ where $n$ is the number of cohorts, the $m$ terms are define
     m_{2i,2i} &= -r_{i-1} \left[ \tau_i + (1 - \tau_i)(1 - \alpha_i)(1 - r_i) \right] (1 - \alpha_{i-1})(1 - \tau_{i-1})\\
     m_{2i,2i+1} &= 1 - r_{i-1} r_i (1 - \alpha_{i-1})(1 - \tau_{i-1})(1 - \alpha_i)(1 - \tau_i)\\
     m_{2i+1,2i} &= 1 - r_i r_{i+1} (1 - \alpha_i)(1 - \tau_i)(1 - \alpha_{i+1})(1 - \tau_{i+1})\\
-    m_{2i,2i} &= -r_{i+1} \left[ \tau_i + (1 - \tau_i)(1 - \alpha_i)(1 - r_i) \right] (1 - \alpha_{i+1})(1 - \tau_{i+1})\\
+    m_{2i+1,2i+1} &= -r_{i+1} \left[ \tau_i + (1 - \tau_i)(1 - \alpha_i)(1 - r_i) \right] (1 - \alpha_{i+1})(1 - \tau_{i+1})\\
     m_{2i+1,2i+2} &= - \left[ \tau_i + (1 - \tau_i)(1 - \alpha_i)(1 - r_i) \right]\\
     m_{2n+2,2n+2} &= 1
   \end{split}
