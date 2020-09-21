@@ -8,7 +8,7 @@ Effective calibration and validation of model projections is therefore of broad 
 
 Many previous efforts have used various data streams calibrate or constrain dynamic vegetation model parameters and states.
 Among these data streams, remote sensing is particularly promising due to its consistent measurement methodology and largely uninterrupted global coverage.
-Data products derived from remote sensing observations have been effectively used to constrain, among others,
+Data products derived from remote sensing observations have been used to constrain, among others,
 phenology~\citep{knorr2010carbon, viskari2015modeldata},
 absorbed photosynthetically-active radiation~\citep{peylin2016new, schurmann2016constraining},
 and primary productivity~\citep{macbean2018strong}.
@@ -28,11 +28,11 @@ Moreover, the ability to simulate dynamics of surface reflectance in response to
 However, externally coupling a vegetation model to a separate canopy radiative transfer model is not always necessary to relate model predictions to surface reflectance,
 as land surface models have long included their own internal canopy radiative transfer calculations~\citep{dickinson1983land, sellers1985canopy}.
 These calculations are necessary to simulate impact of vegetation on surface energy balance~\citep{bonan2008forests} and to accurately model plant function, which is fundamentally driven by light~\citep{hikosaka1995model, robakowski_2004_growth, niinemets2016withincanopy, keenan2016global}.
-Canopy radiative transfer plays a particularly important role in the current generation of demographically-enabled dynamic vegetation models, where differences in canopy radiative transfer representations and parametrizations have major impacts on predicted community composition and biogeochemistry~\citep{loew_2014_do, fisher2017vegetation, viskari_2019_influence}.
+Canopy radiative transfer plays a particularly important role in the current generation of demographically-enabled dynamic vegetation models, where differences in canopy radiative transfer representations and parametrizations have major impacts on predicted community composition and biogeochemistry~\citep{loew_2014_do, fisher2018vegetation, viskari_2019_influence}.
 To date, assimilation of remotely sensed surface reflectance calculated from a vegetation model's own representation of radiative transfer has been limited to only simple land surface models~\citep[e.g. SiPNET][]{zobitz_2014_joint} and has not been attempted for more complex demographically-enabled vegetation models.
 
-Our previous work demonstrated that predictions of carbon cycling and community composition by the Ecosystem Demography (ED) model~\citep{medvigy2009mechanistic} are highly sensitive to changes in parameters related to canopy structure and radiative transfer~\citep{viskari_2019_influence}.
-In this study, we build on this work by calibrating and validating the ED model using remotely sensed surface reflectance.
-First, we couple the internal ED canopy radiative transfer model to the PROSPECT 5 leaf radiative transfer model~\citep{feret2008prospect4} and the Hapke soil reflectance model~\citep{verhoef2007coupled} to allow ED to predict surface reflectance spectra at 1 \unit{nm} resolution across the complete visible-shortwave infrared (VSWIR) spectral region (400 to 2500 nm).
-Second, we calibrate this model at 54 sites in the US Midwest and Northeast where coincident vegetation survey data and NASA Airborne Visible and Infrared Imaging Spectrometer (AVIRIS) surface reflectance observations are available.
+Our previous work demonstrated that predictions of carbon cycling and community composition by the Ecosystem Demography model, version 2~\citep[ED2;][]{medvigy2009mechanistic} are highly sensitive to changes in parameters related to canopy structure and radiative transfer~\citep{viskari_2019_influence}.
+In this study, we build on this work by calibrating and validating the ED2 model using remotely sensed surface reflectance.
+First, we couple the internal ED2 canopy radiative transfer model to the PROSPECT 5 leaf radiative transfer model~\citep{feret2008prospect4} and the Hapke soil reflectance model~\citep{verhoef2007coupled} to allow ED to predict surface reflectance spectra at 1 \unit{nm} resolution across the complete visible-shortwave infrared (VSWIR) spectral region (400 to 2500 nm).
+Second, we jointly calibrate this model at 54 sites in the US Midwest and Northeast where coincident vegetation survey data and NASA Airborne Visible and Infrared Imaging Spectrometer (AVIRIS) surface reflectance observations are available.
 Although the scope of our study is limited to the ED model, both the underlying size-and-age structure approximation of ED as well as many aspects of its canopy radiative transfer (e.g. two-stream approximation, treatment of leaf angles) are common to other land surface models~\citep[e.g., FATES]{koven2020benchmarking}, meaning the insights from this work more broadly applicable in model vegetation modeling.
