@@ -145,7 +145,7 @@ In turn, $B_{\leaf, i}$ is calculated from cohort diameter at breast height ($\D
   B_{\leaf, i} = \bbbl_{p(i)} \DBH_{i}^{\bebl_{p(i)}}
 \end{equation}
 
-where $\bbbl_{p(i)}$ and $\bbbl_{p(i)}$ are PFT-specific parameters.
+where $\bbbl_{p(i)}$ and $\bebl_{p(i)}$ are PFT-specific parameters.
 The wood area of a cohort ($\WAI_{i}$) is calculated directly from DBH according to a similar allometric equation:
 
 \begin{equation}
@@ -192,12 +192,12 @@ where $a_s(\psi)$ is the single scattering albedo coefficient, defined as (subsc
 
 \begin{equation}
   a_s(\psi) = \frac{1}{2}
-  \frac{G(\psi)}{\cos\psi \phi_2 + G(\psi)}
+  \frac{G(\psi)}{\phi_2 \cos\psi + G(\psi)}
   \left(
     1 -
-    \frac{\cos\psi \phi_1}{\cos\psi + G(\psi)}
+    \frac{\phi_1 \cos\psi}{\cos\psi + G(\psi)}
     \ln\left(
-      \frac{\cos\psi \phi_1 + \cos\psi \phi_2 + G(\psi)}{\cos\psi \phi_1}
+      \frac{\phi_1 \cos\psi + \phi_2 \cos\psi + G(\psi)}{\phi_1 \cos\psi}
     \right)
   \right)
 \end{equation}
