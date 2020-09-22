@@ -87,11 +87,40 @@ plan <- drake_plan(
   observed_predicted = observed_spectra %>%
     inner_join(predicted_spectra, c("site", "wavelength")) %>%
     mutate(bias = albedo_mean - observed),
-  spec_error_all = ggsave(
-    file_out(!!path(figdir, "spec-error-all.png")),
-    spec_error_all_f(observed_predicted, sail_predictions),
-    width = 10, height = 14, dpi = 300
-  ),
+  spec_error_all = {
+    plot_dat <- observed_predicted %>%
+      dplyr::group_by(site) %>%
+      dplyr::mutate(site_mean_bias = mean(bias)) %>%
+      dplyr::ungroup() %>%
+      dplyr::mutate(site_f = forcats::fct_reorder(site, site_mean_bias))
+    plt <- ggplot(plot_dat) +
+      aes(x = wavelength) +
+      geom_ribbon(aes(ymin = pmax(albedo_r_q025, 0),
+                      ymax = pmin(albedo_r_q975, 1),
+                      fill = "95% PI")) +
+      geom_ribbon(aes(ymin = pmax(albedo_q025, 0),
+                      ymax = pmin(albedo_q975, 1),
+                      fill = "95% CI")) +
+      geom_line(aes(y = albedo_mean, color = "EDR"), size = 1) +
+      geom_line(aes(y = observed, group = iobs, color = "AVIRIS")) +
+      facet_wrap(vars(site_f), scales = "fixed", ncol = 6) +
+      labs(x = "Wavelength (nm)", y = "Reflectance (0 - 1)") +
+      scale_fill_manual(
+        name = "",
+        values = c("95% PI" = "gray80",
+                   "95% CI" = "green3")
+      ) +
+      scale_color_manual(
+        name = "",
+        values = c("EDR" = "green4",
+                   "AVIRIS" = "black")
+      ) +
+      theme_bw()
+    ggsave(
+      file_out(!!path(figdir, "spec-error-all.png")), plt,
+      width = 10, height = 14, units = "in", dpi = 300
+    )
+  },
   spec_error_all_presentation = ggsave(
     file_out(!!path(figdir, "spec-error-all-presentation.png")),
     spec_error_all_f(observed_predicted, sail_predictions, ncol = 8) +

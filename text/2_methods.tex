@@ -335,16 +335,6 @@ We ran the algorithm using 8 independent chains for as many iterations as requir
 \subsection{Analysis}
 
 To assess the extent to which AVIRIS-Classic observations were able to constrain parameter estimates, we compared the prior and posterior distributions for all parameters.
-
 To evaluate the performance of the calibrated model, we compared the posterior credible and predicted 95\% intervals of EDR-predicted spectra against the AVIRIS observations at each site.
-To assess the role of model structure in predictive error, we also included predictions of the bi-hemispherical reflectance by the PRO4SAIL model \citet{jacquemoud2009prospect} parameterized with the posterior means from the EDR calibration.
-Directly comparing these two models is challenging because, unlike EDR, PRO4SAIL cannot accommodate vertical heterogeneity in tree composition and canopy structure.
-Therefore, PRO4SAIL is parameterized according to a single set of average leaf optical and canopy structural properties for the entire canopy.
-For our comparison, we parameterized PRO4SAIL for each site as follows:
-For LAI, we used the EDR-predicted effective LAI summed across all cohorts ($\sum_{i} \LAI_{i} \times q_{p(i)}$).
-For PROSPECT 5 parameters, we used the posterior parameters of the PFT from the tallest cohort at that site.
-For leaf angle distribution, we used the PRO4SAIL ellipsoidal model and calculated the mean leaf inclination angle $\theta$ from the EDR leaf orientation parameter $\chi$ according to the relationship $\cos \theta = 1/2 (1 + \chi)$; as with PROSPECT parameters, we used the leaf orientation parameter from the tallest cohort.
-For the soil moisture parameter, we used our posterior mean estimate.
-
 We also compared the EDR-predicted LAI against field observations at each site.
 To evaluate goodness-of-fit and additive and multiplicative biases, we used an ordinary least squares regression of mean observed vs.\ posterior mean predicted LAI.
