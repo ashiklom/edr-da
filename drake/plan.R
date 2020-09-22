@@ -247,5 +247,91 @@ plan <- drake_plan(
       finalplot,
       width = 6, height = 4, units = "in", dpi = 300
     )
+  },
+  spec_summary_plot = {
+    sites <- c("MN05", "NC07", "SF01",
+               "BH06", "PB09", "BH10",
+               "SF04", "BH07", "BI05")
+    plt <- lapply(
+      sites, site_spec_dbh_plot,
+      observed_predicted = observed_predicted,
+      site_details = site_details,
+      spec_additions = list(
+        coord_cartesian(ylim = c(0, 0.65)),
+        theme(axis.title = element_blank())
+      ),
+      dbh_additions = list(
+        coord_cartesian(xlim = c(0, 75)),
+        theme(axis.title = element_blank())
+      )
+    ) %>%
+      wrap_plots(guides = "collect", ncol = 3)
+    gt <- patchwork::patchworkGrob(plt + theme_bw())
+    plt2 <- gridExtra::arrangeGrob(
+      gt,
+      left = "Left: Reflectance [0, 1]    Right: Count",
+      bottom = "Left: Wavelength (nm)    Right: Stem diameter (cm)"
+    )
+    ggsave(
+      file_out(!!path(figdir, "mainfig-sites.png")), plt2,
+      width = 12, height = 8, dpi = 300
+    )
+  },
+  supplement_pft_plots = {
+    biggest_pft <- site_details %>%
+      dplyr::group_by(site, pft) %>%
+      dplyr::summarize(pft_dbh = sum(dbh * nplant)) %>%
+      dplyr::filter(pft_dbh == max(pft_dbh)) %>%
+      dplyr::ungroup()
+    band_diffs <- observed_predicted %>%
+      dplyr::mutate(band = if_else(wavelength < 750, "VIS", "NIR")) %>%
+      dplyr::group_by(band, site) %>%
+      dplyr::summarize(mean_diff = mean(bias, na.rm = TRUE)) %>%
+      dplyr::ungroup()
+    plt_dat <- band_diffs %>%
+      dplyr::left_join(site_structure_data, c("site" = "site_name")) %>%
+      dplyr::mutate(mostly_evergreen = (frac_evergreen > 0.5) %>%
+                      factor(labels = paste("Mostly", c("deciduous", "evergreen"))),
+                    tot_dens2 = tot_dens * 5000) %>%
+      dplyr::left_join(biggest_pft, "site") %>%
+      dplyr::mutate(band = factor(band, c("VIS", "NIR"),
+                                  c("400-750nm", "750-1400nm")),
+                    pft = factor(pft, labels = c("EH", "MH", "LH",
+                                                 "NP", "LC")))
+    pft_boxplot <- ggplot(plt_dat) +
+      aes(x = pft, y = mean_diff) +
+      geom_boxplot(outlier.shape = NA) +
+      geom_jitter(color = "gray50", width = 0.2) +
+      geom_hline(yintercept = 0, linetype = "dashed") +
+      facet_wrap(vars(band), scales = "free_y") +
+      labs(x = "Plant functional type",
+           y = "Mean reflectance bias (predicted - observed)") +
+      theme_bw() +
+      theme(panel.grid = element_blank(),
+            axis.title.x = element_blank(),
+            axis.text.x = element_text(angle = 90, vjust = 0.5))
+    ggsave(file_out(!!path(figdir, "bias-boxplot-pft.png")), pft_boxplot,
+           width = 7, height = 3.75, units = "in", dpi = 300)
+    fits <- plt_dat %>%
+      dplyr::group_by(band, mostly_evergreen) %>%
+      dplyr::summarize(fit = list(lm(mean_diff ~ tot_dens2))) %>%
+      dplyr::mutate(
+        intercept = purrr::map_dbl(fit, ~.x$coefficients[1]),
+        slope = purrr::map_dbl(fit, ~.x$coefficients[2]),
+        r2 = purrr::map_dbl(fit, ~summary(.x)$adj.r.squared),
+        p = purrr::map_dbl(fit, ~summary(.x)$coefficients[2, 4])
+      )
+    pft_density_bias_plot <- ggplot(plt_dat) +
+      aes(x = tot_dens2, y = mean_diff) +
+      geom_point() +
+      geom_hline(yintercept = 0, linetype = "dashed") +
+      facet_grid(vars(band), vars(pft), scales = "free_y") +
+      labs(x = expression("Stem density" ~ (trees ~ ha^-1)),
+           y = "Mean reflectance bias (predicted - observed)") +
+      theme_bw() +
+      theme(panel.grid = element_blank())
+    ggsave(file_out(!!path(figdir, "bias-density-pft.png")),
+           pft_density_bias_plot,
+           width = 7, height = 3.5, units = "in", dpi = 300)
   }
 )

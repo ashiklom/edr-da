@@ -248,7 +248,9 @@ spec_error_aggregate_f <- function(observed_predicted) {
     theme_bw()
 }
 
-site_spec_dbh_plot <- function(site, observed_predicted, site_details) {
+site_spec_dbh_plot <- function(site, observed_predicted, site_details,
+                               spec_additions = NULL,
+                               dbh_additions = NULL) {
   spec_sub <- observed_predicted %>%
     dplyr::filter(site == !!site)
 
@@ -265,6 +267,9 @@ site_spec_dbh_plot <- function(site, observed_predicted, site_details) {
          title = site) +
     coord_cartesian(ylim = c(0, 1.0)) +
     theme_bw()
+  if (!is.null(spec_additions)) {
+    pspec <- Reduce("+", c(list(pspec), spec_additions))
+  }
 
   dbh_dat <- site_details %>%
     dplyr::filter(site == !!site)
@@ -284,6 +289,10 @@ site_spec_dbh_plot <- function(site, observed_predicted, site_details) {
       legend.justification = c(1, 1),
       legend.background = element_blank()
     )
+
+  if (!is.null(dbh_additions)) {
+    pdbh <- Reduce("+", c(list(pdbh), dbh_additions))
+  }
   pspec + pdbh
 }
 

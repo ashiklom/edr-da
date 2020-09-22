@@ -25,13 +25,12 @@ Calibration provided only limited constraint on site-specific soil optical prope
 
 \begin{figure}
   \centering
-  \includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{figures/spec-error-all}
+  \includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{figures/mainfig-sites}
   \caption{\label{fig:spec-error-all}\
-    Comparison between AVIRIS observed (black) and
+    (\emph{Left}) Comparison between AVIRIS observed (black) and
     EDR predicted (mean prediction in green, 95\% posterior predictive interval in gray)
-    surface reflectance for each site used in the calibration.
-    Sites are sorted in order of decreasing mean difference between observed and EDR predicted reflectance
-    (largest underestimates first, largest overestimates last).
+    surface reflectance for a sample of sites used in the calibration.
+    (\emph{Right}) Histogram of stem diameter at breast height (DBH) by plant functional type (PFT) at the corresponding site.
   }
 \end{figure}
 
@@ -48,13 +47,13 @@ The ability of EDR to reproduce observed spectra at every site was site-dependen
 The largest differences between observed and mean predicted reflectance were in the near-infrared region, particularly from 775 to 1100 \unit{nm},
 while predictions in the visible range agreed well with observations in all but a few cases.
 That said, the EDR predictive interval overlapped observations in all but a few individual cases, suggesting that our estimates of model uncertainty are realistic.
-We did not observe any consistent patterns in mismatch between observed and EDR predicted reflectance with respect to tree size or composition (Figures~\ref{fig:tree-sites-q0}--\ref{fig:tree-sites-LC}).
+We did not observe any consistent patterns in mismatch between observed and EDR predicted reflectance with respect to tree size, stem density, or composition (Figures~\ref{fig:spec-error-allsites}--\ref{fig:tree-sites-LC}).
 
 \begin{figure}
   \centering
   \includegraphics[height=0.4\textheight,keepaspectratio]{figures/lai-pred-obs}
   \caption{\
-    Predictions of leaf area index by EDR, compared to observed values.
+    EDR predictions of leaf area index (LAI) compared to observed values.
     % Colors indicate the plant functional type of the tallest cohort at each site.
     % TODO: Add by-PFT regression line
   }\label{fig:lai-pred-obs}
