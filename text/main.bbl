@@ -1,4 +1,4 @@
-\begin{thebibliography}{66}
+\begin{thebibliography}{67}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{{\tt #1}}
 \providecommand{\urlprefix}{URL }
@@ -225,14 +225,26 @@ Loew, A., {van Bodegom}, P.~M., Widlowski, J.-L., Otto, J., Quaife, T., Pinty,
   {{DGVMs}}? {{Caveats}} and Potential Impacts, Biogeosciences, 11, 1873--1897,
   \doi{10.5194/bg-11-1873-2014}, 2014.
 
-\bibitem[{Longo et~al.(2019)Longo, Knox, Medvigy, Levine, Dietze, Kim, Swann,
-  Zhang, Rollinson, Bras, and {al.}}]{longo_2019_ed1}
+\bibitem[{Longo et~al.(2019{\natexlab{a}})Longo, Knox, Medvigy, Levine, Dietze,
+  Kim, Swann, Zhang, Rollinson, Bras, and {al.}}]{longo_2019_ed1}
 Longo, M., Knox, R.~G., Medvigy, D.~M., Levine, N.~M., Dietze, M.~C., Kim, Y.,
   Swann, A. L.~S., Zhang, K., Rollinson, C.~R., Bras, R.~L., and {al.}, e.: The
   Biophysics, Ecology, and Biogeochemistry of Functionally Diverse, Vertically-
   and Horizontally-Heterogeneous Ecosystems: The {{Ecosystem}} {{Demography}}
   Model, Version 2.2 - Part 1: Model Description, Geoscientific Model
-  Development Discussions, pp. 1--53, \doi{10.5194/gmd-2019-45}, 2019.
+  Development Discussions, pp. 1--53, \doi{10.5194/gmd-2019-45},
+  2019{\natexlab{a}}.
+
+\bibitem[{Longo et~al.(2019{\natexlab{b}})Longo, Knox, Medvigy, Levine, Dietze,
+  Kim, Swann, Zhang, Rollinson, Bras, Wofsy, and
+  Moorcroft}]{longo2019ed2description}
+Longo, M., Knox, R.~G., Medvigy, D.~M., Levine, N.~M., Dietze, M.~C., Kim, Y.,
+  Swann, A. L.~S., Zhang, K., Rollinson, C.~R., Bras, R.~L., Wofsy, S.~C., and
+  Moorcroft, P.~R.: The Biophysics, Ecology, and Biogeochemistry of
+  Functionally Diverse, Vertically and Horizontally Heterogeneous Ecosystems:
+  The {{Ecosystem Demography}} Model, Version 2.2 \textendash{} {{Part}} 1:
+  {{Model}} Description, Geoscientific Model Development, 12, 4309--4346,
+  \doi{10.5194/gmd-12-4309-2019}, 2019{\natexlab{b}}.
 
 \bibitem[{MacBean et~al.(2018)MacBean, Maignan, Bacour, Lewis, Peylin, Guanter,
   K{\"o}hler, {G{\'o}mez-Dans}, and Disney}]{macbean2018strong}
