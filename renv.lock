@@ -30,6 +30,13 @@
       "Repository": "CRAN",
       "Hash": "365629a3ac7243df8ed6ac88a606d9fe"
     },
+    "DBI": {
+      "Package": "DBI",
+      "Version": "1.1.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "4744be45519d675af66c28478720fce5"
+    },
     "DHARMa": {
       "Package": "DHARMa",
       "Version": "0.3.0",
@@ -196,6 +203,13 @@
       "Repository": "CRAN",
       "Hash": "ebc639c4432a2e9c17f195d004848100"
     },
+    "classInt": {
+      "Package": "classInt",
+      "Version": "0.4-3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "17bdfa3c51df4a6c82484d13b11fb380"
+    },
     "cli": {
       "Package": "cli",
       "Version": "2.0.2",
@@ -279,6 +293,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "56abc5fbb1031d6eb69808a17af3d60e"
+    },
+    "e1071": {
+      "Package": "e1071",
+      "Version": "1.7-3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "728e85416ffc90743054c1ac04486d69"
     },
     "ellipse": {
       "Package": "ellipse",
@@ -385,6 +406,13 @@
       "Repository": "CRAN",
       "Hash": "79ff9528d5c8af6c5255e52091ece673"
     },
+    "generics": {
+      "Package": "generics",
+      "Version": "0.0.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "b8cff1d1391fd1ad8b65877f4c7f2e53"
+    },
     "ggplot2": {
       "Package": "ggplot2",
       "Version": "3.3.0",
@@ -426,13 +454,6 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "075f9ab9ae230afb55e11a6a2dc38aed"
-    },
-    "gsl": {
-      "Package": "gsl",
-      "Version": "2.1-6",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "cd08a36fbe64bf9b4a126b5d66e33db2"
     },
     "gtable": {
       "Package": "gtable",
@@ -770,6 +791,13 @@
       "Repository": "CRAN",
       "Hash": "1cc1b38e4db40ea6eb19ab8080bbed3b"
     },
+    "rnaturalearth": {
+      "Package": "rnaturalearth",
+      "Version": "0.1.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "946d1b43d7aba91dfa804f02302a5125"
+    },
     "rprojroot": {
       "Package": "rprojroot",
       "Version": "1.3-2",
@@ -786,8 +814,8 @@
       "RemoteUsername": "ashiklom",
       "RemoteRepo": "rrtm",
       "RemoteRef": "master",
-      "RemoteSha": "50aee2aa485073af2a34eb7cb01091cdc5019955",
-      "Hash": "c023368e865cc66e2fa8e383139ef7bc"
+      "RemoteSha": "4e4553a502e86f52d89cd52c7d91f06ab16c2b59",
+      "Hash": "653675a0a01eb2b69927446cf0ee2c27"
     },
     "rstudioapi": {
       "Package": "rstudioapi",
@@ -809,6 +837,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "a1c68369c629ea3188d0676e37069c65"
+    },
+    "sf": {
+      "Package": "sf",
+      "Version": "0.9-5",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "5b23b3b72c0d9962a59c57b110076f9a"
     },
     "sfsmisc": {
       "Package": "sfsmisc",
@@ -837,6 +872,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "947e4e02a79effa5d512473e10f41797"
+    },
+    "sp": {
+      "Package": "sp",
+      "Version": "1.4-2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "3290eebc34ba4df5e213878d54c1e623"
     },
     "spaMM": {
       "Package": "spaMM",
@@ -921,6 +963,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "92e5a36ad5b445e895a0f9b98db4d810"
+    },
+    "units": {
+      "Package": "units",
+      "Version": "0.6-7",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "4a3df844d6d35ca2ba2b7ba95446b955"
     },
     "utf8": {
       "Package": "utf8",
