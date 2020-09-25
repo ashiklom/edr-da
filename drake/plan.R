@@ -14,11 +14,17 @@ plan <- drake_plan(
     format = "fst_tbl"
   ),
   tidy_priors = target(tidy_prior(), format = "fst_tbl"),
-  prior_posterior = ggsave(
-    file_out(!!path(figdir, "posterior-pft.png")),
-    pft_posterior_plot(tidy_priors, tidy_posteriors),
-    width = 6, height = 7, dpi = 300
-  ),
+  prior_posterior = {
+    dat_prior <- tidy_priors %>%
+      dplyr::mutate(pft = pft_factor(pft))
+    dat_posterior <- tidy_posteriors %>%
+      dplyr::mutate(pft = pft_factor(pft))
+    ggsave(
+      file_out(!!path(figdir, "posterior-pft.png")),
+      pft_posterior_plot(dat_prior, dat_posterior, ncol = 3),
+      width = 7, height = 5, dpi = 300
+    )
+    },
   prior_posterior_present = ggsave(
     file_out(!!path(figdir, "posterior-pft-presentation.png")),
     pft_posterior_plot(tidy_priors, tidy_posteriors, ncol = 4),
@@ -274,7 +280,7 @@ plan <- drake_plan(
     )
     ggsave(
       file_out(!!path(figdir, "mainfig-sites.png")), plt2,
-      width = 12, height = 8, dpi = 300
+      width = 12, height = 5, dpi = 300
     )
   },
   supplement_pft_plots = {

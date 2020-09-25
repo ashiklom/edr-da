@@ -484,3 +484,10 @@ run_edr_sample <- function(params, isite, site_data,
           wavelengths = wavelengths)
   )
 }
+
+pft_factor <- function(pft) {
+  lvl <- c("Early_Hardwood", "North_Mid_Hardwood", "Late_Hardwood",
+           "Northern_Pine", "Late_Conifer")
+  lbl <- c("EH", "MH", "LH", "NP", "LC")
+  factor(pft, lvl, lbl)
+}

@@ -37,12 +37,14 @@ pft_posterior_plot <- function(tidy_priors, tidy_posteriors, ncol = 2) {
             "SLA",
             "b1Bl", "b1Bw",
             "clumping_factor", "orient_factor")
-  lbls <- c("'# mesophyll layers'", "Chlorophyll ~ (mu * g ~ cm^-2)",
-            "Carotenoids (mu * g ~ cm^-2)", "'Leaf water content' ~ (g ~ cm^-2)",
-            "'Leaf dry matter content' ~ (g ~ cm^-2)",
+  lbls <- c("'# mesophyll layers'",
+            "Chlorophyll ~ (mu * g ~ cm^-2)",
+            "Carotenoids ~ (mu * g ~ cm^-2)",
+            "'Water' ~ (g ~ cm^-2)",
+            "'Dry matter' ~ (g ~ cm^-2)",
             "'Specific leaf area' ~ (kg ~ m^-2)",
             "'Leaf biomass allometry'", "'Wood biomass allometry'",
-            "'Canopy clumping' ~ ('0, 1')", "'Leaf orientation factor' ~ ('-1, 1')")
+            "'Canopy clumping' ~ ('0, 1')", "'Leaf orientation' ~ ('-1, 1')")
   tidy_prior_sub <- tidy_priors %>%
     dplyr::filter(
       # Clipped because priors are much wider than posteriors
