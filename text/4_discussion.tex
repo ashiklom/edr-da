@@ -9,8 +9,10 @@ Moreover, we found that that the calibrated model was able to reproduce observed
 
 Compared to previous similar efforts that have coupled vegetation models to external canopy radiative transfer models~\citep{knorr2001assimilation, nouvellon2001coupling, quaife2008assimilating},
 our work is novel because it uses a canopy radiative transfer formulation that \emph{already exists inside the model itself}.
-This reduces the number of new assumptions and variables we have to introduce and increases the extent to which constraint on canopy radiative transfer parameters propagates to other related processes in the model;
-this is particularly given our past work showing that model predictions of ecosystem fluxes and composition are highly sensitive to radiative transfer parameters~\citep{viskari_2019_influence}.
+This reduces the number of new assumptions and variables we have to introduce and increases the extent to which constraint on canopy radiative transfer parameters propagates to other related processes in the model.
+For example, to couple the Geometric Optic Radiative Transfer (GORT) model to the Data Assimilation Linked Ecosystem Carbon (DALEC) model, \citet{quaife2008assimilating} had to assume a relationship between the GORT-predicted foliage area volume density and DALEC-predicted foliar biomass, which required introducing an additional fixed parameter (grams of leaf carbon per leaf area) present in neither model.
+More importantly, in such a coupling, the only way that observed reflectance constrains the model is through the foliar biomass, and additional information from the reflectance on canopy structure is confined to the GORT parameters.
+By contrast, in our approach, parameters and states in the shortwave canopy radiative transfer submodel also influence other model processes, including thermal radiative transfer, micrometeorology, and competition~\citep{longo2019ed2description}, with profound consequences for model predictions of ecosystem fluxes and composition~\citep{viskari_2019_influence}.
 
 The canopy radiative transfer model in ED-2.2 is derived from the two-stream model of \citet{sellers1985canopy} and adapted to a multi-level canopy.
 Similar versions of this two-stream formulation are present in other land surface models, including CLM~\citep{clm45_note}, SiB~\citep{baker2008seasonal}, Noah~\citep{niu2011community}, tRIBS-VEGGIE~\citep{ivanov2008vegetationhydrology}, IMOGEN~\citep{huntingford2008quantifying}, and JULES~\citep{best_2011_joint}.
