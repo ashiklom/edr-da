@@ -18,15 +18,15 @@
 
 Model calibration improved the precision of most PFT-specific parameter estimates, including parameters whose prior distributions were informative (Figure~\ref{fig:posterior-pft}).
 For leaf traits, PFT rankings of the posterior estimates largely followed the relative positions of the priors.
-The effective number of leaf layers (PROSPECT \emph{N} parameter) was higher for needleleaved than broadleaved PFTs, with the highest value for Northern Pine and the lowest value for Mid Hardwood.
-Estimated total chlorophyll content (\emph{Cab}) were similar across all PFTs, with the highest values for Early and Mid Hardwood followed closely by Late Hardwood and Late Conifer, and the lowest values for Northern Pine.
-Estimates of leaf total carotenoid (\emph{Car}), water (\emph{Cw}), and dry matter contents (\emph{Cm}) had distributions that overlapped for all PFTs, though the central tendency of Late Conifer was slightly higher than other PFTs for all three traits.
-Finally, estimated specific leaf area (SLA) was highest in Early Hardwood, followed by Late Hardwood and Mid Hardwood, and was comparably low for Northern Pine and Late Conifer.
+The effective number of leaf layers (PROSPECT \emph{N} parameter) was higher for needleleaved than broadleaved PFTs, with the highest value for northern pine and the lowest value for mid hardwood.
+Estimated total chlorophyll contents (\emph{Cab}) were similar across all PFTs, with the highest values for early and mid Hardwood followed closely by late hardwood and late conifer, and the lowest values for northern pine.
+Estimates of leaf total carotenoid (\emph{Car}), water (\emph{Cw}), and dry matter contents (\emph{Cm}) had distributions that overlapped for all PFTs, though the central tendency of late conifer was slightly higher than other PFTs for all three traits.
+Finally, estimated specific leaf area (SLA) was highest in early hardwood, followed by late hardwood and mid hardwood, and was comparably low for northern pine and late conifer.
 
 Compared to leaf traits, canopy structural traits had less informative (and PFT-agnostic) priors and were more constrained by the calibration.
 Although the estimated parameter distributions were still mutually overlapping in most cases, the constraint did suggest differences between PFTs for some parameters.
-For example, leaf orientation factors and, to a lesser extent, canopy clumping factors and leaf biomass allometry parameters (\emph{b1Bl}) were higher for Mid- and Late-successional broadleaved PFTs than other PFTs.
-Meanwhile, Northern Pine had the lowest leaf biomass allometry parameters and clumping and orient factors, and the highest wood biomass allometry parameter (\emph{b1Bw}).
+For example, leaf orientation factors and, to a lesser extent, canopy clumping factors and leaf biomass allometry parameters (\emph{b1Bl}) were higher for mid- and late-successional broadleaved PFTs than other PFTs.
+Meanwhile, northern pine had the lowest leaf biomass allometry parameters and clumping and orient factors, and the highest wood biomass allometry parameter (\emph{b1Bw}).
 Calibration provided only limited constraint on site-specific soil optical properties, with posterior estimates that were typically almost as wide as the uninformative prior distributions for all but a few specific sites (Figure~\ref{fig:posterior-soil}).
 
 \begin{figure}
@@ -53,7 +53,7 @@ The accuracy and precision of EDR simulated spectra relative to AVIRIS observati
 The largest differences between observed and predicted reflectance were in the near-infrared region, particularly from 775 to 1100 \unit{nm},
 while predictions in the visible range agreed well with observations in all but a few cases.
 That said, the EDR predictive interval overlapped observations in all but a few individual cases (Figure~\ref{fig:spec-error-allsites}), suggesting that our estimates of model uncertainty are realistic.
-We did not observe any consistent patterns in mismatch between observed and EDR predicted reflectance with respect to tree size, stem density, or composition (Figures~\ref{fig:bias-boxplot-pfts}--\ref{fig:tree-sites-LC}).
+We did not observe any consistent patterns in mismatch between observed and EDR predicted reflectance with respect to tree size, stem density, or composition (Figures~\ref{fig:bias-boxplot-pft}--\ref{fig:tree-sites-LC}).
 
 \begin{figure}
   \centering
@@ -65,5 +65,5 @@ We did not observe any consistent patterns in mismatch between observed and EDR 
   }\label{fig:lai-pred-obs}
 \end{figure}
 
-Leaf area index (LAI) predicted from calibrated EDR parameters captured 43\% of the variability in the observations (Figure~\ref{fig:lai-pred-obs}).
+Leaf area index predicted from calibrated EDR parameters captured 43\% of the variability in the observations (Figure~\ref{fig:lai-pred-obs}).
 The observed vs.\ predicted line had a slope of 0.37 and an intercept of 2.80, indicating that EDR calibration underpredicted LAI on average but overexagerrated across-site LAI variability.

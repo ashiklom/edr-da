@@ -7,8 +7,9 @@ By grouping individuals of similar size, structure, and composition together int
 Relevant to this work, ED2 includes a multi-layer canopy radiative transfer model that is a generalization of the two-layer two-stream radiative transfer scheme in CLM 4.5~\citep{clm45_note}, which in turn is derived from \citet{sellers1985canopy}.
 A complete description of the model derivation is provided in the supplementary information of \citet{longo_2019_ed1}, but for completeness, we provide an abbreviated description below:
 
-Let $n$ be the number of cohorts in a patch.
-The full canopy radiation profile in ED2 is then defined by a vector $\vec{X}$ that contains two fluxes---upward ($\vec{F}_{\up,i}$) and downward ($F_{\down,i}$)---for each cohort level $i$, plus a downward flux from the atmosphere ($F_{\down,\sky}$) and an upward flux from the ground ($F_{\up,\ground}$) surface (total size $2n + 2$):
+Our core spatial unit of analysis is a \emph{patch}---a group of plants with a common disturbance history (time since last disturbance).
+Each patch contains $n$ \emph{cohorts}---groups of plants of the same plant functional type (PFT) and size class.
+The full canopy radiation profile in ED2 is defined by a vector $\vec{X}$ that contains two fluxes---upward ($\vec{F}_{\up,i}$) and downward ($F_{\down,i}$)---for each cohort $i$, plus a downward flux from the atmosphere ($F_{\down,\sky}$) and an upward flux from the ground ($F_{\up,\ground}$) surface (total size $2n + 2$):
 
 \begin{equation}
   \vec{X} =
@@ -53,7 +54,7 @@ The full form of $\vec{Y}$ is as follows:
 
 Here, $a_{\ground}$ is the albedo of the ground under the canopy and $\mathrm{SW}_{\sky}$ is the incident shortwave hemispherical flux from the sky;
 both are exogenous inputs to the model.
-$S_i$ is the direct ("beam") radiation at layer $i$, and is calculated in a loop as follows:
+$S_i$ is the direct (``beam'') radiation at layer $i$, and is calculated in a loop as follows:
 
 \begin{equation}
   S_i = S_{i + 1} \tau(\psi)_i
@@ -65,9 +66,9 @@ Other coefficients are
 backscatter of direct ($r(\psi)_{i}$, given zenith angle $\psi$) and diffuse ($r_{i}$) radiation,
 interception of direct ($tau(\psi)_{i}$) and diffuse ($tau_{i}$) radiation,
 and absorption ($\alpha_{i}$).
-Derivations of each of these coefficients is given later in this section.
+Derivations of these coefficients are given later in this section.
 
-The coefficient matrix $\mat{M}$ is a sparse matrix with zero elements every except the diagonal and first-order off-diagonal elements; for example, for $n=3$:
+The coefficient matrix $\mat{M}$ is a sparse, tridiagonal matrix (i.e., zero elements everywhere except the diagonal and first-order off-diagonal elements); for example, for $n=3$:
 
 \begin{equation}
   \mat{M} = \begin{bmatrix}
@@ -98,7 +99,7 @@ For $i = 1,2,3...n$ where $n$ is the number of cohorts, the $m$ terms are define
 Canopy optical property coefficients are derived as follows:
 
 Following \citet{clm45_note}, forward- ($\nu$) and backscattering ($\omega$) of canopy elements (leaves or stems) are defined as a function of those elements' reflectance ($R$) and transmittance ($T$; wood transmittance is assumed to be zero).
-(We use index $p$ to refer to plant functional type and $p(i)$ to refer to the plant functional type of cohort $i$).
+(We use index $p$ to refer to PFT and $p(i)$ to refer to the PFT of cohort $i$).
 
 \begin{align}
   \begin{split}
@@ -126,7 +127,7 @@ Both of these quantities are calculated independently for leaves and wood, and t
 \end{equation}
 
 To account for non-uniform distribution of leaves within a canopy, ED2 has a PFT-specific \emph{clumping factor} ($q$) parameter that serves as a scaling factor on leaf area index.
-Therefore the effective leaf area ($L$) is related to the true leaf area index ($\LAI$) by:
+Therefore the effective leaf area index ($L$) is related to the true leaf area index ($\LAI$) by:
 
 \begin{equation}
   \label{eqn:elai}
@@ -162,7 +163,7 @@ The directional extinction coefficient ($K(\psi)_p$)---closely related to the in
 
 where $G(\psi)_{p}$ describes the mean projection per unit leaf area (or ``relative projected leaf area'') in direction $\psi$.
 
-The leaf angle distribution function used in ED2 is the same as the one used in CLM 4.5 \citep{clm45_note}:
+As in CLM 4.5~\citep{clm45_note} and \citet{sellers1985canopy}, the leaf angle distribution function and parameterization used in ED2 is based on \citet{goudriaan_1977_crop}:
 
 \begin{equation}
   G(\psi)_{p} = \phi_{1,p} + \phi_{2,p} \cos(\psi)
@@ -218,7 +219,7 @@ By default, ED2 performs canopy shortwave radiative transfer calculations for tw
 For each of these regions, ED2 has user-defined prescribed leaf and wood reflectance and transmittance for each PFT, and calculates soil reflectance as the average of constant wet and dry soil reflectance values weighted by the relative soil moisture (0 = fully dry, 1 = fully wet).
 In this study, we modified ED2 to perform the same canopy radiative transfer calculations but in 1 \unit{nm} increments across the range 400--2500 \unit{nm}.
 We then simulated leaf reflectance and transmittance using the PROSPECT 5 leaf RTM,
-which predicts leaf optical properties as a function of number of five parameters:
+which has the following five parameters:
 Effective number of leaf mesophyll layers (\emph{N}, unitless, >= 1),
 total chlorophyll content (\emph{Cab}, \unit{\mu g ~ cm^{-2}}),
 total carotenoid content (\emph{Car}, \unit{\mu g ~ cm^{-2}}),
@@ -227,14 +228,14 @@ and dry matter content (\emph{Cm}, \unit{g ~ cm^{-2}})
 \citep{feret2008prospect4}.
 For wood reflectance, we used a single representative spectrum---the mean of all wood spectra from \citet{asner1998biophysical}, resampled to 1 \unit{nm} resolution---for all PFTs.
 For soil reflectance, we used the simple Hapke soil submodel used in the Soil-Leaf-Canopy RTM \citep{verhoef2007coupled}, whereby soil reflectance is the average of prescribed wet and dry soil reflectance spectra weighted by a relative soil moisture parameter ($\varrho_{\soil}$, unitless, 0--1).
-The final coupled PROSPECT-ED canopy radiative transfer model (hereafter known as ``EDR'') has 12 parameters for each PFT---
+The final coupled PROSPECT-ED2 canopy radiative transfer model (hereafter known as ``EDR'') has 12 parameters for each PFT---
 5 parameters for PROSPECT, specific leaf area, two parameters each for the leaf and wood allometries, and clumping and orientation factors---and one site-specific parameter---the relative soil moisture (Table \ref{tab:parameters}).
 
 \subsection{Site and data description}
 
 For model calibration, we selected 54 sites from the NASA Forest Functional Types (FFT) field campaign that contained plot-level inventory data (stem density, species identity, and diameter at breast height, DBH) coincident with observations of the NASA Airborne Visible/Infrared Imaging Spectrometer-Classic (AVIRIS-Classic).
-These sites are located in the United States Upper Midwest, upstate New York, and western Maryland, and include stands dominated by either evergreen or deciduous trees and spanning a wide range of structures, from dense groups of saplings to sparse groups of large trees (Figure~\ref{fig:sites}).
-We grouped the tree species in these sites into five different plant functional types (PFTs) as defined by ED2:
+These sites are located in the United States Upper Midwest, northern New York, and western Maryland, and include stands dominated by either evergreen or deciduous trees and spanning a wide range of structures, from dense groups of saplings to sparse groups of large trees (Figure~\ref{fig:sites}).
+We grouped the tree species in these sites into five different PFTs as defined by ED2:
 Early successional hardwood, northern mid-successional hardwood, late successional hardwood, northern pine, and late successional conifer.
 The mappings of tree species onto these PFTs are provided as a CSV-formatted table in the file \texttt{inst/pfts-species.csv} in the source code repository for this project (see Code and Data Availability section).
 
@@ -259,7 +260,7 @@ For a parameter vector $\vec{\Theta}$ and matrix of observations $\mat{X}$, the 
   \underbrace{P(\vec{\Theta} | \mat{X})}_{\text{Posterior}} \sim \underbrace{P(\mat{X} | \vec{\Theta})}_{\text{Likelihood}} \underbrace{P(\vec{\Theta})}_{\text{Prior}}
 \end{equation}
 
-Rather than performing a separate calibration at each site, we performed a single calibration across all sites.
+Rather than performing a separate calibration at each site, we performed a single joint calibration across all sites.
 Therefore, our overall likelihood ($P(\mat{X} | \vec{\Theta})$) was the product of the likelihood at each site ($P(\mat{X}_{s} | \vec{\Theta})$, for site $s$):
 
 \begin{equation}
@@ -285,17 +286,17 @@ The expression for the site-specific likelihood is therefore:
   \mathrm{LogNormal}(\LAI_{\mathrm{pred}, s} | 1, 0.5)
 \end{equation}
 
-Therefore, our parameter vector $\vec{\Theta}$ consists of the following (summarized in Table \ref{tab:parameters}):
+Therefore, our parameter vector $\vec{\Theta}$ consists of the following (summarized in Table~\ref{tab:parameters}):
 10 EDR parameters per PFT---5 parameters for the PROSPECT 5 model (\emph{N}, \emph{Cab}, \emph{Car}, \emph{Cw}, \emph{Cm}) and 5 EDR parameters related to canopy structure ($q$, $\chi$, $\SLA$, $\bbbl$, $\bbbw$)---,
 1 parameter per site (relative soil moisture, $\varrho_{\soil, s}$),
 and the residual slope ($m$) and intercept ($b$).
 (With 5 PFTs and 54 sites, this means that $\vec{\Theta}$ has length $(10 \times 5) + 54 + 2 = 106$).
 
-For priors on the PROSPECT 5 parameters and SLA, we performed a hierarchical multivariate analysis \citep{shiklomanov2020does} on PROSPECT parameters estimated from \citep[][Chapter 3]{shiklomanov_dissertation} and, where available, direct measurements of SLA.
+For priors on the PROSPECT 5 parameters and SLA, we performed a hierarchical multivariate analysis \citep{shiklomanov2020does} on PROSPECT 5 parameters and direct SLA measurements from \citep[][Chapter 3]{shiklomanov_dissertation}.
 For priors on the leaf biomass allometry parameters, we fit a multivariate normal distribution to allometry coefficients from \citet{jenkins2003nationalscale,jenkins2004comprehensive} using the \texttt{PEcAn.allometry} package (\url{https://github.com/pecanproject/pecan/tree/develop/modules/allometry}).
-For the clumping factor, we used a uniform prior across its full range (0 to 1), and for the leaf orientation factor, we used a weakly informative beta distribution re-scaled to the range $(-1, 1)$ and centered on 0.5.
+For the clumping factor, we used a uniform prior across its full range (0 to 1), and for the leaf orientation factor, we used a weakly informative beta distribution re-scaled to the range $(-1, 1)$ and centered on 0.5 (Table~\ref{tab:parameters}).
 
-To alleviate issues with strong collinearity between the allometry parameters and the specific leaf area, we fixed the allometry exponent parameters ($\bebl$ and $\bebw$) to their prior means for each plant functional type.
+To alleviate issues with strong collinearity between the allometry parameters and the specific leaf area, we fixed the allometry exponent parameters ($\bebl$ and $\bebw$) to their prior means for each PFT.
 Doing so dramatically improved the stability of the inversion algorithm and the accuracy of the results.
 
 We fit this model using the Differential Evolution with Snooker Update (``DEzs'') Markov-Chain Monte Carlo (MCMC) sampling algorithm \citep{terbraak2008differential} as implemented in the R package \texttt{BayesianTools} \citep{bayesiantools}.
