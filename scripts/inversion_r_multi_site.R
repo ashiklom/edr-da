@@ -1,11 +1,14 @@
 #!/usr/bin/env Rscript
+## devtools::clean_dll()
 ## utils::install.packages(".", repos = NULL, type = "source")
 ## commandArgs <- function(...) c("hetero")
+
+pkgload::load_all(".", attach_testthat = FALSE)
+
 stopifnot(
   requireNamespace("PEcAnRTM", quietly = TRUE),
   requireNamespace("redr", quietly = TRUE)
 )
-pkgload::load_all(".", attach_testthat = FALSE)
 
 argv <- commandArgs(trailingOnly = TRUE)
 
