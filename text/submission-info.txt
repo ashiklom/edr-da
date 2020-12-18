@@ -1,0 +1,14 @@
+Funding information
+NASA grant NNX16AO13H (Alexey ESSF)
+NASA grant NNX14AH65G (Serbin TE)
+
+Recommended reviewers
+Marcos Longo, marcos.longo@jpl.nasa.gov, NASA Jet Propulsion Laboratory (JPL). Lead maintainer of ED2 model. https://science.jpl.nasa.gov/people/Longo/
+
+Rosie Fisher, rfisher@ucar.edu, National Center for Atmospheric Research (NCAR), USA. Expert in demographic vegetation modeling. http://www.cgd.ucar.edu/staff/rfisher/
+
+Tristan Quaife, t.l.quaife@reading.ac.uk. University of Reading, UK. Expert in land surface modeling, radiative transfer, and data assimilation. https://research.reading.ac.uk/meteorology/people/tristan-quaife/
+
+Brett Raczka, brett.raczka@utah.edu. University of Utah, USA. Expert in ED2 uncertainty analysis and calibration
+
+Jennifer Holm, jaholm@lbl.gov. Lawrence Berkeley National Laboratory, USA. Expert in demographic vegetation modeling. https://eesa.lbl.gov/profiles/jennifer-a-holm/
