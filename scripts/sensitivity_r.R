@@ -1,7 +1,7 @@
-devtools::load_all(".")
+pkgload::load_all(".")
 
 library(ggplot2)
-import::from(magrittr, "%>%")
+library(magrittr, include.only = "%>%")
 
 # Single cohort
 edr_defaults <- list(
@@ -35,6 +35,7 @@ tidy_albedo <- function(result_list, values) {
     variable = paste0("V", seq_along(values)),
     var_value = values
   )
+  names(result_list) <- values_df[["variable"]]
   albedo_dfw <- purrr::map_dfc(result_list, "albedo")
   albedo_dfw[["wavelength"]] <- seq(400, 2500)
   albedo_long <- tidyr::gather(albedo_dfw, variable, value, -wavelength)
@@ -43,7 +44,8 @@ tidy_albedo <- function(result_list, values) {
 
 sens_plot <- function(tidy_sens) {
   ggplot(tidy_sens) +
-    aes(x = wavelength, y = value, color = factor(var_value)) +
+    aes(x = wavelength, y = value, color = var_value,
+        group = factor(var_value)) +
     geom_line() +
     labs(x = "Wavelength (nm)", y = "Albedo")
 }
@@ -55,10 +57,7 @@ lai <- c(
 )
 lai_sens <- purrr::map(lai, edr_sens, variable = "lai", .dots = edr_defaults) %>%
   tidy_albedo(lai)
-sens_plot(lai_sens) + ggtitle("LAI sensitivity") + scale_color_viridis_d()
-albedo_list <- purrr::map(sensitivity_raw, "albedo")
-abedo_mat <- Reduce(cbind, albedo_list)
-matplot(albedo_mat, type = "l", main = "LAI sensitivity")
+sens_plot(lai_sens) + ggtitle("LAI sensitivity") + scale_color_viridis_c()
 
 # How does sensitivity to soil moisture change with different LAI values?
 do_soil_sens <- function(lai, soil_vals = seq(0, 1, 0.1)) {
