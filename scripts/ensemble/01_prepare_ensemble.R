@@ -31,7 +31,7 @@ if (interactive()) {
 argl <- OptionParser() %>%
   add_option("--prefix", action = "store", type = "character", default = "msp_hf20180402",
              help = "Prefix of directory where PDA results are stored.") %>%
-  add_option("--outdir", action = "store", type = "character", default = NULL
+  add_option("--outdir", action = "store", type = "character", default = NULL,
              help = "Directory for storing outputs. Default is same as '--prefix'.") %>%
   add_option("--site", action = "store", type = "character", default = "BH02_site_1-25665") %>%
   add_option("--final", action = "store_true", default = FALSE) %>%
@@ -104,7 +104,7 @@ sum4ed <- function(params, vis = 400:700, nir = 701:1300) {
   pedr <- PEcAnRTM::params2edr(params)
   pspec <- pedr$spectra_list
   traits <- pedr$trait.values
-  if (fix_allom2) 
+  if (fix_allom2) {
     # Set allometry exponent to posterior mean
     traits <- purrr::map2(
       traits,

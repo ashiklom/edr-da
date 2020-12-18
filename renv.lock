@@ -1,6 +1,6 @@
 {
   "R": {
-    "Version": "3.6.3",
+    "Version": "4.0.3",
     "Repositories": [
       {
         "Name": "CRAN",
@@ -76,6 +76,7 @@
       "Package": "PEcAnRTM",
       "Version": "1.7.1",
       "Source": "GitHub",
+      "OS_type": "unix",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteUsername": "ashiklom",
@@ -779,10 +780,10 @@
     },
     "renv": {
       "Package": "renv",
-      "Version": "0.9.3",
+      "Version": "0.12.3",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "c1a367437d8a8a44bec4b9d4974cb20c"
+      "Hash": "b5510c50c7f31d453c385c7b460af2b9"
     },
     "rlang": {
       "Package": "rlang",
