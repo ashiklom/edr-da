@@ -1,4 +1,5 @@
 devtools::load_all(".")
+
 library(ggplot2)
 import::from(magrittr, "%>%")
 

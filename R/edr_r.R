@@ -61,7 +61,8 @@ edr_r <- function(pft, lai, wai, cai,
   # wavelengths
   if (nwl != NROW(wood_reflect)) wood_reflect <- wood_reflect[wli, ]
 
-  leaf_spectra <- Map(rrtm::prospect5, N, Cab, Car, Cw, Cm)
+  leaf_spectra <- Map(rrtm::prospect5, N = N, Cab = Cab, Car = Car, Cw = Cw, Cm = Cm,
+                      Cbrown = 0)
   leaf_reflect <- Reduce(
     cbind,
     Map(function(x) x[["reflectance"]], leaf_spectra)
