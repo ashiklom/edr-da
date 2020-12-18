@@ -87,4 +87,4 @@ msp_figures
 *.auctex-auto
 
 # Drake files
-/.drake/
+.drake*
