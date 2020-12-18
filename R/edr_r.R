@@ -63,16 +63,16 @@ edr_r <- function(pft, lai, wai, cai,
 
   leaf_spectra <- Map(rrtm::prospect5, N = N, Cab = Cab, Car = Car, Cw = Cw, Cm = Cm,
                       Cbrown = 0)
-  leaf_reflect <- Reduce(
+  leaf_reflect <- do.call(
     cbind,
     Map(function(x) x[["reflectance"]], leaf_spectra)
   )
-  leaf_reflect <- leaf_reflect[wli,]
-  leaf_trans <- Reduce(
+  leaf_reflect <- leaf_reflect[wli, , drop = FALSE]
+  leaf_trans <- do.call(
     cbind,
     Map(function(x) x[["transmittance"]], leaf_spectra)
   )
-  leaf_trans <- leaf_trans[wli,]
+  leaf_trans <- leaf_trans[wli, , drop = FALSE]
 
   # Soil reflectance as a function of soil moisture
   soil_reflect <- hapke_soil(soil_moisture)[wli]
