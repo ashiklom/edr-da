@@ -21,12 +21,27 @@ edr_defaults <- list(
   soil_moisture = 0.5
 )
 
-edr_sens <- function(value, variable, .dots = list()) {
+sail_defaults <- list(
+  N = edr_defaults[["N"]],
+  Cab = edr_defaults[["Cab"]],
+  Car = edr_defaults[["Car"]],
+  Cw = edr_defaults[["Cw"]],
+  Cm = edr_defaults[["Cm"]],
+  Cbrown = 0,
+  LAI = edr_defaults[["lai"]] * edr_defaults[["clumping_factor"]],
+  soil_moisture = edr_defaults[["soil_moisture"]],
+  hot_spot = 0,
+  solar_zenith = acos(edr_defaults[["czen"]]),
+  LIDFa = edr_defaults[["orient_factor"]],
+  LIDFb = 0
+)
+
+do_sens <- function(value, variable, fun, .dots = list()) {
   stopifnot(is.list(.dots))
   varlist <- list()
   varlist[[variable]] <- value
   arglist <- modifyList(.dots, varlist)
-  do.call(edr_r, arglist)
+  do.call(fun, arglist)
 }
 
 tidy_albedo <- function(result_list, values) {
@@ -42,6 +57,20 @@ tidy_albedo <- function(result_list, values) {
   dplyr::left_join(albedo_long, values_df, by = "variable")
 }
 
+## result_list <- lai_sens_sail
+## values <- lai
+tidy_sail <- function(result_list, values) {
+  stopifnot(length(result_list) == length(values))
+  results_dfl <- purrr::map(result_list, tibble::as_tibble) %>%
+    purrr::map(function(x) {x$wavelength <- seq(400, 2500); x})
+  values_df <- tibble::tibble(
+    variable = paste0("V", seq_along(values)),
+    var_value = values,
+    saildata = results_dfl
+  )
+  tidyr::unnest(values_df, saildata)
+}
+
 sens_plot <- function(tidy_sens) {
   ggplot(tidy_sens) +
     aes(x = wavelength, y = value, color = var_value,
@@ -55,9 +84,34 @@ lai <- c(
   seq(1, 2, 0.4),
   seq(2, 5, 0.5)
 )
-lai_sens <- purrr::map(lai, edr_sens, variable = "lai", .dots = edr_defaults) %>%
+lai_sens <- purrr::map(
+  lai, do_sens,
+  fun = edr_r,
+  variable = "lai",
+  .dots = modifyList(edr_defaults, list(direct_sky_frac = 0.8))
+) %>%
   tidy_albedo(lai)
-sens_plot(lai_sens) + ggtitle("LAI sensitivity") + scale_color_viridis_c()
+## sens_plot(lai_sens) + ggtitle("LAI sensitivity") + scale_color_viridis_c()
+lai_sens_sail <- purrr::map(lai, do_sens, fun = rrtm::pro4sail_5,
+                            variable = "LAI", .dots = sail_defaults) %>%
+  tidy_sail(lai)
+tidy_both <- dplyr::left_join(lai_sens, lai_sens_sail)
+tidy_both_long <- tidy_both %>%
+  tidyr::pivot_longer(c(value, bhr:bdr))
+## ggplot(tidy_both_long) +
+##   aes(x = wavelength, y = value, group = variable, color = var_value) +
+##   geom_line() +
+##   facet_grid(cols = vars(name)) +
+##   scale_color_viridis_c()
+ggplot(tidy_both_long) +
+  aes(x = wavelength, y = value, color = name) +
+  geom_line() +
+  facet_wrap(vars(var_value))
+
+ggplot(tidy_both) +
+  aes(x = wavelength, group = variable, color = value) +
+  geom_line(aes(color = ))
+# Compare sensitivity of EDR and SAIL
 
 # How does sensitivity to soil moisture change with different LAI values?
 do_soil_sens <- function(lai, soil_vals = seq(0, 1, 0.1)) {
@@ -81,7 +135,7 @@ ggplot(soil_lai) +
   labs(x = "Wavelength", y = "Albedo", color = "Soil moisture frac") +
   ggtitle("Albedo sensitivity to soil moisture for various LAI")
 
-ggsave("figures/lai_soil_sensitivity.PDP", width = 8, height = 4)
+ggsave("figures/lai_soil_sensitivity.png", width = 8, height = 4)
 
 # Do different LAI combinations of identical PFTs produce identical
 # results?
