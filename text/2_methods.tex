@@ -17,10 +17,10 @@ The full canopy radiation profile in ED2 is defined by a vector $\vec{A}$ that c
     F_{\up,\ground} \\
     F_{\down,1} \\
     F_{\up, 1} \\
-    ... \\
+    \ldots \\
     F_{\down,i} \\
     F_{\up,i} \\
-    ... \\
+    \ldots \\
     F_{\down,n} \\
     F_{\up,n} \\
     F_{\down,\sky}
@@ -64,7 +64,7 @@ with $S_{n+1}$ as the incident direct solar flux at the top of the canopy ($i = 
 
 Other coefficients are
 backscatter of direct ($r(\psi)_{i}$, given zenith angle $\psi$) and diffuse ($r_{i}$) radiation,
-interception of direct ($\tau(\psi)_{i}$) and diffuse ($\tau_{i}$) radiation,
+transmission of direct ($\tau(\psi)_{i}$) and diffuse ($\tau_{i}$) radiation,
 and absorption ($\alpha_{i}$).
 Derivations of these coefficients are given later in this section.
 
@@ -98,7 +98,7 @@ For $i = 1,2,3...n$ where $n$ is the number of cohorts, the $m$ terms are define
 
 Canopy optical property coefficients are derived as follows:
 
-Following \citet{clm45_note}, scattering ($\nu$) and backscattering ($\omega$) of canopy elements (leaves or stems) are defined as a function of those elements' reflectance ($R$) and transmittance ($T$; wood transmittance is assumed to be zero).
+Following \citet{clm45_note}, scattering ($\nu$) and backscattering ($r$) of canopy elements (leaves or stems) are defined as a function of those elements' reflectance ($R$) and transmittance ($T$; wood transmittance is assumed to be zero).
 (We use index $p$ to refer to PFT and $p(i)$ to refer to the PFT of cohort $i$).
 
 \begin{align}
@@ -110,8 +110,8 @@ Following \citet{clm45_note}, scattering ($\nu$) and backscattering ($\omega$) o
 
 \begin{align}
   \begin{split}
-    \omega_{i, \leaf} &= \frac{R_{p(i), \leaf} + T_{p(i), \leaf} + \frac{1}{4} (R_{p(i), \leaf}-T_{p(i), \leaf})(1 - \chi_{p(i)})^2}{2 (R_{p(i), \leaf}+T_{p(i), \leaf})}\\
-    \omega_{i, \wood} &= \frac{R_{p(i), \wood} + \frac{1}{4} (R_{p(i), \wood})(1 - \chi_{p(i)})^2}{2 R_{p(i), \wood}}
+    r_{i, \leaf} &= \frac{R_{p(i), \leaf} + T_{p(i), \leaf} + \frac{1}{4} (R_{p(i), \leaf}-T_{p(i), \leaf})(1 - \chi_{p(i)})^2}{2 (R_{p(i), \leaf}+T_{p(i), \leaf})}\\
+    r_{i, \wood} &= \frac{R_{p(i), \wood} + \frac{1}{4} (R_{p(i), \wood})(1 - \chi_{p(i)})^2}{2 R_{p(i), \wood}}
   \end{split}
 \end{align}
 
@@ -123,7 +123,7 @@ Both of these quantities are calculated independently for leaves and wood, and t
 \end{equation}
 
 \begin{equation}
-  \omega_{i} = \omega_{i, \leaf} \frac{L_{i}}{L_{i} + W_{i}} + \omega_{\wood} (1 - \frac{L_{i}}{L_{i} + W_{i}})
+  \r_{i} = \r_{i, \leaf} \frac{L_{i}}{L_{i} + W_{i}} + \r_{\wood} (1 - \frac{L_{i}}{L_{i} + W_{i}})
 \end{equation}
 
 To account for non-uniform distribution of leaves within a canopy, ED2 has a PFT-specific \emph{clumping factor} ($q$) parameter that serves as a scaling factor on leaf area index.
@@ -183,10 +183,10 @@ Coefficients $\phi_{1,p}$ and $\phi_{2,p}$ are also used to define the inverse o
   \bar\mu = \frac{1}{\phi_{2}}\left( 1 - \frac{\phi_{1}}{\phi_{2}} \ln\left( 1 + \frac{\phi_{2}}{\phi_{1}}\right) \right)
 \end{equation}
 
-The beam backscatter (or ``upscatter'') coefficient for direct radiation, $\beta_0$, is defined as:
+The beam backscatter (or ``upscatter'') coefficient for direct radiation, $r(\psi)$, is defined as:
 
 \begin{equation}
-  \beta_{0} = a_s(\psi) \frac{1 + \bar\mu K(\psi)}{\bar\mu_{p} K(\psi)_{p}}
+  r(\psi) = a_s(\psi) \frac{1 + \bar\mu K(\psi)}{\bar\mu_{p} K(\psi)_{p}}
 \end{equation}
 
 where $a_s(\psi)$ is the single scattering albedo coefficient, defined as (subscript $p$ dropped for simplicity):
@@ -203,9 +203,10 @@ where $a_s(\psi)$ is the single scattering albedo coefficient, defined as (subsc
   \right)
 \end{equation}
 
-(For simplicity, $a_s$ here is equivalent to $\frac{a_s}{\omega}$ in \citet{clm45_note} equation 3.15, where $\omega$ is the leaf backscatter.)
+(For simplicity, $a_s$ here is equivalent to $\frac{a_s}{r}$ in \citet{clm45_note} equation 3.15, where $r$ is the leaf backscatter.
+Note that our backscatter term $r$ is equivalent to coefficient $\omega$ in \citet{clm45_note}.)
 
-The transmissivity of a layer to direct radiation for solar zenith angle $\psi$ ($\tau(\psi)_i$) is given by
+The transmissivity of a layer to direct radiation ($\tau(\psi)_i$, for solar zenith angle $\psi$) is given by
 
 \begin{equation}
   \tau(\psi)_i = \exp(-K(\psi)_{p(i)} \TAI_i)
