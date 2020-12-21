@@ -9,14 +9,14 @@ Effective calibration and validation of model projections is therefore of broad 
 Many previous efforts have used various data streams to calibrate or constrain dynamic vegetation model parameters and states.
 Among these data streams, remote sensing is particularly promising due to its consistent measurement methodology and largely uninterrupted global coverage.
 Data products derived from remote sensing observations have been used to inform, among others,
-phenology~\citep{knorr2010carbon, viskari2015modeldata},
-absorbed photosynthetically-active radiation~\citep{peylin2016new, schurmann2016constraining},
-and primary productivity~\citep{macbean2018strong}.
+phenology~\citep{knorr2010carbon, viskari2015modeldata}
+and absorbed photosynthetically-active radiation~\citep{peylin2016new, schurmann2016constraining, zobitz_2014_joint}.
+% and primary productivity~\citep{}. %TODO Different reference here?
 However, there are issues with using derived remote sensing products to calibrate vegetation models.
 The relationships between remotely sensed surface reflectance and vegetation structure and function are complex and multifaceted.
 Simple polynomial relationships between spectral indices (e.g., Normalized Difference Vegetation Index, NDVI; Enhanced Vegetation Index, EVI) and vegetation properties (e.g., leaf area index, LAI) are often confounded by other ecosystem characteristics, including soil~\citep{myneni1994relationship} and snow~\citep{zhang2020evaluating}, or sensor configuration~\citep{fensholt2004evaluation}.
 More sophisticated approaches for estimating vegetation properties based on physically-based radiative transfer models face issues of equifinality, whereby many different combinations of vegetation and soil properties can ultimately produce the same modeled surface reflectance~\citep{combal2003retrieval, lewis2007spectral}.
-Meanwhile, the estimating quantities with more indirect relationships to surface reflectance, such as rates of primary productivity, requires a number of assumptions about resource use efficiency and other factors~\citep{running2004continuous} that can introduce considerable uncertainty and bias into the estimates.
+Meanwhile, estimating quantities with more indirect relationships to surface reflectance, such as rates of primary productivity, requires a number of assumptions about resource use efficiency and other factors~\citep{running2004continuous} that can introduce considerable uncertainty and bias into the estimates.
 Collectively, these issues help explain the large differences in estimates of surface characteristics across different remote sensing instruments~\citep{liu_2018_satellite}.
 Robust, pixel-level uncertainty estimates for remote sensing data products would help alleviate some of these concerns, but such estimates are not widely available for most data products.
 
@@ -28,7 +28,7 @@ Moreover, the ability to simulate dynamics of surface reflectance in response to
 However, many land surface models already include their own internal canopy radiative transfer calculations~\citep{dickinson1983land, sellers1985canopy}, which can be used for a more direct comparison to remotely sensed surface reflectance.
 These calculations are necessary to simulate impact of vegetation on surface energy balance~\citep{bonan2008forests} and to accurately model plant function, which is fundamentally driven by light~\citep{hikosaka1995model, robakowski_2004_growth, niinemets2016withincanopy, keenan2016global}.
 Canopy radiative transfer plays a particularly important role in the current generation of demographically-enabled dynamic vegetation models, where differences in canopy radiative transfer representations and parametrizations have major impacts on predicted community composition and biogeochemistry~\citep{loew_2014_do, fisher2018vegetation, viskari_2019_influence}.
-To date, assimilation of remotely sensed surface reflectance calculated from a vegetation model's own representation of radiative transfer has been limited to only simple land surface models~\citep[e.g., SiPNET;][]{zobitz_2014_joint} and has not been attempted for more complex demographically-enabled vegetation models.
+To date, assimilation of remotely sensed surface reflectance calculated from a vegetation model's own representation of radiative transfer has not been attempted for more complex demographically-enabled vegetation models.
 
 Our previous work demonstrated that predictions of carbon cycling and community composition by the Ecosystem Demography model, version 2~\citep[ED2;][]{medvigy2009mechanistic} are highly sensitive to changes in parameters related to canopy structure and radiative transfer~\citep{viskari_2019_influence}.
 In this study, we build on this work by calibrating and validating the ED2 model using remotely sensed surface reflectance.
