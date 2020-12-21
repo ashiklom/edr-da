@@ -9,10 +9,10 @@ A complete description of the model derivation is provided in the supplementary 
 
 Our core spatial unit of analysis is a \emph{patch}---a group of plants with a common disturbance history (time since last disturbance).
 Each patch contains $n$ \emph{cohorts}---groups of plants of the same plant functional type (PFT) and size class.
-The full canopy radiation profile in ED2 is defined by a vector $\vec{X}$ that contains two fluxes---upward ($\vec{F}_{\up,i}$) and downward ($F_{\down,i}$)---for each cohort $i$, plus a downward flux from the atmosphere ($F_{\down,\sky}$) and an upward flux from the ground ($F_{\up,\ground}$) surface (total size $2n + 2$):
+The full canopy radiation profile in ED2 is defined by a vector $\vec{A}$ that contains two fluxes---upward ($\vec{F}_{\up,i}$) and downward ($F_{\down,i}$)---for each cohort $i$, plus a downward flux from the atmosphere ($F_{\down,\sky}$) and an upward flux from the ground ($F_{\up,\ground}$) surface (total size $2n + 2$):
 
 \begin{equation}
-  \vec{X} =
+  \vec{A} =
   \begin{bmatrix}
     F_{\up,\ground} \\
     F_{\down,1} \\
@@ -30,7 +30,7 @@ The full canopy radiation profile in ED2 is defined by a vector $\vec{X}$ that c
 ED2 solves this vector using the following matrix equation:
 
 \begin{equation}
-  \mat{M} \times \vec{X} = \vec{Y}
+  \mat{M} \times \vec{A} = \vec{Y}
 \end{equation}
 
 where $\mat{M}$ is a $(2n + 2) \times (2n + 2)$ coefficient matrix and $\vec{Y}$ is a $2n + 2$ vector.
@@ -271,7 +271,7 @@ The likelihood at each site $s$ is based on how well EDR predicted surface refle
 given the known forest composition at that site ($\mathrm{comp}_{s}$) and the current estimate of the overall parameter vector.
 Similar to \citet{shiklomanov2016quantifying}, we assumed a normally-distributed residual error between predicted and observed reflectance.
 However, to account for the large differences in the range of feasible reflectance values in different wavelength regions
-(for vegetation, reflectance in the 400-700 \unit{nm} range is typically much lower than in the 700-1400 \unit{nm} range),
+(for vegetation, reflectance in the 400--700 \unit{nm} range is typically much lower than in the 700--1400 \unit{nm} range),
 we used a heteroskedastic error model where the residual variance was a linear function of the predicted reflectance (with slope $m$ and intercept $b$).
 In addition, to mitigate sampling issues related to EDR's saturating response to increasing total LAI, we added an additional term to our likelihood that assigns a fixed lognormal probability distribution (with parameters 1 and 0.5, respectively) to the EDR predicted LAI for a given site ($\LAI_{\mathrm{pred}, s}$).
 The expression for the site-specific likelihood is therefore:
