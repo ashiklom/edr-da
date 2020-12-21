@@ -12,20 +12,22 @@ stopifnot(
 
 argv <- commandArgs(trailingOnly = TRUE)
 
-stopifnot(all(argv %in% c("resume", "hetero", "ss")))
+stopifnot(all(argv %in% c("resume", "hetero", "ss", "autocorr")))
 resume <- "resume" %in% argv
 HETEROSKEDASTIC <- "hetero" %in% argv
 SITE_SPECIFIC <- "ss" %in% argv
+AUTOCORR <- "autocorr" %in% argv
 NCORES <- 8
 
 message("Value of resume is: ", resume)
 message("Value of heteroskedastic is: ", HETEROSKEDASTIC)
 message("Value of site_specific is: ", SITE_SPECIFIC)
+message("Value of autocorr is: ", AUTOCORR)
 
 # Constants
 npft <- 5       # Early, mid, late hardwood, early & late conifer
 
-# HACK: These are not really constants -- need to be site-specific
+# These are not really constants -- need to be site-specific
 direct_sky_frac <- 0.9                  # Relatively clear day
 czen <- 1                               # Directly overhead
 
@@ -41,6 +43,15 @@ b2Bw <- purrr::map_dbl(wallom_mu, "b2Bw")
 sites <- readLines(here::here("other_site_data", "site_list"))
 nsite <- length(sites)
 observed <- load_observations(sites)
+
+# Rescale observations according to sample size
+if (AUTOCORR) {
+  ess <- apply(observed, 1, coda::effectiveSize)
+  ess_scale <- ess / nrow(observed)
+} else {
+  ess_scale <- rep(1, ncol(observed))
+}
+
 waves <- PEcAnRTM::wavelengths(observed)
 aviris_inds <- match(colnames(observed), sites)
 
@@ -75,6 +86,7 @@ likelihood <- function(params) {
     site <- sites[i]
     site_data <- site_data_list[[site]]
     site_obs <- observed[, colnames(observed) == site]
+    ess_scale_site <- ess_scale[colnames(observed) == site]
     nobs <- NCOL(site_obs)
     nwl <- NROW(site_obs)
 
@@ -171,7 +183,9 @@ likelihood <- function(params) {
     }
 
     # Down-weight sites with multiple observations
-    site_ll <- sum(dnorm(albedo, site_obs, rss, log = TRUE)) / nobs
+      # ...and also down-weight based on effective sample size
+    site_ll_m <- dnorm(albedo, site_obs, rss, log = TRUE)
+    site_ll <- sum(sweep(site_ll_m, 2, ess_scale_site, "/")) / nobs
     if (!is.finite(site_ll)) return(-Inf)
     ll <- ll + site_ll
   } # end site loop
@@ -186,12 +200,12 @@ for (i in 1:5) {
 
 # Create directory for storage
 sampdir <- strftime(Sys.time(), "%Y-%m-%d-%H%M")
-outtag <- paste(
+outtag <- paste(c(
   if (HETEROSKEDASTIC) "hetero" else "homo",
   if (SITE_SPECIFIC) "sitespecific" else "pooled",
-  "lnorm",
-  sep = "-"
-)
+  if (AUTOCORR) "autocorr",
+  "lnorm"
+), collapse = "-")
 base_outdir <- file.path("multi_site_pda_results", outtag)
 outdir <- file.path(base_outdir, sampdir)
 dir.create(outdir, recursive = TRUE)
