@@ -46,7 +46,8 @@ observed <- load_observations(sites)
 
 # Rescale observations according to sample size
 if (AUTOCORR) {
-  ess <- apply(observed, 1, coda::effectiveSize)
+  ess <- apply(observed, 2, neff)
+  ## ess <- 5.096  # Mean of residuals from earlier analysis
   ess_scale <- ess / nrow(observed)
 } else {
   ess_scale <- rep(1, ncol(observed))
