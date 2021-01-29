@@ -75,17 +75,18 @@ sw_two_stream <- function(czen,
   orient_factor <- orient_factor[pft]
   clumping_factor <- clumping_factor[pft]
 
-  # Calculations from sfc_rad
-  leaf_scatter <- leaf_reflect + leaf_trans
-  wood_scatter <- wood_reflect + wood_trans
-  leaf_backscatter <- (leaf_scatter +
-                         0.25 * (leaf_reflect - leaf_trans) *
-                         (1 + orient_factor) ^ 2) / (2 * leaf_scatter)
-  wood_backscatter <- (wood_scatter +
-                         0.25 * (wood_reflect - wood_trans) *
-                         (1 + orient_factor) ^ 2) / (2 * wood_scatter)
+  ##########
+  # Begin ED2 supplement
+
+  # Eqns S98 and S99, pg. S48
   phi1 <- 0.5 - orient_factor * (0.633 + 0.33 * orient_factor)
   phi2 <- 0.877 * (1 - 2 * phi1)
+
+  # S97; Goudriaan 1977
+  # E(Z, \chi_k) in the text
+  proj_area <- phi1 + phi2 * czen
+
+  # S100; Sellers 1985
   mu_bar <- (1 - phi1 * log(1 + phi2 / phi1) / phi2) / phi2
   mu_bar[orient_factor == 0] <- 1
   if (!all(is.finite(mu_bar))) {
@@ -95,10 +96,21 @@ sw_two_stream <- function(czen,
       paste(orient_factor[ibad], collapse = ", ")
     )
   }
-  ##########
 
-  # Size of solution matrix
-  nsiz <- 2 * ncoh + 2
+  # Calculations from sfc_rad
+  # S101
+  leaf_scatter <- leaf_reflect + leaf_trans
+  wood_scatter <- wood_reflect + wood_trans
+
+  # S103
+  cos_Ak2 <- (1 + orient_factor)^2
+  # S102
+  leaf_backscatter <- (leaf_scatter + 0.25 * (leaf_reflect - leaf_trans) * cos_Ak2) /   #nolint
+    (2 * leaf_scatter)
+  wood_backscatter <- (wood_scatter + 0.25 * (wood_reflect - wood_trans) * cos_Ak2) /   #nolint
+    (2 * wood_scatter)
+
+  ##########
 
   # Loop over bands -- skipping because this is already vectorized
 
@@ -110,23 +122,23 @@ sw_two_stream <- function(czen,
   wood_weight <- 1 - leaf_weight
 
   # Inverse optical depth of direct radiation
-  proj_area <- phi1 + phi2 * czen
   mu0 <- -etai / log((1 - cai) + cai * exp(-proj_area * etai / (cai * czen)))
 
   # Inverse optical depth of diffuse radiation
   mu <- -etai / log((1 - cai) + cai * exp(-etai / mu_bar))
 
   # Backscatter coefficients for diffuse radiation
+  # S105
   iota_ratio <- 1 / (2 * (1 + phi2 * mu0)) *
     (1 - phi1 * mu0 / (1 + phi2 * mu0) *
        log((1 + (phi1 + phi2) * mu0) / (phi1 * mu0)))
   stopifnot(all(is.finite(iota_ratio)))
+
+  # S104
   beta0 <- iota_ratio * (1 + mu0 / mu)
   stopifnot(all(is.finite(beta0)))
-  epsil0 <- 1 - 2 * beta0
 
-  # Transmissivity of direct radiation
-  expm0_minus <- exp(-etai / mu0)
+  epsil0 <- 1 - 2 * beta0
 
   #################
   # Define boundary conditions
@@ -143,17 +155,19 @@ sw_two_stream <- function(czen,
                             log(1 / (0.5 * mu0[z]) + 1))
   beta0[z] <- iota_ratio[z] * (mu0[z] + mu[z]) / mu[z]
   epsil0[z] <- 1 - 2 * beta0[z]
-  expm0_minus[z] <- 1
 
   # Direct radiation profile via exponential attentuation
-  # TODO: This has to be a matrix because Down0 is a spectrum.
+  # Transmissivity of direct radiation; S110
+  expm0_minus <- exp(-etai / mu0)
+  expm0_minus[z] <- 1
+  # S111-S112
   down0 <- matrix(0, nwl, z)
   down0[, z] <- down0_sky
   for (j in seq(ncoh, 1)) {
     down0[, j] <- down0[, j + 1] * expm0_minus[j]
   }
 
-  # Convert scalar quantities to matrices, so I can do elementwise multiplication
+  # Convert scalars to matrices, so I can do elementwise multiplication
   vec2mat <- function(x) matrix(rep(x, nwl), nrow = nwl, byrow = TRUE)
   etai <- vec2mat(etai)
   leaf_weight <- vec2mat(leaf_weight)
@@ -167,7 +181,10 @@ sw_two_stream <- function(czen,
   # All of these are wavelength-dependent quantities (nwl x ncoh)
   iota <- leaf_weight[, -z] * leaf_scatter + wood_weight[, -z] * wood_scatter
   beta <- leaf_weight[, -z] * leaf_backscatter + wood_weight[, -z] * wood_backscatter
+
+  # Part of S113
   epsil <- 1 - 2 * beta
+
   lambda <- sqrt((1 - epsil * iota) * (1 - iota)) / mu[, -z]
 
   # Ancillary variables for right-hand side
@@ -183,11 +200,13 @@ sw_two_stream <- function(czen,
   upsilon <- (a_aux - s_aux) * mu02 / (2 * (1 - lambda2 * mu02))
 
   # Upwelling and downwelling radiation
+  # S124
   iez <- sqrt((1 - iota) / (1 - epsil * iota))
   gamm_plus <- 0.5 * (1 + iez)
   gamm_minus <- 0.5 * (1 - iez)
 
   # Transmissivity of diffuse light
+  # See S122-123
   expl_plus <- exp(lambda * etai[, -z])
   expl_minus <- exp(-lambda * etai[, -z])
 
@@ -204,6 +223,9 @@ sw_two_stream <- function(czen,
   gamm_minus <- cbind(gamm_minus, rep(0, nwl))
   expl_plus <- cbind(expl_plus, rep(1, nwl))
   expl_minus <- cbind(expl_minus, rep(1, nwl))
+
+  # Size of solution matrix
+  nsiz <- 2 * ncoh + 2
 
   mmat <- array(0, c(nsiz, nsiz, nwl))
   yvec <- matrix(0, nsiz, nwl)
@@ -248,9 +270,11 @@ sw_two_stream <- function(czen,
   for (k in seq_len(ncoh + 1)) {
     k2 <- 2 * k
     k2m1 <- k2 - 1
+    # S122
     down[, k] <- xvec[, k2m1] * gamm_plus[, k] * expl_minus[, k] +
       xvec[, k2] * gamm_minus[, k] * expl_plus[, k] +
       delta[, k] * expm0_minus[, k]
+    # S123
     up[, k] <- xvec[, k2m1] * gamm_minus[, k] * expl_minus[, k] +
       xvec[, k2] * gamm_plus[, k] * expl_plus[, k] +
       upsilon[, k] * expm0_minus[, k]
