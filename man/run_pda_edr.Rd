@@ -4,8 +4,15 @@
 \alias{run_pda_edr}
 \title{Run EDR parameter data assimilation}
 \usage{
-run_pda_edr(setup, observed, observation_operator, prospect_means,
-  prospect_covar, num_of_edr_params = 3, custom_settings = list())
+run_pda_edr(
+  setup,
+  observed,
+  observation_operator,
+  prospect_means,
+  prospect_covar,
+  num_of_edr_params = 3,
+  custom_settings = list()
+)
 }
 \arguments{
 \item{observed}{Observation vector or matrix (see [PEcAnRTM::invert_bt()])}

@@ -4,8 +4,13 @@
 \alias{sample_params_sail}
 \title{Draw a random sample of PRO4SAIL parameters}
 \usage{
-sample_params_sail(pft, lai, prospect_means, prospect_covars,
-  custom_sail = list())
+sample_params_sail(
+  pft,
+  lai,
+  prospect_means,
+  prospect_covars,
+  custom_sail = list()
+)
 }
 \arguments{
 \item{pft}{Name of PFT. Must be in `prospect_means`}

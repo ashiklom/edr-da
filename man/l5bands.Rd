@@ -6,7 +6,13 @@
 \alias{l7bands}
 \alias{l8bands}
 \title{Landsat band centers, in nm}
-\format{An object of class \code{numeric} of length 6.}
+\format{
+An object of class \code{numeric} of length 6.
+
+An object of class \code{numeric} of length 6.
+
+An object of class \code{numeric} of length 7.
+}
 \usage{
 l5bands
 

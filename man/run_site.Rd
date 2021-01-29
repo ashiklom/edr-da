@@ -4,8 +4,13 @@
 \alias{run_site}
 \title{Perform a single EDR simulation at a single site}
 \usage{
-run_site(params, site, pda_dir, img_path = getOption("redr.img_path"),
-  edr_exe_path = getOption("redr.edr_exe_path"))
+run_site(
+  params,
+  site,
+  pda_dir,
+  img_path = getOption("redr.img_path"),
+  edr_exe_path = getOption("redr.edr_exe_path")
+)
 }
 \arguments{
 \item{params}{Parameter vector}

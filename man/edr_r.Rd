@@ -4,10 +4,24 @@
 \alias{edr_r}
 \title{Run ED two-stream radiative transfer model}
 \usage{
-edr_r(pft, lai, wai, cai, N, Cab, Car, Cw, Cm, orient_factor,
-  clumping_factor, soil_moisture, direct_sky_frac, czen,
+edr_r(
+  pft,
+  lai,
+  wai,
+  cai,
+  N,
+  Cab,
+  Car,
+  Cw,
+  Cm,
+  orient_factor,
+  clumping_factor,
+  soil_moisture,
+  direct_sky_frac,
+  czen,
   wood_reflect = matrix(rep(wood_spec, length(pft)), 2101),
-  wavelengths = seq(400, 2500))
+  wavelengths = seq(400, 2500)
+)
 }
 \arguments{
 \item{pft}{PFT identities of each cohort, as integer (ncoh)}
@@ -44,6 +58,9 @@ direct (0-1; 0 = all diffuse radiation)}
 
 \item{wavelengths}{Numeric vector of wavelengths to use, in nm
 (nwl). Default is 400:2500.}
+}
+\value{
+
 }
 \description{
 Wrapper around [sw_two_stream] that also calls PROSPECT 5 (see

@@ -4,9 +4,17 @@
 \alias{plot_site_spectra}
 \title{Plot prior, posterior, and observations for a given site}
 \usage{
-plot_site_spectra(site, pda_dir, burnin, prior_color = alpha("blue",
-  0.2), post_color = alpha("red", 0.5), obs_color = "black",
-  obs_lwd = 2, pb = NULL, ...)
+plot_site_spectra(
+  site,
+  pda_dir,
+  burnin,
+  prior_color = alpha("blue", 0.2),
+  post_color = alpha("red", 0.5),
+  obs_color = "black",
+  obs_lwd = 2,
+  pb = NULL,
+  ...
+)
 }
 \arguments{
 \item{site}{Site code}

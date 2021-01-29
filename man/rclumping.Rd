@@ -21,11 +21,11 @@ rorient()
 
 dorient(traits, log = TRUE)
 
-rresidual()
+rresidual(n = 1)
 
 dresidual(params, log = TRUE)
 
-rresidual2()
+rresidual2(n = 1)
 
 dresidual2(params, log = TRUE)
 

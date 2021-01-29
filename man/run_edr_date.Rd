@@ -4,10 +4,16 @@
 \alias{run_edr_date}
 \title{Run EDR for a single date}
 \usage{
-run_edr_date(date, ed2in, trait_values, output_dir = tempdir(),
-  pb = NULL, img_path = NULL,
-  edr_exe_path = file.path("/projectnb/dietzelab/ashiklom",
-  "ED2/EDR/build", "ed_2.1-opt"))
+run_edr_date(
+  date,
+  ed2in,
+  trait_values,
+  output_dir = tempdir(),
+  pb = NULL,
+  img_path = NULL,
+  edr_exe_path = file.path("/projectnb/dietzelab/ashiklom", "ED2/EDR/build",
+    "ed_2.1-opt")
+)
 }
 \arguments{
 \item{date}{Date at which to run EDR}
