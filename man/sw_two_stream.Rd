@@ -27,13 +27,13 @@ sw_two_stream(
 
 \item{iota_g}{Ground (soil + snow) albedo (nwl)}
 
-\item{pft}{PFT identities of each cohort, as integer (ncoh)}
+\item{pft}{PFT identities of each cohort, as integer (ncoh). Shortest to tallest.}
 
-\item{lai}{Leaf area index of each cohort (ncoh)}
+\item{lai}{Leaf area index of each cohort (ncoh). Shorest to tallest.}
 
-\item{wai}{Wood area index of each cohort (ncoh)}
+\item{wai}{Wood area index of each cohort (ncoh). Shorest to tallest.}
 
-\item{cai}{Crown area of each cohort (ncoh)}
+\item{cai}{Crown area of each cohort (ncoh). Shorest to tallest.}
 
 \item{orient_factor}{Orient factor (npft)}
 

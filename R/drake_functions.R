@@ -430,7 +430,7 @@ run_edr_sample <- function(params, isite, site_data,
   hite <- dbh2h(dbh, pft)
   ihite <- order(hite, decreasing = FALSE)
 
-  # Order cohorts by decreasing height (tallest first)
+  # Order cohorts by decreasing height (shortest first)
   dbh <- dbh[ihite]
   pft <- pft[ihite]
   nplant <- nplant[ihite]

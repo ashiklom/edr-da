@@ -2,10 +2,10 @@
 #'
 #' @param czen Cosine of angle of incidence (`cosaio`)
 #' @param iota_g Ground (soil + snow) albedo (nwl)
-#' @param pft PFT identities of each cohort, as integer (ncoh)
-#' @param lai Leaf area index of each cohort (ncoh)
-#' @param wai Wood area index of each cohort (ncoh)
-#' @param cai Crown area of each cohort (ncoh)
+#' @param pft PFT identities of each cohort, as integer (ncoh). Shortest to tallest.
+#' @param lai Leaf area index of each cohort (ncoh). Shorest to tallest.
+#' @param wai Wood area index of each cohort (ncoh). Shorest to tallest.
+#' @param cai Crown area of each cohort (ncoh). Shorest to tallest.
 #' @param orient_factor Orient factor (npft)
 #' @param clumping_factor Clumping factor (npft)
 #' @param leaf_reflect Leaf reflectance spectra (nwl * npft)

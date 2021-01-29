@@ -24,13 +24,13 @@ edr_r(
 )
 }
 \arguments{
-\item{pft}{PFT identities of each cohort, as integer (ncoh)}
+\item{pft}{PFT identities of each cohort, as integer (ncoh). Shortest to tallest.}
 
-\item{lai}{Leaf area index of each cohort (ncoh)}
+\item{lai}{Leaf area index of each cohort (ncoh). Shorest to tallest.}
 
-\item{wai}{Wood area index of each cohort (ncoh)}
+\item{wai}{Wood area index of each cohort (ncoh). Shorest to tallest.}
 
-\item{cai}{Crown area of each cohort (ncoh)}
+\item{cai}{Crown area of each cohort (ncoh). Shorest to tallest.}
 
 \item{N}{PROSPECT 5 effective number of leaf mesophyll layers (>1; npft)}
 
