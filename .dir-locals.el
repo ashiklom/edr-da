@@ -1,2 +1,5 @@
 ((latex-mode . ((reftex-texpath-environment-variables . "./text")
-                )))
+                ))
+ (ess-r-mode . ((ess-r-package-dirs . (("R" . 1) ("tests" . 1) ("testthat" . 2)
+                                       ("inst" . 1) ("include" . 1) ("src" . 1)
+                                       ("scripts" . 1))))))
