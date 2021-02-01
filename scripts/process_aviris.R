@@ -1,6 +1,14 @@
-library(tidyverse)
+library(conflicted)
+conflict_prefer("filter", "dplyr")
+
+library(dplyr)
+library(readr)
+library(stringr)
+library(lubridate)
 library(here)
-library(PEcAnRTM)
+library(sf)
+
+pkgload::load_all()
 
 aviris_file <- here("aviris", "NASA_FFT",
                     "allPlotsAggregated_NIT_A_SpecJoined.csv")
@@ -9,8 +17,37 @@ aviris_waves <- read_csv("aviris/NASA_FFT/aviris_c_wavelength.csv", col_types = 
 
 aviris_raw <- read_csv(aviris_file) %>%
   mutate(
-    aviris_id = row_number()
+    aviris_id = row_number(),
+    flightline = str_extract(IMG, ".*(?=rdn_)"),
+    img_date = str_extract(flightline, "(?<=f)[[:digit:]]+") %>%
+      lubridate::ymd(),
+    img_doy = lubridate::yday(img_date),
+    # HACK: Assume observations were collected at 10:30am
+    czen = cos_solar_zenith_angle(img_doy, ptY, ptX, 10.5)
   )
+
+flines <- read_csv("aviris/avirisc-flightlines.csv")
+
+dat <- flines %>%
+  semi_join(aviris_raw, c("Name" = "flightline"))
+
+dat %>%
+  pull(Comments)
+
+# TODO: Grab sun angle information from flight lines table
+# TODO: Parse cloud cover info?
+
+# Observation has:
+# - Reflectance
+# - Site ID
+# - Solar zenith angle (and azimuth?)
+# - ...or just store all as EDR arguments as a closure?
+
+## aviris_sf <- aviris_raw %>%
+##   select(aviris_id, img_date, lon = ptX, lat = ptY) %>%
+##   st_as_sf(coords = c("lon", "lat"), crs = 4326)
+
+
 
 aviris_spectra <- aviris_raw %>%
   select(starts_with("band_")) %>%
