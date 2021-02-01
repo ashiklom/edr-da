@@ -79,34 +79,62 @@ sens_plot <- function(tidy_sens) {
     labs(x = "Wavelength (nm)", y = "Albedo")
 }
 
+dsf <- seq(0, 1, 0.1)
+dsf_sens <- purrr::map(
+  dsf, do_sens,
+  fun = edr_r,
+  variable = "direct_sky_frac",
+  .dots = modifyList(edr_defaults, list(lai = 1))
+) %>%
+  tidy_albedo(dsf)
+ggplot(dsf_sens) +
+  aes(x = wavelength, y = value, color = var_value, group = var_value) +
+  geom_line() +
+  scale_color_viridis_c() +
+  labs(color = "direct sky fraction",
+       x = "Wavelength (nm)",
+       y = "Reflectance [0,1]")
+
+lai_dsf <- 0.8
+lai_czen <- 0.85
 lai <- c(
-  seq(0.2, 1, 0.2),
-  seq(1, 2, 0.4),
-  seq(2, 5, 0.5)
+  ## seq(0.2, 1, 0.2),
+  ## seq(1, 2, 0.4),
+  ## seq(2, 5, 0.5)
+  5, 8, 12, 16
 )
 lai_sens <- purrr::map(
   lai, do_sens,
   fun = edr_r,
   variable = "lai",
-  .dots = modifyList(edr_defaults, list(direct_sky_frac = 0.8))
+  .dots = modifyList(edr_defaults, list(direct_sky_frac = lai_dsf,
+                                        czen = lai_czen))
 ) %>%
   tidy_albedo(lai)
-## sens_plot(lai_sens) + ggtitle("LAI sensitivity") + scale_color_viridis_c()
-lai_sens_sail <- purrr::map(lai, do_sens, fun = rrtm::pro4sail_5,
-                            variable = "LAI", .dots = sail_defaults) %>%
+
+ggplot(lai_sens) +
+  aes(x = wavelength, y = value, color = var_value,
+      group = var_value) +
+  geom_line() +
+  scale_color_viridis_c() +
+  theme_bw() +
+  labs(color = "LAI")
+
+lai_sens_sail <- purrr::map(
+  lai, do_sens, fun = rrtm::pro4sail_5,
+  variable = "LAI",
+  .dots = modifyList(sail_defaults, list(solar_zenith = acos(lai_czen) * 180/pi))
+) %>%
   tidy_sail(lai)
-tidy_both <- dplyr::left_join(lai_sens, lai_sens_sail)
+tidy_both <- dplyr::left_join(lai_sens, lai_sens_sail) %>%
+  dplyr::mutate(sail_avg = bdr * lai_dsf + hdr * (1 - lai_dsf))
 tidy_both_long <- tidy_both %>%
-  tidyr::pivot_longer(c(value, bhr:bdr))
-## ggplot(tidy_both_long) +
-##   aes(x = wavelength, y = value, group = variable, color = var_value) +
-##   geom_line() +
-##   facet_grid(cols = vars(name)) +
-##   scale_color_viridis_c()
-ggplot(tidy_both_long) +
+  tidyr::pivot_longer(c(value, bhr:sail_avg))
+ggplot(tidy_both_long %>% dplyr::filter(name %in% c("value", "sail_avg"))) +
   aes(x = wavelength, y = value, color = name) +
   geom_line() +
-  facet_wrap(vars(var_value))
+  facet_wrap(vars(var_value)) +
+  labs(x = "Wavelength (nm)", y = "Reflectance")
 
 ggplot(tidy_both) +
   aes(x = wavelength, group = variable, color = value) +

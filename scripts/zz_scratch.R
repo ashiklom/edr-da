@@ -1,3 +1,68 @@
+library(dplyr)
+
+count(tidy_posteriors, variable)
+
+resid <- tidy_posteriors %>%
+  filter(variable %in% c("residual_intercept", "residual_slope"),
+         type == "posterior") %>%
+  group_by(variable) %>%
+  summarize(Mean = mean(value))
+rm <- resid %>% filter(variable == "residual_slope") %>% pull(Mean)
+rb <- resid %>% filter(variable == "residual_intercept") %>% pull(Mean)
+
+obs_sub <- observed_predicted %>%
+  filter(iobs == iobs[1], site == unique(site)[8]) %>%
+  arrange(wavelength)
+wl <- obs_sub[["wavelength"]]
+obs <- obs_sub[["observed"]]
+pred <- obs_sub[["albedo_mean"]]
+
+rsd <- rb + rm * pred
+
+plot(wl, obs, type = "l")
+lines(wl, pred, col = "red")
+
+ar_fit <- ar(obs, order.max = 1)
+
+times <- seq_along(wl)
+rho <- ar_fit$ar
+H <- abs(outer(times, times, "-"))
+covar <- diag(rsd) %*% (rho^H) %*% diag(rsd)
+
+image(wl, wl, covar)
+
+logl_diag <- mvtnorm::dmvnorm(pred, obs, diag(rsd^2), log = TRUE)
+logl_ar1 <- mvtnorm::dmvnorm(pred, obs, covar, log = TRUE)
+
+exp(logl_ar1 - logl_diag)
+
+observed_predicted
+
+bias_bysite <- observed_predicted %>%
+  dplyr::select(iobs, site, wavelength, bias) %>%
+  dplyr::group_by(iobs, site) %>%
+  dplyr::arrange(wavelength, .by_group = TRUE)
+
+results <- bias_bysite %>%
+  dplyr::summarize(
+    autocorr = list(acf(bias, lag.max = 50)),
+    my_neff = neff(bias),
+    coda_neff = coda::effectiveSize(bias)
+  )
+
+summary(results$coda_neff)
+summary(results$my_neff)
+hist(results$coda_neff)
+hist(results$my_neff)
+mean(results$coda_neff)
+
+plot(results$autocorr[[3]])
+
+observed_predicted %>%
+  dplyr::count(site, iobs)
+
+##################################################
+
 samples <- BayesianTools::getSample(
   samples_bt,
   ## thin = "auto",
