@@ -22,7 +22,7 @@ source("drake/plan.R")
 
 requireNamespace("future", quietly = TRUE)
 
-future::plan("multiprocess")
+future::plan("multicore")
 
 drake_config(
   plan,

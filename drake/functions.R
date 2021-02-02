@@ -428,3 +428,97 @@ tidy_sail_predictions <- function(site_details, site_lai_total,
   sail_output_proc %>%
     tidyr::pivot_longer(bhr:bdr, names_to = "stream", values_to = "value")
 }
+
+edr_sensitivity_defaults <- list(
+  N = 1.4, Cab = 40, Car = 10, Cw = 0.01, Cm = 0.01,
+  lai = 3, cai = 1,
+  clumping_factor = 1,
+  orient_factor = 0,
+  direct_sky_frac = 0.8,
+  pft = 1,
+  czen = 0.85,
+  wai = 0,
+  soil_moisture = 0.5
+)
+
+sail_sensitivity_defaults <- c(
+  edr_sensitivity_defaults[c("N", "Cab", "Car", "Cw", "Cm",
+                             "soil_moisture", "orient_factor")],
+  list(
+    Cbrown = 0,
+    LAI = edr_sensitivity_defaults[["lai"]] * edr_sensitivity_defaults[["clumping_factor"]], #nolint
+    hot_spot = 0,
+    solar_zenith = acos(edr_sensitivity_defaults[["czen"]]),
+    LIDFb = 0
+  )
+)
+
+
+do_sens <- function(value, variable, fun, .dots = list()) {
+  stopifnot(is.list(.dots))
+  varlist <- list()
+  varlist[[variable]] <- value
+  # Recycle PFT-specific variables if necessary
+  nval <- length(value)
+  if (nval > 1) {
+    for (v in c("pft", "lai", "wai", "cai")) {
+      .dots[[v]] <- rep(.dots[[v]], nval)
+    }
+  }
+  arglist <- modifyList(.dots, varlist)
+  do.call(fun, arglist)
+}
+
+tidy_albedo <- function(result_list, values) {
+  stopifnot(length(result_list) == length(values))
+  values_df <- tibble::tibble(
+    variable = paste0("V", seq_along(values)),
+    var_value = values
+  )
+  names(result_list) <- values_df[["variable"]]
+  albedo_dfw <- purrr::map_dfc(result_list, "albedo")
+  albedo_dfw[["wavelength"]] <- seq(400, 2500)
+  albedo_long <- tidyr::gather(albedo_dfw, variable, value, -wavelength)
+  dplyr::left_join(albedo_long, values_df, by = "variable")
+}
+
+## result_list <- lai_sens_sail
+## values <- lai
+tidy_sail <- function(result_list, values) {
+  stopifnot(length(result_list) == length(values))
+  results_dfl <- purrr::map(result_list, tibble::as_tibble) %>%
+    purrr::map(function(x) {x$wavelength <- seq(400, 2500); x})
+  values_df <- tibble::tibble(
+    variable = paste0("V", seq_along(values)),
+    var_value = values,
+    saildata = results_dfl
+  )
+  tidyr::unnest(values_df, saildata)
+}
+
+sensitivity_plot <- function(values, varname, label,
+                             defaults = edr_sensitivity_defaults,
+                             ...) {
+    sens <- purrr::map(
+      values, do_sens,
+      fun = edr_r,
+      variable = varname,
+      .dots = modifyList(defaults, list(...))
+    ) %>%
+      tidy_albedo(values)
+    plt <- ggplot(sens) +
+      aes(x = wavelength, y = value, color = var_value,
+          group = var_value) +
+      geom_line() +
+      scale_color_viridis_c() +
+      labs(x = "Wavelength (nm)", y = "Albedo [0,1]",
+           color = label) +
+      theme_bw() +
+      theme(
+        legend.position = c(1, 1),
+        legend.justification = c(1, 1),
+        legend.background = element_blank()
+      )
+    ggsave(path(figdir, paste0("edr-sensitivity-", varname, ".png")), plt,
+           width = 4, height = 4, dpi = 300)
+}

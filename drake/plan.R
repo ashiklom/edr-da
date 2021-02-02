@@ -339,5 +339,48 @@ plan <- drake_plan(
     ggsave(file_out(!!path(figdir, "bias-density-pft.png")),
            pft_density_bias_plot,
            width = 7, height = 3.5, units = "in", dpi = 300)
+  },
+  lai_sens_edr = sensitivity_plot(c(seq(0.2, 1, 0.2), seq(1, 5, 0.5), seq(5, 10, 1)), "lai", "LAI"),
+  clumping_sens_edr = sensitivity_plot(seq(0.1, 1.0, 0.1), "clumping_factor", "Clumping factor"),
+  orient_sens_edr = sensitivity_plot(seq(-0.4, 0.6, 0.1), "orient_factor", "Leaf orient"),
+  N_sens_edr = sensitivity_plot(seq(1.1, 3.0, 0.2), "N", "PROSPECT N"),
+  czen_sens_edr = sensitivity_plot(seq(0.5, 1.0, 0.05), "czen", expression(cos(theta))),
+  dsf_sens_edr = sensitivity_plot(seq(0.0, 1.0, 0.05), "direct_sky_frac", expression(f[direct])),
+  lai_cohort_sens_edr = {
+    # All of these sum to LAI=4, but distributed differently across cohorts.
+    # Question is: Does EDR produce different results depending on the number of
+    # cohorts, even if the total LAI is the same?
+    #
+    # Answer: No, it does not -- results are the same.
+    values <- list(
+      4,
+      c(4, 1),
+      c(2, 1, 0.5, 0.3, 0.2)
+    )
+    varname <- "lai"
+    label <- "# cohorts"
+    sens <- purrr::map(
+      values, do_sens,
+      fun = edr_r,
+      variable = varname,
+      .dots = edr_sensitivity_defaults
+    ) %>%
+      tidy_albedo(seq_along(values))
+    plt <- ggplot(sens) +
+      aes(x = wavelength, y = value, color = factor(var_value),
+          group = var_value) +
+      geom_line() +
+      scale_color_viridis_d() +
+      labs(x = "Wavelength (nm)", y = "Albedo [0,1]",
+           color = label) +
+      theme_bw() +
+      theme(
+        legend.position = c(1, 1),
+        legend.justification = c(1, 1),
+        legend.background = element_blank()
+      )
+    ggsave(path(figdir, "edr-sensitivity-cohort_lai.png"), plt,
+           width = 4, height = 4, dpi = 300)
   }
+
 )

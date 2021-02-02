@@ -14,4 +14,4 @@ stopifnot(
 )
 
 pkgload::load_all(".", attach_testthat = FALSE)
-drake::expose_imports("redr")
+## drake::expose_imports("redr")
