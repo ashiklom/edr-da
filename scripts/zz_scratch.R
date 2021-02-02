@@ -329,3 +329,71 @@ tidy_posteriors
 curve(dlnorm(x, 1, 0.5), 0, 12, n = 1000)
 curve(dlnorm(x, 0, 1), 0, 5, n = 1000)
 ## curve(plnorm(x, 1, 1), 0, 12, n = 1000)
+
+##################################################
+
+drake::loadd(posterior_matrix)
+cormat <- cor(posterior_matrix)
+
+wide_cor <- corrr::as_cordf(cormat)
+
+long_cor <- wide_cor %>%
+  corrr::shave() %>%
+  corrr::stretch(na.rm = TRUE) %>%
+  dplyr::mutate(dplyr::across(c(x, y), ~gsub("temperate\\.", "", .x)))
+
+
+lc2 <- long_cor %>%
+  tidyr::separate(x, c("xpft", "xvar"), sep = "\\.") %>%
+  tidyr::separate(y, c("ypft", "yvar"), sep = "\\.") %>%
+  dplyr::mutate(
+    dplyr::across(c(xvar, yvar), ~gsub("prospect_", "", .x)),
+    dplyr::across(c(xvar, yvar), ~gsub("_factor", "", .x))
+  )
+
+lc2 %>%
+  dplyr::filter(dplyr::across(c(xpft, ypft), ~!grepl("sitesoil", .x))) %>%
+  dplyr::arrange(dplyr::desc(r)) %>%
+  print(n = 20)
+
+lc2 %>%
+  ## dplyr::filter(xvar == "clumping", xpft == "North_Mid_Hardwood") %>%
+  dplyr::filter(xvar == "orient", xpft == "Late_Hardwood") %>%
+  dplyr::arrange(dplyr::desc(abs(r)))
+
+lc3 <- lc2 %>%
+  dplyr::filter(xpft == ypft) %>%
+  dplyr::mutate(pft = xpft)
+
+plot_dat <- lc3 %>%
+  dplyr::filter(!is.na(pft), !grepl("sitesoil", pft),
+                !is.na(xvar), !is.na(yvar)) %>%
+  dplyr::mutate(dplyr::across(c(pft, xvar, yvar), forcats::fct_inorder))
+
+ggplot(plot_dat) +
+  aes(x = 1, y = r, fill = pft) +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  geom_col(position = "dodge") +
+  facet_grid(vars(xvar), vars(yvar), drop = TRUE) +
+  theme_bw() +
+  theme(axis.text.x = element_blank(),
+        axis.title.x = element_blank(),
+        legend.position = c(0, 0),
+        legend.justification = c(0, 0))
+
+ggsave("text/figures/posterior-correlations.png", width = 7, height = 7, dpi = 300, units = "in")
+
+wide_cor %>%
+  corrr::rearrange() %>%
+  dplyr::mutate(term = gsub("temperate\\.", "", term)) %>%
+  dplyr::slice(1:10) %>%
+  dplyr::select(1:5)
+## corrr::network_plot(wide_cor)
+
+## wide_cor %>%
+##   corrr::focus(matches("Early_Hardwood"), mirror = TRUE) %>%
+##   corrr::rplot()
+
+long_cor %>%
+  dplyr::filter(dplyr::across(c(x, y), ~grepl("Early_Hardwood", .x))) %>%
+  corrr::rplot()
