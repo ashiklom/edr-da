@@ -443,12 +443,13 @@ edr_sensitivity_defaults <- list(
 
 sail_sensitivity_defaults <- c(
   edr_sensitivity_defaults[c("N", "Cab", "Car", "Cw", "Cm",
-                             "soil_moisture", "orient_factor")],
+                             "soil_moisture")],
   list(
     Cbrown = 0,
     LAI = edr_sensitivity_defaults[["lai"]] * edr_sensitivity_defaults[["clumping_factor"]], #nolint
     hot_spot = 0,
-    solar_zenith = acos(edr_sensitivity_defaults[["czen"]]),
+    solar_zenith = acos(edr_sensitivity_defaults[["czen"]]) * 180/pi,
+    LIDFa = edr_sensitivity_defaults[["orient_factor"]],
     LIDFb = 0
   )
 )
@@ -478,12 +479,11 @@ tidy_albedo <- function(result_list, values) {
   names(result_list) <- values_df[["variable"]]
   albedo_dfw <- purrr::map_dfc(result_list, "albedo")
   albedo_dfw[["wavelength"]] <- seq(400, 2500)
-  albedo_long <- tidyr::gather(albedo_dfw, variable, value, -wavelength)
+  albedo_long <- tidyr::pivot_longer(albedo_dfw, -wavelength,
+                                     names_to = "variable", values_to = "value")
   dplyr::left_join(albedo_long, values_df, by = "variable")
 }
 
-## result_list <- lai_sens_sail
-## values <- lai
 tidy_sail <- function(result_list, values) {
   stopifnot(length(result_list) == length(values))
   results_dfl <- purrr::map(result_list, tibble::as_tibble) %>%
