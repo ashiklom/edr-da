@@ -397,3 +397,11 @@ wide_cor %>%
 long_cor %>%
   dplyr::filter(dplyr::across(c(x, y), ~grepl("Early_Hardwood", .x))) %>%
   corrr::rplot()
+
+curve(dlnorm(x, 1, 0.5), 10, 20, add = TRUE, col = "red")
+
+
+plnorm(c(2, 5), 1, 0.5)
+qlnorm(c(0.025, 0.5, 0.975), 1, 0.5)
+
+curve(dlnorm(x, 1, 0.5), 0.1, 10)

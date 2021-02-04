@@ -35,7 +35,7 @@ sw_two_stream <- function(czen,
   # Sanity checks
   nwl <- length(wavelengths)
   stopifnot(
-    ssa_type %in% c("sellers", "sail")
+    ssa_type %in% c("sellers", "sail"),
     NROW(leaf_reflect) == nwl,
     NROW(leaf_trans) == nwl,
     NROW(wood_reflect) == nwl,
