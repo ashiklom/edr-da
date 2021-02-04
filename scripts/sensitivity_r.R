@@ -98,10 +98,8 @@ ggplot(dsf_sens) +
 lai_dsf <- 0.8
 lai_czen <- 0.85
 lai <- c(
-  ## seq(0.2, 1, 0.2),
-  ## seq(1, 2, 0.4),
-  ## seq(2, 5, 0.5)
-  5, 8, 12, 16
+  seq(0.2, 1, 0.2),
+  seq(1, 2, 0.4)
 )
 lai_sens <- purrr::map(
   lai, do_sens,

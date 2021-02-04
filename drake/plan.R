@@ -382,7 +382,7 @@ plan <- drake_plan(
     ggsave(path(figdir, "edr-sensitivity-cohort_lai.png"), plt,
            width = 4, height = 4, dpi = 300)
   },
-  edr_sail_comparison = {
+  edr_sail_comparison_lai = {
     lai <- c(
       0.1, 0.5,
       seq(1, 5, 1)
@@ -402,24 +402,68 @@ plan <- drake_plan(
     ) %>%
       tidy_sail(lai)
     tidy_both <- dplyr::left_join(lai_sens_edr, lai_sens_sail) %>%
-      dplyr::mutate(sail_avg = bdr * lai_dsf + hdr * (1 - lai_dsf))
+      dplyr::mutate(
+        sail_dr = bdr * lai_dsf + hdr * (1 - lai_dsf),
+        sail_hr = dhr * lai_dsf + bhr * (1 - lai_dsf)
+      )
     tidy_both_long <- tidy_both %>%
-      tidyr::pivot_longer(c(value, bhr:sail_avg))
+      tidyr::pivot_longer(c(value, bhr:sail_hr))
 
     plot_dat <- tidy_both_long %>%
       dplyr::rename(LAI = var_value) %>%
-      dplyr::mutate(Source = factor(name, c("value", "sail_avg", "bhr", "dhr", "hdr", "bdr"),
-                                    c("EDR", "SAIL: Avg.", "SAIL: BHR", "SAIL: DHR", "SAIL: HDR", "SAIL: BDR")))
+      dplyr::mutate(Source = factor(name, c("value", "sail_hr", "sail_dr", "bhr", "dhr", "hdr", "bdr"),
+                                    c("EDR", "SAIL: HR", "SAIL: DR", "SAIL: BHR", "SAIL: DHR", "SAIL: HDR", "SAIL: BDR")))
     plt <- ggplot(plot_dat) +
       aes(x = wavelength, y = value, color = Source, linetype = Source) +
       geom_line() +
-      scale_color_brewer(palette = "Set1") +
-      scale_linetype_manual(values = c(1, 1, 3, 3, 3, 3)) +
+      scale_color_brewer(palette = "Dark2") +
+      scale_linetype_manual(values = c(1, 1, 1, 3, 3, 3, 3)) +
       facet_wrap(vars(LAI), labeller = label_both) +
       labs(x = "Wavelength (nm)", y = "Reflectance [0,1]",
            color = "Source") +
       theme_bw()
-    ggsave(path(figdir, "edr-sail-comparison.png"), plt,
+    ggsave(path(figdir, "edr-sail-comparison-lai.png"), plt,
+           width = 8, height = 6, units = "in", dpi = 300)
+  },
+  edr_sail_comparison_czen = {
+    czen <- seq(0.5, 1.0, 0.1)
+    dsf <- 0.9
+    sens_edr <- purrr::map(
+      czen, do_sens,
+      fun = edr_r,
+      variable = "czen",
+      .dots = modifyList(edr_sensitivity_defaults, list(direct_sky_frac = dsf))
+    ) %>%
+      tidy_albedo(czen)
+    zen <- acos(czen) * 180/pi
+    sens_sail <- purrr::map(
+      zen, do_sens, fun = rrtm::pro4sail_5,
+      variable = "solar_zenith",
+      .dots = sail_sensitivity_defaults
+    ) %>%
+      tidy_sail(czen)
+    tidy_both <- dplyr::left_join(sens_edr, sens_sail) %>%
+      dplyr::mutate(
+        sail_dr = bdr * dsf + hdr * (1 - dsf),
+        sail_hr = dhr * dsf + bhr * (1 - dsf)
+      )
+    tidy_both_long <- tidy_both %>%
+      tidyr::pivot_longer(c(value, bhr:sail_hr))
+
+    plot_dat <- tidy_both_long %>%
+      dplyr::rename(czen = var_value) %>%
+      dplyr::mutate(Source = factor(name, c("value", "sail_hr", "sail_dr", "bhr", "dhr", "hdr", "bdr"),
+                                    c("EDR", "SAIL: HR", "SAIL: DR", "SAIL: BHR", "SAIL: DHR", "SAIL: HDR", "SAIL: BDR")))
+    plt <- ggplot(plot_dat) +
+      aes(x = wavelength, y = value, color = Source, linetype = Source) +
+      geom_line() +
+      scale_color_brewer(palette = "Dark2") +
+      scale_linetype_manual(values = c(1, 1, 1, 3, 3, 3, 3)) +
+      facet_wrap(vars(czen), labeller = label_both) +
+      labs(x = "Wavelength (nm)", y = "Reflectance [0,1]",
+           color = "Source") +
+      theme_bw()
+    ggsave(path(figdir, "edr-sail-comparison-czen.png"), plt,
            width = 8, height = 6, units = "in", dpi = 300)
   }
 )
