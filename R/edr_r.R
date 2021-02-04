@@ -26,7 +26,12 @@ edr_r <- function(pft, lai, wai, cai,
                   direct_sky_frac,
                   czen,
                   wood_reflect = matrix(rep(wood_spec, length(pft)), 2101),
-                  wavelengths = seq(400, 2500)) {
+                  wavelengths = seq(400, 2500),
+                  ssa_type = "sellers") {
+  ssa_type <- tolower(ssa_type)
+  stopifnot(
+    ssa_type %in% c("sellers", "sail")
+  )
   ncohort <- length(pft)
   npft <- length(N)
   nwl <- length(wavelengths)
@@ -100,6 +105,7 @@ edr_r <- function(pft, lai, wai, cai,
     wood_trans = wood_trans,
     down_sky = down_sky,
     down0_sky = down0_sky,
-    wavelengths = wavelengths
+    wavelengths = wavelengths,
+    ssa_type = ssa_type
   )
 }

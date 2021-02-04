@@ -28,12 +28,14 @@ sw_two_stream <- function(czen,
                           leaf_reflect, leaf_trans,
                           wood_reflect, wood_trans,
                           down_sky, down0_sky,
-                          wavelengths = seq(400, 2500)
-                          ) {
+                          wavelengths = seq(400, 2500),
+                          ssa_type = "sellers") {
 
+  ssa_type <- tolower(ssa_type)
   # Sanity checks
   nwl <- length(wavelengths)
   stopifnot(
+    ssa_type %in% c("sellers", "sail")
     NROW(leaf_reflect) == nwl,
     NROW(leaf_trans) == nwl,
     NROW(wood_reflect) == nwl,
@@ -129,6 +131,7 @@ sw_two_stream <- function(czen,
 
   # Backscatter coefficients for diffuse radiation
   # S105
+  # Single scattering albedo
   iota_ratio <- 1 / (2 * (1 + phi2 * mu0)) *
     (1 - phi1 * mu0 / (1 + phi2 * mu0) *
        log((1 + (phi1 + phi2) * mu0) / (phi1 * mu0)))
