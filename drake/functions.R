@@ -338,10 +338,21 @@ lai_predicted_observed_plot <- function(site_lai_total, lai_observed) {
   plot_dat <- dplyr::inner_join(site_lai_total, lai_observed, "site")
   fit <- lm(obs_LAI ~ lai_mean, data = plot_dat)
   sfit <- summary(fit)
+
+  # Test that slope is not equal to 1; this is analogous to seeing whether the
+  # slope of the regression with an offset is equal to zero.
+  fit2_form <- formula(lai_mean - obs_LAI ~ lai_mean)
+  fit2 <- lm(fit2_form, data = plot_dat)
+  sfit2 <- summary(fit2)
+  pval <- sfit2$coefficients[2, "Pr(>|t|)"]
+  ## plot(fit2_form, data = plot_dat,
+  ##      xlab = "Predicted", ylab = "Predicted - Observed")
+  ## abline(fit2)
+  ## abline(h = 0, lty = "dashed")
+
   eqn <- paste(
     sprintf("y = %.2fx + %.2f", fit$coefficients[2], fit$coefficients[1]),
-    sprintf("R2 = %.2f, p = %.3f", sfit$r.squared,
-            sfit$coefficients["lai_mean", "Pr(>|t|)"]),
+    sprintf("R2 = %.2f, p(m != 1) = %.3f", sfit$r.squared, pval),
     sep = "\n"
   )
   xx <- max(plot_dat$lai_hi)

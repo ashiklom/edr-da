@@ -1,3 +1,150 @@
+# Evaluate PROSPECT covariances
+drake::loadd(posterior_matrix)
+
+posterior_cov <- cov(posterior_matrix)
+
+pcov_df <- corrr::as_cordf(posterior_cov)
+
+pcov_tidy <- pcov_df %>%
+  corrr::shave() %>%
+  corrr::stretch(na.rm = TRUE) %>%
+  dplyr::mutate(across(c(x, y), ~gsub("temperate\\.", "", .x)))
+
+pcov_tidy %>%
+  dplyr::filter(across(c(x, y), ~grepl("prospect", .x))) %>%
+  arrange(desc(abs(r))) %>%
+  print(n = Inf)
+
+##################################################
+
+drake::loadd(site_lai_total)
+drake::loadd(lai_observed)
+drake::loadd(observed_predicted)
+
+lai_both <- site_lai_total %>%
+  left_join(lai_observed, "site") %>%
+  left_join(site_structure_data, c("site" = "site_name")) %>%
+  mutate(
+    LAI_diff = lai_mean - obs_LAI,
+    eLAI_diff = elai_mean - obs_LAI
+  ) %>%
+  select(site, LAI_diff, lai_mean, obs_LAI, mean_dbh, tot_dens, everything()) %>%
+  arrange(desc(LAI_diff))
+
+lai_both %>%
+  select(site, lai_mean, elai_mean, obs_LAI, mean_dbh, tot_dens) %>%
+  tidyr::pivot_longer(c(lai_mean, elai_mean)) %>%
+  ggplot() +
+  aes(x = value, y = obs_LAI) +
+  geom_abline(linetype = "dashed") +
+  geom_smooth() +
+  geom_point() +
+  facet_grid(vars(name))
+
+lai_both %>%
+  select(site, LAI_diff, eLAI_diff, obs_LAI, mean_dbh, tot_dens) %>%
+  tidyr::pivot_longer(c(LAI_diff, eLAI_diff)) %>%
+  ggplot() +
+  aes(x = mean_dbh, y = value) +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  geom_smooth(method = "lm") +
+  geom_point() +
+  facet_grid(cols = vars(name))
+
+
+xmx <- 40
+ymx <- 60
+plot(x = 0, y = 0, type = "n", xlim = c(0, xmx), ylim = c(0, ymx), xlab = "DBH", ylab = "BL")
+for (b2 in seq(1.5, 2.2, 0.05)) {
+  curve(size2bl(x, 0.1, b2), 0, xmx, add = TRUE, col = alpha("blue4"))
+}
+## plot(x = 0, y = 0, type = "n", xlim = c(0, 60), ylim = c(0, 100), xlab = "DBH", ylab = "BL")
+for (b1 in seq(0.05, 0.2, 0.01)) {
+  curve(size2bl(x, b1, 1.8), 0, ymx, add = TRUE, col = alpha("red4"))
+}
+
+p1 <- ggplot(lai_both) +
+  aes(x = elai_mean, y = obs_LAI) +
+  geom_abline(linetype = "dashed") +
+  geom_smooth(method = "lm") +
+  geom_point()
+
+p2 <- ggplot(lai_both) +
+  aes(x = lai_mean, y = obs_LAI) +
+  geom_abline(linetype = "dashed") +
+  geom_smooth(method = "lm") +
+  geom_point()
+
+p1 + p2
+
+ggplot(lai_both) +
+  aes(x = mean_dbh, y = eLAI_diff) +
+  ## aes(x = tot_dens, y = LAI_diff) +
+  ## aes(x = frac_evergreen_wtd, y = LAI_diff) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  geom_hline(yintercept = 0, linetype = "dashed")
+
+band_diffs <- observed_predicted %>%
+  dplyr::mutate(band = if_else(wavelength < 750, "VIS", "NIR")) %>%
+  dplyr::group_by(band, site) %>%
+  dplyr::summarize(mean_diff = mean(bias, na.rm = TRUE)) %>%
+  dplyr::ungroup()
+
+resid2 <- band_diffs %>%
+  left_join(lai_both, "site")
+
+ggplot(resid2) +
+  aes(x = LAI_diff, y = mean_diff) +
+  geom_smooth(method = "lm") +
+  geom_point() +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  facet_wrap(vars(band), scales = "free_y")
+
+
+##################################################
+drake::loadd(tidy_posteriors)
+drake::loadd(tidy_priors)
+
+tidy_summary <- . %>%
+  dplyr::group_by(biome, pft, variable, type) %>%
+  dplyr::summarize(
+    q025 = quantile(value, 0.025),
+    q975 = quantile(value, 0.975),
+    ci95 = q975 - q025
+  ) %>%
+  dplyr::ungroup()
+
+priors <- tidy_priors %>% tidy_summary
+posteriors <- tidy_posteriors %>% tidy_summary
+
+both <- dplyr::bind_rows(priors, posteriors)
+
+both %>%
+  dplyr::arrange(biome, pft, variable, type)
+
+both_wide <- both %>%
+  dplyr::select(-q025, -q975) %>%
+  tidyr::pivot_wider(names_from = type, values_from = ci95) %>%
+  dplyr::mutate(rel_reduction = posterior / prior)
+
+both_wide %>%
+  dplyr::filter(!grepl("sitesoil", variable)) %>%
+  dplyr::arrange(variable, rel_reduction) %>%
+  print(n = Inf)
+
+##################################################
+
+sites <- readLines("other_site_data/site_list")
+
+obs <- load_observations()
+
+site_structure_data %>%
+  dplyr::arrange(dplyr::desc(tot_dens))
+
+site_structure_data %>%
+  dplyr::filter(mean_dbh > 35)
+
 library(dplyr)
 
 count(tidy_posteriors, variable)

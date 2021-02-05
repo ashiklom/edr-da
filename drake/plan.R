@@ -75,6 +75,35 @@ plan <- drake_plan(
     lai_predicted_observed_plot(site_lai_total, lai_observed),
     width = 6, height = 5, dpi = 300
   ),
+  lai_bias_plots = {
+    dat <- bias_data %>%
+      dplyr::filter(band == band[1])
+    p1 <- ggplot(dat) +
+      aes(x = mean_dbh, y = LAI_diff) +
+      geom_smooth(method = "lm") +
+      geom_point() +
+      geom_hline(yintercept = 0, linetype = "dashed") +
+      labs(x = "Mean DBH (cm)", y = "LAI residual (predicted - observed)") +
+      theme_bw()
+    ggsave(file_out(!!path(figdir, "lai-bias-dbh.png")), p1,
+           width = 4, height = 4, units = "in", dpi = 300)
+    p2 <- p1 + aes(x = tot_dens) + labs(x = expression("Stand density" ~ (trees ~ ha^-1)))
+    ggsave(file_out(!!path(figdir, "lai-bias-dens.png")), p2,
+           width = 4, height = 4, units = "in", dpi = 300)
+    p3 <- p1 + aes(x = frac_evergreen_wtd) + labs(x = "Evergreen fraction")
+    ggsave(file_out(!!path(figdir, "lai-bias-evergreen.png")), p3,
+           width = 4, height = 4, units = "in", dpi = 300)
+    p4 <- p1 %+% bias_data +
+      aes(x = mean_diff) +
+      labs(x = "Reflectance bias (predicted - observed)") +
+      geom_vline(xintercept = 0, linetype = "dashed") +
+      facet_grid(cols = vars(band), scales = "free_x")
+    ggsave(file_out(!!path(figdir, "lai-bias-refl-bias.png")), p4,
+           width = 6, height = 4, units = "in", dpi = 300)
+    p5 <- p1 + facet_wrap(vars(pft))
+    ggsave(file_out(!!path(figdir, "lai-bias-dbh-bypft.png")), p5,
+           width = 6, height = 4, units = "in", dpi = 300)
+  },
   inversion_site_list = readLines(file_in(!!site_list_file)),
   predicted_spectra = target(
     predict_site_spectra(
@@ -357,7 +386,7 @@ plan <- drake_plan(
       width = 12, height = 5, dpi = 300
     )
   },
-  supplement_pft_plots = {
+  bias_data = {
     biggest_pft <- site_details %>%
       dplyr::group_by(site, pft) %>%
       dplyr::summarize(pft_dbh = sum(dbh * nplant)) %>%
@@ -368,17 +397,26 @@ plan <- drake_plan(
       dplyr::group_by(band, site) %>%
       dplyr::summarize(mean_diff = mean(bias, na.rm = TRUE)) %>%
       dplyr::ungroup()
-    plt_dat <- band_diffs %>%
+    lai_both <- site_lai_total %>%
+      dplyr::left_join(lai_observed, "site") %>%
+      dplyr::mutate(LAI_diff = lai_mean - obs_LAI) %>%
+      dplyr::select(site, LAI_diff, lai_mean, obs_LAI, dplyr::everything()) %>%
+      dplyr::arrange(dplyr::desc(LAI_diff))
+    bias_data <- band_diffs %>%
       dplyr::left_join(site_structure_data, c("site" = "site_name")) %>%
+      dplyr::left_join(lai_both, "site") %>%
       dplyr::mutate(mostly_evergreen = (frac_evergreen > 0.5) %>%
                       factor(labels = paste("Mostly", c("deciduous", "evergreen"))),
-                    tot_dens2 = tot_dens * 5000) %>%
+                    tot_dens = tot_dens * 5000) %>%
       dplyr::left_join(biggest_pft, "site") %>%
       dplyr::mutate(band = factor(band, c("VIS", "NIR"),
                                   c("400-750nm", "750-1400nm")),
                     pft = factor(pft, labels = c("EH", "MH", "LH",
                                                  "NP", "LC")))
-    pft_boxplot <- ggplot(plt_dat) +
+    bias_data
+  },
+  supplement_pft_plots = {
+    pft_boxplot <- ggplot(bias_data) +
       aes(x = pft, y = mean_diff) +
       geom_boxplot(outlier.shape = NA) +
       geom_jitter(color = "gray50", width = 0.2) +
@@ -392,17 +430,17 @@ plan <- drake_plan(
             axis.text.x = element_text(angle = 90, vjust = 0.5))
     ggsave(file_out(!!path(figdir, "bias-boxplot-pft.png")), pft_boxplot,
            width = 7, height = 3.75, units = "in", dpi = 300)
-    fits <- plt_dat %>%
+    fits <- bias_data %>%
       dplyr::group_by(band, mostly_evergreen) %>%
-      dplyr::summarize(fit = list(lm(mean_diff ~ tot_dens2))) %>%
+      dplyr::summarize(fit = list(lm(mean_diff ~ tot_dens))) %>%
       dplyr::mutate(
         intercept = purrr::map_dbl(fit, ~.x$coefficients[1]),
         slope = purrr::map_dbl(fit, ~.x$coefficients[2]),
         r2 = purrr::map_dbl(fit, ~summary(.x)$adj.r.squared),
         p = purrr::map_dbl(fit, ~summary(.x)$coefficients[2, 4])
       )
-    pft_density_bias_plot <- ggplot(plt_dat) +
-      aes(x = tot_dens2, y = mean_diff) +
+    pft_density_bias_plot <- ggplot(bias_data) +
+      aes(x = tot_dens, y = mean_diff) +
       geom_point() +
       geom_hline(yintercept = 0, linetype = "dashed") +
       facet_grid(vars(band), vars(pft), scales = "free_y") +
