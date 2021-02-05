@@ -220,7 +220,79 @@ plan <- drake_plan(
   ),
   sail_predictions = tidy_sail_predictions(site_details, site_lai_total,
                                            tidy_posteriors),
-  site_structure_plot = {
+  site_map = {
+    site_structure_sf <- sf::st_as_sf(site_structure_data,
+                                      coords = c("longitude", "latitude"),
+                                      crs = 4326)
+
+    bbox <- sf::st_bbox(site_structure_sf) %>%
+      sf::st_as_sfc() %>%
+      sf::st_transform(5070) %>%
+      sf::st_buffer(100 * 1000) %>%
+      sf::st_bbox()
+    usa <- rnaturalearth::ne_states(country = c("United States of America", "Canada"),
+                                    returnclass = "sf")
+
+    basemap_file <- here("data-raw/CONUS_Natural_Color_Relief_Hydro.tif")
+    stopifnot(file.exists(basemap_file))
+    basemap <- raster::brick(basemap_file) %>%
+      raster::crop(bbox)
+
+    site_structure_selected <- site_structure_sf %>%
+      dplyr::filter(site_name %in% spec_summary_sites)
+
+    plot_map <- ggplot() +
+      ggspatial::layer_spatial(data = basemap) +
+      ggspatial::layer_spatial(usa, fill = NA) +
+      ggspatial::layer_spatial(site_structure_sf, size = 1.2) +
+      ggrepel::geom_label_repel(
+        data = site_structure_selected,
+        aes(label = site_name, geometry = geometry),
+        size = 2,
+        stat = "sf_coordinates",
+        min.segment.length = 0,
+        max.overlaps = Inf
+      ) +
+      coord_sf(xlim = bbox[c(1,3)], ylim = bbox[c(2,4)], crs = 5070, expand = FALSE) +
+      theme_bw() +
+      ggspatial::annotation_north_arrow(location = "tr") +
+      ggspatial::annotation_scale(location = "bl") +
+      theme(plot.background = element_blank(),
+            axis.title = element_blank())
+    ggsave(path(figdir, "site-map.png"), plot_map,
+           width = 6, height = 4, units = "in", dpi = 300)
+
+  },
+  site_structure = {
+    site_structure_sub <- site_structure_data %>%
+      dplyr::filter(site_name %in% spec_summary_sites)
+
+    plot_travis <- ggplot(site_structure_data) +
+      aes(x = mean_dbh, y = tot_dens * 5000) +
+      geom_point() +
+      # Self-thinning curve
+      geom_function(
+        aes(linetype = "y == 500 * bgroup('(', frac(x, 25), ')')^-1.4"),
+        fun = ~500 * (.x/25)^-1.4,
+        key_glyph = draw_key_abline
+      ) +
+      scale_linetype_manual(values = "dashed", labels = scales::parse_format()) +
+      ggrepel::geom_text_repel(data = site_structure_sub, aes(label = site_name),
+                                min.segment.length = 0, size = 2.5) +
+      labs(x = "Mean diameter (cm)",
+           y = expression("Stem density" ~ (trees ~ ha^-1))) +
+      coord_cartesian(ylim = range(site_structure_data$tot_dens * 5000)) +
+      theme_bw() +
+      theme(legend.position = c(1, 1),
+            legend.justification = c(1, 1),
+            legend.title = element_blank(),
+            legend.background = element_blank())
+    if (interactive()) plot_travis
+
+    ggsave(path(figdir, "site-structure.png"), plot_travis,
+           width = 5, height = 5, units = "in", dpi = 300)
+  },
+  site_structure_map = {
     site_structure_sf <- sf::st_as_sf(site_structure_data,
                                       coords = c("longitude", "latitude"),
                                       crs = 4326)
@@ -250,15 +322,16 @@ plan <- drake_plan(
     )
     finalplot <- plot_travis + plot_map + plot_layout(design = layout)
     ggsave(
-      file_out(!!path(figdir, "sitemap.png")),
+      file_out(!!path(figdir, "site-map-structure.png")),
       finalplot,
       width = 6, height = 4, units = "in", dpi = 300
     )
   },
+  spec_summary_sites = c("NC18", "NC07", "NC12",
+                         "IDS10", "BI01", "BH10",
+                         "SF04", "AK60", "BI05"),
   spec_summary_plot = {
-    sites <- c("MN05", "NC07", "SF01",
-               "BH06", "PB09", "BH10",
-               "SF04", "BH07", "BI05")
+    sites <- spec_summary_sites
     plt <- lapply(
       sites, site_spec_dbh_plot,
       observed_predicted = observed_predicted,

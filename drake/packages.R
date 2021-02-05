@@ -10,7 +10,9 @@ library(patchwork)
 stopifnot(
   requireNamespace("fst", quietly = TRUE),
   requireNamespace("tidyr", quietly = TRUE),
-  requireNamespace("forcats", quietly = TRUE)
+  requireNamespace("forcats", quietly = TRUE),
+  requireNamespace("ggmap", quietly = TRUE),
+  requireNamespace("scales", quietly = TRUE)
 )
 
 pkgload::load_all(".", attach_testthat = FALSE)
