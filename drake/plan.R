@@ -32,7 +32,8 @@ plan <- drake_plan(
   ),
   site_structure_data = file_in(!!site_structure_file) %>%
     read_csv(col_types = "cnnnnnnclc") %>%
-    mutate(site_tag = paste0("sitesoil_", row_number())),
+    mutate(site_tag = paste0("sitesoil_", row_number())) %>%
+    dplyr::filter(site_name %in% readLines(here("other_site_data", "site_list"))),
   soil_moisture_plt = ggsave(
     file_out(!!path(figdir, "posterior-soil.png")),
     soil_moisture_plot(tidy_posteriors, site_structure_data),

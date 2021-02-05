@@ -1,0 +1,6 @@
+.DS_Store
+.idea
+*.log
+tmp/
+
+CONUS_Natural_Color_Relief_Hydro.tif
