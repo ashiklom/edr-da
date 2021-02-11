@@ -19,7 +19,8 @@ sw_two_stream(
   wood_trans,
   down_sky,
   down0_sky,
-  wavelengths = seq(400, 2500)
+  wavelengths = seq(400, 2500),
+  ssa_type = "sellers"
 )
 }
 \arguments{

@@ -21,7 +21,8 @@ create_prior_sampler(
   fix_allom2 = TRUE,
   heteroskedastic = TRUE,
   nsite = 1,
-  site_specific_var = FALSE
+  site_specific_var = FALSE,
+  param_names = NULL
 )
 
 create_prior_density(

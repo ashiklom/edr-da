@@ -153,10 +153,7 @@ closures <- closure_data %>%
   deframe()
 
 overall_likelihood <- function(params) {
-  site_lls <- furrr::future_map_dbl(
-    sample(closures),
-    ~purrr::possibly(.x, -Inf, quiet = FALSE)(params)
-  )
+  site_lls <- furrr::future_map_dbl(sample(closures), ~.x(params))
   sum(site_lls)
 }
 

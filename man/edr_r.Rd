@@ -20,7 +20,8 @@ edr_r(
   direct_sky_frac,
   czen,
   wood_reflect = matrix(rep(wood_spec, length(pft)), 2101),
-  wavelengths = seq(400, 2500)
+  wavelengths = seq(400, 2500),
+  ssa_type = "sellers"
 )
 }
 \arguments{

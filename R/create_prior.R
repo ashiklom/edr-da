@@ -163,7 +163,7 @@ create_prior_density <- function(fix_allom2 = TRUE, heteroskedastic = TRUE, verb
     }
     # Drop the residuals and soil parameters from the remaining parameter vector
     params <- params[!grepl("residual|sitesoil", names(params))]
-    traits <- PEcAnRTM::params2edr(params, prospect = FALSE)$trait.values
+    traits <- params2edr(params, prospect = FALSE)$trait.values
     ld_allom <- if (fix_allom2) dallom1(traits) else dallom2(traits)
     if (!all(is.finite(ld_allom))) {
       if (verbose) {
