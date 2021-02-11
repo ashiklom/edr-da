@@ -6,7 +6,6 @@ Description: Facilitates running ED2 and EDR under certain test cases
 Depends: 
     R (>= 3.3.3)
 Imports:
-    PEcAnRTM,
     Rcpp,
     RcppArmadillo,
     data.table,
@@ -21,6 +20,7 @@ Imports:
     stringr,
     tibble
 Suggests:
+    PEcAnRTM,
     PEcAn.ED2,
     testthat
 License: MIT License
