@@ -2,14 +2,16 @@
 
 \subsection{ED2 model description}
 
-The Ecosystem Demography version 2.2 (ED2) model simulates plot-level vegetation dynamics and biogeochemistry~\citep{moorcroft_2001_method, medvigy2009mechanistic, longo_2019_ed1}.
+The Ecosystem Demography version 2.2 (ED2) model simulates plot-level vegetation dynamics and biogeochemistry~\citep{moorcroft_2001_method, medvigy2009mechanistic, longo2019ed2description}.
 By grouping individuals of similar size, structure, and composition together into cohorts, ED2 is capable of modeling patch-level competition in a computationally efficient manner.
 Relevant to this work, ED2 includes a multi-layer canopy radiative transfer model that is a generalization of the two-layer two-stream radiative transfer scheme in CLM 4.5~\citep{clm45_note}, which in turn is derived from \citet{sellers1985canopy}.
-A complete description of the model derivation is provided in the supplementary information of \citet{longo_2019_ed1}, but for completeness, we provide an abbreviated description below.
+At every time step, this model simulates the bi-hemispherical reflectance (BHR;\@a.k.a., ``intrinsic surface albedo'' or ``blue-sky albedo''; see \citealt{schaepman-strub2006reflectance}) as a function of that time step's vegetation composition and canopy structure.
+A complete description of the model derivation is provided in the supplementary information of \citet{longo2019ed2description}, but for completeness, we provide an abbreviated description below.
 
 Our core spatial unit of analysis is a \emph{patch}---a group of plants with a common disturbance history (time since last disturbance).
 Each patch contains $n$ \emph{cohorts}---groups of plants of the same plant functional type (PFT) and size class.
-The full canopy radiation profile in ED2 is defined by a vector $\vec{A}$ that contains two fluxes---upward ($\vec{F}_{\up,i}$) and downward ($F_{\down,i}$)---for each cohort $i$, plus a downward flux from the atmosphere ($F_{\down,\sky}$) and an upward flux from the ground ($F_{\up,\ground}$) surface (total size $2n + 2$):
+The full canopy radiation profile in ED2 is defined by a vector $\vec{A}$ that contains two hemispherically-integrated radiative fluxes---upward ($\vec{F}_{\up,i}$) and downward ($F_{\down,i}$)---for each cohort $i$,
+plus a downward total radiative flux from the atmosphere ($F_{\down,\sky}$) and an upward radiative flux from the ground ($F_{\up,\ground}$) surface (total size $2n + 2$):
 
 \begin{equation}
   \vec{A} =
@@ -26,6 +28,150 @@ The full canopy radiation profile in ED2 is defined by a vector $\vec{A}$ that c
     F_{\down,\sky}
   \end{bmatrix}
 \end{equation}
+
+The change in radiative flux as it encounters canopy elements is governed by the following differential equations (adapting the simplified notation of \citealt{yuan2017reexamination}):
+
+\begin{equation}
+  - \frac{dF_{\up, i}}{dx} =
+  - \underbrace{(a_{i} + \gamma_{i}) F_{\up, i}}_{\text{Interception}}
+  + \underbrace{\gamma_{i} F_{\down, i}}_{\text{Diffuse scatter}}
+  + \underbrace{s_{i} F_{0}}_{\text{Direct backscatter}}
+\end{equation}
+
+\begin{equation}
+  \frac{dF_{\down, i}}{dx} =
+  - \underbrace{(a_{i} + \gamma_{i}) F_{\down, i}}_{\text{Interception}}
+  + \underbrace{\gamma_{i} F_{\up, i}}_{\text{Diffuse scatter}}
+  + \underbrace{s'_{i} F_{0}}_{\text{Direct scatter}}
+\end{equation}
+
+where $dx$ represents the vertical change in the total plant area index (combined area of leaves and woody elements),
+$a$ describes absorption of diffuse radiation,
+$\gamma$ describes scattering of diffuse radiation,
+$s$ and $s'$ describe the upward and downward scattering of direct (``beam'') radiation,
+and $F_{0, i}$ is the incident direct (or ``beam'') radiative flux at canopy layer $i$.
+
+Following \citet{sellers1985canopy}, the coefficients above are defined as follows:
+
+\begin{equation}
+  a_{i} + \gamma_{i} = \left[1 - \left( 1 - \beta_{i} \right)\right]\frac{1}{\bar{\mu}_{i}}
+\end{equation}
+
+\begin{equation}
+  \gamma_{i} = \beta_{i} \omega_{i} \frac{1}{\bar{\mu}_{i}}
+\end{equation}
+
+\begin{equation}
+  s_{i} = \frac{1}{\mu_{0,i}} \omega_{i} \beta_{0,i}
+\end{equation}
+
+\begin{equation}
+  s'_{i} = \frac{1}{\mu_{0,i}} \omega_{i} \left( 1 - \beta_{0,i} \right)
+\end{equation}
+
+where
+$\bar{\mu}_{i}$ is the optical depth per unit plant area index for diffuse radiation,
+$\beta_{i}$ is the backscattering coefficient for diffuse radiation,
+$\omega_{i}$ is the scattering coefficient for diffuse radiation,
+$\mu_{0}$ is the optical depth per unit plant area index for direct radiation,
+and $\beta_{0}$ is the backscattering coefficient for direct radiation.
+
+For a given incident radiation (i.e., solar zenith) angle $\theta$ and leaf orientation angle $\vartheta$, the optical depth is defined as:
+
+\begin{equation}\label{eqn:opticaldepth}
+  \mu \left( \theta, \vartheta \right) = \frac{\cos(\theta)}{G(\theta, \vartheta)}
+\end{equation}
+
+where $G(\theta, \vartheta)$ is a function describing the projected leaf area.
+Following \citet{goudriaan_1977_crop}, this function can be approximated as:
+
+\begin{equation}\label{eqn:gfunction}
+  G(\theta, \vartheta) \approx G^*(\theta, \chi_{i}) = \phi_{1, i} + \phi_{2, i} \cos(\theta)
+\end{equation}
+
+\begin{align}
+  \begin{split}
+    \phi_{1, i} = 0.5 - 0.633 \chi_{i} - 0.33 \chi_{i}^{2} \\
+    \phi_{2, i} = 0.877 - \left( 1 - 2 \phi_{1, i} \right) \\
+  \end{split}
+\end{align}
+
+where $\chi$ is the \emph{leaf orientation factor}---a PFT-specific parameter whose values theoretically range from -1 (vertical leaves) through 0 (randomly-distributed leaf angles) to 1 (horizontal leaves), but in practice are restricted to $-0.4 \leq \chi \leq 0.6$.
+
+The optical depth for direct radiation, $\mu_{0,i}$, is defined as:
+
+\begin{equation}
+  \mu_{0, i} = \mu(\theta, \chi_{i})
+\end{equation}
+
+The optical depth for diffuse radiation, $\bar{\mu}_{i}$, is defined as the integral of \label{eqn:opticaldepth} over all zenith angles:
+
+\begin{equation}
+  \bar{\mu_{i}} = \int_{0}^{\frac{\pi}{2}} \frac{\cos(\theta)}{G^{*}(\theta, \chi_{i})} d\theta
+  = \frac{1}{\phi_{2,i}} \left[ 1 + \frac{\phi_{1, i}}{\phi_{2, i}} \ln \frac{\phi_{1, i}}{\phi_{1, i} + \phi_{2, i}} \right]
+\end{equation}
+
+Following \citet{sellers1985canopy}, scattering ($\omega$) and backscattering ($\beta$) of canopy elements (leaves or stems) are defined as a function of those elements' reflectance ($R$) and transmittance ($T$; wood transmittance is assumed to be zero).
+(We use index $p$ to refer to PFT and $p(i)$ to refer to the PFT of cohort $i$).
+
+\begin{align}
+  \begin{split}
+    \omega_{i, \leaf} &= R_{p(i), \leaf} + T_{p(i), \leaf}\\
+    \omega_{i, \wood} &= R_{p(i), \wood}\\
+  \end{split}
+\end{align}
+
+\begin{align}
+  \begin{split}
+    \beta_{i, \leaf} = \frac{1}{2 \omega_{i}} \left[R_{i, \leaf} + T_{i, \leaf} + \left( R_{i, \leaf} - T_{i, \leaf} \right) J(\chi_{i}) \right]
+    \beta_{i, \wood} = \frac{1}{2 \omega_{i}} \left[R_{i, \wood} +  R_{i, \wood} J(\chi_{i}) \right]
+  \end{split}
+\end{align}
+
+where $J(\chi_{i})$ captures the effect of leaf and branch inclination and is approximated as (similarly to \citealt{clm45_note}):
+
+\begin{equation}
+  J(\chi_{i}) = \frac{1 + \chi_{i}}{2}
+\end{equation}
+
+Both $\omega$ and $\beta$ are calculated independently for leaves and wood and then averaged based on the relative effective area of leaves ($L_{i}$) and wood ($W_{i}$) within a canopy layer.
+
+\begin{equation}
+  \omega_{i} = \omega_{i, \leaf} \frac{L_{i}}{L_{i} + W_{i}} + \omega_{i, \wood} (1 - \frac{L_{i}}{L_{i} + W_{i}})
+\end{equation}
+
+\begin{equation}
+  \beta_{i} = \beta_{i, \leaf} \frac{L_{i}}{L_{i} + W_{i}} + \beta_{\wood} (1 - \frac{L_{i}}{L_{i} + W_{i}})
+\end{equation}
+
+To account for non-uniform distribution of leaves within a canopy, ED2 has a PFT-specific \emph{clumping factor} ($q$) parameter that serves as a scaling factor on leaf area index.
+Therefore the effective leaf area index ($L$) is related to the true leaf area index ($\LAI$) by:
+
+\begin{equation}
+  \label{eqn:elai}
+  L_{i} = \LAI_{i} \times q_{p(i)}
+\end{equation}
+
+The leaf area of a cohort ($\LAI_{i}$) is calculated as a function of leaf biomass ($B_{\leaf, i}$, \unit{kg C ~ plant^{-1}}), specific leaf area ($\SLA_{p}$, \unit{m^2 ~ kgC^{-1}}), and stem density ($n_{\plant}$, \unit{plants ~ m^{-2}}):
+
+\begin{equation}
+  \LAI_{i} = n_{\plant, i} B_{\leaf, i} \SLA_{p(i)}
+\end{equation}
+
+In turn, $B_{\leaf, i}$ is calculated from cohort diameter at breast height ($\DBH_{i}$, \unit{cm}) according to the following allometric equations:
+
+\begin{equation}
+  B_{\leaf, i} = \bbbl_{p(i)} \DBH_{i}^{\bebl_{p(i)}}
+\end{equation}
+
+where $\bbbl_{p(i)}$ and $\bebl_{p(i)}$ are PFT-specific parameters.
+The wood area of a cohort ($\WAI_{i}$) is calculated directly from DBH according to a similar allometric equation:
+
+\begin{equation}
+  \WAI_{i} = n_{\plant, i} \bbbw_{p(i)} \DBH_{i}^{\bebw_{p(i)}}
+\end{equation}
+
+where $\bbbw_{p(i)}$ and $\bebw_{p(i)}$ are PFT-specific parameters.
 
 ED2 solves this vector using the following matrix equation:
 
@@ -115,7 +261,7 @@ Following \citet{clm45_note}, scattering ($\nu$) and backscattering ($r$) of can
   \end{split}
 \end{align}
 
-where $\chi$ is the \emph{leaf orientation factor} parameter, defined such that $-1$ is perfectly vertical leaves, 1 is perfectly horizontal leaves, and 0 is randomly distributed leaf angles.
+where $\chi_{i}$ is the \emph{leaf orientation factor} parameter, defined such that $-1$ is perfectly vertical leaves, 1 is perfectly horizontal leaves, and 0 is randomly distributed leaf angles.
 Both of these quantities are calculated independently for leaves and wood, and then averaged based on the relative effective area of leaves ($L_{i}$) and wood ($W_{i}$) within a canopy layer.
 
 \begin{equation}
@@ -123,7 +269,7 @@ Both of these quantities are calculated independently for leaves and wood, and t
 \end{equation}
 
 \begin{equation}
-  \r_{i} = \r_{i, \leaf} \frac{L_{i}}{L_{i} + W_{i}} + \r_{\wood} (1 - \frac{L_{i}}{L_{i} + W_{i}})
+  r_{i} = r_{i, \leaf} \frac{L_{i}}{L_{i} + W_{i}} + r_{\wood} (1 - \frac{L_{i}}{L_{i} + W_{i}})
 \end{equation}
 
 To account for non-uniform distribution of leaves within a canopy, ED2 has a PFT-specific \emph{clumping factor} ($q$) parameter that serves as a scaling factor on leaf area index.
