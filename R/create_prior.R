@@ -67,7 +67,8 @@ create_prior <- function(fix_allom2 = TRUE,
       param_names = param_names,
       site_specific_var = site_specific_var
     ),
-    sampler = create_prior_sampler(fix_allom2, heteroskedastic, nsite, site_specific_var = site_specific_var),
+    sampler = create_prior_sampler(fix_allom2, heteroskedastic, nsite, site_specific_var = site_specific_var,
+                                   param_names = param_names),
     lower = lower, upper = upper, best = bestval
   )
 }
@@ -75,7 +76,7 @@ create_prior <- function(fix_allom2 = TRUE,
 #' @rdname create_prior
 #' @export
 create_prior_sampler <- function(fix_allom2 = TRUE, heteroskedastic = TRUE, nsite = 1,
-                                 site_specific_var = FALSE) {
+                                 site_specific_var = FALSE, param_names = NULL) {
   function(n = 1) {
     out <- numeric()
     for (i in seq_len(n)) {
@@ -107,6 +108,10 @@ create_prior_sampler <- function(fix_allom2 = TRUE, heteroskedastic = TRUE, nsit
         c
       ) %>% unlist()
       out <- c(out, curr_params, soil, resid)
+    }
+    if (!is.null(param_names)) {
+      # Overwrite param names
+      names(out) <- param_names
     }
     out
   }

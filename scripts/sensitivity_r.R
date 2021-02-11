@@ -16,7 +16,7 @@ edr_defaults <- list(
   orient_factor = 0,
   direct_sky_frac = 0.9,
   pft = 1,
-  czen = 1,
+  czen = 0.85,
   wai = 0,
   soil_moisture = 0.5
 )
