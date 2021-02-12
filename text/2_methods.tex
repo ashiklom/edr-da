@@ -369,7 +369,7 @@ The final expression for the site-specific likelihood is therefore:
 
 Therefore, our parameter vector $\vec{\Theta}$ consists of the following (summarized in Table~\ref{tab:parameters}):
 10 EDR parameters per PFT---5 parameters for the PROSPECT 5 model (\emph{N}, \emph{Cab}, \emph{Car}, \emph{Cw}, \emph{Cm}) and 5 EDR parameters related to canopy structure ($q$, $\chi$, $\SLA$, $\bbbl$, $\bbbw$)---,
-1 parameter per site (relative soil moisture, $\varrho_{\soil, s}$),
+1 parameter per site (relative soil moisture, $\psi_{s}$),
 and the residual slope ($m$) and intercept ($b$).
 (With 5 PFTs and 54 sites, this means that $\vec{\Theta}$ has length $(10 \times 5) + 54 + 2 = 106$).
 
@@ -403,7 +403,7 @@ We ran the algorithm using 8 independent chains for as many iterations as requir
     & $\bbbl$ & Leaf biomass allometry base & unitless & $\mathrm{LogNormal}(m_{l}, s_{l})$$^2$ \\
     & $\bbbw$ & Wood biomass allometry base & unitless & $\mathrm{LogNormal}(m_{w}, s_{w})$$^2$\\
     \multirow[t]{3}{1.4in}{Other parameters}
-    & $\varrho_{\soil, s}$ & Relative soil moisture content at site $s$ & unitless & $\mathrm{Uniform}(0, 1)$ \\
+    & $\psi_{s}$ & Relative soil moisture content at site $s$ & unitless & $\mathrm{Uniform}(0, 1)$ \\
     & $a$ & Residual slope & unitless & $\mathrm{Exponential}(1)$ \\
     & $b$ & Residual intercept & unitless & $\mathrm{Exponential}(10)$ \\
     \bottomhline
