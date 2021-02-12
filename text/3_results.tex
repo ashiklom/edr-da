@@ -60,10 +60,17 @@ We did not observe any consistent patterns in mismatch between observed and EDR 
   \includegraphics[width=3in,keepaspectratio]{figures/lai-pred-obs}
   \caption{\
     EDR predictions of leaf area index (LAI) compared to observed values.
-    % Colors indicate the plant functional type of the tallest cohort at each site.
-    % TODO: Add by-PFT regression line
   }\label{fig:lai-pred-obs}
 \end{figure}
 
 Leaf area index predicted from calibrated EDR parameters captured 43\% of the variability in the observations (Figure~\ref{fig:lai-pred-obs}).
-The observed vs.\ predicted line had a slope of 0.37 and an intercept of 2.80, indicating that EDR calibration underpredicted LAI on average but overexagerrated across-site LAI variability.
+The observed vs.\ predicted line had a slope of 0.37 and an intercept of 2.80, indicating that EDR calibration underpredicted LAI on average but exaggerated across-site LAI variability.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{figures/lai-bias-dbh-bypft.png}
+  \caption{\
+    Bias in leaf area index (LAI) predictions from calibrated EDR relative to observations,
+    as a function of site mean diameter at breast height (DBH).
+  }
+\end{figure}
