@@ -311,6 +311,9 @@ The full AVIRIS processing pipeline for the  AVIRIS data (including the BRDF app
 Because of unrealistic values in the shortwave infrared spectral region (>1300 \unit{nm}) in the AVIRIS observations (likely caused by faulty atmospheric correction), we only used observations from 400 to 1300 \unit{nm} for model calibration and validation.
 Following \citet{shiklomanov2016quantifying}, we used the relative spectral response functions of AVIRIS-Classic to relate the 1 \unit{nm} EDR predictions to the 10 \unit{nm} AVIRIS-Classic measurements.
 
+For each AVIRIS-Classic observation, we retrieved the solar zenith angle directly from the flightline metadata where available, and calculated it based on the local time and position if not.
+In addition, we retrieved the relative fraction of diffuse vs.\ direct incident radiation from the hourly MERRA-2 meteorological reanalysis (GMAO 2015) for each observation's location and time (rounded to the nearest hour).
+
 \subsection{Model calibration}
 
 To estimate EDR parameters from AVIRIS observations, we used a Bayesian approach that builds on our previous work at the leaf scale \citep{shiklomanov2016quantifying}.
