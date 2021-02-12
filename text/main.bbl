@@ -1,4 +1,4 @@
-\begin{thebibliography}{65}
+\begin{thebibliography}{66}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{{\tt #1}}
 \providecommand{\urlprefix}{URL }
@@ -246,6 +246,13 @@ McMahon, S.~M., Harrison, S.~P., Armbruster, W.~S., Bartlein, P.~J., Beale,
   I.~C.: Improving Assessment and Modelling of Climate Change Impacts on Global
   Terrestrial Biodiversity, Trends in Ecology \& Evolution, 26, 249--259,
   \doi{10.1016/j.tree.2011.02.012}, 2011.
+
+\bibitem[{Meador and Weaver(1980)}]{meador1980twostream}
+Meador, W.~E. and Weaver, W.~R.: Two-{{Stream Approximations}} to {{Radiative
+  Transfer}} in {{Planetary Atmospheres}}: {{A Unified Description}} of
+  {{Existing Methods}} and a {{New Improvement}}, Journal of the Atmospheric
+  Sciences, 37, 630--643,
+  \doi{10.1175/1520-0469(1980)037<0630:TSATRT>2.0.CO;2}, 1980.
 
 \bibitem[{Medvigy et~al.(2009)Medvigy, Wofsy, Munger, Hollinger, and
   Moorcroft}]{medvigy2009mechanistic}
