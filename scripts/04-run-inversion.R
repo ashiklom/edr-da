@@ -3,16 +3,18 @@ library(conflicted)
 library(fs)
 library(here)
 library(BayesianTools)
-library(purrr)
-library(furrr)
+library(future)
+library(doFuture)
 
 stopifnot(
-  requireNamespace("future", quietly = TRUE),
   requireNamespace("mvtnorm", quietly = TRUE)
 )
 
+options(future.rng.onMisuse = "ignore")
+
 future::plan(future::multicore())
 future::plan()
+registerDoFuture()
 
 argv <- commandArgs(trailingOnly = TRUE)
 stopifnot(all(argv %in% "resume"))
@@ -23,21 +25,27 @@ pkgload::load_all()
 # Load inversion data
 load(here("data-raw", "inversion-data", "inversion-data.RData"))
 
-overall_likelihood <- function(params) {
-  site_lls <- future_map_dbl(
-    sample(closures),
-    ~possibly(.x, -Inf, quiet = FALSE)(params),
-    .options = furrr_options(seed = TRUE)
-  )
-  sum(site_lls)
+# Inversion settings
+niter <- 5000
+max_iter <- 1e7
+max_attempts <- floor(max_iter / niter)
+attempt <- 0
+threshold <- 1.2
+target_neff <- 500
+nchains <- 3
+
+start_value <- prior$sampler(nchains)
+start_value[, grep("b1Bl", colnames(start_value))] <- runif(nchains * 5, 0, 0.001)
+start_value[, grep("b1Bw", colnames(start_value))] <- runif(nchains * 5, 0, 0.001)
+
+message("Running on ", availableCores(), " cores.")
+for (i in seq(1, nchains)) {
+  message("Testing ", i)
+  params <- start_value[i,]
+  print(overall_likelihood(params))
 }
 
-# Test likelihood evaluation
-psamps <- check_prior(prior, error = TRUE)
-for (i in 1:5) {
-  message("Testing ", i)
-  print(overall_likelihood(psamps[i,]))
-}
+param_names <- names(params)
 
 # Create directory for storage
 sampdir <- strftime(Sys.time(), "%Y-%m-%d-%H%M")
@@ -48,22 +56,13 @@ dir_create(outdir)
 message("Storing results in: ", outdir)
 writeLines(param_names, file.path(outdir, "param_names.txt"))
 
-# Inversion settings
-niter <- 5000
-max_iter <- 1e7
-max_attempts <- floor(max_iter / niter)
-attempt <- 0
-threshold <- 1.2
-target_neff <- 500
-nchains <- 3
-
 # Create BayesianTools setup
 message("Creating setup")
 newsamples <- BayesianTools::createBayesianSetup(overall_likelihood, prior)
 settings <- list(
   iterations = niter,
   consoleUpdates = 10,
-  startValue = prior$sampler(nchains)
+  startValue = start_value
 )
 
 if (resume) {
