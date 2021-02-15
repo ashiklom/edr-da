@@ -1,7 +1,7 @@
 library(drake)
 
 run_config <- Sys.getenv("RUN_CONFIG")
-if (run_config == "") run_config <- "homo-pooled"
+if (run_config == "") run_config <- "revision"
 
 message("Processing ", run_config)
 

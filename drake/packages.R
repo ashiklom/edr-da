@@ -1,3 +1,7 @@
+library(conflicted)
+
+conflict_prefer("filter", "dplyr")
+
 library(drake)
 library(magrittr)
 library(fs)
@@ -5,11 +9,11 @@ library(ggplot2)
 library(here)
 library(readr)
 library(dplyr)
+library(tidyr)
 library(patchwork)
 
 stopifnot(
   requireNamespace("fst", quietly = TRUE),
-  requireNamespace("tidyr", quietly = TRUE),
   requireNamespace("forcats", quietly = TRUE),
   requireNamespace("ggmap", quietly = TRUE),
   requireNamespace("scales", quietly = TRUE)

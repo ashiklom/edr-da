@@ -77,11 +77,14 @@ pft_posterior_plot <- function(tidy_priors, tidy_posteriors, ncol = 2) {
 
 soil_moisture_plot <- function(tidy_posteriors, site_structure_data) {
   site_structure <- site_structure_data %>%
-    dplyr::mutate(x = forcats::fct_reorder(site_name, frac_evergreen_wtd))
+    dplyr::mutate(
+      x = forcats::fct_reorder(site_name, frac_evergreen_wtd),
+      site_soil = paste0("sitesoil_", site_name)
+    )
 
   site_posterior <- tidy_posteriors %>%
     dplyr::filter(grepl("sitesoil", variable)) %>%
-    dplyr::inner_join(site_structure, c("variable" = "site_tag"))
+    dplyr::inner_join(site_structure, c("variable" = "site_soil"))
 
   last_hw_site <- site_structure %>%
     dplyr::filter(frac_evergreen_wtd <= 0.5) %>%
@@ -188,15 +191,6 @@ summarize_lai_samples <- function(site_lai_samples) {
     dplyr::ungroup()
 }
 
-tidy_site_spec <- function(site) {
-  rawobs <- load_observations(site)
-  colnames(rawobs) <- as.character(seq_len(NCOL(rawobs)))
-  dfobs <- as.data.frame(rawobs, row.names = PEcAnRTM::wavelengths(rawobs))
-  tibble::as_tibble(dfobs, rownames = "wavelength") %>%
-    dplyr::mutate(wavelength = as.numeric(wavelength)) %>%
-    tidyr::pivot_longer(-wavelength, names_to = "iobs", values_to = "observed")
-}
-
 spec_error_all_f <- function(observed_predicted, sail_predictions, ncol = 6) {
   # Sort sites by aggregate bias
   plot_dat <- observed_predicted %>%
@@ -213,7 +207,7 @@ spec_error_all_f <- function(observed_predicted, sail_predictions, ncol = 6) {
     # diffuse
     dplyr::mutate(value = 0.9 * dhr + 0.1 * bhr)
   ggplot(plot_dat) +
-    aes(x = wavelength) +
+    aes(x = wavelength, group = aviris_id) +
     geom_ribbon(aes(ymin = pmax(albedo_r_q025, 0),
                     ymax = pmin(albedo_r_q975, 1),
                     fill = "95% PI")) +
@@ -221,7 +215,7 @@ spec_error_all_f <- function(observed_predicted, sail_predictions, ncol = 6) {
                     ymax = pmin(albedo_q975, 1),
                     fill = "95% CI")) +
     geom_line(aes(y = albedo_mean, color = "EDR"), size = 1) +
-    geom_line(aes(y = observed, group = iobs, color = "AVIRIS")) +
+    geom_line(aes(y = observed, color = "AVIRIS")) +
     geom_line(aes(y = value, color = "SAIL"), data = sail_avg) +
     facet_wrap(vars(site_f), scales = "fixed", ncol = ncol) +
     labs(x = "Wavelength (nm)", y = "Reflectance (0 - 1)") +
@@ -242,7 +236,7 @@ spec_error_all_f <- function(observed_predicted, sail_predictions, ncol = 6) {
 
 spec_error_aggregate_f <- function(observed_predicted) {
   ggplot(observed_predicted) +
-    aes(x = wavelength, y = bias, group = interaction(iobs, site)) +
+    aes(x = wavelength, y = bias, group = interaction(aviris_id, site)) +
     geom_line(alpha = 0.2) +
     geom_hline(yintercept = 0, color = "red") +
     labs(x = "Wavelength (nm)",
@@ -252,22 +246,23 @@ spec_error_aggregate_f <- function(observed_predicted) {
 
 site_spec_dbh_plot <- function(site, observed_predicted, site_details,
                                spec_additions = NULL,
-                               dbh_additions = NULL) {
+                               dbh_additions = NULL,
+                               ymax = 1.0) {
   spec_sub <- observed_predicted %>%
     dplyr::filter(site == !!site)
 
   pspec <- ggplot(spec_sub) +
-    aes(x = wavelength) +
+    aes(x = wavelength, group = aviris_id) +
     geom_ribbon(aes(ymin = pmax(albedo_r_q025, 0), ymax = pmin(albedo_r_q975, 1)),
                 fill = "gray70") +
     geom_ribbon(aes(ymin = pmax(albedo_q025, 0),
                     ymax = pmin(albedo_q975, 1)),
                 fill = "green3") +
     geom_line(aes(y = albedo_mean), color = "green4", size = 1) +
-    geom_line(aes(y = observed, group = iobs)) +
+    geom_line(aes(y = observed)) +
     labs(x = "Wavelength (nm)", y = "Reflectance (0 - 1)",
          title = site) +
-    coord_cartesian(ylim = c(0, 1.0)) +
+    coord_cartesian(ylim = c(0, ymax)) +
     theme_bw()
   if (!is.null(spec_additions)) {
     pspec <- Reduce("+", c(list(pspec), spec_additions))

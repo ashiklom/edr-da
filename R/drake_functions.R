@@ -320,69 +320,72 @@ convert_ed_params <- function(params, vis = 400:700, nir = 701:1300, fix_allom2 
 #' @return
 #' @author Alexey Shiklomanov
 #' @export
-predict_site_spectra <- function(params_matrix, site,
+predict_site_spectra <- function(params_matrix, site, edr_site_inputs,
                                  nsamp = 500,
-                                 dedup = FALSE,
-                                 progress = FALSE,
-                                 run_config = "homo-pooled") {
-  site_list <- readLines("other_site_data/site_list")
-  if (!site %in% site_list) {
+                                 dedup = FALSE) {
+
+  site_sub <- edr_site_inputs %>%
+    dplyr::filter(site == !!site)
+  if (!(nrow(site_sub) > 0)) {
     stop("Site ", site, " is not in site_list")
   }
-  site_css_file <- list.files(
-    file.path("sites", site),
-    "\\.css$",
-    full.names = TRUE
-  ) %>% head(1)
-  stopifnot(length(site_css_file) > 0, file.exists(site_css_file))
-  site_data <- read.table(site_css_file, header = TRUE)
-  isite <- which(site == site_list)
 
   params_filtered_all <- filter_samples(params_matrix, dedup = dedup)
   isamp <- sample.int(min(nsamp, NROW(params_filtered_all)))
   params_filtered <- params_filtered_all[isamp, ]
   waves <- seq(400, 1300, 5)
-  pb <- if (progress) progress::progress_bar$new(total = NROW(params_filtered)) else NULL
-  result <- apply(params_filtered, 1, run_edr_sample, isite = isite, site_data = site_data,
-                  pb = pb, wavelengths = waves)
-  nulls <- vapply(result, is.null, logical(1))
-  result <- result[!nulls]
-  if (grepl("homo-pooled", run_config)) {
-    rint <- params_filtered[!nulls, "residual"]
-    rslope <- 0
-  } else if (grepl("hetero-pooled", run_config)) {
+
+  site_group_list <- site_sub %>%
+    dplyr::group_by(aviris_id, site) %>%
+    tidyr::nest() %>%
+    dplyr::ungroup()
+
+  results <- site_group_list %>%
+    dplyr::mutate(result = list(NULL))
+
+  corr <- ar1_corr(length(waves))
+  do_albedo_r <- function(mean, slope, int, corr = corr) {
+    rss <- mean * slope + int
+    Sigma <- rss %*% corr %*% rss
+    drop(mvtnorm::rmvnorm(1, mean, Sigma))
+  }
+  for (i in seq_along(results$data)) {
+    input <- results$data[[i]]
+    result <- apply(params_filtered, 1, run_edr_sample,
+                    site = site, input_data = input, wavelengths = waves)
+    nulls <- vapply(result, is.null, logical(1))
+    result <- result[!nulls]
     rint <- params_filtered[!nulls, "residual_intercept"]
     rslope <- params_filtered[!nulls, "residual_slope"]
-  } else if (grepl("homo-sitespecific", run_config)) {
-    rint <- params_filtered[!nulls, paste0("residual", isite)]
-    rslope <- 0
-  } else if (grepl("hetero-sitespecific", run_config)) {
-    rint <- params_filtered[!nulls, paste0("residual_intercept", isite)]
-    rslope <- params_filtered[!nulls, paste0("residual_slope", isite)]
-  } else {
-    stop("Invalid run config: ", run_config)
-  }
-  alb_list <- purrr::map(result, "albedo")
-  albedos <- purrr::pmap_dfr(
-    list(alb_list, rslope, rint),
-    ~tibble::tibble(
-      wavelength = waves,
-      albedo = .x,
-      albedo_r = rnorm(length(waves), ..1, ..1 * ..2 + ..3)
-    )
-  )
-  output <- albedos %>%
-    dplyr::group_by(wavelength) %>%
-    dplyr::summarize_if(
-      is.numeric,
-      list(
-        mean = ~mean(.),
-        sd = ~sd(.),
-        q025 = ~quantile(., 0.025),
-        q975 = ~quantile(., 0.975)
+    alb_list <- purrr::map(result, "albedo")
+    albedos <- purrr::pmap_dfr(
+      list(seq_along(alb_list), alb_list, rslope, rint),
+      ~tibble::tibble(
+        isamp = ..1,
+        wavelength = waves,
+        albedo = ..2,
+        albedo_r = {
+          rss <- diag(..2 * ..3 + ..4)
+          Sigma <- rss %*% corr %*% rss
+          drop(mvtnorm::rmvnorm(1, ..2, Sigma))
+        }
       )
     )
-  output
+    output <- albedos %>%
+      dplyr::group_by(wavelength) %>%
+      dplyr::summarize(dplyr::across(
+        c(albedo, albedo_r),
+        list(
+          mean = ~mean(.),
+          sd = ~sd(.),
+          q025 = ~quantile(., 0.025),
+          q975 = ~quantile(., 0.975)
+        )
+      )) %>%
+      dplyr::ungroup()
+    results$result[[i]] <- output
+  }
+  results
 }
 
 #' Run EDR at a particular site, with a particular set of parameters
@@ -404,7 +407,7 @@ predict_site_spectra <- function(params_matrix, site,
 #' @return Output of EDR model. See [edr_r()].
 #' @author Alexey Shiklomanov
 #' @export
-run_edr_sample <- function(params, isite, site_data,
+run_edr_sample <- function(params, site, input_data,
                            fix_allom2 = TRUE,
                            npft = NROW(
                              dplyr::filter(pft_lookup,
@@ -418,17 +421,27 @@ run_edr_sample <- function(params, isite, site_data,
                            pb = NULL) {
   if (!fix_allom2) stop("Only fixed allometry currently supported.")
   if (!is.null(pb)) pb$tick()
-  stopifnot(isite %% 1 == 0)
   has_names <- !is.null(names(params))
   stopifnot(has_names)
-  pft <- get_ipft(site_data[["pft"]])
-  dbh <- site_data[["dbh"]]
-  nplant <- site_data[["n"]]
+  pft <- input_data[["ipft"]]
+  dbh <- input_data[["dbh"]]
+  nplant <- input_data[["nplant"]]
+  hite <- input_data[["hite"]]
   ncohort <- length(dbh)
-
-  # Calculate heights and height order (shortest first)
-  hite <- dbh2h(dbh, pft)
   ihite <- order(hite, decreasing = FALSE)
+
+  # Constants
+  if ("czen" %in% colnames(input_data)) {
+    czen <- unique(input_data[["czen"]])
+  } else {
+    warning("`czen` not present in input data! Using default value: ", czen)
+  }
+  if ("direct_sky_frac" %in% colnames(input_data)) {
+    direct_sky_frac <- unique(input_data[["direct_sky_frac"]])
+  } else {
+    warning("`direct_sky_frac` not present in input data! Using default value: ", direct_sky_frac)
+  }
+  stopifnot(length(czen) == 1, length(direct_sky_frac) == 1)
 
   # Order cohorts by decreasing height (shortest first)
   dbh <- dbh[ihite]
@@ -437,11 +450,7 @@ run_edr_sample <- function(params, isite, site_data,
   hite <- hite[ihite]
 
   # Extract site-specific soil moisture
-  soil_moisture <-  params[grepl(paste0("sitesoil_", isite, "$"), names(params))]
-
-  # Extract residuals
-  rslope <- params[paste0("residual_intercept", isite)]
-  rint <- params[paste0("residual_intercept", isite)]
+  soil_moisture <-  params[grepl(paste0("sitesoil_", site, "$"), names(params))]
 
   # Remaining parameters are PFT-specific
   pft_params_v <- params[!grepl("residual|sitesoil", names(params))]
@@ -490,4 +499,27 @@ pft_factor <- function(pft) {
            "Northern_Pine", "Late_Conifer")
   lbl <- c("EH", "MH", "LH", "NP", "LC")
   factor(pft, lvl, lbl)
+}
+
+#' @export
+ar1_corr <- function(n) {
+  times <- seq_len(n)
+  rho <- 0.6995862
+  rho_H <- rho ^ abs(outer(times, times, "-"))
+  rho_H
+}
+
+aviris_data <- function() {
+  spec <- readr::cols(
+    .default = readr::col_number(),
+    iPLOT = readr::col_character(),
+    flightline = readr::col_character(),
+    img_date = readr::col_date()
+  )
+  readr::read_csv((here("other_site_data", "aviris-processed.csv")),
+                  col_types = spec) %>%
+    dplyr::mutate(dplyr::across(
+      dplyr::starts_with("band_"),
+      ~.x / 10000
+    ))
 }

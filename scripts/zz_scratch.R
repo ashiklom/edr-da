@@ -1,3 +1,39 @@
+old_plan_targets <- list(
+  sail_predictions = tidy_sail_predictions(site_details, site_lai_total,
+                                           tidy_posteriors),
+  spec_error_all_presentation = ggsave(
+    file_out(!!path(figdir, "spec-error-all-presentation.png")),
+    spec_error_all_f(observed_predicted, sail_predictions, ncol = 8) +
+      theme(axis.text.x = element_text(size = rel(0.75)),
+            legend.position = c(1, 0),
+            legend.justification = c(1, 0),
+            legend.direction = "horizontal"),
+    width = 10, height = 8, dpi = 300
+  ),
+  both_ndvi = calc_ndvi_bysite(observed_spectra, predicted_spectra,
+                               site_structure_data),
+  ndvi_dbh_png = ggsave(
+    file_out(!!path(figdir, "ndvi-dbh.png")),
+    ndvi_dbh_plot(both_ndvi),
+    width = 6.4, height = 5.2, dpi = 300
+  )
+)
+
+##################################################
+
+drake::loadd(inversion_site_list)
+params_matrix <- drake::readd(posterior_matrix)
+site <- inversion_site_list[3]
+dedup <- TRUE
+progress <- FALSE
+
+predicted_spectra <- results
+predited_spectra <- ungroup(predicted_spectra)
+
+z <- tidy_site_spec(site)
+
+##################################################
+
 drake::loadd(observed_predicted)
 
 get_ar <- function(x) {

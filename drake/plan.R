@@ -105,24 +105,47 @@ plan <- drake_plan(
            width = 6, height = 4, units = "in", dpi = 300)
   },
   inversion_site_list = readLines(file_in(!!site_list_file)),
+  edr_site_inputs = {
+    aviris <- aviris_data() %>% select(-starts_with("band_"))
+    left_join(site_details, aviris, c("site" = "iPLOT"))
+  },
   predicted_spectra = target(
-    predict_site_spectra(
-      posterior_matrix,
-      inversion_site_list,
-      nsamp = 500, dedup = TRUE, progress = FALSE,
-      run_config = !!run_config
-    ) %>%
-      dplyr::mutate(site = inversion_site_list),
+    predict_site_spectra(posterior_matrix, inversion_site_list, edr_site_inputs,
+                         nsamp = 500, dedup = TRUE),
     dynamic = map(inversion_site_list)
   ),
-  observed_spectra = target(
-    tidy_site_spec(inversion_site_list) %>%
-      dplyr::mutate(site = inversion_site_list),
-    dynamic = map(inversion_site_list)
-  ),
-  observed_predicted = observed_spectra %>%
-    inner_join(predicted_spectra, c("site", "wavelength")) %>%
-    mutate(bias = albedo_mean - observed),
+  observed_spectra = {
+    aviris_long <- aviris_data() %>%
+      pivot_longer(starts_with("band_"), names_to = "band", values_to = "observed")
+    aviris_waves <- read_csv(here("aviris", "NASA_FFT", "aviris_c_wavelength.csv"),
+                             col_types = "n") %>%
+      arrange(wavelength) %>%
+      mutate(band = paste0("band_", row_number()))
+    observed_spectra <- aviris_long %>%
+      left_join(aviris_waves, "band") %>%
+      select(aviris_id, site = iPLOT, czen, direct_sky_frac,
+             wavelength, observed, everything())
+    observed_spectra
+  },
+  observed_predicted = {
+    pred2 <- predicted_spectra %>%
+      dplyr::select(aviris_id, site, result) %>%
+      tidyr::unnest(result)
+    pred_waves <- unique(pred2$wavelength)
+    resamp <- function(x, y, xout) approx(x, y, xout)$y
+    obs_sampled <- observed_spectra %>%
+      select(aviris_id, site, wavelength, observed) %>%
+      group_by(aviris_id, site) %>%
+      summarize(
+        observed = list(approx(wavelength, observed, pred_waves, rule = 2)$y),
+        wavelength = list(pred_waves)
+      ) %>%
+      ungroup() %>%
+      unnest(c(wavelength, observed))
+    obs_sampled %>%
+      inner_join(pred2, c("site", "wavelength", "aviris_id")) %>%
+      mutate(bias = albedo_mean - observed)
+  },
   spec_error_all = {
     plot_dat <- observed_predicted %>%
       dplyr::group_by(site) %>%
@@ -130,7 +153,7 @@ plan <- drake_plan(
       dplyr::ungroup() %>%
       dplyr::mutate(site_f = forcats::fct_reorder(site, site_mean_bias))
     plt <- ggplot(plot_dat) +
-      aes(x = wavelength) +
+      aes(x = wavelength, group = aviris_id) +
       geom_ribbon(aes(ymin = pmax(albedo_r_q025, 0),
                       ymax = pmin(albedo_r_q975, 1),
                       fill = "95% PI")) +
@@ -138,7 +161,7 @@ plan <- drake_plan(
                       ymax = pmin(albedo_q975, 1),
                       fill = "95% CI")) +
       geom_line(aes(y = albedo_mean, color = "EDR"), size = 1) +
-      geom_line(aes(y = observed, group = iobs, color = "AVIRIS")) +
+      geom_line(aes(y = observed, color = "AVIRIS")) +
       facet_wrap(vars(site_f), scales = "fixed", ncol = 6) +
       labs(x = "Wavelength (nm)", y = "Reflectance (0 - 1)") +
       scale_fill_manual(
@@ -157,15 +180,6 @@ plan <- drake_plan(
       width = 10, height = 14, units = "in", dpi = 300
     )
   },
-  spec_error_all_presentation = ggsave(
-    file_out(!!path(figdir, "spec-error-all-presentation.png")),
-    spec_error_all_f(observed_predicted, sail_predictions, ncol = 8) +
-      theme(axis.text.x = element_text(size = rel(0.75)),
-            legend.position = c(1, 0),
-            legend.justification = c(1, 0),
-            legend.direction = "horizontal"),
-    width = 10, height = 8, dpi = 300
-  ),
   spec_error_aggregate = ggsave(
     file_out(!!path(figdir, "spec-error-aggregate.png")),
     spec_error_aggregate_f(observed_predicted),
@@ -179,9 +193,15 @@ plan <- drake_plan(
                     max_dbh < quantile(max_dbh, qlo + 0.25)) %>%
       dplyr::arrange(max_dbh) %>%
       dplyr::pull(site)
+    ymax <- observed_predicted %>%
+      dplyr::filter(site %in% sites) %>%
+      dplyr::select(observed, starts_with("albedo")) %>%
+      as.matrix() %>%
+      max(na.rm = TRUE)
     plt <- lapply(sites, site_spec_dbh_plot,
                   observed_predicted = observed_predicted,
-                  site_details = site_details) %>%
+                  site_details = site_details,
+                  ymax = ymax) %>%
       wrap_plots(guides = "collect", ncol = 3)
     f <- path(figdir, paste0("tree-sites-q", qlo * 100, ".png"))
     ggsave(f, plt, width = 12, height = 8, dpi = 300)
@@ -196,9 +216,15 @@ plan <- drake_plan(
     sites <- dat %>%
       dplyr::filter(pft == pp) %>%
       dplyr::pull(site)
+    ymax <- observed_predicted %>%
+      dplyr::filter(site %in% sites) %>%
+      dplyr::select(observed, starts_with("albedo")) %>%
+      as.matrix() %>%
+      max(na.rm = TRUE)
     plt <- lapply(sites, site_spec_dbh_plot,
                   observed_predicted = observed_predicted,
-                  site_details = site_details) %>%
+                  site_details = site_details,
+                  ymax = ymax) %>%
       wrap_plots(guides = "collect", ncol = 3)
     f <- path(figdir, paste0("tree-sites-", pp, ".png"))
     ggsave(f, plt, width = 14, height = 8, dpi = 300)
@@ -240,20 +266,10 @@ plan <- drake_plan(
     width = 8, height = 50, dpi = 300,
     limitsize = FALSE
   ),
-  both_ndvi = calc_ndvi_bysite(observed_spectra, predicted_spectra,
-                               site_structure_data),
-  ndvi_dbh_png = ggsave(
-    file_out(!!path(figdir, "ndvi-dbh.png")),
-    ndvi_dbh_plot(both_ndvi),
-    width = 6.4, height = 5.2, dpi = 300
-  ),
-  sail_predictions = tidy_sail_predictions(site_details, site_lai_total,
-                                           tidy_posteriors),
   site_map = {
     site_structure_sf <- sf::st_as_sf(site_structure_data,
                                       coords = c("longitude", "latitude"),
                                       crs = 4326)
-
     bbox <- sf::st_bbox(site_structure_sf) %>%
       sf::st_as_sfc() %>%
       sf::st_transform(5070) %>%

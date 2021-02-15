@@ -6,8 +6,9 @@ pdf:
 	cd text && make
 
 drake:
+	RUN_CONFIG=revision Rscript -e "drake::r_make()"
 	# RUN_CONFIG=hetero-pooled-exp Rscript -e "drake::r_make()"
-	RUN_CONFIG=hetero-pooled-lnorm Rscript -e "drake::r_make()"
+	# RUN_CONFIG=hetero-pooled-lnorm Rscript -e "drake::r_make()"
 	# RUN_CONFIG=homo-pooled-exp Rscript -e "drake::r_make()"
 	# RUN_CONFIG=homo-pooled-lnorm Rscript -e "drake::r_make()"
 	# RUN_CONFIG=homo-sitespecific-exp Rscript -e "drake::r_make()"
