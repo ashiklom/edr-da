@@ -103,10 +103,13 @@ make_likelihood <- function(site_data, refl, site, czen, direct_sky_frac) {
     lai <- nplant * bleaf * SLA[pft]
     wai <- wai_allometry(dbh, nplant, b1Bw[pft], b2Bw[pft])
 
+    # "Uniform" LAI --- 0-10 is equal probability; gt 10 is illegal
+    if (sum(lai) > 10) return(-Inf)
+
     # Incorporate LAI values in the likelihood.
-    ll <- ll +
-      dlnorm(sum(lai), 1, 0.5, log = TRUE)
-    if (!is.finite(ll)) return(-Inf)
+    ## ll <- ll +
+    ##   dlnorm(sum(lai), 1, 0.5, log = TRUE)
+    ## if (!is.finite(ll)) return(-Inf)
 
     # Cohort area index is constant (no crown radius model)
     cai <- rep(1, ncohort)
