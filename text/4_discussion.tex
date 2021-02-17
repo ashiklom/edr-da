@@ -18,7 +18,7 @@ Similar versions of this two-stream formulation are present in other land surfac
 Although the exact parameterization and implementation differs across these models, the similarity of the underlying conceptual framework means that our approach should be directly transferable to all of these models as well.
 
 Nevertheless, our analysis echoed some known challenges in canopy radiative transfer modeling.
-One challenge is equifinality in the contributions of leaf biochemistry, leaf morphology, and different aspects of canopy structure to canopy albedo, which means that multiple variable and parameter combinations can produce very similar canopy albedo responses~\citep{lewis2007spectral}.
+One challenge is equifinality in the contributions of leaf biochemistry, leaf morphology, and different aspects of canopy structure to canopy albedo, which means that multiple variable and parameter combinations can produce very similar canopy albedo responses (\citealt{lewis2007spectral}; Figures TODO).
 We mitigated the equifinality between leaf traits and canopy structure by using informative priors on leaf traits from an independent data source~\citep{shiklomanov_dissertation}.
 However, there is additional equifinality in the effects of the EDR canopy structure parameters.
 For example, because the effective LAI used in EDR’s actual radiative transfer calculations is defined as the product of ``true'' LAI and clumping factor (equation~\ref{eqn:elai}), and because LAI is, in turn, derived from multiple parameters (leaf biomass allometry, specific leaf area; equation~\ref{eqn:lai}), these parameters collectively cannot be independently determined from reflectance data alone.
@@ -33,13 +33,32 @@ Strong correlations also occurred among some of the PROSPECT parameters, and bet
 Finally, because our calibration captured all of these covariances the presence of moderate equifinality did not preclude ecologically meaningful parameter constraints or accurate predictions because these covariances are being propagated into predictions.
 This is directly analogous to how a linear regression can have a tight confidence interval, despite high correlations between the slope and intercept, with that equifinality driving the characteristic hourglass shape of a regression confidence interval.
 
-% One limitation of the two-stream canopy radiative transfer approach in the context of remote sensing is the absence of any angular information in the output.
-% More precisely, the quantity simulated by EDR is the bi-hemispherical reflectance (BHR), whereas the atmospherically-corrected AVIRIS-Classic quantity is closest to the hemispherical-directional reflectance factor (HDRF)~\citep[\emph{sensu}]{schaepman-strub2006reflectance}.
-% Under specific sun-sensor geometries and atmospheric and illumination conditions, canopy reflectance can have a significant angular dependence, especially in sparse or structurally complex canopies~\citep[e.g., ``hot spot effect'';][]{maignan2004bidirectional,schaepman-strub2006reflectance}.
-% However, in simulations of black spruce canopy BHR and HDRF under different conditions, \citet{schaepman-strub2006reflectance} find differences of no more than 2\% between these quantities in the 650--670 \unit{nm} region, which are smaller than the width of the predictive uncertainty intervals in our results for the same wavelengths (Figure~\ref{fig:spec-error-all}).
-% Moreover, the lower altitude and narrow field-of-view of the AVIRIS-Classic instrument used in this study mean that all observer zenith angles are effectively nadir or very close,
-% Finally, multiple versions of the two-stream approximation developed over the last 20 years have been validated against reflectance from more complex 3D ray-tracing simulations and remotely sensed observations, and none have identified treatment of angular effects as the primary source of uncertainty~\citep{hogan_2018_fast, yuan2017reexamination, pinty2004synergy}.
-% We therefore conclude that additional computational and conceptual challenges (as well as parameter uncertainties) associated with treatment of angular effects in similar models are unwarranted.
+EDR consistently predicted lower hemispherical reflectance than SAIL (Figure TODO).
+This difference can be attributed primarily to differences in how each model defines the direct radiation backscatter coefficient in the radiative transfer equation.
+A detailed description of the discrepancy is provided in~\citet{yuan2017reexamination}.
+Briefly, EDR (and the Sellers 1985 model from which EDR is derived) defines direct radiation backscatter as a function of the single-scattering albedo (equation~\ref{eqn:backscatter-direct}), which in turn is a challenging integral involving the leaf scattering phase function and leaf projected area function (equation~\ref{eqn:ssa-integral}).
+The analytical solution to this integral in EDR (equation~\ref{eqn:ssa-solved}) assumes a uniform scattering phase function, which is appropriate for point scatterers but less so for horizontal surfaces like leaves.
+The practical consequence of this assumption is a lower value of the direct radiation backscatter and therefore a lower albedo, which is consistent with the results of our sensitivity analysis.
+This underestimation of albedo described above may also help explain the edge-hitting behavior in our posterior distributions (Figure~\ref{fig:posterior-pft}) as well as the relatively low accuracy of our LAI estimates (Figure~\ref{fig:lai-pred-obs}).
+Specifically, our EDR calibration may be trying to compensate for underestimated albedos via a tendency for prefer higher effective LAI values (which results in higher values of the leaf biomass allometry and clumping factor for some PFTs) and more horizontal leaf distributions (i.e., higher leaf orientation factor), both of which increase albedo (Figure TODO).
+
+Meanwhile, the SAIL definition of direct backscatter is a more simple function of leaf scattering, leaf angle distribution, and canopy optical depth that also produces a more accurate albedo estimate~\citep{yuan2017reexamination}.
+Given that underestimating albedo can have significant consequences for the biological, ecological, and physical predictions of ED2~\citep{viskari_2019_influence}, incorporating this fix into the ED2 canopy RTM is an important future direction of our work.
+However, doing so is outside the scope of this work because doing so would require propagating the different coefficients through the complex, multiple-canopy-layer solution of EDR (Section \ref{subsubsec:multi-canopy-solution})---a non-trivial task.
+
+A significant caveat to the broader application of our approach is that there is a subtle but significant difference between the physical quantity EDR predicts and the quantities typically measured by optical remote sensing.
+Specifically, EDR predicts the hemispherical reflectance---the ratio of total radiation leaving the surface to the total radiation incident upon the surface, integrated over all viewing angles (a.k.a, ``blue-sky albedo'').
+On the other hand, optical remote sensing platforms typically measure the directional reflectance factor---the ratio of actual radiation reflected by a surface to the radiation reflected from an ideal diffuse scattering source (e.g., a Spectralon calibration panel) subject to the same illumination, in a specific viewing direction~\citep{schaepman-strub2006reflectance}.
+These two quantities are numerically equivalent only for ideal Lambertian surfaces or, for non-Lambertian surfaces, under specific sun-sensor geometries.
+However, vegetation canopies---the focus of this study---are known to exhibit reflectance with very strong angular dependence, so a comparison of canopy hemispherical reflectance with a remotely sensed directional reflectance factor is invalid.
+
+Our specific analysis is valid because---as described in the Methods---we used AVIRIS data that were also BRDF-corrected, whereby the directional reflectance estimates from the atmospheric correction process were further converted to estimates of hemispherical reflectance via a polynomial approximation of the Ross-Li semiempirical BRDF model~\citep{lucht2000algorithm}.
+Another dataset that would have been valid for our analysis (albeit, one with much lower spatial and spectral resolution) is the MODIS albedo product (MOD43), which takes advantage of the angular sampling of the MODIS instrument to quantify the surface BRDF characteristics and therefore more precisely estimate the albedo~\citep{wang2004using, schaaf2015mcd43a1}.
+However, our approach as described here would \emph{not} be valid for the surface reflectance products produced by nadir-viewing instruments such as Landsat, Sentinel-2, or most airborne platforms, at least without additional processing steps on the data,
+or, preferably, modification of the underlying radiative transfer models to allow for the prediction of directional reflectance.
+Fortunately, the assumptions and parameters that comprise two-stream radiative transfer models like EDR and its parent model~\citep{sellers1985canopy} are readily adaptable to prediction of directional reflectance.
+For example, the SAIL model~\citep{verhoef1984light, verhoef2007coupled}---which predicts both hemispherical and directional reflectance, and which has a long history of successful application to remote sensing---makes the same general assumptions as EDR and even shares many of the underlying coefficients~\citep{yuan2017reexamination}.
+Alternatively, land surface models can take advantage of recent advances in radiative transfer theory to improve their accuracy without significant computational penalty~\citep[e.g.,][]{hogan_2018_fast}.
 
 A related issue is the missing or simplistic treatment of two- and three-dimensional heterogeneity in canopy structure in EDR.\@
 For one, the treatment of leaves as infinitely small elements randomly distributed through the canopy space---a common feature of all two-stream approximations---neglects complex realities of the canopy light environment such as gaps and self-shading.
@@ -60,3 +79,8 @@ Cross-validation and out-of-sample validation are useful tests of model performa
 However, because our calibration was joint across all sites, the marginal benefit of a separate validation at other sites not used in the calibration was relatively low.
 With 54 sites in our calibration, any single site represents <2\% of the data, and for a joint calibration without site random effects, we have every reason to believe that the calibration is not overfitting to any individual site.
 Trying to fit any one site well would cause others to do worse (especially given the large observed variability in forest structure) unless the EDR model structure was reasonable and the parameters chosen were genuinely good choices.
+
+Modeling conifer canopy reflectance---and estimating vegetation properties from conifer canopies---is challenging for a number of reasons.
+At the leaf level, TODO.
+At the canopy level, TODO.
+However, although some conifer-dominated sites did demonstrate significant biases in reflectance predictions, our analysis of reflectance bias by composition, structure, and spectral region (Figures~\ref{fig:bias-boxplot-pft} and~\ref{fig:bias-density-pft}) shows that these biases are not systematic (though they may drive greater predictive variance).

@@ -1,4 +1,4 @@
-\begin{thebibliography}{69}
+\begin{thebibliography}{70}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{{\tt #1}}
 \providecommand{\urlprefix}{URL }
@@ -238,13 +238,6 @@ Lucht, W., Schaaf, C.~B., and Strahler, A.~H.: An Algorithm for the Retrieval
   on Geoscience and Remote Sensing, 38, 977--998, \doi{10.1109/36.841980},
   2000.
 
-\bibitem[{Maignan et~al.(2004)Maignan, Br{\'e}on, and
-  Lacaze}]{maignan2004bidirectional}
-Maignan, F., Br{\'e}on, F.~M., and Lacaze, R.: Bidirectional Reflectance of
-  {{Earth}} Targets: Evaluation of Analytical Models Using a Large Set of
-  Spaceborne Measurements with Emphasis on the {{Hot Spot}}, Remote Sensing of
-  Environment, 90, 210--220, \doi{10.1016/j.rse.2003.12.006}, 2004.
-
 \bibitem[{McMahon et~al.(2011)McMahon, Harrison, Armbruster, Bartlein, Beale,
   Edwards, Kattge, Midgley, Morin, and Prentice}]{mcmahon2011improving}
 McMahon, S.~M., Harrison, S.~P., Armbruster, W.~S., Bartlein, P.~J., Beale,
@@ -365,6 +358,11 @@ Running, S.~W., Nemani, R.~R., Heinsch, F.~A., Zhao, M., Reeves, M., and
   Terrestrial Primary Production}}, BioScience, 54, 547--560,
   \doi{10.1641/0006-3568(2004)054[0547:ACSMOG]2.0.CO;2}, 2004.
 
+\bibitem[{Schaaf and Wang(2015)}]{schaaf2015mcd43a1}
+Schaaf, C. and Wang, Z.: {{MCD43A1 MODIS}}/{{Terra}}+{{Aqua BRDF}}/{{Albedo
+  Model Parameters Daily L3 Global}} - 500m {{V006}},
+  \doi{10.5067/MODIS/MCD43A1.006}, 2015.
+
 \bibitem[{{Schaepman-Strub} et~al.(2006){Schaepman-Strub}, Schaepman, Painter,
   Dangel, and Martonchik}]{schaepman-strub2006reflectance}
 {Schaepman-Strub}, G., Schaepman, M.~E., Painter, T.~H., Dangel, S., and
@@ -464,6 +462,13 @@ Viskari, T., Shiklomanov, A., Dietze, M.~C., and Serbin, S.~P.: The Influence
   of Canopy Radiation Parameter Uncertainty on Model Projections of Terrestrial
   Carbon and Energy Cycling, PLOS ONE, 14, e0216\,512,
   \doi{10.1371/journal.pone.0216512}, 2019.
+
+\bibitem[{Wang et~al.(2004)Wang, Zeng, Barlage, Dickinson, Gao, and
+  Schaaf}]{wang2004using}
+Wang, Z., Zeng, X., Barlage, M., Dickinson, R.~E., Gao, F., and Schaaf, C.~B.:
+  Using {{MODIS BRDF}} and {{Albedo Data}} to {{Evaluate Global Model Land
+  Surface Albedo}}, Journal of Hydrometeorology, 5, 3--14,
+  \doi{10.1175/1525-7541(2004)005<0003:UMBAAD>2.0.CO;2}, 2004.
 
 \bibitem[{Widlowski et~al.(2007)Widlowski, Taberner, Pinty, {Bruniquel-Pinel},
   Disney, Fernandes, {Gastellu-Etchegorry}, Gobron, Kuusk, Lavergne, Leblanc,

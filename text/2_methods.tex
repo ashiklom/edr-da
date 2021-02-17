@@ -138,13 +138,13 @@ where $\bbbw_{p(i)}$ and $\bebw_{p(i)}$ are PFT-specific parameters.
 
 Backscattering of direct radiation ($\beta^{\odot}_{i}$) is defined as a function of single scattering albedo, ($\alpha_{s}(\theta_{s})$):
 
-\begin{equation}
+\begin{equation}\label{eqn:backscatter-direct}
   \beta^{\odot}_{i} = \frac{\bar{\mu}_{i} + \mu^{\odot}_{i}}{\bar{\mu}_{i}} \alpha_{s}(\theta_{s})
 \end{equation}
 
 Single scattering albedo ($\alpha_{s}(\theta_{s})$) is in turn defined as an integral over all illumination angles ($\vartheta$), following \citet{sellers1985canopy} :
 
-\begin{align}
+\begin{align}\label{eqn:ssa-integral}
   & \alpha_{s}(\theta_{s}) = \omega \int_{0}^{\frac{\pi}{2}} \frac{\Gamma(\theta_{s}, \vartheta) \cos(\vartheta)} {G(\theta_{s}, \varphi) \cos(\theta_{s}) + G(\vartheta, \varphi) cos(\vartheta)} \sin(\vartheta) d \vartheta \\
   & \Gamma(\theta, \vartheta) = G(\theta, \varphi) G(\vartheta, \varphi) P(\theta, \vartheta) \\
   & \int_{-\frac{\pi}{2}}^{\frac{\pi}{2}} P(\theta, \vartheta) G(\vartheta, \varphi) \sin(\vartheta) d\vartheta = 1
@@ -155,12 +155,12 @@ Substituting $G = G^{*}$ (equation \ref{eqn:gfunction}),
 and assuming uniform scattering (i.e., $P(\theta, \vartheta) = \frac{1}{4\pi}$, and therefore, $\Gamma(\theta, \vartheta) = \frac{G(\theta, \varphi)}{2}$; see detailed discussion of these assumptions in \citealt{yuan2017reexamination})
 gives the following analytical solution to this integral:
 
-\begin{equation}
+\begin{equation}\label{eqn:ssa-solved}
   \alpha_{s,i}(\theta) = \frac{\omega_{i}}{2\left( 1 + \phi_{2,i} \mu^{\odot}_{i} \right)}
   \left[ 1 - \frac{\phi_{1,i}\mu^{\odot}_{i}}{1 + \phi_{2,i}\mu^{\odot}_{i}} \ln\left( \frac{1 + (\phi_{1,i} + \phi_{2,i})\mu^{\odot}_{i}} {\phi_{1,i}\mu^{\odot}_{i}} \right)  \right]
 \end{equation}
 
-\subsubsection{Solution for the multi-layer canopy}
+\subsubsection{Solution for the multi-layer canopy}\label{subsubsec:multi-canopy-solution}
 
 In ED2, the direct radiation profile, $F^{\odot}_{i}$, is governed by exponential decay, following Beer's Law:
 
@@ -270,7 +270,11 @@ and dry matter content (\emph{Cm}, \unit{g ~ cm^{-2}})
 For wood reflectance, we used a single representative spectrum---the mean of all wood spectra from \citet{asner1998biophysical}, resampled to 1 \unit{nm} resolution---for all PFTs.
 For soil scattering ($\omega_{g}$), we used the simple Hapke soil submodel used in the Soil-Leaf-Canopy RTM \citep{verhoef2007coupled}, whereby soil reflectance is the average of prescribed wet and dry soil reflectance spectra weighted by a relative soil moisture parameter ($\varrho_{\soil}$, unitless, 0--1).
 The final coupled PROSPECT-ED2 canopy radiative transfer model (hereafter known as ``EDR'') has 12 parameters for each PFT---
-5 parameters for PROSPECT, specific leaf area, two parameters each for the leaf and wood allometries, and clumping ($q$) and leaf orientation ($\chi$) factors---and one site-specific parameter---the relative soil moisture (Table \ref{tab:parameters}).
+5 parameters for PROSPECT, specific leaf area, two parameters each for the leaf and wood allometries, and clumping ($q$) and leaf orientation ($\chi$) factors---and one site-specific parameter---the relative soil moisture (Table~\ref{tab:parameters}).
+
+EDR shares many assumptions and internal coefficients with SAIL~\citep{verhoef1984light, verhoef2007coupled}, a canopy radiative transfer model that is popular in the optical remote sensing community due to its ability to simulate both hemispherical and directional reflectance.
+Unlike EDR's vertically heterogeneous canopy, SAIL takes only a single homogenous canopy layer as an input, which precludes a valid comparison of the two models' simulations for real heterogeneous sites.
+Nevertheless, to help identify possible structural issues with EDR, and to explore differences between hemispherical and directional reflectance streams, we compared the sensitivities of EDR and SAIL to LAI and solar zenith angles for a single-layer homogeneous canopy.
 
 \subsection{Site and data description}\label{subsec:site-data}
 
@@ -390,8 +394,7 @@ We fit this model using the Differential Evolution with Snooker Update (``DEzs''
 We ran the algorithm using 8 independent chains for as many iterations as required to achieve convergence, assessed according to a Gelman-Rubin Potential Scale Reduction Factor (PSRF) diagnostic value of less than 1.1 for all parameters \citep{gelman1992inference}.
 
 \begin{table}
-  \caption{EDR parameters and prior distributions}
-  \label{tab:parameters}
+  \caption{EDR parameters and prior distributions}\label{tab:parameters}
   \begin{tabular}{llp{2.2in}ll}
     \tophline
     Type & Name & Description & Unit & Prior \\
@@ -425,4 +428,4 @@ We ran the algorithm using 8 independent chains for as many iterations as requir
 To assess the extent to which AVIRIS-Classic observations were able to constrain parameter estimates, we compared the prior and posterior distributions for all parameters.
 To evaluate the performance of the calibrated model, we compared the posterior credible and predicted 95\% intervals of EDR-predicted spectra against the AVIRIS observations at each site.
 We also compared the EDR-predicted LAI against field observations at each site.
-To evaluate goodness-of-fit and additive and multiplicative biases, we used an ordinary least squares regression of mean observed vs.\ posterior mean predicted LAI.
+To evaluate goodness-of-fit and additive and multiplicative biases, we used an ordinary least squares regression of mean observed vs.\ posterior mean predicted LAI.\@
