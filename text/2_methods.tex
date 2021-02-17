@@ -117,6 +117,7 @@ Therefore the effective leaf area index ($L$) is related to the true leaf area i
 The leaf area of a cohort ($\LAI_{i}$) is calculated as a function of leaf biomass ($B_{\leaf, i}$, \unit{kg C ~ plant^{-1}}), specific leaf area ($\SLA_{p}$, \unit{m^2 ~ kgC^{-1}}), and stem density ($n_{\plant}$, \unit{plants ~ m^{-2}}):
 
 \begin{equation}
+  \label{eqn:lai}
   \LAI_{i} = n_{\plant, i} B_{\leaf, i} \SLA_{p(i)}
 \end{equation}
 
@@ -275,10 +276,11 @@ The final coupled PROSPECT-ED2 canopy radiative transfer model (hereafter known 
 
 For model calibration, we selected 54 sites from the NASA Forest Functional Types (FFT) field campaign that contained plot-level inventory data coincident with observations of the NASA Airborne Visible/Infrared Imaging Spectrometer-Classic (AVIRIS-Classic).
 A full description of this dataset is provided in \citet{singh2015imaging}.
-Briefly, each site consisted of a 60 x 60 m transect within which forest inventory data (stem density, species identity, and diameter at breast height, DBH) were collected.
+Briefly, each site consisted of a 60 $\times$ 60 m transect within which forest inventory data (stem density, species identity, and diameter at breast height, DBH) were collected.
 These sites are located in the United States Upper Midwest, northern New York, and western Maryland (Figure~\ref{fig:site-map}),
 and include stands dominated by either evergreen or deciduous trees and spanning a wide range of structures, from dense groups of saplings to sparse groups of large trees (Figure~\ref{fig:site-structure}).
 
+For this study, because our goal was only to calibrate the ED2 canopy radiative transfer parameters and not to evaluate ED2 predictions of vegetation dynamics, we prescribed the vegetation composition at each site based on the inventory data described above.
 We grouped the tree species in these sites into five different PFTs as defined by ED2:
 Early successional hardwood, northern mid-successional hardwood, late successional hardwood, northern pine, and late successional conifer.
 The mappings of tree species onto these PFTs are provided as a CSV-formatted table in the file \texttt{inst/pfts-species.csv} in the source code repository for this project (see Code and Data Availability section).

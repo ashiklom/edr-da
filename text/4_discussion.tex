@@ -2,10 +2,10 @@
 
 Calibrating and validating vegetation models using optical remote sensing data typically involves derived data products (e.g., MODIS GPP) that rely on their own models;
 in other words, ``bringing the observations closer to the models''.
-In this study, we presented an alternative approach whereby we bring the models closer to the observations by training a vegetation model to simulate full-range hyperspectral surface reflectance as observed by optical remote sensing instruments.
+In this study, we presented an alternative approach whereby we bring the models closer to the observations by training a vegetation model to simulate full-range hyperspectral surface albedo as observed by optical remote sensing instruments.
 We then demonstrated how this approach could be used to calibrate the model against airborne imaging spectroscopy data from AVIRIS-Classic.
 We found that such calibration reduced uncertainties in parameters related to leaf biochemistry and canopy structure, even for parameters with well-informed priors (Figure~\ref{fig:posterior-pft}).
-Moreover, we found that that the calibrated model was able to reproduce observed surface reflectance (Figures~\ref{fig:spec-error-all} and~\ref{fig:spec-error-aggregate}) and leaf area index (Figure~\ref{fig:lai-pred-obs}) reasonably well across large number of structurally, compositionally, and geographically diverse sites (Figure~\ref{fig:sites}).
+Moreover, we found that that the calibrated model was able to reproduce observed surface albedo (Figures~\ref{fig:spec-error-all} and~\ref{fig:spec-error-aggregate}) and leaf area index (Figure~\ref{fig:lai-pred-obs}) reasonably well across large number of structurally, compositionally, and geographically diverse sites (Figure~\ref{fig:sites}).
 
 Compared to previous similar efforts that have coupled vegetation models to external canopy radiative transfer models~\citep{knorr2001assimilation, nouvellon2001coupling, quaife2008assimilating},
 our work is novel because it uses a canopy radiative transfer formulation that \emph{already exists inside the model itself}.
@@ -17,15 +17,31 @@ The canopy radiative transfer model in ED2 is derived from the two-stream model 
 Similar versions of this two-stream formulation are present in other land surface models, including CLM~\citep{clm45_note}, SiB~\citep{baker2008seasonal}, Noah~\citep{niu2011community}, tRIBS-VEGGIE~\citep{ivanov2008vegetationhydrology}, IMOGEN~\citep{huntingford2008quantifying}, and JULES~\citep{best_2011_joint}.
 Although the exact parameterization and implementation differs across these models, the similarity of the underlying conceptual framework means that our approach should be directly transferable to all of these models as well.
 
-One limitation of the two-stream canopy radiative transfer approach in the context of remote sensing is the absence of any angular information in the output.
-More precisely, the quantity simulated by EDR is the bi-hemispherical reflectance (BHR), whereas the atmospherically-corrected AVIRIS-Classic quantity is closest to the hemispherical-directional reflectance factor (HDRF)~\citep[\emph{sensu}]{schaepman-strub2006reflectance}.
-Under specific sun-sensor geometries and atmospheric and illumination conditions, canopy reflectance can have a significant angular dependence, especially in sparse or structurally complex canopies~\citep[e.g., ``hot spot effect'';][]{maignan2004bidirectional,schaepman-strub2006reflectance}.
-However, in simulations of black spruce canopy BHR and HDRF under different conditions, \citet{schaepman-strub2006reflectance} find differences of no more than 2\% between these quantities in the 650--670 \unit{nm} region, which are smaller than the width of the predictive uncertainty intervals in our results for the same wavelengths (Figure~\ref{fig:spec-error-all}).
-Moreover, the lower altitude and narrow field-of-view of the AVIRIS-Classic instrument used in this study mean that all observer zenith angles are effectively nadir or very close,
-Finally, multiple versions of the two-stream approximation developed over the last 20 years have been validated against reflectance from more complex 3D ray-tracing simulations and remotely sensed observations, and none have identified treatment of angular effects as the primary source of uncertainty~\citep{hogan_2018_fast, yuan2017reexamination, pinty2004synergy}.
-We therefore conclude that additional computational and conceptual challenges (as well as parameter uncertainties) associated with treatment of angular effects in similar models are unwarranted.
+Nevertheless, our analysis echoed some known challenges in canopy radiative transfer modeling.
+One challenge is equifinality in the contributions of leaf biochemistry, leaf morphology, and different aspects of canopy structure to canopy albedo, which means that multiple variable and parameter combinations can produce very similar canopy albedo responses~\citep{lewis2007spectral}.
+We mitigated the equifinality between leaf traits and canopy structure by using informative priors on leaf traits from an independent data source~\citep{shiklomanov_dissertation}.
+However, there is additional equifinality in the effects of the EDR canopy structure parameters.
+For example, because the effective LAI used in EDR’s actual radiative transfer calculations is defined as the product of ``true'' LAI and clumping factor (equation~\ref{eqn:elai}), and because LAI is, in turn, derived from multiple parameters (leaf biomass allometry, specific leaf area; equation~\ref{eqn:lai}), these parameters collectively cannot be independently determined from reflectance data alone.
+At the same time, increasing the leaf orientation factor (more horizontal, or ``planophile'', leaf orientation) has a similar (although not identical) effect to increasing LAI and clumping factor---namely, increasing canopy reflectance, especially in the near-infrared (Figure TODO).
+Collectively, these issues may help explain some of the edge-hitting behavior (parameter distributions clustered at the ends of the distribution) observed in our posterior estimates (Figure~\ref{fig:posterior-pft}), and some of the bias in our LAI estimates (Figure~\ref{fig:lai-pred-obs}).
 
-A related issue is the missing or simplistic treatment of two- and three-dimensional heterogeneity in canopy structure in EDR.
+That being said, one major advantage of the Bayesian calibration approach is that its output is a joint posterior distribution that includes not only fully quantified uncertainties for each parameter but also the variance-covariance matrix of each parameter.
+Equifinality in parameters would manifest as strong pairwise correlation between parameters in the posterior distribution.
+Examining this correlation matrix (Figure TODO) shows that there are some parameter pairs with strong correlations, such as the positive correlations between leaf and wood allometries for all PFTs except northern pine, and the hypothesized negative correlation between the leaf allometry (LAI) and clumping factor, which was only observed for the early-successional hardwoods and northern pines.
+However, these correlations mostly do not occur in the parameters that exhibited strong edge-hitting behavior---namely, clumping and orientation factors for mid- and late-successional hardwood PFTs (Figure~\ref{fig:posterior-pft}).
+Strong correlations also occurred among some of the PROSPECT parameters, and between PROSPECT and structural parameters, but contributed little to equifinality because the strong constraints on PROSPECT led to overall small covariance terms.
+Finally, because our calibration captured all of these covariances the presence of moderate equifinality did not preclude ecologically meaningful parameter constraints or accurate predictions because these covariances are being propagated into predictions.
+This is directly analogous to how a linear regression can have a tight confidence interval, despite high correlations between the slope and intercept, with that equifinality driving the characteristic hourglass shape of a regression confidence interval.
+
+% One limitation of the two-stream canopy radiative transfer approach in the context of remote sensing is the absence of any angular information in the output.
+% More precisely, the quantity simulated by EDR is the bi-hemispherical reflectance (BHR), whereas the atmospherically-corrected AVIRIS-Classic quantity is closest to the hemispherical-directional reflectance factor (HDRF)~\citep[\emph{sensu}]{schaepman-strub2006reflectance}.
+% Under specific sun-sensor geometries and atmospheric and illumination conditions, canopy reflectance can have a significant angular dependence, especially in sparse or structurally complex canopies~\citep[e.g., ``hot spot effect'';][]{maignan2004bidirectional,schaepman-strub2006reflectance}.
+% However, in simulations of black spruce canopy BHR and HDRF under different conditions, \citet{schaepman-strub2006reflectance} find differences of no more than 2\% between these quantities in the 650--670 \unit{nm} region, which are smaller than the width of the predictive uncertainty intervals in our results for the same wavelengths (Figure~\ref{fig:spec-error-all}).
+% Moreover, the lower altitude and narrow field-of-view of the AVIRIS-Classic instrument used in this study mean that all observer zenith angles are effectively nadir or very close,
+% Finally, multiple versions of the two-stream approximation developed over the last 20 years have been validated against reflectance from more complex 3D ray-tracing simulations and remotely sensed observations, and none have identified treatment of angular effects as the primary source of uncertainty~\citep{hogan_2018_fast, yuan2017reexamination, pinty2004synergy}.
+% We therefore conclude that additional computational and conceptual challenges (as well as parameter uncertainties) associated with treatment of angular effects in similar models are unwarranted.
+
+A related issue is the missing or simplistic treatment of two- and three-dimensional heterogeneity in canopy structure in EDR.\@
 For one, the treatment of leaves as infinitely small elements randomly distributed through the canopy space---a common feature of all two-stream approximations---neglects complex realities of the canopy light environment such as gaps and self-shading.
 In EDR, self-shading is handled via the clumping factor parameter, which functions as a scalar correction on the leaf area index (Equation~\ref{eqn:elai}).
 A key feature of EDR design is its representation of multiple co-existing plant cohorts competing for light within a single patch;
@@ -33,3 +49,14 @@ however, horizontal heterogeneity and competition between these cohorts is ignor
 Improved representation of lateral energy transfer can improve the accuracy of simulations of the canopy light environment, and recent theoretical advances show that this can be accomplished without a significant loss in computational performance~\citep{hogan_2018_fast}.
 Treatment of horizontal competition also plays an important role in the outcomes of competition for light between different plants~\citep{fisher2018vegetation}.
 A useful avenue for development and parameterization of these models is comparison to more sophisticated and realistic three-dimensional representations of radiative transfer~\citep[e.g.][]{widlowski2007third}, which are themselves too computationally demanding to be coupled to ecosystem models, but from which empirical distributions and response functions could be derived and against which the behavior of simpler models could be evaluated.
+
+% TODO Flesh out
+In this study, the vegetation composition at each site (including the PFT distribution and size-age structure) was prescribed in detail based on inventory data.
+This allowed us to focus the calibration on model parameters related canopy radiative transfer model parameters.
+However, ED2 is a dynamic vegetation model whose core purpose is to predict how vegetation composition and structure evolve through time.
+An important future direction of this work is to evaluate such dynamic ED2 simulations where vegetation composition and structure and predicted with some uncertainty.
+
+Cross-validation and out-of-sample validation are useful tests of model performance, and we recommend these activities as future directions for this and similar work.
+However, because our calibration was joint across all sites, the marginal benefit of a separate validation at other sites not used in the calibration was relatively low.
+With 54 sites in our calibration, any single site represents <2\% of the data, and for a joint calibration without site random effects, we have every reason to believe that the calibration is not overfitting to any individual site.
+Trying to fit any one site well would cause others to do worse (especially given the large observed variability in forest structure) unless the EDR model structure was reasonable and the parameters chosen were genuinely good choices.
