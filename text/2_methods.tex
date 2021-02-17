@@ -354,8 +354,9 @@ Collectively, these two changes produce the following calculation for $\Sigma$:
 \end{align}
 
 where $H$ is a matrix describing the distance between bands (0 on the diagonal, increasing regularly toward the corners) and $\varrho$ is the AR-1 autocorrelation parameter.
-To simplifiy the inversion procedure, we first performed the inversion using a diagonal covariance matrix (i.e., $\varrho = 0$), then calculated the mean $\varrho$ from the residuals of this fit, and then used this average value (0.700) for our final inversion.
+To simplify the inversion procedure, we first performed the inversion using a diagonal covariance matrix (i.e., $\varrho = 0$), then calculated the mean $\varrho$ from the residuals of this fit, and then used this average value (0.700) for our final inversion.
 
+% TODO: Nope! Uniform for LAI 0-10
 In addition, to mitigate sampling issues related to EDR's saturating response to increasing total LAI, we added an additional term to our likelihood that assigns a fixed lognormal probability distribution (with parameters 1 and 0.5, respectively) to the EDR predicted LAI for a given site ($\LAI_{\mathrm{pred}, s}$).
 The parameters 1 and 0.5 produce a distribution with 95\% of the density between 1.0 and 7.2, which spans the range of LAI values typically observed temperate forests.
 The final expression for the site-specific likelihood is therefore:
