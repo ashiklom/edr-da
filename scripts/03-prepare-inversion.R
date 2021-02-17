@@ -167,11 +167,15 @@ input_data <- tibble(site = names(site_data), site_data = site_data) %>%
   )
 
 overall_likelihood <- function(params) {
-  site_lls <- foreach(s = sample(nrow(input_data)), .combine = c) %dopar% {
-    inputs <- input_data[s,]
-    ll <- site_likelihood(params, inputs)
-    ll
-  }
+  site_lls <- tryCatch({
+    foreach(s = sample(nrow(input_data)), .combine = c) %dopar% {
+      inputs <- input_data[s,]
+      ll <- site_likelihood(params, inputs)
+      stopifnot(is.finite(ll))
+      ll
+    }}, error = function(e) {
+      return(-Inf)
+    })
   sum(site_lls)
 }
 
