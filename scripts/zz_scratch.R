@@ -1,3 +1,35 @@
+drake::loadd(site_lai_total)
+drake::loadd(bias_data)
+
+bias_data %>%
+  filter(lai_mean > 10) %>%
+  count(pft)
+
+posterior_matrix
+pbd <- unique(posterior_matrix)
+params <- posterior_matrix[1,]
+
+overall_likelihood(params)
+
+nnn <- 50
+ii <- sample(nrow(pbd), nnn)
+likes <- numeric(nnn)
+pb <- txtProgressBar(1, nnn, style = 3)
+for (i in seq_along(ii)) {
+  likes[i] <- overall_likelihood(posterior_matrix[ii[i],])
+  setTxtProgressBar(pb, i)
+}
+close(pb)
+
+likes
+
+##################################################
+
+
+ggplot(site_lai_samples) +
+  aes(x = lai) +
+  geom_histogram()
+##################################################
 old_plan_targets <- list(
   sail_predictions = tidy_sail_predictions(site_details, site_lai_total,
                                            tidy_posteriors),
