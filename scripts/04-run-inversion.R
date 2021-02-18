@@ -72,9 +72,6 @@ if (resume) {
   message("Resuming from sample file: ", last_samplefile)
   stopifnot(length(last_samplefile) > 0, file.exists(last_samplefile))
   samples <- readRDS(last_samplefile)
-  # Need this to reset parallelism
-  ## samples$setup$likelihood <- newsamples$likelihood
-  ## samples$setup$posterior <- newsamples$posterior
 } else {
   message("Starting fresh inversion")
   samples <- newsamples
@@ -82,13 +79,18 @@ if (resume) {
 
 repeat {
   attempt <- attempt + 1
+  if (attempt > (max_attempts + 1)) {
+    message("Failed to converge after attempt: ", attempt)
+    break
+  }
   message("Sampling attempt: ", attempt)
   samples <- BayesianTools::runMCMC(samples, settings = settings, sampler = "DEzs")
   saveRDS(samples, file.path(outdir, "current_samples.rds"))
   nsamp <- nrow(samples$chain[[1]])
+  maxsamp <- 20000
   coda_samples <- BayesianTools::getSample(
     samples,
-    start = if (nsamp > 5000) 5000 else floor(nsamp / 2),
+    start = if (nsamp > maxsamp) maxsamp else floor(nsamp / 2),
     thin = "auto",
     coda = TRUE
   )
@@ -98,31 +100,50 @@ repeat {
       multivariate = TRUE,
       autoburnin = FALSE
     ),
-    error = function (e) NULL)
+    error = function(e) NULL)
+
+  # Check PSRF can be calculated. If not, probably all the values are the same,
+  # so no convergence.
   if (is.null(gd)) {
     message("GD calc failed. No convergence.")
-  } else {
-    psrf <- c(gd[["psrf"]][, 1], gd[["mpsrf"]])
-    names(psrf) <- c(param_names, "mpsrf")
-    exceeds <- psrf > threshold
-    if (any(exceeds)) {
-      message("The following parameters have not converged:")
-      print(psrf[exceeds])
-    } else {
-      neff <- coda::effectiveSize(coda_samples)
-      too_few <- neff < target_neff
-      if (!any(too_few)) {
-        message("Converged!")
-        break
-      }
-      message("Converged, but the following parameters have too few samples:")
-      print(neff[too_few])
-    }
+    next
   }
 
-  message("Resuming sampling...")
-  if (attempt > max_attempts) {
-    message("Failed to converge after attempt: ", attempt)
-    break
+  # Check PSRF values. If any parameters haven't converged, continue. Don't
+  # worry about the multivariate PSRF -- only use the univariate ones.
+  ## psrf <- c(gd[["psrf"]][, 1], gd[["mpsrf"]])
+  ## names(psrf) <- c(param_names, "mpsrf")
+  psrf <- gd[["psrf"]][, 1]
+  names(psrf) <- param_names
+  exceeds <- psrf > threshold
+  if (any(exceeds)) {
+    message(sum(exceeds), " parameters have not converged, including:")
+    print(head(psrf[exceeds], 20))
+    next
   }
+
+  # Check for trend in the posterior samples. If there's a slope, no
+  # convergence.
+  has_slope <- function(y, threshold = 0.01) {
+    x <- seq_along(y)
+    fit <- lm(y ~ x)
+    sfit <- summary(fit)
+    pval <- sfit$coefficients["x", "Pr(>|t|)"]
+    pval < threshold
+  }
+  is_sloped <- rowSums(do.call(cbind, lapply(coda_samples, function(x) apply(x, 2, has_slope)))) > 0
+  if (any(is_sloped)) {
+    message("Converged, but slope detected for ", sum(is_sloped), " parameters, including: ")
+    print(head(param_names[is_sloped], 10))
+  }
+
+  # Finally, check effective sample size.
+  too_few <- neff < target_neff
+  if (any(too_few)) {
+    message("Converged, but the following parameters have too few samples:")
+    print(neff[too_few])
+    next
+  }
+
+  message("Converged!")
 }
