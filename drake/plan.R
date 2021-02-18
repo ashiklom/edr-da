@@ -180,11 +180,35 @@ plan <- drake_plan(
       width = 10, height = 14, units = "in", dpi = 300
     )
   },
-  spec_error_aggregate = ggsave(
-    file_out(!!path(figdir, "spec-error-aggregate.png")),
-    spec_error_aggregate_f(observed_predicted),
-    width = 5, height = 4, dpi = 300
-  ),
+  spec_error_aggregate = {
+    biggest_pft2 <- biggest_pft %>%
+      mutate(pft = fct_relabel(pft, ~str_replace_all(.x, "_", " ")))
+    plot_data <- observed_predicted %>%
+      group_by(site, aviris_id, wave_band = round(wavelength / 50) * 50) %>%
+      summarize(bias = mean(bias, na.rm = TRUE)) %>%
+      ungroup() %>%
+      left_join(biggest_pft2, "site")
+    nsites <- biggest_pft2 %>%
+      count(pft) %>%
+      mutate(label = paste("N[site] ==", n))
+    plt <- ggplot(plot_data) +
+      aes(x = wave_band, y = bias, group = wave_band) +
+      geom_hline(yintercept = 0, linetype = "dashed") +
+      geom_jitter(color = "gray70", size = 0.4, alpha = 0.6) +
+      geom_boxplot(outlier.shape = NA, position = "identity", fill = NA) +
+      geom_text(aes(x = -Inf, y = -Inf, label = label, group = NULL), data = nsites,
+                parse = TRUE, hjust = -0.1, vjust = -0.1) +
+      facet_wrap(vars(pft)) +
+      labs(x = "Wavelength (nm)",
+           y = "Predicted (mean) - observed reflectance") +
+      theme_bw() +
+      theme(panel.grid = element_blank())
+    ggsave(
+      file_out(!!path(figdir, "spec-error-aggregate.png")),
+      plt,
+      width = 8, height = 5, dpi = 300
+    )
+  },
   tree_sites_q = target({
     sites <- site_details %>%
       dplyr::group_by(site) %>%
@@ -402,12 +426,12 @@ plan <- drake_plan(
       width = 12, height = 5, dpi = 300
     )
   },
+  biggest_pft = site_details %>%
+    dplyr::group_by(site, pft) %>%
+    dplyr::summarize(pft_dbh = sum(dbh * nplant)) %>%
+    dplyr::filter(pft_dbh == max(pft_dbh)) %>%
+    dplyr::ungroup(),
   bias_data = {
-    biggest_pft <- site_details %>%
-      dplyr::group_by(site, pft) %>%
-      dplyr::summarize(pft_dbh = sum(dbh * nplant)) %>%
-      dplyr::filter(pft_dbh == max(pft_dbh)) %>%
-      dplyr::ungroup()
     band_diffs <- observed_predicted %>%
       dplyr::mutate(band = if_else(wavelength < 750, "VIS", "NIR")) %>%
       dplyr::group_by(band, site) %>%

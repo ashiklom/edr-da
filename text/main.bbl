@@ -1,4 +1,4 @@
-\begin{thebibliography}{70}
+\begin{thebibliography}{73}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{{\tt #1}}
 \providecommand{\urlprefix}{URL }
@@ -48,6 +48,11 @@ Dickinson, R.~E.: Land {{Surface Processes}} and
   {{ClimateProceedings}} of a {{Symposium Commemorating}} the
   {{Two}}-{{Hundredth Anniversary}} of the {{Academy}} of {{Sciences}} of
   {{Lisbon}}\/}, pp. 305--353, {Elsevier}, 1983.
+
+\bibitem[{Fang et~al.(2012)Fang, Wei, and Liang}]{fang2012validation}
+Fang, H., Wei, S., and Liang, S.: Validation of {{MODIS}} and {{CYCLOPES LAI}}
+  Products Using Global Field Measurement Data, Remote Sensing of Environment,
+  119, 43--54, \doi{10.1016/j.rse.2011.12.006}, 2012.
 
 \bibitem[{Fensholt et~al.(2004)Fensholt, Sandholt, and
   Rasmussen}]{fensholt2004evaluation}
@@ -118,6 +123,13 @@ Huntingford, C., Fisher, R.~A., Mercado, L., Booth, B.~B., Sitch, S., Harris,
   Predictions of {{Amazon}} `Dieback', Philosophical Transactions of the Royal
   Society B: Biological Sciences, 363, 1857--1864,
   \doi{10.1098/rstb.2007.0028}, 2008.
+
+\bibitem[{Iio et~al.(2014)Iio, Hikosaka, Anten, Nakagawa, and
+  Ito}]{iio2014global}
+Iio, A., Hikosaka, K., Anten, N. P.~R., Nakagawa, Y., and Ito, A.: Global
+  Dependence of Field-Observed Leaf Area Index in Woody Species on Climate: A
+  Systematic Review, Global Ecology and Biogeography, 23, 274--285,
+  \doi{10.1111/geb.12133}, 2014.
 
 \bibitem[{Ivanov et~al.(2008)Ivanov, Bras, and
   Vivoni}]{ivanov2008vegetationhydrology}
@@ -501,6 +513,13 @@ Widlowski, J.-L., Mio, C., Disney, M., Adams, J., Andredakis, I., Atzberger,
   Fourth Phase of the Radiative Transfer Model Intercomparison ({{RAMI}})
   Exercise: {{Actual}} Canopy Scenarios and Conformity Testing, Remote Sensing
   of Environment, 169, 418--437, \doi{10.1016/j.rse.2015.08.016}, 2015.
+
+\bibitem[{Yan et~al.(2016)Yan, Park, Yan, Liu, Yang, Chen, Nemani, Knyazikhin,
+  and Myneni}]{yan2016evaluation}
+Yan, K., Park, T., Yan, G., Liu, Z., Yang, B., Chen, C., Nemani, R.~R.,
+  Knyazikhin, Y., and Myneni, R.~B.: Evaluation of {{MODIS LAI}}/{{FPAR Product
+  Collection}} 6. {{Part}} 2: {{Validation}} and {{Intercomparison}}, Remote
+  Sensing, 8, 460, \doi{10.3390/rs8060460}, 2016.
 
 \bibitem[{Yuan et~al.(2017)Yuan, Dai, Dickinson, Pinty, Shangguan, Zhang, Wang,
   and Zhu}]{yuan2017reexamination}

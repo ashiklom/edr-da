@@ -234,16 +234,6 @@ spec_error_all_f <- function(observed_predicted, sail_predictions, ncol = 6) {
   # TODO Facet text inside plots --- use `geom_text`
 }
 
-spec_error_aggregate_f <- function(observed_predicted) {
-  ggplot(observed_predicted) +
-    aes(x = wavelength, y = bias, group = interaction(aviris_id, site)) +
-    geom_line(alpha = 0.2) +
-    geom_hline(yintercept = 0, color = "red") +
-    labs(x = "Wavelength (nm)",
-         y = expression("Predicted (mean)" - "observed reflectance")) +
-    theme_bw()
-}
-
 site_spec_dbh_plot <- function(site, observed_predicted, site_details,
                                spec_additions = NULL,
                                dbh_additions = NULL,

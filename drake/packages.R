@@ -11,10 +11,11 @@ library(readr)
 library(dplyr)
 library(tidyr)
 library(patchwork)
+library(forcats)
+library(stringr)
 
 stopifnot(
   requireNamespace("fst", quietly = TRUE),
-  requireNamespace("forcats", quietly = TRUE),
   requireNamespace("ggmap", quietly = TRUE),
   requireNamespace("scales", quietly = TRUE)
 )

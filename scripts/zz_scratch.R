@@ -1,3 +1,29 @@
+
+pda_result_file <- "multi_site_pda_results/revision-fixed/2021-02-18-0819/current_samples.rds"
+samples <- readRDS(pda_result_file)
+summary(samples)
+
+has_slope <- function(y, threshold = 0.01) {
+  x <- seq_along(y)
+  fit <- lm(y ~ x)
+  sfit <- summary(fit)
+  pval <- sfit$coefficients["x", "Pr(>|t|)"]
+  pval < threshold
+}
+
+## coda_samples <- BayesianTools::getSample(samples, coda = TRUE, start = 20000)
+coda_samples <- samples
+
+is_sloped <- rowSums(do.call(cbind, lapply(coda_samples, function(x) apply(x, 2, has_slope)))) > 0
+
+param_names <- readLines("multi_site_pda_results/revision-fixed/2021-02-18-0819/param_names.txt")
+
+iparams <- grep("b1Bw", param_names)
+samp <- BayesianTools::getSample(samples_bt, start = 20000, whichParameters = iparams, coda = TRUE)
+plot(samp, density = FALSE, smooth = FALSE)
+
+##################################################
+
 drake::loadd(site_lai_total)
 drake::loadd(bias_data)
 
@@ -6,22 +32,11 @@ bias_data %>%
   count(pft)
 
 posterior_matrix
-pbd <- unique(posterior_matrix)
-params <- posterior_matrix[1,]
+params <- posterior_matrix[2,]
 
-overall_likelihood(params)
-
-nnn <- 50
-ii <- sample(nrow(pbd), nnn)
-likes <- numeric(nnn)
-pb <- txtProgressBar(1, nnn, style = 3)
-for (i in seq_along(ii)) {
-  likes[i] <- overall_likelihood(posterior_matrix[ii[i],])
-  setTxtProgressBar(pb, i)
-}
-close(pb)
-
-likes
+ii <- sample(nrow(posterior_matrix), 100)
+likes <- numeric(length(ii))
+likes <- apply(posterior_matrix[ii,], 1, overall_likelihood)
 
 ##################################################
 
