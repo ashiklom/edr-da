@@ -1,4 +1,4 @@
-\begin{thebibliography}{73}
+\begin{thebibliography}{75}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{{\tt #1}}
 \providecommand{\urlprefix}{URL }
@@ -48,6 +48,14 @@ Dickinson, R.~E.: Land {{Surface Processes}} and
   {{ClimateProceedings}} of a {{Symposium Commemorating}} the
   {{Two}}-{{Hundredth Anniversary}} of the {{Academy}} of {{Sciences}} of
   {{Lisbon}}\/}, pp. 305--353, {Elsevier}, 1983.
+
+\bibitem[{Dietze et~al.(2014)Dietze, Serbin, Davidson, Desai, Feng, Kelly,
+  Kooper, LeBauer, Mantooth, McHenry, and Wang}]{dietze2014quantitative}
+Dietze, M.~C., Serbin, S.~P., Davidson, C., Desai, A.~R., Feng, X., Kelly, R.,
+  Kooper, R., LeBauer, D., Mantooth, J., McHenry, K., and Wang, D.: A
+  Quantitative Assessment of a Terrestrial Biosphere Model's Data Needs across
+  {{North American}} Biomes, Journal of Geophysical Research: Biogeosciences,
+  119, 2013JG002\,392, \doi{10.1002/2013JG002392}, 2014.
 
 \bibitem[{Fang et~al.(2012)Fang, Wei, and Liang}]{fang2012validation}
 Fang, H., Wei, S., and Liang, S.: Validation of {{MODIS}} and {{CYCLOPES LAI}}
@@ -356,6 +364,12 @@ Quaife, T., Lewis, P., De~Kauwe, M., Williams, M., Law, B.~E., Disney, M., and
   an {{Ensemble Kalman Filter}}, Remote Sensing of Environment, 112,
   1347--1364, \doi{10.1016/j.rse.2007.05.020}, 2008.
 
+\bibitem[{Raczka et~al.(2018)Raczka, Dietze, Serbin, and
+  Davis}]{raczka_2018_what}
+Raczka, B., Dietze, M.~C., Serbin, S.~P., and Davis, K.~J.: What Limits
+  Predictive Certainty of Long-term Carbon Uptake?, Journal of Geophysical
+  Research: Biogeosciences, 123, 3570--3588, \doi{10.1029/2018jg004504}, 2018.
+
 \bibitem[{Robakowski et~al.(2004)Robakowski, Wyka, Samardakiewicz, and
   Kierzkowski}]{robakowski_2004_growth}
 Robakowski, P., Wyka, T., Samardakiewicz, S., and Kierzkowski, D.: Growth,
@@ -404,6 +418,13 @@ Sellers, P.~J.: Canopy Reflectance, Photosynthesis and Transpiration,
   International Journal of Remote Sensing, 6, 1335--1372,
   \doi{10.1080/01431168508948283}, 1985.
 
+\bibitem[{Serbin et~al.(2011)Serbin, Dillaway, Kruger, and
+  Townsend}]{serbin2011leaf}
+Serbin, S.~P., Dillaway, D.~N., Kruger, E.~L., and Townsend, P.~A.: Leaf
+  Optical Properties Reflect Variation in Photosynthetic Metabolism and Its
+  Sensitivity to Temperature, Journal of Experimental Botany, p. err294,
+  \doi{10.1093/jxb/err294}, 2011.
+
 \bibitem[{Shiklomanov(2018)}]{shiklomanov_dissertation}
 Shiklomanov, A.~N.: Improving Ecological Forecasts Using Model and Data
   Constraints, Ph.D. thesis, Boston University, 2018.
@@ -416,14 +437,21 @@ Shiklomanov, A.~N., Dietze, M.~C., Viskari, T., Townsend, P.~A., and Serbin,
   Remote Sensing of Environment, 183, 226--238,
   \doi{10.1016/j.rse.2016.05.023}, 2016.
 
-\bibitem[{Shiklomanov et~al.(2020)Shiklomanov, Cowdery, Bahn, Byun, Jansen,
-  Kramer, Minden, Niinemets, Onoda, Soudzilovskaia, and
+\bibitem[{Shiklomanov et~al.(2020{\natexlab{a}})Shiklomanov, Bond-Lamberty,
+  Atkins, and Gough}]{shiklomanov2020structurea}
+Shiklomanov, A.~N., Bond-Lamberty, B., Atkins, J.~W., and Gough, C.~M.:
+  Structure and Parameter Uncertainty in Centennial Projections of Forest
+  Community Structure and Carbon Cycling, Global Change Biology, 26,
+  6080--6096, \doi{10.1111/gcb.15164}, 2020{\natexlab{a}}.
+
+\bibitem[{Shiklomanov et~al.(2020{\natexlab{b}})Shiklomanov, Cowdery, Bahn,
+  Byun, Jansen, Kramer, Minden, Niinemets, Onoda, Soudzilovskaia, and
   Dietze}]{shiklomanov2020does}
 Shiklomanov, A.~N., Cowdery, E.~M., Bahn, M., Byun, C., Jansen, S., Kramer, K.,
   Minden, V., Niinemets, {\"U}., Onoda, Y., Soudzilovskaia, N.~A., and Dietze,
   M.~C.: Does the Leaf Economic Spectrum Hold within Plant Functional Types?
   {{A Bayesian}} Multivariate Trait Meta-analysis, Ecological Applications, 30,
-  \doi{10.1002/eap.2064}, 2020.
+  \doi{10.1002/eap.2064}, 2020{\natexlab{b}}.
 
 \bibitem[{Singh et~al.(2015)Singh, Serbin, McNeil, Kingdon, and
   Townsend}]{singh2015imaging}
@@ -431,19 +459,6 @@ Singh, A., Serbin, S.~P., McNeil, B.~E., Kingdon, C.~C., and Townsend, P.~A.:
   Imaging Spectroscopy Algorithms for Mapping Canopy Foliar Chemical and
   Morphological Traits and Their Uncertainties, Ecological Applications, 25,
   2180--2197, \doi{10.1890/14-2098.1}, 2015.
-
-\bibitem[{Swann et~al.(2010)Swann, Fung, Levis, Bonan, and
-  Doney}]{swann2010changes}
-Swann, A.~L., Fung, I.~Y., Levis, S., Bonan, G.~B., and Doney, S.~C.: Changes
-  in {{Arctic}} Vegetation Amplify High-Latitude Warming through the Greenhouse
-  Effect, Proceedings of the National Academy of Sciences, 107, 1295--1300,
-  \doi{10.1073/pnas.0913846107}, 2010.
-
-\bibitem[{Swann et~al.(2012)Swann, Fung, and Chiang}]{swann2012midlatitude}
-Swann, A. L.~S., Fung, I.~Y., and Chiang, J. C.~H.: Mid-Latitude Afforestation
-  Shifts General Circulation and Tropical Precipitation, Proceedings of the
-  National Academy of Sciences, 109, 712--716, \doi{10.1073/pnas.1116706108},
-  2012.
 
 \bibitem[{{ter Braak} and Vrugt(2008)}]{terbraak2008differential}
 {ter Braak}, C. J.~F. and Vrugt, J.~A.: Differential {{Evolution Markov Chain}}
