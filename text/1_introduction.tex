@@ -1,4 +1,4 @@
-\introduction  %% \introduction[modified heading if necessary]
+\introduction
 
 Dynamic vegetation models play a vital role in modern terrestrial ecology, and Earth science more generally.
 The terrestrial carbon cycle is a major biogeochemical feedback in the global climate system~\citep{heinze_2019_esd_reviews}, and accurate predictions of terrestrial carbon cycling rely on accurate representations of vegetation dynamics~\citep{pacala_1995_details_that_matter}.
@@ -11,7 +11,6 @@ Among these data streams, remote sensing is particularly promising due to its co
 Data products derived from remote sensing observations have been used to inform, among others,
 phenology~\citep{knorr2010carbon, viskari2015modeldata}
 and absorbed photosynthetically-active radiation~\citep{peylin2016new, schurmann2016constraining, zobitz_2014_joint}.
-% and primary productivity~\citep{}. %TODO Different reference here?
 However, there are issues with using derived remote sensing products to calibrate vegetation models.
 The relationships between remotely sensed surface reflectance and vegetation structure and function are complex and multifaceted.
 Simple polynomial relationships between spectral indices (e.g., Normalized Difference Vegetation Index, NDVI; Enhanced Vegetation Index, EVI) and vegetation properties (e.g., leaf area index, LAI) are often confounded by other ecosystem characteristics, including soil~\citep{myneni1994relationship} and snow~\citep{zhang2020evaluating}, or sensor configuration~\citep{fensholt2004evaluation}.
@@ -23,12 +22,15 @@ Robust, pixel-level uncertainty estimates for remote sensing data products would
 One way to overcome these limitations of derived remote sensing data products while still leveraging the capabilities of remote sensing is to work with lower-level surface reflectance products.
 This can be accomplished by coupling dynamic vegetation models with leaf and canopy radiative transfer models that simulate surface reflectance as a function of known surface characteristics~\citep{knorr2001assimilation, nouvellon2001coupling, quaife2008assimilating}.
 Such an approach draws on decades of research on simulation of vegetation optical properties given their structural and biochemical characteristics~\citep{dickinson1983land, sellers1985canopy, verhoef1984light, lewis2007spectral, jacquemoud2009prospect, pinty2004synergy, widlowski2007third, widlowski2015fourth, hogan_2018_fast} while avoiding the computational and conceptual challenges of inverse parameter estimation in radiative transfer modeling~\citep{combal2003retrieval, lewis2007spectral}.
-Moreover, the ability to simulate dynamics of surface reflectance in response to changes in ecosystem properties is valuable even independently of its utility for remote sensing data assimilation, as vegetation-induced changes in surface reflectance exert a strong influence on climate~\citep{bonan2008forests, swann2010changes, swann2012midlatitude}.
 
-However, many land surface models already include their own internal canopy radiative transfer calculations~\citep{dickinson1983land, sellers1985canopy}, which can be used for a more direct comparison to remotely sensed surface reflectance.
-These calculations are necessary to simulate impact of vegetation on surface energy balance~\citep{bonan2008forests} and to accurately model plant function, which is fundamentally driven by light~\citep{hikosaka1995model, robakowski_2004_growth, niinemets2016withincanopy, keenan2016global}.
-Canopy radiative transfer plays a particularly important role in the current generation of demographically-enabled dynamic vegetation models, where differences in canopy radiative transfer representations and parametrizations have major impacts on predicted community composition and biogeochemistry~\citep{loew_2014_do, fisher2018vegetation, viskari_2019_influence}.
-To date, assimilation of remotely sensed surface reflectance calculated from a vegetation model's own representation of radiative transfer has not been attempted for more complex demographically-enabled vegetation models.
+Instead of coupling a dynamic vegetation model to an external canopy radiative transfer model, we propose a more direct approach of using a vegetation model's own internal representation of canopy radiative transfer.
+Radiative transfer models have long been an important component of land surface models~\citep{dickinson1983land, sellers1985canopy}.
+Canopy radiative transfer is the primary mechanism by which models relate vegetation composition and state to the surface energy balance.
+This is important to both the plants themselves---as many plant processes (including evaporation and enzyme kinetics) are sensitive to temperature~\citep{serbin2011leaf}---and to the impact of plants on local, regional, and global climate~\citep{bonan2008forests}.
+Canopy radiative transfer also controls how much light is available to plants for photosynthesis and is therefore a first-order driver of plant function~\citep{hikosaka1995model, robakowski_2004_growth, niinemets2016withincanopy, keenan2016global}.
+Canopy radiative transfer is particularly important to the current generation of demographically-enabled dynamic vegetation models, where differences in canopy radiative transfer representations and parameters have major impacts on predicted community composition and biogeochemistry~\citep{loew_2014_do, fisher2018vegetation, viskari_2019_influence}.
+Finally, parameters to which vegetation models are known to be highly sensitive---namely, those related to leaf biochemistry and canopy structure~\citep{dietze2014quantitative, raczka_2018_what, shiklomanov2020structurea}---play an important role in canopy radiative transfer.
+Therefore, calibration and validation against radiative transfer outputs can be an important source of constraint on a variety of model processes.
 
 Our previous work demonstrated that predictions of carbon cycling and community composition by the Ecosystem Demography model, version 2~\citep[ED2;][]{medvigy2009mechanistic} are highly sensitive to changes in parameters related to canopy structure and radiative transfer~\citep{viskari_2019_influence}.
 In this study, we build on this work by calibrating and validating the ED2 model using remotely sensed surface reflectance.
