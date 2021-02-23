@@ -1,0 +1,50 @@
+\begin{thebibliography}{}
+
+\bibitem[Dietze et~al., 2014]{dietze2014quantitative}
+Dietze, M.~C., Serbin, S.~P., Davidson, C., Desai, A.~R., Feng, X., Kelly, R.,
+  Kooper, R., LeBauer, D., Mantooth, J., McHenry, K., and Wang, D. (2014).
+\newblock A quantitative assessment of a terrestrial biosphere model's data
+  needs across {{North American}} biomes.
+\newblock {\em Journal of Geophysical Research: Biogeosciences},
+  119(3):2013JG002392.
+
+\bibitem[Lucht et~al., 2000]{lucht2000algorithm}
+Lucht, W., Schaaf, C.~B., and Strahler, A.~H. (2000).
+\newblock An algorithm for the retrieval of albedo from space using
+  semiempirical {{BRDF}} models.
+\newblock {\em IEEE Transactions on Geoscience and Remote Sensing},
+  38(2):977--998.
+
+\bibitem[Raczka et~al., 2018]{raczka_2018_what}
+Raczka, B., Dietze, M.~C., Serbin, S.~P., and Davis, K.~J. (2018).
+\newblock What limits predictive certainty of long-term carbon uptake?
+\newblock {\em Journal of Geophysical Research: Biogeosciences},
+  123(12):3570--3588.
+
+\bibitem[Shiklomanov et~al., 2020]{shiklomanov2020structurea}
+Shiklomanov, A.~N., Bond-Lamberty, B., Atkins, J.~W., and Gough, C.~M. (2020).
+\newblock Structure and parameter uncertainty in centennial projections of
+  forest community structure and carbon cycling.
+\newblock {\em Global Change Biology}, 26(11):6080--6096.
+
+\bibitem[Singh et~al., 2015]{singh2015imaging}
+Singh, A., Serbin, S.~P., McNeil, B.~E., Kingdon, C.~C., and Townsend, P.~A.
+  (2015).
+\newblock Imaging spectroscopy algorithms for mapping canopy foliar chemical
+  and morphological traits and their uncertainties.
+\newblock {\em Ecological Applications}, 25(8):2180--2197.
+
+\bibitem[Viskari et~al., 2019]{viskari_2019_influence}
+Viskari, T., Shiklomanov, A., Dietze, M.~C., and Serbin, S.~P. (2019).
+\newblock The influence of canopy radiation parameter uncertainty on model
+  projections of terrestrial carbon and energy cycling.
+\newblock {\em PLOS ONE}, 14(7):e0216512.
+
+\bibitem[Yuan et~al., 2017]{yuan2017reexamination}
+Yuan, H., Dai, Y., Dickinson, R.~E., Pinty, B., Shangguan, W., Zhang, S., Wang,
+  L., and Zhu, S. (2017).
+\newblock Reexamination and further development of two-stream canopy radiative
+  transfer models for global land modeling.
+\newblock {\em Journal of Advances in Modeling Earth Systems}, 9(1):113--129.
+
+\end{thebibliography}

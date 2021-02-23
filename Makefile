@@ -14,3 +14,6 @@ sync:
 
 clean:
 	cd text && make clean
+
+response:
+	cd text/comments-and-submissions/2021-03-05-response && make pdf

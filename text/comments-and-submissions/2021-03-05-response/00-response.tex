@@ -1,0 +1,123 @@
+\documentclass{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[authoryear,round]{natbib}
+\bibliographystyle{apalike}
+
+\newenvironment{reviewer}{\par\color{Mahogany}\vspace{6pt}}{\par\vspace{6pt}}
+
+\newcommand{\unit}[1]{\ensuremath{%
+    {\thinmuskip3mu\relax
+      \def\mu{\text{\textmu}}\def~{\,}%
+      \ifx\f@series\testbx\mathbf{#1}\else\mathrm{#1}\fi}}}
+
+\renewcommand{\thesection}{R\arabic{section}}
+
+\title{Response to reviewers}
+\author{}
+
+\begin{document}
+\maketitle
+
+We are pleased to present a significantly revised version of our manuscript titled
+``Cutting out the middleman: Calibrating and validating a dynamic vegetation model (ED2-PROSPECT5) using remotely sensed surface reflectance''
+for consideration for publication in \emph{Geoscientific Model Development}.
+We are very grateful to the two reviewers for their constructive feedback on our analysis, and we firmly believe addressing their suggestions has made our manuscript significantly better.
+In Section~\ref{sec:summary}, we provide a summary of the most significant changes in this revision.
+We provide a point-by-point response to each reviewer's comments in Sections~\ref{sec:r1} and~\ref{sec:r2}.
+All line numbers refer to the XXX version of the manuscript.
+
+\section{Summary of revisions}\label{sec:summary}
+
+\subsection{Revisions to the inversion algorithm}\label{subsec:algorithm}
+
+Reviewer T.\ Quaife remarked that
+
+\subsection{Discussion of reflectance fluxes}\label{subsec:brdf}
+
+Reviewer T.\ Quaife remarked that our original manuscript incorrectly downplayed the important differences between directional reflectance factor (which is observed by most optical remote sensing instruments) and hemispherical reflectance (a.k.a., ``albedo''; the quantity simulated by EDR and related models).
+We fully agree that these are two distinct (albeit related) physical quantities that, in general, cannot be compared.
+We also recognize that our original discussion of this topic was flawed and, as stated, misleading.
+
+To address this comment, we have completely rewritten our discussion of reflectance fluxes, taking care to emphasize that surface reflectance factors estimated by AVIRIS and similar sensors cannot be directly compared to hemispherical reflectance simulations from EDR and similar models without additional processing steps. The revised discussion now reads as follows:
+
+\begin{quote}
+
+  TODO
+
+\end{quote}
+
+That said, because we were using AVIRIS classic imagery that underwent additional processing for the NASA Forest Functional Types (FFT) project~\citep{singh2015imaging}, we feel that our analysis is still valid.
+In addition to the standard atmospheric correction and orthorectification conducted by NASA JPL, the AVIRIS data we used for model calibration were also cross-track illumination corrected, as well as BRDF-corrected, following the procedure of \citet{lucht2000algorithm}.
+Briefly, the latter approach estimates “intrinsic surface albedo” --- the precise quantity that is simulated by EDR --- from angular reflectance data through application of a polynomial approximation to the Ross-Li semiempirical BRDF model.
+The full AVIRIS processing pipeline for the  AVIRIS data (including the BRDF approximation) we used is described in \citet{singh2015imaging}.
+This information was absent in our original submission, but now appears in our expanded ``Site and data description'' section (lines XXX) and reads as follows:
+
+\begin{quote}
+
+  TODO
+
+\end{quote}
+
+\subsection{Structural issues in EDR}\label{subsec:structural}
+
+Reviewer 1 noted that several of our parameters exhibited edge-hitting behavior and suggested that we discuss this behavior and the extent to which it might be symptomatic of structural issues with EDR.\@
+At the same time, Reviewer T.\ Quaife suggested that we compare EDR and PRO4SAIL --- another two-stream canopy radiative transfer model popular in the remote sensing community due to its ability to predict both directional and hemispherical reflectance fluxes --- to explore the differences between hemispherical and directional reflectance.
+
+In our revision, we added sensitivity analyses of EDR to some of its parameters, and a comparison of EDR and equivalently parameterized PRO4SAIL.\@
+We describe this analysis in our Results section (lines XXX) as follows:
+
+\begin{quote}
+
+  TODO
+
+\end{quote}
+
+An important takeaway from this analysis is that, compared to PRO4SAIL, EDR systematically underpredicts hemispherical reflectance.
+This can be attributed to a difference in how EDR and SAIL define the direct radiation backscatter coefficient (see also discussion in \citealt{yuan2017reexamination}).
+This underestimation of hemispherical reflectance by EDR may help explain some of the calibration issues identified by Reviewer 1.
+Specifically, both increasing canopy clumping (which increases effective leaf area index) and increasing the leaf orientation factor (more horizontal leaves) increase the simulated canopy albedo,
+so pushing these parameters up against their physical upper bounds may be a way for our inversion to compensate for EDR's underestimation of albedo.
+We have included a discussion of this in our revised Discussion section, as follows:
+
+\begin{quote}
+TODO
+\end{quote}
+
+\subsection{Discussion of equifinality}\label{subsec:equifinality}
+
+Reviewer 1 noted that, while we mentioned in our Introduction the equifinality between leaf biochemistry and canopy structure in canopy radiative transfer, we did not revisit this important issue in in the rest of our manuscript.
+We agree that the topic of equifinality in canopy radiative transfer is worth additional discussion.
+We agree with the reviewer's assessment that equifinality was reduced by using informative priors for the leaf parameters.
+In addition, although not demonstrated here, another way to reduce equifinality is through the ecophysiological mechanisms embedded in the model itself --- i.e., some combinations of model parameters and states that are consistent with a given surface reflectance may be excluded because they imply ecologically unrealistic states in previous time steps or result in ecologically unrealistic outcomes in future time steps.
+Incorporating this dynamic aspect is an important future direction of this study.
+In our revision, we added all of these points to our discussion, as follows:
+
+\begin{quote}
+
+  TODO
+
+\end{quote}
+
+\subsection{Revised model description}\label{subsec:model}
+
+In the process of revising our manuscript (and particularly, of investigating the discrepancy between EDR and PRO4SAIL), we realized that while we correctly described canopy radiative transfer coefficients in EDR (e.g., inverse optical depth; leaf angle distribution functions) and correctly implemented EDR in our code,
+we did not correctly describe the multi-layer canopy radiative transfer solution actually used by EDR.\@
+In addition, we felt that our model description was not well-organized.
+Therefore, in this revision, we have completely re-written the Model Description to true to what the EDR code is actually doing, and, in our opinion, to be more clear (lines XXX).
+Importantly, we now split this section into two sub-sections:
+The first subsection describes the radiative transfer coefficients and their derivations (which should make it easier to cross-reference against the descriptions of its parent model --- Sellers 1985 --- and other radiative transfer models).
+The second subsection describes EDR's unique solution to these coefficients for a multi-layered heterogeneous canopy.
+
+\section{Reviewer 1}\label{sec:r1}
+
+\input{01-r1.tex}
+
+\section{Reviewer 2 (T.\ Quaife)}\label{sec:r2}
+
+\input{02-r2.tex}
+
+\bibliography{library.bib}
+
+\end{document}
