@@ -488,26 +488,31 @@ tidy_sail <- function(result_list, values) {
 sensitivity_plot <- function(values, varname, label,
                              defaults = edr_sensitivity_defaults,
                              ...) {
-    sens <- purrr::map(
-      values, do_sens,
-      fun = edr_r,
-      variable = varname,
-      .dots = modifyList(defaults, list(...))
-    ) %>%
-      tidy_albedo(values)
-    plt <- ggplot(sens) +
-      aes(x = wavelength, y = value, color = var_value,
-          group = var_value) +
-      geom_line() +
-      scale_color_viridis_c() +
-      labs(x = "Wavelength (nm)", y = "Albedo [0,1]",
-           color = label) +
-      theme_bw() +
-      theme(
-        legend.position = c(1, 1),
-        legend.justification = c(1, 1),
-        legend.background = element_blank()
-      )
-    ggsave(path(figdir, paste0("edr-sensitivity-", varname, ".png")), plt,
-           width = 4, height = 4, dpi = 300)
+  sens <- purrr::map(
+    values, do_sens,
+    fun = edr_r,
+    variable = varname,
+    .dots = modifyList(defaults, list(...))
+  ) %>%
+    tidy_albedo(values)
+  plt <- ggplot(sens) +
+    aes(x = wavelength, y = value, color = var_value,
+        group = var_value) +
+    geom_line() +
+    scale_color_viridis_c() +
+    labs(x = "Wavelength (nm)", y = "Albedo [0,1]",
+         color = label) +
+    theme_bw() +
+    theme(
+      legend.position = c(1, 1),
+      legend.justification = c(1, 1),
+      legend.background = element_blank()
+    )
+  ggsave(path(figdir, paste0("edr-sensitivity-", varname, ".png")), plt,
+         width = 4, height = 4, dpi = 300)
+}
+
+band_cut <- function(x, breaks = c(400, 750, 1100, 1300)) {
+  x2 <- cut(x, breaks, include.lowest = TRUE, dig.lab = 4)
+  forcats::fct_relabel(x2, ~paste(.x, "nm"))
 }

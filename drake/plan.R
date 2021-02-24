@@ -203,7 +203,53 @@ plan <- drake_plan(
     biggest_pft2 <- biggest_pft %>%
       mutate(pft = fct_relabel(pft, ~str_replace_all(.x, "_", " ")))
     plot_data <- observed_predicted %>%
-      group_by(site, aviris_id, wave_band = round(wavelength / 50) * 50) %>%
+      left_join(biggest_pft2, "site") %>%
+      arrange(pft) %>%
+      mutate(pft = as.character(pft)) %>%
+      bind_rows(mutate(observed_predicted, pft = "All sites"), .) %>%
+      mutate(pft = fct_inorder(pft))
+    nsites <- biggest_pft2 %>%
+      count(pft) %>%
+      mutate(pft = as.character(pft)) %>%
+      add_row(pft = "All sites", n = nrow(biggest_pft2), .before = 1) %>%
+      mutate(pft = fct_inorder(pft),
+             label = paste("N[site] ==", n))
+    avg <- plot_data %>%
+      group_by(pft, wavelength) %>%
+      summarize(
+        bias_lo = quantile(bias, 0.25),
+        bias_mid = median(bias),
+        bias_hi = quantile(bias, 0.75)
+      ) %>%
+      ungroup()
+    plt <- ggplot(plot_data) +
+      aes(x = wavelength) +
+      geom_ribbon(aes(ymin = bias_lo, ymax = bias_hi, y = NULL),
+                  fill = "deepskyblue", color = "deepskyblue", data = avg) +
+      geom_line(aes(y = bias, group = aviris_id), color = "black", size = 0.2, alpha = 0.3) +
+      geom_line(aes(y = bias_mid), color = "black", data = avg) +
+      geom_hline(yintercept = 0, linetype = "dashed", color = "red") +
+      geom_vline(xintercept = c(750, 1100), linetype = "dashed", size = 0.2) +
+      geom_text(aes(x = -Inf, y = -Inf, label = label), data = nsites,
+                parse = TRUE, hjust = -0.1, vjust = -0.1) +
+      facet_wrap(vars(pft)) +
+      labs(x = "Wavelength (nm)",
+           y = "Predicted (mean) - observed reflectance") +
+      theme_bw() +
+      theme(panel.grid = element_blank()) +
+      scale_x_continuous(breaks = c(400, 600, 750, 900, 1100, 1300))
+    ggsave(
+      file_out(!!path(figdir, "spec-error-aggregate.png")),
+      plt,
+      width = 8, height = 5, dpi = 300
+    )
+  },
+  spec_error_binned = {
+    biggest_pft2 <- biggest_pft %>%
+      mutate(pft = fct_relabel(pft, ~str_replace_all(.x, "_", " ")))
+    bin <- 50
+    plot_data <- observed_predicted %>%
+      group_by(site, aviris_id, wave_band = round(wavelength / bin) * bin) %>%
       summarize(bias = mean(bias, na.rm = TRUE)) %>%
       ungroup() %>%
       left_join(biggest_pft2, "site")
@@ -212,9 +258,9 @@ plan <- drake_plan(
       mutate(label = paste("N[site] ==", n))
     plt <- ggplot(plot_data) +
       aes(x = wave_band, y = bias, group = wave_band) +
-      geom_hline(yintercept = 0, linetype = "dashed") +
       geom_jitter(color = "gray70", size = 0.4, alpha = 0.6) +
-      geom_boxplot(outlier.shape = NA, position = "identity", fill = NA) +
+      geom_boxplot(outlier.shape = NA, position = "identity", fill = NA, weight = 0.1) +
+      geom_hline(yintercept = 0, linetype = "dashed", color = "red") +
       geom_text(aes(x = -Inf, y = -Inf, label = label, group = NULL), data = nsites,
                 parse = TRUE, hjust = -0.1, vjust = -0.1) +
       facet_wrap(vars(pft)) +
@@ -223,7 +269,7 @@ plan <- drake_plan(
       theme_bw() +
       theme(panel.grid = element_blank())
     ggsave(
-      file_out(!!path(figdir, "spec-error-aggregate.png")),
+      file_out(!!path(figdir, "spec-error-binned.png")),
       plt,
       width = 8, height = 5, dpi = 300
     )
@@ -452,7 +498,11 @@ plan <- drake_plan(
     dplyr::ungroup(),
   bias_data = {
     band_diffs <- observed_predicted %>%
-      dplyr::mutate(band = if_else(wavelength < 750, "VIS", "NIR")) %>%
+      dplyr::mutate(
+        band = cut(wavelength, c(400, 750, 1100, 1300),
+                   include.lowest = TRUE, dig.lab = 4) %>%
+          fct_relabel(~paste(.x, "nm"))
+      ) %>%
       dplyr::group_by(band, site) %>%
       dplyr::summarize(mean_diff = mean(bias, na.rm = TRUE)) %>%
       dplyr::ungroup()
@@ -461,17 +511,18 @@ plan <- drake_plan(
       dplyr::mutate(LAI_diff = lai_mean - obs_LAI) %>%
       dplyr::select(site, LAI_diff, lai_mean, obs_LAI, dplyr::everything()) %>%
       dplyr::arrange(dplyr::desc(LAI_diff))
-    bias_data <- band_diffs %>%
+    bias_data_0 <- band_diffs %>%
       dplyr::left_join(site_structure_data, c("site" = "site_name")) %>%
       dplyr::left_join(lai_both, "site") %>%
       dplyr::mutate(mostly_evergreen = (frac_evergreen > 0.5) %>%
                       factor(labels = paste("Mostly", c("deciduous", "evergreen"))),
-                    tot_dens = tot_dens * 5000) %>%
-      dplyr::left_join(biggest_pft, "site") %>%
-      dplyr::mutate(band = factor(band, c("VIS", "NIR"),
-                                  c("400-750nm", "750-1400nm")),
-                    pft = factor(pft, labels = c("EH", "MH", "LH",
-                                                 "NP", "LC")))
+                    tot_dens = tot_dens * 5000)
+    bias_data_pft <- bias_data_0 %>%
+      dplyr::left_join(biggest_pft, "site")
+    bias_data <- bias_data_0 %>%
+      dplyr::mutate(pft = "All") %>%
+      dplyr::bind_rows(bias_data_pft) %>%
+      dplyr::mutate(pft = factor(pft, labels = c("All", "EH", "MH", "LH", "NP", "LC")))
     bias_data
   },
   supplement_pft_plots = {
@@ -509,7 +560,7 @@ plan <- drake_plan(
       theme(panel.grid = element_blank())
     ggsave(file_out(!!path(figdir, "bias-density-pft.png")),
            pft_density_bias_plot,
-           width = 7, height = 3.5, units = "in", dpi = 300)
+           width = 7, height = 4.5, units = "in", dpi = 300)
   },
   lai_sens_edr = sensitivity_plot(c(seq(0.2, 1, 0.2), seq(1, 5, 0.5), seq(5, 10, 1)), "lai", "LAI"),
   clumping_sens_edr = sensitivity_plot(seq(0.1, 1.0, 0.1), "clumping_factor", "Clumping factor"),
@@ -583,18 +634,22 @@ plan <- drake_plan(
     plot_dat <- tidy_both_long %>%
       dplyr::rename(LAI = var_value) %>%
       dplyr::mutate(Source = factor(name, c("value", "sail_hr", "sail_dr", "bhr", "dhr", "hdr", "bdr"),
-                                    c("EDR", "SAIL: HR", "SAIL: DR", "SAIL: BHR", "SAIL: DHR", "SAIL: HDR", "SAIL: BDR")))
+                                    c("EDR", "SAIL: HR", "SAIL: DR", "SAIL: BHR", "SAIL: DHR", "SAIL: HDR", "SAIL: BDR"))) %>%
+      dplyr::group_by(LAI, Source, band = band_cut(wavelength)) %>%
+      dplyr::summarize(value = mean(value)) %>%
+      dplyr::ungroup() %>%
+      dplyr::filter(!is.na(band))
     plt <- ggplot(plot_dat) +
-      aes(x = wavelength, y = value, color = Source, linetype = Source) +
+      aes(x = LAI, y = value, color = Source, linetype = Source) +
       geom_line() +
       scale_color_brewer(palette = "Dark2") +
       scale_linetype_manual(values = c(1, 1, 1, 3, 3, 3, 3)) +
-      facet_wrap(vars(LAI), labeller = label_both) +
-      labs(x = "Wavelength (nm)", y = "Reflectance [0,1]",
-           color = "Source") +
-      theme_bw()
+      facet_wrap(vars(band), scales = "free_y") +
+      labs(x = "LAI", y = "Reflectance [0,1]", color = "Source") +
+      theme_bw() +
+      theme(legend.position = "bottom")
     ggsave(path(figdir, "edr-sail-comparison-lai.png"), plt,
-           width = 8, height = 6, units = "in", dpi = 300)
+           width = 6, height = 3.8, units = "in", dpi = 300)
   },
   edr_sail_comparison_czen = {
     czen <- seq(0.5, 1.0, 0.1)
@@ -624,17 +679,21 @@ plan <- drake_plan(
     plot_dat <- tidy_both_long %>%
       dplyr::rename(czen = var_value) %>%
       dplyr::mutate(Source = factor(name, c("value", "sail_hr", "sail_dr", "bhr", "dhr", "hdr", "bdr"),
-                                    c("EDR", "SAIL: HR", "SAIL: DR", "SAIL: BHR", "SAIL: DHR", "SAIL: HDR", "SAIL: BDR")))
+                                    c("EDR", "SAIL: HR", "SAIL: DR", "SAIL: BHR", "SAIL: DHR", "SAIL: HDR", "SAIL: BDR"))) %>%
+      dplyr::group_by(czen, Source, band = band_cut(wavelength)) %>%
+      dplyr::summarize(value = mean(value)) %>%
+      dplyr::ungroup() %>%
+      dplyr::filter(!is.na(band))
     plt <- ggplot(plot_dat) +
-      aes(x = wavelength, y = value, color = Source, linetype = Source) +
+      aes(x = czen, y = value, color = Source, linetype = Source) +
       geom_line() +
       scale_color_brewer(palette = "Dark2") +
       scale_linetype_manual(values = c(1, 1, 1, 3, 3, 3, 3)) +
-      facet_wrap(vars(czen), labeller = label_both) +
-      labs(x = "Wavelength (nm)", y = "Reflectance [0,1]",
-           color = "Source") +
-      theme_bw()
+      facet_wrap(vars(band), scales = "free_y") +
+      labs(x = expression(cos(theta[s])), y = "Reflectance [0,1]", color = "Source") +
+      theme_bw() +
+      theme(legend.position = "bottom")
     ggsave(path(figdir, "edr-sail-comparison-czen.png"), plt,
-           width = 8, height = 6, units = "in", dpi = 300)
+           width = 6, height = 3.8, units = "in", dpi = 300)
   }
 )

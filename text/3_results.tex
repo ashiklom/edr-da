@@ -21,7 +21,7 @@ Model calibration improved the precision of most PFT-specific parameter estimate
 Across all PFT-specific parameters, the posterior 95\% credible interval (CI) was, on average, 9\% the size of the prior credible interval.
 The most constrained parameters on average were EDR canopy structure parameters---namely the wood biomass allometry (<1\% of prior CI), wood biomass allometry (1\%), specific leaf area (7\%), leaf orientation factor (8\%), and clumping factor (9\%)---
 while the least constrained parameters on average were the PROSPECT parameters---namely, effective number of leaf layers (17\%), total carotenoid content (16\%), dry matter content (12\%), total chlorophyll content (12\%), and leaf water content (10\%).
-By PFT, the largest relative constraint was for Early Hardwood (5\%) and the smallest relative constraint was for Late Hardwood (14\% of prior CI).
+By PFT, the largest relative constraint was for early hardwood (5\%) and the smallest relative constraint was for late hardwood (14\% of prior CI).
 
 For leaf traits, PFT rankings of the posterior estimates largely followed the relative positions of the priors, though there were a few exceptions.
 In both the prior and posterior, the estimated effective number of leaf mesophyll layers (a.k.a., PROSPECT \emph{N} parameter) was higher for needleleaved than broadleaved PFTs, with the highest value for northern pine and the lowest value for mid hardwood.
@@ -40,52 +40,79 @@ Finally, the calibration was able to constrain site-specific soil optical proper
 
 \begin{figure}
   \centering
+  \includegraphics[width=\textwidth,keepaspectratio]{figures/spec-error-aggregate}
+  \caption{\label{fig:spec-error-aggregate}\
+    Differences between AVIRIS observed and EDR posterior predictive mean surface reflectance by site.
+    Each thin gray line is a site-specific AVIRIS observation.
+    Top left panel shows results across all sites,
+    and remaining panels group sites according to dominant PFT (calculated as the PFT contributing most to site total stem density-weighted diameter at breast height, DBH).
+    Within each panel, blue shading shows the 25--75\% quantile range and the thick black line is the median by wavelength for that specific site.
+  }
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\textwidth]{figures/bias-boxplot-pft}
+  \caption{\label{fig:bias-boxplot-pft}\
+    Differences between AVIRIS observed and EDR posterior predictive mean surface reflectance by site, averaged across wavelength regions.
+    Sites are grouped by dominant PFT, as in Figure~\ref{fig:spec-error-aggregate}.
+    Note the differences in the $y$ axis scale across panels.
+  }
+\end{figure}
+
+\begin{figure}
+  \centering
   \includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{figures/mainfig-sites}
   \caption{\label{fig:spec-error-all}\
     (\emph{Left}) Comparison between AVIRIS observed (black) and
     EDR predicted (mean prediction in green, 95\% posterior predictive interval in gray)
-    surface reflectance for a sample of sites used in the calibration.
+    surface reflectance for a geographically (Figure~\ref{fig:site-map}), compositionally, and structurally (Figure~\ref{fig:site-structure}) representative sample of sites used in the calibration.
     (\emph{Right}) Histogram of stem diameter at breast height (DBH) by plant functional type (PFT) at the corresponding site.
   }
 \end{figure}
 
-\begin{figure}
-  \centering
-  \includegraphics[width=\textwidth,keepaspectratio]{figures/spec-error-aggregate}
-  \caption{\label{fig:spec-error-aggregate}\
-    Difference between AVIRIS observed and EDR predicted (mean) site surface reflectance.
-    One line per site and observation is shown (some sites had multiple observations).
-  }
-\end{figure}
-
-The accuracy and precision of EDR simulated spectra relative to AVIRIS observations varied across sites (Figures~\ref{fig:spec-error-all}, \ref{fig:spec-error-aggregate}, and~\ref{fig:spec-error-allsites}).
-The largest differences between observed and predicted reflectance were in the near-infrared region, particularly from 775 to 1100 \unit{nm},
-while predictions in the visible range agreed well with observations in all but a few cases.
-That said, the EDR predictive interval overlapped observations in all but a few individual cases (Figure~\ref{fig:spec-error-allsites}), suggesting that our estimates of model uncertainty are realistic.
-We did not observe any consistent patterns in mismatch between observed and EDR predicted reflectance with respect to tree size, stem density, or composition (Figures~\ref{fig:bias-boxplot-pft}--\ref{fig:tree-sites-LC}).
+The accuracy and precision of EDR simulated spectra relative to AVIRIS observations varied across sites (Figures~\ref{fig:spec-error-aggregate},~\ref{fig:bias-boxplot-pft},~\ref{fig:spec-error-all}, and~\ref{fig:spec-error-allsites}).
+On average, EDR tended to accurately (within 0.01) reproduce reflectance in the 400--750 \unit{nm} range, underpredict AVIRIS reflectance by \~0.03 in the 750--1100 \unit{nm} range, and overpredict AVIRIS reflectance by \~0.04 in the 1100--1300 \unit{nm} range.
+However, only the latter behavior was mostly consistent across site; below 1100 \unit{nm}, sites of any dominant PFT could have low, accurate, or high estimates relative to AVIRIS.\@
+The EDR posterior predictive interval overlapped AVIRIS observations in all but a few individual cases (Figure~\ref{fig:spec-error-allsites}), suggesting that our estimates of model uncertainty are realistic.
+The only consistent biases (expressed as interquartile range in bias not overlapping zero) we observed with respect to PFT were overestimates of reflectance in the 400--750 \unit{nm} range for northern pine and underestimates of reflectance in the 750--1100 \unit{nm} range for mid hardwood;
+otherwise, we did not observe any consistent patterns in mismatch between AVIRIS observed and EDR predicted reflectance with respect to tree size, stem density, or composition (Figures~\ref{fig:bias-boxplot-pft} and~\ref{fig:bias-density-pft}--\ref{fig:tree-sites-LC}).
 
 \begin{figure}
   \centering
-  \includegraphics[width=3in,keepaspectratio]{figures/lai-pred-obs}
+  \includegraphics[width=3in]{figures/lai-pred-obs}
   \caption{\
     EDR predictions of leaf area index (LAI) compared to observed values.
   }\label{fig:lai-pred-obs}
 \end{figure}
 
-Leaf area index predicted from calibrated EDR parameters captured 43\% of the variability in the observations (Figure~\ref{fig:lai-pred-obs}).
-The observed vs.\ predicted line had a slope of 0.37 and an intercept of 2.80, indicating that EDR calibration underpredicted LAI on average but exaggerated across-site LAI variability.
-
 \begin{figure}
   \centering
-  \includegraphics[width=\textwidth]{figures/lai-bias-dbh-bypft.png}
+  \includegraphics[width=0.75\textwidth]{figures/lai-bias-dbh-bypft.png}
   \caption{\
     Bias in leaf area index (LAI) predictions from calibrated EDR relative to observations,
     as a function of site mean diameter at breast height (DBH).
+  }\label{fig:lai-bias-dbh-bypft}
+\end{figure}
+
+Leaf area index predicted from calibrated EDR parameters captured 56\% of the variability in the observations (Figure~\ref{fig:lai-pred-obs}).
+The observed vs.\ predicted line had a slope of 0.42 and an intercept of 2.82, indicating that EDR calibration underpredicted true LAI on average but exaggerated across-site LAI variability.
+In general, EDR tended to underpredict LAI at sites with low mean DBH and overpredict sites with high mean DBH (Figures~\ref{fig:lai-bias-dbh-bypft}).
+This trend was generally true across all PFTs but was most pronounced for early hardwood- and late conifer-dominated sites .
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\textwidth]{figures/edr-sail-comparison-czen}
+  \caption{\label{fig:edr-sail-comparison-czen}\
+    Comparison of EDR and PRO4SAIL (labelled as ``SAIL'' for conciseness) predictions of reflectance for identical, single-cohort canopies as a function of solar zenith angle ($\theta_{s}$).
+    These simulations use identical PROSPECT and canopy structure parameters, a nadir-viewing sensor, and LAI of 3.
+    For EDR, we use a single cohort with LAI of 3 prescribed directly.\@
+    ``SAIL:\@HR'' is the ``hemispherical reflectance'' (``blue-sky albedo''), calculated (as in EDR) as the average of directional-hemispherical (DHR) and bi-hemispherical (BHR) reflectance streams weighted by the direct sky fraction (0.9; same value used for EDR).
+    Similarly, ``SAIL:\@DR'' is the ``directional reflectance'', calculated analogously from the bi-directional (BDR) and hemispherical-directional (HDR) reflectance streams.
+    Individual SAIL fluxes are shown with dotted lines.
   }
 \end{figure}
 
-EDR and SAIL differed in their predictions of hemispherical reflectance.
-For solar geometry typical of our analysis ($\cos(\theta) = 0.85$), EDR agreed very closely with SAIL directional reflectance over a wide range of LAI values (0.1 to 5),
-but SAIL hemispherical reflectance was higher than EDR (Figure TODO).
-However, EDR was more sensitive to solar geometry than any of the SAIL reflectance streams:
-When the sun was directly overhead ($\theta = 0$; $\cos(\theta) = 1$), EDR predicted lower albedo than even the darkest SAIL bi-directional reflectance, but as solar angle increased, EDR predictions asymptotically approached (but never quite reached) the brightest SAIL bi-hemispherical reflectance.
+For identical canopies, EDR consistently predicted lower hemispherical reflectance than PRO4SAIL (Figure~\ref{fig:edr-sail-comparison-czen}).
+This difference was most pronounced when the sun was directly overhead ($\theta_{s} = 0\degree$; $\cos(\theta_{s}) = 1$) and declined with increasing solar zenith angle.
+For solar zenith angles typical of our study, ($\theta_{s} \approx 30\degree$; $\cos(\theta_{s}) = 0.85$) EDR hemispherical reflectance predictions were very close to PRO4SAIL directional reflectance predictions over a wide range of LAI values (Figure~\ref{fig:edr-sail-comparison-lai}).
