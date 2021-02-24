@@ -18,6 +18,25 @@ plan <- drake_plan(
     }
     dev.off()
   },
+  traceplots_full = {
+    samples_bt <- readRDS(file_in(!!pda_result_file))
+    posterior <- BayesianTools::getSample(samples_bt, thin = "auto", coda = TRUE,
+                                          start = 50000)
+    param_names <- readLines(file_in(!!param_names_file))
+    param_traces <- param_names %>%
+      str_remove("^temperate\\..*\\.") %>%
+      str_subset("sitesoil", negate = TRUE) %>%
+      str_remove("_(slope|intercept)") %>%
+      unique()
+    trace_file <- file_out(!!path(figdir, "traceplots-full.pdf"))
+    pdf(trace_file, width = 8, height = 10)
+    for (param in param_traces) {
+      iparam <- str_detect(param_names, param)
+      chains <- posterior[, iparam]
+      plot(chains, density = FALSE, main = param)
+    }
+    dev.off()
+  },
   posterior_matrix = {
     samples_bt <- readRDS(file_in(!!pda_result_file))
     posterior_matrix <- BayesianTools::getSample(

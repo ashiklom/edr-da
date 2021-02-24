@@ -6,7 +6,7 @@ pdf:
 	cd text && make
 
 traceplots:
-	RUN_CONFIG=revision-fixed Rscript -e "drake::r_drake_build('traceplots')"
+	RUN_CONFIG=revision-fixed Rscript -e "drake::r_drake_build('traceplots')" -e "drake::r_drake_build('traceplots_full')"
 
 drake:
 	RUN_CONFIG=revision-fixed Rscript -e "drake::r_make()"
