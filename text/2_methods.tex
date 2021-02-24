@@ -217,7 +217,7 @@ $\TAI_{(n+1)} = 0$;
 $\bar{\mu}_{(n+1)} = 1$;
 $\omega_{(n+1)} = 1$ (no absorption);
 and
-$\beta_{(n+1)} = \beta^{\odot}_{(n+1} = 0$ (no scattering; all radiance is transmitted).
+$\beta_{(n+1)} = \beta^{\odot}_{(n+1)} = 0$ (no scattering; all radiance is transmitted).
 At the bottom of the canopy ($i=1$), we re-define the ground scattering, $\omega_{g}$, based on a soil radiative transfer model (Section \ref{subsec:edr-prospect}).
 With these boundary conditions, the elements of $\mat{S}$ are given by:
 
@@ -359,7 +359,7 @@ Collectively, these two changes produce the following calculation for $\Sigma$:
   & \mat{\Sigma_{s}} = \vec{\sigma_{s}} \varrho^{\mat{H}} \vec{\sigma_{s}}
 \end{align}
 
-where $H$ is a matrix describing the distance between bands (0 on the diagonal, increasing regularly toward the corners) and $\varrho$ is the AR-1 autocorrelation parameter.
+where $\mat{H}$ is a matrix describing the distance between bands (0 on the diagonal, increasing regularly toward the corners) and $\varrho$ is the AR-1 autocorrelation parameter.
 To simplify the inversion procedure, we first performed the inversion using a diagonal covariance matrix (i.e., $\varrho = 0$), then calculated the mean $\varrho$ from the residuals of this fit, and then used this average value (0.700) for our final inversion.
 
 In addition, to mitigate sampling issues related to EDR's saturating response to increasing total LAI, we added an additional term to our likelihood that assigns a uniform probability distribution over the range 0 to 10 to the EDR predicted LAI for a given site ($\LAI_{\mathrm{pred}, s}$).
@@ -370,21 +370,18 @@ A global database of field LAI measurements \citep{iio2014global} contains value
 
 The final expression for the site-specific likelihood is therefore:
 
-\begin{equation}
-  R_{\mathrm{pred}, s}, \LAI_{\mathrm{pred}, s} = \EDR(\vec{\Theta} | \mathrm{comp}_{s})
-\end{equation}
-
-\begin{equation}
-  P(\mat{X}_{s} | \vec{\Theta}) =
+\begin{align}
+  & R_{\mathrm{pred}, s}, \LAI_{\mathrm{pred}, s} = \EDR(\vec{\Theta} | \mathrm{comp}_{s}) \\
+  & P(\mat{X}_{s} | \vec{\Theta}) =
   \mathrm{MvNormal}(\mat{X}_{s} | R_{\mathrm{pred}, s}, \mat{\Sigma}) ~
   \mathrm{Uniform}(\LAI_{\mathrm{pred}, s} | 0, 10)
-\end{equation}
+\end{align}
 
 Therefore, our parameter vector $\vec{\Theta}$ consists of the following (summarized in Table~\ref{tab:parameters}):
-10 EDR parameters per PFT---5 parameters for the PROSPECT 5 model (\emph{N}, \emph{Cab}, \emph{Car}, \emph{Cw}, \emph{Cm}) and 5 EDR parameters related to canopy structure ($q$, $\chi$, $\SLA$, $\bbbl$, $\bbbw$)---,
+10 EDR parameters per PFT---5 parameters for the PROSPECT 5 model (\emph{N}, \emph{Cab}, \emph{Car}, \emph{Cw}, \emph{Cm}) and 5 EDR parameters related to canopy structure ($q$, $\chi$, $\SLA$, $\bbbl$, $\bbbw$)---
 1 parameter per site (relative soil moisture, $\psi_{s}$),
 and the residual slope ($m$) and intercept ($b$).
-(With 5 PFTs and 54 sites, this means that $\vec{\Theta}$ has length $(10 \times 5) + 54 + 2 = 106$).
+With 5 PFTs and 54 sites, this means that $\vec{\Theta}$ has length $(10 \times 5) + 54 + 2 = 106$.
 
 For priors on the PROSPECT 5 parameters and SLA, we performed a hierarchical multivariate analysis \citep{shiklomanov2020does} on PROSPECT 5 parameters and direct SLA measurements from \citep[][Chapter 3]{shiklomanov_dissertation}.
 For priors on the leaf biomass allometry parameters, we fit a multivariate normal distribution to allometry coefficients from \citet{jenkins2003nationalscale,jenkins2004comprehensive} using the \texttt{PEcAn.allometry} package (\url{https://github.com/pecanproject/pecan/tree/develop/modules/allometry}).
@@ -394,7 +391,7 @@ To alleviate issues with strong collinearity between the allometry parameters an
 Doing so dramatically improved the stability of the inversion algorithm and the accuracy of the results.
 
 We fit this model using the Differential Evolution with Snooker Update (``DEzs'') Markov-Chain Monte Carlo (MCMC) sampling algorithm \citep{terbraak2008differential} as implemented in the R package \texttt{BayesianTools} \citep{bayesiantools}.
-We ran the algorithm using 8 independent chains for as many iterations as required to achieve convergence, assessed according to a Gelman-Rubin Potential Scale Reduction Factor (PSRF) diagnostic value of less than 1.1 for all parameters \citep{gelman1992inference}.
+We ran the algorithm using 3 independent chains for as many iterations as required to achieve convergence, assessed according to a Gelman-Rubin Potential Scale Reduction Factor (PSRF) diagnostic value of less than 1.1 for all parameters \citep{gelman1992inference}.
 
 \begin{table}
   \caption{EDR parameters and prior distributions}\label{tab:parameters}
