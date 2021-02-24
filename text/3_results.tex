@@ -12,7 +12,8 @@
     MH:\@North Mid Hardwood;
     LH:\@Late Hardwood;
     NP:\@Northern Pine;
-    LC:\@Late conifer
+    LC:\@Late conifer.
+    Leaf and wood biomass allometry panels are clipped at 0.2 to facilitate differentiation of posterior distributions.
   }
 \end{figure}
 
@@ -22,17 +23,20 @@ The most constrained parameters on average were the leaf biomass allometry (2\% 
 and the least constrained parameters on average were the PROSPECT leaf water content (5\% of prior CI) and PROSPECT effective number of leaf layers (4\% of prior CI).
 By PFT, the largest relative constraint was for North Mid Hardwood (3\% of prior CI) and the smallest relative constraint was for Late Hardwood (5\% of prior CI).
 
-For leaf traits, PFT rankings of the posterior estimates largely followed the relative positions of the priors.
-The effective number of leaf mesophyll layers (a.k.a., PROSPECT \emph{N} parameter) was higher for needleleaved than broadleaved PFTs, with the highest value for northern pine and the lowest value for mid hardwood.
-Estimated total chlorophyll contents (\emph{Cab}) were similar across all PFTs, with the highest values for early and mid Hardwood followed closely by late hardwood and late conifer, and the lowest values for northern pine.
-Estimates of leaf total carotenoid (\emph{Car}), water (\emph{Cw}), and dry matter contents (\emph{Cm}) had distributions that overlapped for all PFTs, though the central tendency of late conifer was slightly higher than other PFTs for all three traits.
-Finally, estimated specific leaf area (SLA) was highest in early hardwood, followed by late hardwood and mid hardwood, and was comparably low for northern pine and late conifer.
+For leaf traits, PFT rankings of the posterior estimates largely followed the relative positions of the priors, though there were a few exceptions.
+In both the prior and posterior, the estimated effective number of leaf mesophyll layers (a.k.a., PROSPECT \emph{N} parameter) was higher for needleleaved than broadleaved PFTs, with the highest value for northern pine and the lowest value for mid hardwood.
+The exact opposite was true of specific leaf area (SLA), except that late conifer had a lower posterior SLA than northern pine despite a very similar prior.
+Estimated total chlorophyll contents (\emph{Cab}) were similarly high for all hardwood PFTs in both the prior and posterior,
+but posterior estimates for late conifer and northern pine were significantly lower.
+Posterior estimates of total carotenoid contents (\emph{Car}) were similar across all PFTs except mid hardwood, which had a significantly higher value (despite a prior that was similar for all hardwood PFTs).
+Posterior estimates of leaf water content (\emph{Cw}) were lowest for early hardwood and northern pine, higher for mid- and late hardwood, and highest for late conifer; these differences were despite strongly overlapping priors across all PFTs.
+Similarly, posterior estimates of leaf dry matter content (\emph{Cm}) were lowest for mid- and late hardwood, higher for early hardwood and northern pine, and highest for late conifer, again despite a strongly overlapping prior across all PFTs.
 
-Compared to leaf traits, canopy structural traits had less informative (and PFT-agnostic) priors and were more constrained by the calibration.
-Although the estimated parameter distributions were still mutually overlapping in most cases, the constraint did suggest differences between PFTs for some parameters.
-For example, leaf orientation factors and, to a lesser extent, canopy clumping factors and leaf biomass allometry parameters (\emph{b1Bl}) were higher for mid- and late-successional broadleaved PFTs than other PFTs.
-Meanwhile, northern pine had the lowest leaf biomass allometry parameters and clumping and orient factors, and the highest wood biomass allometry parameter (\emph{b1Bw}).
-Calibration provided only limited constraint on site-specific soil optical properties, with posterior estimates that were typically almost as wide as the uninformative prior distributions for all but a few specific sites (Figure~\ref{fig:posterior-soil}).
+Compared to leaf traits, canopy structural traits had less informative (and PFT-agnostic) priors, and the posterior distributions exhibited some differences across PFTs.
+Posterior leaf biomass allometry ($\bbbl$) estimates were lowest in northern pine and early hardwood, higher for late conifer, and highest for mid- and late hardwood.
+Posterior wood biomass allometry ($\bbbw$) estimates were lowest for early hardwood and late conifer, slightly higher in mid- and late hardwood, and highest for northern pine.
+Posterior canopy clumping factor ($q$) estimates were clustered at its upper limit of 1 (i.e., exhibited ``edge-hitting behavior'') for early and mid hardwood and northern pine, but were lower for late hardwood and lowest for late conifer.
+Finally, the calibration was able to constrain site-specific soil optical properties across all sites (Figure~\ref{fig:posterior-soil}).
 
 \begin{figure}
   \centering
