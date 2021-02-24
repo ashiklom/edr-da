@@ -231,7 +231,6 @@ spec_error_all_f <- function(observed_predicted, sail_predictions, ncol = 6) {
                  "SAIL" = "red")
     ) +
     theme_bw()
-  # TODO Facet text inside plots --- use `geom_text`
 }
 
 site_spec_dbh_plot <- function(site, observed_predicted, site_details,
@@ -330,18 +329,12 @@ lai_predicted_observed_plot <- function(site_lai_total, lai_observed) {
   fit2 <- lm(fit2_form, data = plot_dat)
   sfit2 <- summary(fit2)
   pval <- sfit2$coefficients[2, "Pr(>|t|)"]
-  ## plot(fit2_form, data = plot_dat,
-  ##      xlab = "Predicted", ylab = "Predicted - Observed")
-  ## abline(fit2)
-  ## abline(h = 0, lty = "dashed")
 
   eqn <- paste(
     sprintf("y = %.2fx + %.2f", fit$coefficients[2], fit$coefficients[1]),
-    sprintf("R2 = %.2f, p(m != 1) = %.3f", sfit$r.squared, pval),
+    sprintf("R² = %.2f, p(m ≠ 1) = %.3f", sfit$r.squared, pval),
     sep = "\n"
   )
-  xx <- max(plot_dat$lai_hi)
-  yy <- max(plot_dat$obs_LAI_hi)
   ggplot(plot_dat) +
     aes(x = lai_mean, xmin = lai_lo, xmax = lai_hi,
         y = obs_LAI, ymin = obs_LAI_lo, ymax = obs_LAI_hi) +
@@ -355,7 +348,7 @@ lai_predicted_observed_plot <- function(site_lai_total, lai_observed) {
                           name = "") +
     scale_color_manual(values = c("1:1" = "black", "Regression" = "red"),
                        name = "") +
-    annotate("text", x = xx, y = yy, hjust = 1, vjust = 1,
+    annotate("text", x = -Inf, y = Inf, hjust = -0.2, vjust = 1.2,
              label = eqn) +
     labs(x = "Predicted LAI", y = "Observed LAI") +
     theme_bw() +

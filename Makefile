@@ -1,12 +1,14 @@
-.PHONY: all clean drake pdf sync
+.PHONY: all clean drake pdf sync traceplots
 
 all: drake pdf
 
 pdf:
 	cd text && make
 
+traceplots:
+	RUN_CONFIG=revision-fixed Rscript -e "drake::r_drake_build('traceplots')"
+
 drake:
-	# RUN_CONFIG=revision Rscript -e "drake::r_make()"
 	RUN_CONFIG=revision-fixed Rscript -e "drake::r_make()"
 
 sync:
