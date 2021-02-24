@@ -2,6 +2,46 @@
 
 \begin{figure}[ht]
   \centering
+  \includegraphics[width=3in]{figures/edr-sensitivity-lai}
+  \caption{\label{fig:edr-sensitivity-lai}\
+    Sensitivity of EDR predicted hemispherical reflectance to true leaf area index (LAI).
+    These simulations assume a single-cohort canopy with
+    effective number of mesophyll layers $N = 1.4$,
+    total chlorophyll content $Cab = 40$,
+    total carotenoid content $Car = 10$,
+    leaf water content $Cw = 0.01$,
+    leaf dry matter content $Cm = 0.01$,
+    clumping factor $q = 1$,
+    leaf orientation factor $\chi = 0$,
+    $\cos(\theta_{s}) = 0.85$,
+    and soil moisture fraction $\psi = 0.5$.
+  }
+\end{figure}
+
+\clearpage
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=3in]{figures/edr-sensitivity-clumping_factor}
+  \caption{\label{fig:edr-sensitivity-clumping}\
+    Same as above but with LAI fixed to 3 and varying clumping factor ($q$).
+  }
+\end{figure}
+
+\clearpage
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=3in]{figures/edr-sensitivity-orient_factor}
+  \caption{\label{fig:edr-sensitivity-orient}\
+    Same as above, but instead varying leaf orientation factor ($\chi$).
+  }
+\end{figure}
+
+\clearpage
+
+\begin{figure}[ht]
+  \centering
   \includegraphics[width=\textwidth]{figures/posterior-soil}
   \caption{\label{fig:posterior-soil}\
     Site-specific relative soil moisture (0 = dry, 1 = wet) posterior estimates.
@@ -135,5 +175,16 @@
   \includegraphics[width=\textwidth]{figures/edr-sail-comparison-lai}
   \caption{\label{fig:edr-sail-comparison-lai}\
     Same as Figure~\ref{fig:edr-sail-comparison-czen}, but varying leaf area index (LAI) and fixing $\cos(\theta_{s}) = 0.85$, a typical value for our study.
+  }
+\end{figure}
+
+\clearpage
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\textwidth]{figures/posterior-correlations}
+  \caption{\label{fig:posterior-correlations}\
+    Posterior correlation matrix for PFT-specific parameters.
+    Note that only correlations among parameters within the same PFT are shown---the full 106 $\times$ 106 dimensional correlation matrix is far too large to display in this format.
   }
 \end{figure}

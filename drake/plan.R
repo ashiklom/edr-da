@@ -576,7 +576,7 @@ plan <- drake_plan(
     # Answer: No, it does not -- results are the same.
     values <- list(
       4,
-      c(4, 1),
+      c(3, 1),
       c(2, 1, 0.5, 0.3, 0.2)
     )
     varname <- "lai"
@@ -695,5 +695,54 @@ plan <- drake_plan(
       theme(legend.position = "bottom")
     ggsave(path(figdir, "edr-sail-comparison-czen.png"), plt,
            width = 6, height = 3.8, units = "in", dpi = 300)
+  },
+  posterior_correlations = {
+    cormat <- cor(posterior_matrix)
+    wide_cor <- corrr::as_cordf(cormat)
+    long_cor <- wide_cor %>%
+      corrr::shave() %>%
+      corrr::stretch(na.rm = TRUE) %>%
+      dplyr::mutate(dplyr::across(c(x, y), ~gsub("temperate\\.", "", .x)))
+
+    lc2 <- long_cor %>%
+      tidyr::separate(x, c("xpft", "xvar"), sep = "\\.") %>%
+      tidyr::separate(y, c("ypft", "yvar"), sep = "\\.") %>%
+      dplyr::mutate(
+        dplyr::across(c(xvar, yvar), ~gsub("prospect_", "", .x)),
+        dplyr::across(c(xvar, yvar), ~gsub("_factor", "", .x))
+      )
+
+    ## lc2 %>%
+    ##   dplyr::filter(dplyr::across(c(xpft, ypft), ~!grepl("sitesoil", .x))) %>%
+    ##   dplyr::arrange(dplyr::desc(r)) %>%
+    ##   print(n = 20)
+
+    ## lc2 %>%
+    ##   ## dplyr::filter(xvar == "clumping", xpft == "North_Mid_Hardwood") %>%
+    ##   dplyr::filter(xvar == "orient", xpft == "Late_Hardwood") %>%
+    ##   dplyr::arrange(dplyr::desc(abs(r)))
+
+    lc3 <- lc2 %>%
+      dplyr::filter(xpft == ypft) %>%
+      dplyr::mutate(pft = xpft)
+
+    plot_dat <- lc3 %>%
+      dplyr::filter(!is.na(pft), !grepl("sitesoil", pft),
+                    !is.na(xvar), !is.na(yvar)) %>%
+      dplyr::mutate(dplyr::across(c(pft, xvar, yvar), forcats::fct_inorder))
+
+    plt <- ggplot(plot_dat) +
+      aes(x = 1, y = r, fill = pft) +
+      geom_hline(yintercept = 0, linetype = "dashed") +
+      geom_col(position = "dodge") +
+      facet_grid(vars(xvar), vars(yvar), drop = TRUE) +
+      theme_bw() +
+      theme(axis.text.x = element_blank(),
+            axis.title.x = element_blank(),
+            legend.position = c(0, 0),
+            legend.justification = c(0, 0))
+
+    ggsave(file_out(!!path(figdir, "posterior-correlations.png")), plt,
+           width = 7, height = 7, dpi = 300, units = "in")
   }
 )

@@ -5,7 +5,13 @@ At the same time, satellite time series provide multidecadal records with relati
 Used in combination with other emerging data sources, including global trait databases and eddy covariance measurements, remote sensing can be a transformative force in ecosystem ecology.
 
 In this paper, we showed that using a vegetation model to directly simulate surface reflectance is a promising approach for calibrating and validating models against remotely sensed observations.
-To do this, we modified the ED2 dynamic vegetation model to predict full-range hyperspectral surface reflectance and then calibrated this modified model against airborne imaging spectroscopy data.
+To do this, we modified the ED2 dynamic vegetation model to predict full-range hyperspectral hemispherical surface reflectance and then calibrated this modified model against airborne, BRDF-corrected imaging spectroscopy data.
 The calibration successfully constrained the distributions of model parameters related to canopy structure and leaf biogeochemistry for five plant functional types for five plant functional types characteristic of temperate forests of the northeastern United States.
-The calibrated model was able to accurately reproduce surface reflectance and leaf area index for sites with highly varied forest composition and structure, using a single common set of parameters (i.e., not site-specific parameters).
-Although our study focused only on the ED2 model, the basic structure and assumptions of the ED2 canopy radiative transfer scheme are shared by many other vegetation models, so we expect that our approach has high transferability within the vegetation modeling community.
+The calibrated model was able to accurately reproduce observed surface reflectance for sites with highly varied forest composition and structure using a single common set of parameters (i.e., not site-specific parameters).
+However, the calibrated model predicted leaf area index values that did not agree well with observations and had parameter estimates that exhibited edge-hitting behavior, both of which suggest structural issues in the model.
+Comparison against a canopy radiative transfer model commonly used in the remote sensing community~\citep[PRO4SAIL,][]{verhoef2007coupled} suggested that our model may be systematically underpredicting surface albedo.
+Given the direct role albedo plays in the canopy light and thermal environment in ED2, this bias could have significant downstream consequences for ED2 predictions of physiological and ecological processes.
+We therefore recommend structural changes to the ED2 canopy radiative transfer model to resolve this bias, and recommend calibrating the updated model against remotely sensed surface reflectance, as we demonstrated here.
+We note that the basic structure and assumptions of the ED2 canopy radiative transfer scheme are shared by many other vegetation models,
+so we expect that both this issue and our recommendations for resolving it are highly transferable within the vegetation modeling community.
+More generally, we recommend the development of additional ``observation operators'' similar to ours for other classes of remote sensing data, such as thermal, microwave, and LiDAR, in ED2 and other dynamic vegetation models to allow these models to take full advantage of remote sensing observations.

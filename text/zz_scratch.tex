@@ -1,3 +1,31 @@
+% Reviewer 1 response equifinality
+
+We added text to the results section highlighting the edge-hitting behavior for wood biomass allometry, canopy clumping, and leaf orientation. We also added figures showing the sensitivity of EDR to the relevant parameters in this figure to the supplementary information.
+
+For wood biomass allometry, the edge-hitting behavior approaching zero is consistent with the typically small-to-negligible contribution of aboveground woody elements (stems and branches) to reflectance of dense canopies during the growing season (Banskota et al 2015). However, these woody elements are a large biomass sink, so constraining wood allometry parameters is important. We have added text to the discussion about the importance of constraining wood allometry, the limitations of doing so using canopy reflectance alone, and additional analytical (e.g., via known covariance with other parameters) or observational (e.g., leaf-off optical, LiDAR, radar, in situ) constraints that should be explored.
+
+For canopy clumping, we observed the edge-hitting behavior primarily for mid- and late-hardwood PFTs in the direction of no clumping. In EDR, clumping factor appears only as a scaling factor on LAI---namely, EDR defines the effective LAI, eLAI, as the product of LAI and clumping factor, and the main radiative transfer calculations use eLAI to quantify the depth of vegetation. This makes the clumping factor parameter highly confounded with LAI (i.e., a two-fold increase in LAI is perfectly compensated by a two-fold decrease in clumping factor). The edge hitting behavior of clumping factor at its maximum---1.0---suggests the tendency of the calibration for these PFTs to prefer larger leaf area indices, which we also see in the leaf biomass allometry. As mentioned in our earlier response, this may be compensating for a tendency of EDR to underestimate albedo (increasing LAI tends to increase albedo). Moreover, it is expected that dense, mature hardwood PFTs would trend toward a less-clumped canopy compared with a more open, clumped evergreen needle-leaf canopy.
+
+For leaf orientation, we primarily observe edge-hitting behavior approaching the most horizontal leaf orientation for the late conifers and mid- and late-hardwoods. As mentioned in the earlier response, and as with LAI above, this may be compensation for EDR’s tendency to under-predict albedo.
+
+Finally, the leaf water parameters are not truly edge-hitting but do show a consistent directional shift with the AVIRIS data suggesting a higher leaf water content than the prior leaf-level data. This is perhaps not surprising as retrieval of canopy water content with hyperspectral data, and specifically AVIRIS, has been one of the most widely-utilized methods in the literature (e.g. Gao and Goetz, 1995; Clevers et al., 2010). In this case, our parameter distributions for EWT suggest that given the time of year when the imagery was collected the vegetation tended toward higher canopy moisture conditions, likely given this was during the peak of the growing season, and peak greenness and neither year had any indication of lower than normal precipitation or drought.
+
+\medskip
+\noindent Banskota, A., S. P. Serbin, R. H. Wynne, V. A. Thomas, M. J. Falkowski, N. Kayastha, J. P. Gastellu-Etchegorry, and P. A. Townsend. 2015. An LUT-Based Inversion of DART Model to Estimate Forest LAI from Hyperspectral Data. Selected Topics in Applied Earth Observations and Remote Sensing, IEEE Journal of 8:3147-3160.
+
+\medskip
+\noindent Gao, B.-C., \& Goetz, A. F. H. (1995). Retrieval of equivalent water thickness and information related to biochemical components of vegetation canopies from AVIRIS data. Remote Sensing of Environment, 52(3), 155–162. https://doi.org/10.1016/0034-4257(95)00039-4
+
+\medskip
+\noindent Clevers, J. G. P. W., Kooistra, L., \& Schaepman, M. E. (2010). Estimating canopy water content using hyperspectral remote sensing data. International Journal of Applied Earth Observation and Geoinformation, 12(2), 119–125. https://doi.org/10.1016/j.jag.2010.01.007
+
+% More text
+We agree that equifinality between canopy structure and leaf biochemistry in general, and the specific ways that canopy structure is represented in EDR, are concerns that warrant further discussion. As we stated in the introduction, and as you point out in your review, an effective way to address equifinality is by incorporating prior information that can constrain the parameters. In this study, we showed that external informative priors on leaf biochemistry parameters are effective. Other data---for instance, observations of canopy structure from active remote sensing (LiDAR, radar) or in situ measurements---could help alleviate some of the other issues with our results. Moreover, if our approach was applied in dynamic model simulations, the internal logic of the model’s dynamics of leaf biochemistry and canopy structure would provide additional constraint on the possible parameter space, which is an explicit future goal.
+
+We have elaborated on all of these points in the revised discussion.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 Recognition of the importance of these processes has led to the development of vegetation models with explicit representations of canopy radiative transfer.
 The most accurate canopy radiative transfer models capture both vertical and horizontal heterogeneity with very high spatial resolution~\parencite{widlowski2007third}.
 However, such models are usually too computationally intensive for dynamic vegetation models, which employ various approximations based on simplifying assumptions to make the problem more tractable~\parencite{fisher2017vegetation}.

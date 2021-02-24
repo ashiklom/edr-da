@@ -362,7 +362,7 @@ Collectively, these two changes produce the following calculation for $\Sigma$:
 where $\mat{H}$ is a matrix describing the distance between bands (0 on the diagonal, increasing regularly toward the corners) and $\varrho$ is the AR-1 autocorrelation parameter.
 To simplify the inversion procedure, we first performed the inversion using a diagonal covariance matrix (i.e., $\varrho = 0$), then calculated the mean $\varrho$ from the residuals of this fit, and then used this average value (0.700) for our final inversion.
 
-In addition, to mitigate sampling issues related to EDR's saturating response to increasing total LAI, we added an additional term to our likelihood that assigns a uniform probability distribution over the range 0 to 10 to the EDR predicted LAI for a given site ($\LAI_{\mathrm{pred}, s}$).
+In addition, to mitigate sampling issues related to EDR's saturating response to increasing total LAI (Figure~\ref{fig:edr-sensitivity-lai}), we added an additional term to our likelihood that assigns a uniform probability distribution over the range 0 to 10 to the EDR predicted LAI for a given site ($\LAI_{\mathrm{pred}, s}$).
 In practice, this term causes any parameters resulting in total LAI greater than 10 to be immediately rejected, but has no effect on parameters with LAI values less than 10.
 The maximum value of 10 was selected as a reasonable upper bound on temperate deciduous and evergreen forests in our study region.
 By comparison, the \emph{global} maximum of MODIS LAI estimates is between 6 and 7, depending on collection (with most values less than 5; \citealt{fang2012validation, yan2016evaluation}).
@@ -427,5 +427,7 @@ We ran the algorithm using 3 independent chains for as many iterations as requir
 
 To assess the extent to which AVIRIS-Classic observations were able to constrain parameter estimates, we compared the prior and posterior distributions for all parameters.
 To evaluate the performance of the calibrated model, we compared the posterior credible and predicted 95\% intervals of EDR-predicted spectra against the AVIRIS observations at each site.
-We also compared the EDR-predicted LAI against field observations at each site.
+We examined the residuals between EDR predicted and AVIRIS observed reflectance across all sites pooled together,
+and evaluated whether residuals varied systematically with site composition or structure by separating sites based on the dominant PFT (calculated as the PFT with the largest $\sum_{i} \DBH_{i} n_{\plant,i}$ at each site), mean DBH, or mean stem density.\@
+We also compared the EDR-predicted LAI against field observations at each site, both across all sites together and within the above site groups based on composition and structure.
 To evaluate goodness-of-fit and additive and multiplicative biases, we used an ordinary least squares regression of mean observed vs.\ posterior mean predicted LAI.\@
