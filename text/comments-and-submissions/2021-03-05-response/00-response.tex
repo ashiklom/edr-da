@@ -32,7 +32,19 @@ All line numbers refer to the TODO version of the manuscript.
 
 \subsection{Revisions to the inversion algorithm}\label{subsec:algorithm}
 
-Reviewer T.\ Quaife remarked that
+Reviewer T.\ Quaife remarked that we did not mention how our inversion algorithm accounted for correlations between closely-spaced hyperspectral channels.
+In our original submission, we did not account for this spectral autocorrelation, and our likelihood expression assumed all bands were independent.
+However, we recognize that this was flawed.
+In our revision, we have updated our inversion algorithm to account for autocorrelation in the residuals by imposing an order-1 autogregressive (AR1) correlation structure on the residual covariance matrix in our likelihood expression (calculated exogenously, with the AR1 correlation coefficient calculated from the residuals from the original simulation).
+This is described in our revised methods (lines TODO).
+
+While implementing this, we made several other changes to our inversion algorithm as well (all documented in the revised methods).
+For one, rather than prescribing a common set of illumination conditions (direct vs.\ diffuse radiation and solar zenith angle) for all observations,
+we now fully account for variability in both across all observations by extracting the solar geometry from the AVIRIS metadata (lines TODO) and
+prescribing radiation conditions (direct-diffuse fraction) based on the hourly MERRA-2 meteorological reanalysis product (lines TODO).
+In addition, we have replaced our original lognormal likelihood penalty for LAI predictions with a uniform distribution that guarantees that LAI predictions do not exceed a reasonable threshold but also does not differentiate between LAI values below that threshold (lines TODO).
+We have updated all of our results figures and text accordingly.
+The impact of these methodological changes on our results was relatively minor, and none of the core conclusions have changed.
 
 \subsection{Discussion of reflectance fluxes}\label{subsec:brdf}
 
