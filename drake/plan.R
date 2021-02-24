@@ -109,6 +109,9 @@ plan <- drake_plan(
     p2 <- p1 + aes(x = tot_dens) + labs(x = expression("Stand density" ~ (trees ~ ha^-1)))
     ggsave(file_out(!!path(figdir, "lai-bias-dens.png")), p2,
            width = 4, height = 4, units = "in", dpi = 300)
+    p2bypft <- p2 %+% facet_wrap(vars(pft))
+    ggsave(file_out(!!path(figdir, "lai-bias-dens-bypft.png")), p2bypft,
+           width = 6, height = 4, units = "in", dpi = 300)
     p3 <- p1 + aes(x = frac_evergreen_wtd) + labs(x = "Evergreen fraction")
     ggsave(file_out(!!path(figdir, "lai-bias-evergreen.png")), p3,
            width = 4, height = 4, units = "in", dpi = 300)

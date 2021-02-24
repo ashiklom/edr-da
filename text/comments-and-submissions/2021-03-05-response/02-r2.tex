@@ -1,4 +1,4 @@
-\begin{quote}
+\begin{reviewer}
   The manuscript “Cutting out the middleman: Calibrating and validating a dynamic vegetation model (ED2-PROSPECT5) using remotely sensed surface reflectance” by Shiklomanov et al. illustrates the assimilation of reflectance data observed from aircraft into a component of the ED2 model. In many respects this is an excellent paper. The Bayesian approach taken is state-of-the-art and the use of forward modelling of reflectance for assimilation purposes is desirable for many reasons (and yet surprisingly little progress has been made in this area for land surface studies, making this paper especially welcome). The text is also well written on the whole.
 
   Unfortunately I do have one rather significant concern about this paper, which may at first seem like a subtlety, but really is not. The authors are not “cutting out the middleman” so much as choosing to ignore them. I am concerned that the take home message of the paper for people less familiar with the underlying physics will be that it’s OK to take this approach.
@@ -19,34 +19,34 @@
   I am prepared to accept that in the specific experiment in this paper the limited angular sampling of AVRIS may mean that the overall effect will be small. However, when the authors make statements such as the one at Line 300 (“We therefore conclude that additional computational and conceptual challenges (as well as parameter uncertainties) associated with treatment of angular effects in similar models are unwarranted”) it is very misleading: the take home message is that it is, in general, OK to take this approach. It is most definitely not.
 
   On a related note I also don’t accept the statements on lines 269 and 299 that seem to imply that it’s necessary to have additional parameters to predict directional reflectances. This is not the case and hence also not a valid defence of the approach taken. The set of parameters required to define a two stream model can be used also to define a BRDF model derived from the same underlying assumptions (i.e. semi-infinite, plane parallel turbid media with point scatterers).
-\end{quote}
+\end{reviewer}
 
 Please see Section~\ref{subsec:brdf}.
 
-\begin{quote}
+\begin{reviewer}
   I propose the following modifications to address these issues:
 
   a) Change the title to remove ``cutting out the middleman''.
-\end{quote}
+\end{reviewer}
 
 We respectfully disagree.
 The ``middleman'' in the title refers to the modeling activities typically used to derive level 3 and 4 products such as GPP and LAI,
 and in targeting lower-level reflectance data products, we have successfully ``cut this middleman out''.
 Taking into account the significant re-framing of the discussion (Section~\ref{subsec:brdf}) in this revision, we feel this title is still accurate.
 
-\begin{quote}
+\begin{reviewer}
   b) Modify the discussion around this point, including stating clearly that the reflectances and reflectance factors are physically different things and that, in general, it is not appropriate to do assimilate one into a model that predicts the other.
-\end{quote}
+\end{reviewer}
 
 See Section~\ref{subsec:brdf}.
 
-\begin{quote}
+\begin{reviewer}
   c) Quantify the differences between the BRFs and the modelled BHRs.
   I noticed, poking around in the github repository, that the SAIL model is included and hence, presumably, it is trivial to take representative posterior parameters values and model both BRF (from SAIL) and BHRs.
   If the authors’ assertion that it shouldn’t make any difference is correct then this will help to defend that.
   The observed reflectance factors should also be compared against SAIL predictions.
   I would be happy to iterate on the experimental procedure with the authors.
-\end{quote}
+\end{reviewer}
 
 We have added to the results a comparison of simulations between EDR and PRO4SAIL, parameterized identically (Figures TODO; lines TODO).
 Lower albedo predictions from EDR than SAIL can be attributed primarily to differences in how each model defines the direct radiation backscatter coefficient in the radiative transfer equation --- see our main response (Section~\ref{subsec:structure}).
@@ -55,9 +55,9 @@ The reason that we ultimately did not include SAIL simulations is that there is 
 Even if we performed an analogous multi-site calibration of PRO4SAIL, the only calibrated parameters we could compare directly would be the total LAI
 (and even that would not be a fully apples-to-apples comparison because a PRO4SAIL would optimize that parameter directly for each site, whereas in EDR, we are targeting multiple parameters that interact to give LAI)---for the remaining parameters, we would still have to aggregate the multi-PFT EDR parameters in a non-trivial, non-obvious way.
 
-\begin{quote}
+\begin{reviewer}
   2. Is ED2 actually used in this paper? It seems that it is only a relatively small component of the model (i.e. the canopy radiative transfer scheme) that has been extracted. I think the title is slightly misleading in this respect. More important, I am not sure calling the code ED2-PROSPECT5 is appropriate. Perhaps EDR-PROSPECT5 would be better?
-\end{quote}
+\end{reviewer}
 
 No, ED2 is not used directly in this analysis.
 However, the results of this analysis can be used directly to parameterize ED2.
@@ -66,41 +66,41 @@ The R version of the ED2 canopy radiative transfer model is mathematically ident
 
 We have kept the title as-is, but have added additional text to the discussion highlighting how this approach could be used directly with the ED2 model (lines TODO).
 
-\begin{quote}
+\begin{reviewer}
   3. How are correlations between spectral channels dealt with? Do the authors use all of the AVRIS observations in the domain 400-1300nm? The errors in spectrally adjacent bands will be very highly correlated and the overall information content will be much lower the same number of independent observations.
-\end{quote}
+\end{reviewer}
 
 Please see Section~\ref{subsec:algorithm}.
 
-\begin{quote}
+\begin{reviewer}
 Minor comments:
 
 L27 The MacBean et al. (2018) paper referenced here does not assimilate a derived product in the sense the authors mean it. The assimilated data in that paper is solar induced fluorescence which, whilst it is “derived” in the sense that it is not what is being measured by the sensor, is no more derived that the surface reflectance data used in the manuscript under review. I suggest finding another reference here.
-\end{quote}
+\end{reviewer}
 
 We have revised this accordingly.
 
-\begin{quote}
-L35 “Meanwhile, the estimating” -> “Meanwhile, estimating”
-\end{quote}
+\begin{reviewer}
+L35 “Meanwhile, the estimating” --- “Meanwhile, estimating”
+\end{reviewer}
 
 We have revised this accordingly.
 
-\begin{quote}
+\begin{reviewer}
 L61 Surface reflectance is not assimilated in Zobbitz et al., (2014). The title is misleading (and I regret not standing my ground on that issue when we submitted that paper!); in fact fAPAR data is assimilated.
-\end{quote}
+\end{reviewer}
 
 We have revised this accordingly.
 
-\begin{quote}
+\begin{reviewer}
 L85 Not sure this line should finish with a colon.
-\end{quote}
+\end{reviewer}
 
 We have revised this accordingly.
 
-\begin{quote}
+\begin{reviewer}
 Eqn 3 What is meant by $r_{n+1}$ (and other variables with that subscript)? If I have understood correctly this is there are $n$ layers, so what is the reflectance of the $n + 1$ layer? (I am sure I have just missed something here, but it was not obvious).
-\end{quote}
+\end{reviewer}
 
 EDR models fluxes not at canopy layers, but at the boundaries between layers.
 Boundary $i$ is defined as the air space immediately below the i$^{th}$ canopy layer (counting from the bottom of the canopy).
@@ -108,26 +108,26 @@ For $n$ canopy layers, $i = n$ refers to the space immediately below the tallest
 Therefore, $r_{n+1}$ refers to the reflectance at the top of the canopy.
 We have added this clarification to the methods (lines TODO).
 
-\begin{quote}
+\begin{reviewer}
 L102 “tau” should presumably be the Greek symbol $\tau$.
-\end{quote}
+\end{reviewer}
 
 In the revised methods, this comment no longer applies.
 
-\begin{quote}
+\begin{reviewer}
 Eqn 7 I am confused by this, why is forward scattering defined by the sum of R+T? This is just the total scattering isn’t it?
-\end{quote}
+\end{reviewer}
 
 In the revised methods, this comment no longer applies.
 
-\begin{quote}
+\begin{reviewer}
 L188 This a different definition of X from earlier in the paper. I suggest finding a different symbol.
-\end{quote}
+\end{reviewer}
 
 We have replaced the earlier definition of $\mathbf{X}$ (in the EDR matrix equation $\mathbf{M}{X} = {Y}$) with the symbol A to eliminate this ambiguity.
 
-\begin{quote}
+\begin{reviewer}
 L273 “DALEC-predicted foliar biomass, which required introducing an additional fixed parameter (grams of leaf carbon per leaf area) present in neither model.” This statement is incorrect – that parameter already existed DALEC.
-\end{quote}
+\end{reviewer}
 
 We have removed this sentence from our discussion.

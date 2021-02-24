@@ -88,17 +88,28 @@ otherwise, we did not observe any consistent patterns in mismatch between AVIRIS
 
 \begin{figure}
   \centering
-  \includegraphics[width=0.75\textwidth]{figures/lai-bias-dbh-bypft.png}
+  \includegraphics[width=0.75\textwidth]{figures/lai-bias-dbh-bypft}
   \caption{\
     Bias in leaf area index (LAI) predictions from calibrated EDR relative to observations,
     as a function of site mean diameter at breast height (DBH).
+    Sites are grouped according to dominant PFT, same as in Figure~\ref{fig:spec-error-aggregate}.
+  }\label{fig:lai-bias-dbh-bypft}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.75\textwidth]{figures/lai-bias-dens-bypft}
+  \caption{\
+    Same as above, but as a function of mean site stem density.
   }\label{fig:lai-bias-dbh-bypft}
 \end{figure}
 
 Leaf area index predicted from calibrated EDR parameters captured 56\% of the variability in the observations (Figure~\ref{fig:lai-pred-obs}).
 The observed vs.\ predicted line had a slope of 0.42 and an intercept of 2.82, indicating that EDR calibration underpredicted true LAI on average but exaggerated across-site LAI variability.
-In general, EDR tended to underpredict LAI at sites with low mean DBH and overpredict sites with high mean DBH (Figures~\ref{fig:lai-bias-dbh-bypft}).
-This trend was generally true across all PFTs but was most pronounced for early hardwood- and late conifer-dominated sites .
+In general, EDR tended to underpredict LAI at high-density sites with low mean DBH and overpredict at low-density sites with high mean DBH (Figures~\ref{fig:lai-bias-dbh-bypft} and~\ref{fig:lai-bias-dens-bypft}).
+The trend with mean DBH was generally true across all PFTs but was most pronounced for early hardwood- and late conifer-dominated sites.
+The trend with stand density was most pronounced for late conifer-dominated sites, though that may be because these sites covered the widest range in stand density.
+% TODO Calculate regression stats
 
 \begin{figure}
   \centering
