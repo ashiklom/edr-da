@@ -26,7 +26,7 @@ for consideration for publication in \emph{Geoscientific Model Development}.
 We are very grateful to the two reviewers for their constructive feedback on our analysis, and we firmly believe addressing their suggestions has made our manuscript significantly better.
 In Section~\ref{sec:summary}, we provide a summary of the most significant changes in this revision.
 We provide a point-by-point response to each reviewer's comments in Sections~\ref{sec:r1} and~\ref{sec:r2}.
-All line numbers refer to the XXX version of the manuscript.
+All line numbers refer to the TODO version of the manuscript.
 
 \section{Summary of revisions}\label{sec:summary}
 
@@ -52,7 +52,7 @@ That said, because we were using AVIRIS classic imagery that underwent additiona
 In addition to the standard atmospheric correction and orthorectification conducted by NASA JPL, the AVIRIS data we used for model calibration were also cross-track illumination corrected, as well as BRDF-corrected, following the procedure of \citet{lucht2000algorithm}.
 Briefly, the latter approach estimates “intrinsic surface albedo” --- the precise quantity that is simulated by EDR --- from angular reflectance data through application of a polynomial approximation to the Ross-Li semiempirical BRDF model.
 The full AVIRIS processing pipeline for the  AVIRIS data (including the BRDF approximation) we used is described in \citet{singh2015imaging}.
-This information was absent in our original submission, but now appears in our expanded ``Site and data description'' section (lines XXX) and reads as follows:
+This information was absent in our original submission, but now appears in our expanded ``Site and data description'' section (lines TODO) and reads as follows:
 
 \begin{quote}
 
@@ -66,7 +66,7 @@ Reviewer 1 noted that several of our parameters exhibited edge-hitting behavior 
 At the same time, Reviewer T.\ Quaife suggested that we compare EDR and PRO4SAIL --- another two-stream canopy radiative transfer model popular in the remote sensing community due to its ability to predict both directional and hemispherical reflectance fluxes --- to explore the differences between hemispherical and directional reflectance.
 
 In our revision, we added sensitivity analyses of EDR to some of its parameters, and a comparison of EDR and equivalently parameterized PRO4SAIL.\@
-We describe this analysis in our Results section (lines XXX) as follows:
+We describe this analysis in our Results section (lines TODO) as follows:
 
 \begin{quote}
 
@@ -105,7 +105,7 @@ In our revision, we added all of these points to our discussion, as follows:
 In the process of revising our manuscript (and particularly, of investigating the discrepancy between EDR and PRO4SAIL), we realized that while we correctly described canopy radiative transfer coefficients in EDR (e.g., inverse optical depth; leaf angle distribution functions) and correctly implemented EDR in our code,
 we did not correctly describe the multi-layer canopy radiative transfer solution actually used by EDR.\@
 In addition, we felt that our model description was not well-organized.
-Therefore, in this revision, we have completely re-written the Model Description to true to what the EDR code is actually doing, and, in our opinion, to be more clear (lines XXX).
+Therefore, in this revision, we have completely re-written the Model Description to true to what the EDR code is actually doing, and, in our opinion, to be more clear (lines TODO).
 Importantly, we now split this section into two sub-sections:
 The first subsection describes the radiative transfer coefficients and their derivations (which should make it easier to cross-reference against the descriptions of its parent model --- Sellers 1985 --- and other radiative transfer models).
 The second subsection describes EDR's unique solution to these coefficients for a multi-layered heterogeneous canopy.
