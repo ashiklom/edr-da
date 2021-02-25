@@ -25,17 +25,18 @@ By PFT, the largest relative constraint was for early hardwood (5\%) and the sma
 
 For leaf traits, PFT rankings of the posterior estimates largely followed the relative positions of the priors, though there were a few exceptions.
 In both the prior and posterior, the estimated effective number of leaf mesophyll layers (a.k.a., PROSPECT \emph{N} parameter) was higher for needleleaved than broadleaved PFTs, with the highest value for northern pine and the lowest value for mid hardwood.
-The exact opposite was true of specific leaf area (SLA), except that late conifer had a lower posterior SLA than northern pine despite a very similar prior.
+The exact opposite was true of specific leaf area (SLA), except that late conifer had a lower posterior SLA than northern pine despite a similar prior.
 Estimated total chlorophyll contents (\emph{Cab}) were similarly high for all hardwood PFTs in both the prior and posterior,
-but posterior estimates for late conifer and northern pine were significantly lower.
-Posterior estimates of total carotenoid contents (\emph{Car}) were similar across all PFTs except mid hardwood, which had a significantly higher value (despite a prior that was similar for all hardwood PFTs).
+but posterior estimates for late conifer and northern pine were lower.
+Posterior estimates of total carotenoid contents (\emph{Car}) were similar across all PFTs.
 Posterior estimates of leaf water content (\emph{Cw}) were lowest for early hardwood and northern pine, higher for mid- and late hardwood, and highest for late conifer; these differences were despite strongly overlapping priors across all PFTs.
 Similarly, posterior estimates of leaf dry matter content (\emph{Cm}) were lowest for mid- and late hardwood, higher for early hardwood and northern pine, and highest for late conifer, again despite a strongly overlapping prior across all PFTs.
 
 Compared to leaf traits, canopy structural traits had less informative (and PFT-agnostic) priors, and the posterior distributions exhibited some differences across PFTs.
 Posterior leaf biomass allometry ($\bbbl$) estimates were lowest in northern pine and early hardwood, higher for late conifer, and highest for mid- and late hardwood.
 Posterior wood biomass allometry ($\bbbw$) estimates were lowest for early hardwood and late conifer, slightly higher in mid- and late hardwood, and highest for northern pine.
-Posterior canopy clumping factor ($q$) estimates were clustered at its upper limit of 1 (i.e., exhibited ``edge-hitting behavior'') for early and mid hardwood and northern pine, but were lower for late hardwood and lowest for late conifer.
+Posterior canopy clumping factor ($q$) estimates were clustered at or near its upper limit of 1 (i.e., exhibited ``edge-hitting behavior'') for all PFTs except late conifer.
+Posterior leaf orientation factor ($\chi$) estimates were lowest (near zero, indicating randomly distributed leaf angles) for northern pine, higher (more horizontal leaves) for early and mid hardwoods and late conifer, and higest (near the upper limit of 0.6) for late hardwood.
 Finally, the calibration was able to constrain site-specific soil optical properties across all sites (Figure~\ref{fig:posterior-soil}).
 
 \begin{figure}
@@ -73,10 +74,14 @@ Finally, the calibration was able to constrain site-specific soil optical proper
 
 The accuracy and precision of EDR simulated spectra relative to AVIRIS observations varied across sites (Figures~\ref{fig:spec-error-aggregate},~\ref{fig:bias-boxplot-pft},~\ref{fig:spec-error-all}, and~\ref{fig:spec-error-allsites}).
 On average, EDR tended to accurately (within 0.01) reproduce reflectance in the 400--750 \unit{nm} range, underpredict AVIRIS reflectance by \~0.03 in the 750--1100 \unit{nm} range, and overpredict AVIRIS reflectance by \~0.04 in the 1100--1300 \unit{nm} range.
-However, only the latter behavior was mostly consistent across site; below 1100 \unit{nm}, sites of any dominant PFT could have low, accurate, or high estimates relative to AVIRIS.\@
-The EDR posterior predictive interval overlapped AVIRIS observations in all but a few individual cases (Figure~\ref{fig:spec-error-allsites}), suggesting that our estimates of model uncertainty are realistic.
-The only consistent biases (expressed as interquartile range in bias not overlapping zero) we observed with respect to PFT were overestimates of reflectance in the 400--750 \unit{nm} range for northern pine and underestimates of reflectance in the 750--1100 \unit{nm} range for mid hardwood;
+However, only the latter behavior was mostly consistent across sites;
+below 1100 \unit{nm}, sites of any dominant PFT could have low, accurate, or high estimates relative to AVIRIS.\@
+The only consistent biases (expressed as interquartile range in bias not overlapping zero) we observed with respect to PFT were
+overestimates of reflectance in the 400--750 \unit{nm} range for late conifer
+and
+underestimates of reflectance in the 750--1100 \unit{nm} range for northern pine;
 otherwise, we did not observe any consistent patterns in mismatch between AVIRIS observed and EDR predicted reflectance with respect to tree size, stem density, or composition (Figures~\ref{fig:bias-boxplot-pft} and~\ref{fig:bias-density-pft}--\ref{fig:tree-sites-LC}).
+The EDR posterior predictive interval overlapped AVIRIS observations in all but a few individual cases (Figure~\ref{fig:spec-error-allsites}), suggesting that our estimates of model uncertainty are realistic.
 
 \begin{figure}
   \centering
@@ -105,15 +110,14 @@ otherwise, we did not observe any consistent patterns in mismatch between AVIRIS
   \includegraphics[width=0.75\textwidth]{figures/lai-bias-dens-bypft}
   \caption{\
     Same as above, but as a function of mean site stem density.
-  }\label{fig:lai-bias-dbh-bypft}
+  }\label{fig:lai-bias-dens-bypft}
 \end{figure}
 
-Leaf area index predicted from calibrated EDR parameters captured 56\% of the variability in the observations (Figure~\ref{fig:lai-pred-obs}).
-The observed vs.\ predicted line had a slope of 0.42 and an intercept of 2.82, indicating that EDR calibration underpredicted true LAI on average but exaggerated across-site LAI variability.
-In general, EDR tended to underpredict LAI at high-density sites with low mean DBH and overpredict at low-density sites with high mean DBH (Figures~\ref{fig:lai-bias-dbh-bypft} and~\ref{fig:lai-bias-dens-bypft}).
-The trend with mean DBH was generally true across all PFTs but was most pronounced for early hardwood- and late conifer-dominated sites.
-The trend with stand density was most pronounced for late conifer-dominated sites, though that may be because these sites covered the widest range in stand density.
-% TODO Calculate regression stats
+Leaf area index predicted from calibrated EDR parameters captured 53\% of the variability in the observations (Figure~\ref{fig:lai-pred-obs}).
+The observed vs.\ predicted line had a slope of 0.40 and an intercept of 2.82, indicating that EDR calibration underpredicted true LAI on average but exaggerated across-site LAI variability.
+In general, EDR tended to underpredict LAI at high-density sites with low mean DBH and overpredict LAI at low-density sites with high mean DBH (Figures~\ref{fig:lai-bias-dbh-bypft} and~\ref{fig:lai-bias-dens-bypft}).
+The trend with mean DBH was generally true across all PFTs but was most pronounced for early hardwood- and late conifer-dominated sites (Figure~\ref{fig:lai-bias-dbh-bypft}),
+while the trend with stand density was most pronounced for late conifer-dominated sites (Figure~\ref{fig:lai-bias-dens-bypft}).
 
 \begin{figure}
   \centering
