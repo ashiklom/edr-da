@@ -338,23 +338,21 @@ lai_predicted_observed_plot <- function(site_lai_total, lai_observed) {
   ggplot(plot_dat) +
     aes(x = lai_mean, xmin = lai_lo, xmax = lai_hi,
         y = obs_LAI, ymin = obs_LAI_lo, ymax = obs_LAI_hi) +
-    geom_pointrange() +
-    geom_errorbarh() +
-    geom_abline(aes(linetype = "1:1", color = "1:1",
-                    intercept = 0, slope = 1)) +
-    geom_abline(aes(linetype = "Regression", color = "Regression",
-                    intercept = fit$coefficients[1], slope = fit$coefficients[2])) +
-    scale_linetype_manual(values = c("1:1" = "dashed", "Regression" = "solid"),
-                          name = "") +
-    scale_color_manual(values = c("1:1" = "black", "Regression" = "red"),
-                       name = "") +
+    geom_pointrange(aes(color = pft)) +
+    geom_errorbarh(aes(color = pft)) +
+    geom_abline(aes(linetype = "1:1", intercept = 0, slope = 1)) +
+    geom_abline(aes(linetype = "Regression", intercept = fit$coefficients[1], slope = fit$coefficients[2])) +
+    scale_linetype_manual(values = c("1:1" = "dashed", "Regression" = "solid"), name = "") +
+    scale_color_brewer(palette = "Set1", name = "") +
     annotate("text", x = -Inf, y = Inf, hjust = -0.2, vjust = 1.2,
              label = eqn) +
     labs(x = "Predicted LAI", y = "Observed LAI") +
     theme_bw() +
     theme(legend.position = c(1, 0),
           legend.justification = c(1, 0),
-          legend.background = element_blank())
+          legend.background = element_blank(),
+          legend.box = "horizontal",
+          legend.box.just = "bottom")
 }
 
 tidy_sail_predictions <- function(site_details, site_lai_total,

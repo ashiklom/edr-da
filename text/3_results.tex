@@ -45,7 +45,7 @@ Finally, the calibration was able to constrain site-specific soil optical proper
     Differences between AVIRIS observed and EDR posterior predictive mean surface reflectance by site.
     Each thin gray line is a site-specific AVIRIS observation.
     Top left panel shows results across all sites,
-    and remaining panels group sites according to dominant PFT (calculated as the PFT contributing most to site total stem density-weighted diameter at breast height, DBH).
+    and remaining panels group sites according to dominant PFT .
     Within each panel, blue shading shows the 25--75\% quantile range and the thick black line is the median by wavelength for that specific site.
   }
 \end{figure}
@@ -82,7 +82,11 @@ otherwise, we did not observe any consistent patterns in mismatch between AVIRIS
   \centering
   \includegraphics[width=3in]{figures/lai-pred-obs}
   \caption{\
-    EDR predictions of leaf area index (LAI) compared to observed values.
+    EDR predictions of site-specific true leaf area index (LAI) compared to observed values.
+    Horizontal error bars are posterior 95\% predictive intervals.
+    Vertical error bars are mean $\pm$ 1 standard deviation of the observed values.
+    Dashed line shows the 1:1 relationship, and solid line is a least-squares predicted vs.\ observed regression with the equation marked in the upper left corner.
+    Points are colored according to dominant PFT, calculated as in Figure~\ref{fig:spec-error-aggregate}.
   }\label{fig:lai-pred-obs}
 \end{figure}
 

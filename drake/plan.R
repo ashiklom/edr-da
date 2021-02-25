@@ -108,11 +108,16 @@ plan <- drake_plan(
       obs_LAI_hi = obs_LAI + obs_LAI_SD
     ) %>%
     filter_if(is.numeric, all_vars(. > 0)),
-  lai_pred_obs_plot = ggsave(
-    file_out(!!path(figdir, "lai-pred-obs.png")),
-    lai_predicted_observed_plot(site_lai_total, lai_observed),
-    width = 6, height = 5, dpi = 300
-  ),
+  lai_pred_obs_plot = {
+    site_lai_mod <- site_lai_total %>%
+      left_join(biggest_pft, "site") %>%
+      mutate(pft = fct_relabel(pft, ~str_replace_all(.x, "_" , " ")))
+    ggsave(
+      file_out(!!path(figdir, "lai-pred-obs.png")),
+      lai_predicted_observed_plot(site_lai_mod, lai_observed),
+      width = 6, height = 5, dpi = 300
+    )
+  },
   lai_bias_plots = {
     dat <- bias_data %>%
       dplyr::filter(band == band[1])
@@ -134,11 +139,17 @@ plan <- drake_plan(
     p3 <- p1 + aes(x = frac_evergreen_wtd) + labs(x = "Evergreen fraction")
     ggsave(file_out(!!path(figdir, "lai-bias-evergreen.png")), p3,
            width = 4, height = 4, units = "in", dpi = 300)
-    p4 <- p1 %+% bias_data +
-      aes(x = mean_diff) +
-      labs(x = "Reflectance bias (predicted - observed)") +
+    p4 <- ggplot(dplyr::filter(bias_data, pft != "All")) +
+      aes(x = mean_diff, y = LAI_diff) +
+      geom_smooth(method = "lm", color = "black") +
+      geom_point(aes(color = pft)) +
+      geom_hline(yintercept = 0, linetype = "dashed") +
       geom_vline(xintercept = 0, linetype = "dashed") +
-      facet_grid(cols = vars(band), scales = "free_x")
+      facet_grid(cols = vars(band), scales = "free_x") +
+      labs(x = "Reflectance bias (predicted - observed)",
+           y = "LAI residual (predicted - observed)") +
+      scale_color_brewer(palette = "Set1") +
+      theme_bw()
     ggsave(file_out(!!path(figdir, "lai-bias-refl-bias.png")), p4,
            width = 6, height = 4, units = "in", dpi = 300)
     p5 <- p1 + facet_wrap(vars(pft))
@@ -420,12 +431,14 @@ plan <- drake_plan(
 
   },
   site_structure = {
-    site_structure_sub <- site_structure_data %>%
+    site_structure_data_plt <- site_structure_data %>%
+      dplyr::left_join(biggest_pft, c("site_name" = "site"))
+    site_structure_sub <- site_structure_data_plt %>%
       dplyr::filter(site_name %in% spec_summary_sites)
 
-    plot_travis <- ggplot(site_structure_data) +
+    plot_travis <- ggplot(site_structure_data_plt) +
       aes(x = mean_dbh, y = tot_dens * 5000) +
-      geom_point() +
+      geom_point(aes(color = pft)) +
       # Self-thinning curve
       geom_function(
         aes(linetype = "y == 500 * bgroup('(', frac(x, 25), ')')^-1.4"),
@@ -433,6 +446,7 @@ plan <- drake_plan(
         key_glyph = draw_key_abline
       ) +
       scale_linetype_manual(values = "dashed", labels = scales::parse_format()) +
+      scale_color_brewer(palette = "Set1") +
       ggrepel::geom_text_repel(data = site_structure_sub, aes(label = site_name),
                                 min.segment.length = 0, size = 2.5) +
       labs(x = "Mean diameter (cm)",
@@ -758,6 +772,7 @@ plan <- drake_plan(
       geom_hline(yintercept = 0, linetype = "dashed") +
       geom_col(position = "dodge") +
       facet_grid(vars(xvar), vars(yvar), drop = TRUE) +
+      scale_color_brewer(palette = "Set1") +
       theme_bw() +
       theme(axis.text.x = element_blank(),
             axis.title.x = element_blank(),
