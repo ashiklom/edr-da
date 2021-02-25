@@ -13,8 +13,7 @@ Please see Section~\ref{subsec:model} in our main response.
 \end{reviewer}
 
 In this study, the vegetation composition at each site (including the PFT distribution and size-age structure) was prescribed in detail based on data from the NASA Forest Forest Functional Types (FFT) field campaign.
-In our revision, we have clarified this point in the first paragraph of ``Site and data description'' (lines TODO),
-and briefly revisited it in the results in the context of future directions involving dynamic model simulations where the PFT distribution is predicted with some uncertainty (lines TODO).
+In our revision, we have clarified this point in the ``Site and data description'' (lines 284--286).
 
 \begin{reviewer}
   Was there any attempt to withhold some site reflectance data and apply the calibrated model parameters at those sites?
@@ -24,9 +23,9 @@ and briefly revisited it in the results in the context of future directions invo
 
 We acknowledge that cross-validation or out-of-sample validation are useful tests of model performance, and in our revised discussion, we recommend these activities as future directions for this work.
 However as the reviewer points out, because our calibration was joint across all sites, we did not feel that a separate validation at other sites not used in the calibration was necessary.
-With 54 sites in our calibration, any single site represents <2\% of the data, and for a joint calibration without site random effects, we have every reason to believe that the calibration is not overfitting to any individual site;
+With 54 sites in our calibration, any single site represents $<2\%$ of the data, and for a joint calibration without site random effects, we have every reason to believe that the calibration is not overfitting to any individual site;
 trying to fit any one site well would cause others to do worse (especially given the large observed variability in forest structure) unless the EDR model structure was reasonable and the parameters chosen were genuinely good choices.
-We have added this information to our revised discussion (lines TODO).
+We have added this information to our revised discussion (lines 474--480).
 
 \begin{reviewer}
   It is known that radiative transfer models are challenged in simulating evergreen species in part because of the irregular and open space canopy structure.
@@ -34,8 +33,8 @@ We have added this information to our revised discussion (lines TODO).
 \end{reviewer}
 
 The reviewer brings up a great point about conifer canopies historically being harder to capture.
-Although some conifer-dominated sites did demonstrate significant biases in reflectance predictions, our analysis of reflectance bias by composition, structure, and spectral region (Figures A3 and A4) shows that these biases are not systematic (though they may drive greater predictive variance).
-In our revision, we describe this analysis in more detail in the Methods (lines XXX) and Results (lines XXX).
+Although some conifer-dominated sites did demonstrate significant biases in reflectance predictions, our analysis of reflectance bias by composition, structure, and spectral region (Figures 4, 5, A6--A15) shows that these biases are not systematic (though they may drive greater predictive variance).
+In our revision, we describe this analysis in more detail in the Methods (lines 369--374) and Results (lines 418--428).
 
 \begin{reviewer}
   Whereas leaf level biochemistry related parameters were well constrained by the priors, many of the radiative transfer posterior parameters seemed to be edge hitting parameters.
@@ -43,17 +42,14 @@ In our revision, we describe this analysis in more detail in the Methods (lines 
   The authors devote a considerable amount of general discussion regarding this topic, but don’t directly address how this might have effected their own results.
 \end{reviewer}
 
-In our revision, we added as appendices a parameter sensitivity analysis of EDR (Figures TODO) and an analysis comparing EDR to PRO4SAIL (Figures REF), a similar 1D two-stream canopy radiative transfer model popular in the remote sensing community.
-These analyses point to two likely explanations for the edge-hitting behavior of some parameters.
-The first is equifinality in the effects of several structural parameters on LAI and canopy albedo (see Section~\ref{subsec:equifinality}).
-The second explanation is a structural issue in the EDR model that leads it to systematically underestimate albedo, particularly for low solar zenith angles (sun directly overhead; see Section~\ref{subsec:structural}).
+Please see Section~\ref{subsec:equifinality}.
 
 \begin{reviewer}
   The manuscript begins by justifying the inclusion of the PROSPECT model in to ED2 to bring the model closer to the observations, to, in part help reduce the uncertainty of the observation that are assimilated into EDR.\@
   More explanation on how the surface reflectance observational uncertainty was quantified here, and what it represents, and to what extent overconfidence in uncertainty may have led to the posterior edge hitting parameters.
 \end{reviewer}
 
-As shown in equation TODO, observation error in the reflectance data was not estimated \emph{a priori} based on the instrument itself, but was modeled as the residual error between the model and the data, analogous to what is done for any linear or nonlinear regression model.
+As shown in equation 48, observation error in the reflectance data was not estimated \emph{a priori} based on the instrument itself, but was modeled as the residual error between the model and the data, analogous to what is done for any linear or nonlinear regression model.
 A key difference, however, is that the error model accounts for the known heteroskedasticity in spectral data (i.e., the size of the variance increases with the magnitude of the reflectance).
 In terms of random spectral errors, there is no reason to expect this variance to be overconfident for inferences made on these landscapes, especially as the study sites were not all imaged on the same day under the same atmospheric conditions, though we’d agree that one might not want to apply this variance to entirely different ecoregions.
 Furthermore, because the variance slope and intercept are fit parameters, whose parametric uncertainty is being quantified and propagated, this makes it even less likely that our uncertainty estimate is overconfident.
@@ -70,7 +66,7 @@ Random errors would not result in a systematic parameter bias and, given the lon
 \end{reviewer}
 
 We agree that additional emphasis on the implications of this work is warranted.
-In our revisions, we emphasize several important implications in the abstract (lines TODO), introduction (lines TODO), and discussion (lines TODO).
+In our revisions, we emphasize several important implications in the abstract (lines 1--7) and introduction (lines 71--90).
 
 First, as you say, energy balance is important, and the contribution of vegetation to land surface albedo is a critical mechanism by which vegetation influences regional and global climate~\citep{bonan2008forests}. Therefore, ensuring the accuracy of model simulations of albedo, including its sensitivity to vegetation structure and composition, is essential to accurately projecting the effects of climate- and land use-driven changes to terrestrial ecosystems on future climate.
 
@@ -93,7 +89,7 @@ Therefore, we think it is important to emphasize that these products are derived
 \end{reviewer}
 
 We agree that additional nuance is required here (especially when also considering reviewer T.\ Quaife’s comments).
-Therefore, we have revised this section to capture the fact that although these data are still derived (processing steps include atmospheric correction and orthorectification), they rely on fewer assumptions (especially about the land surface), have fewer processing steps, and therefore are closer to observations (lines TODO).
+Therefore, we have revised this section to capture the fact that although these data are still derived (processing steps include atmospheric correction and orthorectification), they rely on fewer assumptions (especially about the land surface), have fewer processing steps, and therefore are closer to observations (lines 58--61).
 
 \begin{reviewer}
   Line 23: add ‘to’ calibrate or constrain
@@ -127,7 +123,7 @@ Line 57:”Canopy radiative transfer plays a particularly important role in the 
 It is true that composition and structure impacts the RTM, but all of these studies show that the opposite is true as well!
 These studies illustrate  that because the RTM determines the overall energy balance of the ecosystem and the distribution of light within the canopy, RTM formulation and parameters profoundly impact the predicted biogeochemical fluxes and vegetation dynamics.
 For example, \citet{viskari_2019_influence} show that uncertainties in canopy RT can cascade and impact a number of associated processes, including photosynthesis, energy balance, internal competition, and demography.
-We have revised the sentences here to more clearly and explicitly convey this idea (line TODO).
+We have revised the sentences here to more clearly and explicitly convey this idea (line 74--90).
 
 \begin{reviewer}
   Line 72: “\ldots will significantly constrain model parameters related to canopy structure.” So the goal all along was to constrain canopy structure with surface reflectance, not necessarily foliar biochemistry? Maybe talk a bit more about the differences in sensitivity of surface reflectance to canopy structure vs foliar biochemistry.
@@ -153,7 +149,7 @@ Additional details on the sampling methodology are described in \citet{singh2015
 \end{reviewer}
 
 Although sites do appear very close to Lake Superior in the map we provide, all sites are sufficiently inland (several kilometers) that contributions from water reflectance of nearby pixels can safely be assumed to be negligible.
-In the revision, this figure has been broken up into two figures (Figures TODO and TODO).
+In the revision, this figure has been broken up into two figures (Figures 1 and 2).
 
 \begin{reviewer}
   Line 200: Could you provide a bit more explanation of what including the EDR predicted LAI term within your probability function accomplishes? EDR response becomes saturated to LAI so is this an artificial way to account for increased reflectance?
@@ -164,7 +160,7 @@ This effect is not unique to EDR---rather, it is a well-known consequence of the
 Therefore, a canopy with an unrealistically high LAI like 15 has virtually the same reflectance as a canopy with a high but more feasible LAI like 6 (all else being equal),
 and therefore a likelihood calculation that does not penalize excessively high LAI values would consider both outcomes equally likely.
 
-We have added additional text to this effect to the methods (lines TODO), and have added the attached figure to the supplement demonstrating the saturating effect of LAI on reflectance (Figure TODO).
+We have added additional text to this effect to the methods (lines 335--344), and have added the attached figure to the supplement demonstrating the saturating effect of LAI on reflectance (Figure A1).
 However, as noted in Section~\ref{subsec:algorithm}, in our revision, we have changed this penalty from a lognormal distribution to a uniform distribution between 0 and 10.
 
 \begin{reviewer}
@@ -177,7 +173,7 @@ As we stated above, because our calibration was joint across all sites, we did n
   Line 232: Can you quantify what ‘informative’ means
 \end{reviewer}
 
-We have clarified this sentence to say these are ``leaf parameters whose prior distributions were already independently constrained by an earlier analysis''. These prior distributions are shown in Figure TODO.
+We have clarified this sentence to say these are ``leaf parameters whose prior distributions were already independently constrained by an earlier analysis''. These prior distributions are shown in Figure 3.
 
 \begin{reviewer}
   Line 233: I cannot see in figure where PROSPECT N parameter is?
@@ -191,12 +187,7 @@ We have revised the methods and results text in a few places to clarify this.
   Section 3 Results: Although Figure 2 was very informative, I found the Results section in general, relatively vague, perhaps some sense of \% reductions in 95\% credible interval.
 \end{reviewer}
 
-We have revised the results (lines TODO) to include more precise statistics, including the suggested relative reductions in the width of the 95\% credible interval.
-The relevant text reads as follows:
-
-\begin{quote}
-TODO
-\end{quote}
+We have revised the results (lines 377--385) to include more precise statistics, including the suggested relative reductions in the width of the 95\% credible interval.
 
 \begin{reviewer}
   Figure 2: Hopefully, the authors comment on some of the apparent edge-hitting parameters specifically related to canopy RTM parameters such as leaf orientation, canopy clumping and water.
@@ -211,16 +202,17 @@ Please see our response in Section~\ref{subsec:structural}.
 \end{reviewer}
 
 We have split up the original figure into two separate figures:
-one showing a larger map with sites labelled (Figure TODO) and one showing the density vs.\ diameter plot (Figure TODO).
+one showing a larger map with sites labelled (Figure 1) and one showing the density vs.\ diameter plot (Figure 2).
 
-As stated in the main response, the vegetation composition at each site (including the PFT distribution and size-age structure) was prescribed in detail based on NASA Forest Functional Types (FFT) campaign field data. We have clarified that these are the observed stand structures used as prescribed EDR inputs in the methods (lines TODO).
+As stated in the main response, the vegetation composition at each site (including the PFT distribution and size-age structure) was prescribed in detail based on NASA Forest Functional Types (FFT) campaign field data.
+We have clarified that these are the observed stand structures used as prescribed EDR inputs in the methods (lines 284--286).
 
 \begin{reviewer}
   Figure 5: “The observed vs. predicted line had a slope of 0.37 and an intercept of 2.80, indicating that EDR calibration underpredicted LAI on average but overexagerrated across-site LAI variability.” What do you attribute this clear structure in residuals between observed-simulated LAI?
 \end{reviewer}
 
 We agree the clear mismatch between predicted and observed LAI was not given sufficient attention in our original draft.
-In our revision, we now devote more space to this in the Results (lines TODO) and Discussion (lines TODO)
+In our revision, we now devote more space to this in the Results (lines 431--435) and Discussion (lines 523--532).
 
 \begin{reviewer}
   Line 258-270: I like the overview explanation of bringing observations closer to models or alternatively bring models closers to the observations. In the end, it’s a bit of semantics, especially for using information from satellites we will always need some sort of transfer function or forward operator to convert from what a satellite observes and what a model predicts. I don’t think one way or the other should take precident. The advantage in your approach, however, is the potential for the observed surface reflectance to constrain multiple model components, whether that be leaf structure or biochemistry or water status. I think that is potentially extremely valuable although I am not sure it has been demonstrated, yet, that this is the case. I feel more could be ‘learned’ about what information surface reflectance could provide if you could prescribe the LAI and PFT-distribution in ED2, then you could really get a grasp on what it can inform, leaf biochemistry? Within-canopy RTM parameters? Etc.
@@ -234,7 +226,7 @@ Meanwhile, as you point out, the approach of bringing models closer to observati
 In practice, for an observation operator that is almost entirely disconnected from the model (for example, if we just took the total LAI from ED2 and used a standalone RTM like SAIL to simulate the reflectance), we agree that there’s relatively little advantage relative to a derived product,
 but the more tightly an observation operator is integrated into a model (as in our analysis, where canopy RTM parameters and outputs are used elsewhere in ED2), the greater its value.
 
-To address this, we have revised the discussion to discuss the relative advantage of building models with remote sensing-friendly observation operators, especially when such operators are tightly integrated with other processes in the model (lines TODO).
+To address this, we have revised the discussion to discuss the relative advantage of building models with remote sensing-friendly observation operators, especially when such operators are tightly integrated with other processes in the model (lines 470--473).
 For the latter, we now discuss some future directions for ED2 and optical remote sensing specifically, such as using the PROSPECT leaf model to couple the model’s representations of plant hydraulics (for leaf water content) to canopy radiative transfer.
 Similar approaches that leverage the model’s internal RTM can also be applied to other remotely-sensed data, such as lidar (canopy structure), radar/microwave (structure and water content), thermal (canopy traits and water use), and fluorescence (photosynthetic traits).
 Indeed, this paper is an important first step towards the ultimate goal of leveraging internally-consistent process-based models to make joint inferences across multiple remotely-sensed data constraints simultaneously.
@@ -270,7 +262,7 @@ However, as we pointed out in earlier comments, although our reflectance predict
   Line 330: I think you also need to say where this work can lead — this is of interest for those that are concerned with ecosystem functioning and that this could provide improved estimates of both biomass and land-atmosphere carbon and water exchange. Also some discussion of the differences between evergreen and deciduous forests would be helpful. Generally RTM’s have more difficulty with more open canopy evergreen species and not really discussed in this manuscript.
 \end{reviewer}
 
-Our revised discussion (see earlier comments) and conclusions (lines TODO) include more text on ways that ED2 (and other vegetation models) can be further enhanced to better take advantage of passive optical and other remote sensing techniques.
+Our revised discussion (see earlier comments) and conclusions (lines 622--624) include more text on ways that ED2 (and other vegetation models) can be further enhanced to better take advantage of passive optical and other remote sensing techniques.
 
 \begin{reviewer}
 Appendix:

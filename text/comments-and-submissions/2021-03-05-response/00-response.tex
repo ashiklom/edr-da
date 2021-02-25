@@ -26,7 +26,7 @@ for consideration for publication in \emph{Geoscientific Model Development}.
 We are very grateful to the two reviewers for their constructive feedback on our analysis, and we firmly believe addressing their suggestions has made our manuscript significantly better.
 In Section~\ref{sec:summary}, we provide a summary of the most significant changes in this revision.
 We provide a point-by-point response to each reviewer's comments in Sections~\ref{sec:r1} and~\ref{sec:r2}.
-All line numbers refer to the TODO version of the manuscript.
+All line numbers refer to the highlighted changes version of the manuscript.
 
 \section{Summary of revisions}\label{sec:summary}
 
@@ -36,13 +36,13 @@ Reviewer T.\ Quaife remarked that we did not mention how our inversion algorithm
 In our original submission, we did not account for this spectral autocorrelation, and our likelihood expression assumed all bands were independent.
 However, we recognize that this was flawed.
 In our revision, we have updated our inversion algorithm to account for autocorrelation in the residuals by imposing an order-1 autogregressive (AR1) correlation structure on the residual covariance matrix in our likelihood expression (calculated exogenously, with the AR1 correlation coefficient calculated from the residuals from the original simulation).
-This is described in our revised methods (lines TODO).
+This is described in our revised methods (lines 326--334).
 
 While implementing this, we made several other changes to our inversion algorithm as well (all documented in the revised methods).
 For one, rather than prescribing a common set of illumination conditions (direct vs.\ diffuse radiation and solar zenith angle) for all observations,
-we now fully account for variability in both across all observations by extracting the solar geometry from the AVIRIS metadata (lines TODO) and
-prescribing radiation conditions (direct-diffuse fraction) based on the hourly MERRA-2 meteorological reanalysis product (lines TODO).
-In addition, we have replaced our original lognormal likelihood penalty for LAI predictions with a uniform distribution that guarantees that LAI predictions do not exceed a reasonable threshold but also does not differentiate between LAI values below that threshold (lines TODO).
+we now fully account for variability in both across all observations by extracting the solar geometry from the AVIRIS metadata and
+prescribing radiation conditions (direct-diffuse fraction) based on the hourly MERRA-2 meteorological reanalysis product (lines 304--307).
+In addition, we have replaced our original lognormal likelihood penalty for LAI predictions with a uniform distribution that guarantees that LAI predictions do not exceed a reasonable threshold but also does not differentiate between LAI values below that threshold (lines 337--344).
 We have updated all of our results figures and text accordingly.
 The impact of these methodological changes on our results was relatively minor, and none of the core conclusions have changed.
 
@@ -57,37 +57,35 @@ That said, because we were using AVIRIS classic imagery that underwent additiona
 In addition to the standard atmospheric correction and orthorectification conducted by NASA JPL, the AVIRIS data we used for model calibration were also cross-track illumination corrected, as well as BRDF-corrected, following the procedure of \citet{lucht2000algorithm}.
 Briefly, the latter approach estimates “intrinsic surface albedo” --- the precise quantity that is simulated by EDR --- from angular reflectance data through application of a polynomial approximation to the Ross-Li semiempirical BRDF model.
 The full AVIRIS processing pipeline for the  AVIRIS data (including the BRDF approximation) we used is described in \citet{singh2015imaging}.
-This information was absent in our original submission, but now appears in our expanded ``Site and data description'' section (lines TODO).
+This information was absent in our original submission, but now appears in our expanded ``Site and data description'' section (lines 554--578).
 
 \subsection{Structural issues in EDR}\label{subsec:structural}
 
 Reviewer 1 noted that several of our parameters exhibited edge-hitting behavior and suggested that we discuss this behavior and the extent to which it might be symptomatic of structural issues with EDR.\@
 At the same time, Reviewer T.\ Quaife suggested that we compare EDR and PRO4SAIL --- another two-stream canopy radiative transfer model popular in the remote sensing community due to its ability to predict both directional and hemispherical reflectance fluxes --- to explore the differences between hemispherical and directional reflectance.
-
-In our revision, we added sensitivity analyses of EDR to some of its parameters, and a comparison of EDR and equivalently parameterized PRO4SAIL.\@
-We describe this analysis in our revised Results section (lines TODO).
+In our revision, we added sensitivity analyses of EDR to some of its parameters (Figures A1, A2, and A3), and a comparison of EDR and equivalently parameterized PRO4SAIL (Figures 10 and A16).
 
 An important takeaway from this analysis is that, compared to PRO4SAIL, EDR systematically underpredicts hemispherical reflectance.
 This can be attributed to a difference in how EDR and SAIL define the direct radiation backscatter coefficient (see also discussion in \citealt{yuan2017reexamination}).
 This underestimation of hemispherical reflectance by EDR may help explain some of the calibration issues identified by Reviewer 1.
 Specifically, both increasing canopy clumping (which increases effective leaf area index) and increasing the leaf orientation factor (more horizontal leaves) increase the simulated canopy albedo,
 so pushing these parameters up against their physical upper bounds may be a way for our inversion to compensate for EDR's underestimation of albedo.
-We have included a discussion of this in our revised Discussion section (lines TODO).
+We have included a discussion of this in our revised Discussion section (lines 533--554).
 
 \subsection{Discussion of equifinality}\label{subsec:equifinality}
 
 Reviewer 1 noted that, while we mentioned in our Introduction the equifinality between leaf biochemistry and canopy structure in canopy radiative transfer, we did not revisit this important issue in in the rest of our manuscript.
 We agree that the topic of equifinality in canopy radiative transfer is worth additional discussion.
 In our analysis, equifinality was reduced by using informative priors for the leaf parameters.
-We note in our revised discussion that, in future work, this prior information could also come from other kinds of remote sensing measurements (lines TODO)
-as well as through the ecophysiological mechanisms embedded in the model itself --- i.e., some combinations of model parameters and states that are consistent with a given surface reflectance may be excluded because they imply ecologically unrealistic states in previous time steps or result in ecologically unrealistic outcomes in future time steps (lines TODO).
+We note in our revised discussion that, in future work, this prior information could also come from other kinds of remote sensing measurements (lines 506--508)
+as well as through the ecophysiological mechanisms embedded in the model itself --- i.e., some combinations of model parameters and states that are consistent with a given surface reflectance may be excluded because they imply ecologically unrealistic states in previous time steps or result in ecologically unrealistic outcomes in future time steps (lines 468--473).
 
 \subsection{Revised model description}\label{subsec:model}
 
 In the process of revising our manuscript (and particularly, of investigating the discrepancy between EDR and PRO4SAIL), we realized that while we correctly described canopy radiative transfer coefficients in EDR (e.g., inverse optical depth; leaf angle distribution functions) and correctly implemented EDR in our code,
 we did not correctly describe the multi-layer canopy radiative transfer solution actually used by EDR.\@
 In addition, we felt that our model description was not well-organized.
-Therefore, in this revision, we have completely re-written the Model Description to true to what the EDR code is actually doing, and, in our opinion, to be more clear (lines TODO).
+Therefore, in this revision, we have completely re-written the Model Description to true to what the EDR code is actually doing, and, in our opinion, to be more clear (Section 2.1).
 Importantly, we now split this section into two sub-sections:
 The first subsection describes the radiative transfer coefficients and their derivations (which should make it easier to cross-reference against the descriptions of its parent model --- Sellers 1985 --- and other radiative transfer models).
 The second subsection describes EDR's unique solution to these coefficients for a multi-layered heterogeneous canopy.

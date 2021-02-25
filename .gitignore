@@ -88,3 +88,6 @@ msp_figures
 
 # Drake files
 .drake*
+
+# Preprint version
+_preprint-version
