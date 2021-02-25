@@ -50,13 +50,12 @@ Strong correlations also occurred among some of the PROSPECT parameters, and bet
 Finally, because our calibration captured all of these covariances, the presence of moderate equifinality did not preclude ecologically meaningful parameter constraints or accurate predictions because these covariances are being propagated into predictions.
 This is directly analogous to how a linear regression can have a tight confidence interval, despite high correlations between the slope and intercept, with that equifinality driving the characteristic hourglass shape of a regression confidence interval.
 
-% TODO -- needs to be addressed
-EDR tended to underpredict LAI at high-density sites with low mean DBH and overpredict LAI at low-density sites with high mean DBH (Figures~\ref{fig:lai-pred-obs} and~\ref{fig:lai-bias-dbh-bypft}).
-% However, there was no relationship between LAI bias (predicted $-$ observed) and stand density, proportion of conifer PFTs, or bias in predicted reflectance (figures attached).
-% Breaking the LAI bias down based on PFT site dominance shows that the bias was most pronounced in sites dominated by Early Hardwood and Northern Pine trees (attached figure).
-% Based on these results, we conclude that the LAI bias can be attributed to an underestimation of the leaf biomass allometry parameter, as both Early Hardwood and Northern Pine PFTs had relatively low estimates of the leaf biomass allometry parameter.
-% In part, this may be a consequence of site sampling: both Early Hardwood- and Pine-dominated sites skewed towards stands with low DBH, where sensitivity to changes in the allometry parameter are relatively low.
-% For pine sites, the challenges with modeling conifer radiative transfer (see earlier responses) likely also played a part.
+EDR tended to underpredict LAI at high-density sites with low mean DBH and overpredict LAI at low-density sites with high mean DBH (Figures~\ref{fig:lai-pred-obs},~\ref{fig:lai-bias-dbh-bypft}, and~\ref{fig:lai-bias-dens-bypft}).
+The relationship between DBH and LAI is controlled primarily by the leaf biomass allometry, which in EDR is fixed at the PFT level (equation~\ref{eqn:bleaf}).
+This fixed relationship neglects the known inter- and intra-specific variability in tree allocation strategies~\citep{forrester2017generalized, dolezal2020contrasting}.
+For example, \citet{forrester2017generalized} show that the relationship between DBH and foliar biomass is modulated by tree age, stand density, and climate variables, none of which are accounted for in the ED2 allometry routines.
+This variability can be incorporated directly into ED2 by making allometry parameters dynamic functions of some of the aforementioned covariates,
+or indirectly via hierarchical calibration whereby model parameters vary across sites~\citep{dietze2008capturing}.
 Overall, this analysis reiterates the importance of evaluating models against multiple distinct variables---after all, none of these biases would have been apparent from looking at the reflectance simulations alone.
 
 Our analysis also revealed some structural issues with EDR itself.

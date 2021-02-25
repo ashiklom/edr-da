@@ -685,3 +685,29 @@ plnorm(c(2, 5), 1, 0.5)
 qlnorm(c(0.025, 0.5, 0.975), 1, 0.5)
 
 curve(dlnorm(x, 1, 0.5), 0.1, 10)
+
+##################################################
+eh_base <- tidy_posteriors %>%
+  filter(variable == "b1Bl", pft == "Early_Hardwood",
+         type == "posterior") %>%
+  pull(value)
+
+eh_exp <- b2Bl["temperate.Early_Hardwood"]
+
+dbh <- seq(10, 50, 1)
+
+bleaf_list <- list()
+eh_exp_l <- c(1.78, 1.9, 2.0, 2.1, 2.2)
+for (i in seq_along(eh_exp_l)) {
+  bleaf_list[[i]] <- purrr::map(eh_base, ~size2bl(dbh, .x, eh_exp_l[i])) %>%
+  do.call(cbind, .) %>%
+  rowMeans()
+}
+
+bleaf_m <- do.call(cbind, bleaf_list)
+matplot(dbh, bleaf_m, type = "l")
+
+bleaf_2 <- purrr::map(seq(0.01, 0.02, 0.001), ~size2bl(dbh, .x, eh_exp)) %>%
+  purrr::reduce(cbind)
+
+matplot(dbh, bleaf_2, type = "l")
