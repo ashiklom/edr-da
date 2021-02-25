@@ -772,7 +772,7 @@ plan <- drake_plan(
       geom_hline(yintercept = 0, linetype = "dashed") +
       geom_col(position = "dodge") +
       facet_grid(vars(xvar), vars(yvar), drop = TRUE) +
-      scale_color_brewer(palette = "Set1") +
+      scale_fill_brewer(palette = "Set1", name = "") +
       theme_bw() +
       theme(axis.text.x = element_blank(),
             axis.title.x = element_blank(),
