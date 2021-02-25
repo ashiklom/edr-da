@@ -2,7 +2,7 @@
 
 Calibrating and validating vegetation models using optical remote sensing data typically involves derived data products (e.g., MODIS GPP) that rely on their own models;
 in other words, ``bringing the observations closer to the models''.
-In this study, we presented an alternative approach whereby we bring the models closer to the observations by training a vegetation model to simulate full-range hyperspectral surface albedo as observed by optical remote sensing instruments.
+In this study, we presented an alternative approach whereby we bring the models closer to the observations by training a vegetation model to simulate full-range hyperspectral surface reflectance that is closer to the measurements made by optical remote sensing instruments.
 We then demonstrated how this approach could be used to calibrate the model against airborne imaging spectroscopy data from AVIRIS-Classic.
 We found that such calibration reduced uncertainties in parameters related to leaf biochemistry and canopy structure, even for parameters with well-informed priors (Figure~\ref{fig:posterior-pft}).
 Moreover, we found that that the calibrated model was able to reproduce observed surface albedo
@@ -13,13 +13,8 @@ However, the calibrated model underpredicted LAI at sites with mostly small tree
 Compared to previous similar efforts that have coupled vegetation models to external canopy radiative transfer models~\citep{knorr2001assimilation, nouvellon2001coupling, quaife2008assimilating},
 our work is novel because it uses a canopy radiative transfer formulation that \emph{already exists inside the model itself}.
 This reduces the number of new assumptions and variables we have to introduce and increases the extent to which constraint on canopy radiative transfer parameters propagates to other related processes in the model.
-More importantly, in such a coupling, the only way that observed reflectance constrains the model is through the foliar biomass, and additional information from the reflectance on canopy structure is confined to the GORT parameters.
-By contrast, in our approach, parameters and states in the shortwave canopy radiative transfer submodel also influence other model processes, including thermal radiative transfer, micrometeorology, and competition~\citep{longo2019ed2description}, with profound consequences for model predictions of ecosystem fluxes and composition~\citep{viskari_2019_influence}.
-
-Cross-validation and out-of-sample validation are useful tests of model performance, and we recommend these activities as future directions for this and similar work.
-However, because our calibration was joint across all sites, the marginal benefit of a separate validation at other sites not used in the calibration was relatively low.
-With 54 sites in our calibration, any single site represents <2\% of the data, and for a joint calibration without site random effects, we have every reason to believe that the calibration is not overfitting to any individual site.
-Trying to fit any one site well would cause others to do worse (especially given the large observed variability in forest structure) unless the EDR model structure was reasonable and the parameters chosen were genuinely good choices.
+More importantly, in such a coupling, the only way that observed reflectance constrains the model is through the foliar biomass, and additional information from the reflectance on canopy structure is confined to the external RTM parameters.
+By contrast, in our approach, parameters and states in the shortwave canopy radiative transfer submodel also influence other model processes, including thermal radiative transfer, micrometeorology, photosynthesis, respiration, and competition~\citep{longo2019ed2description}, with profound consequences for model predictions of ecosystem fluxes and composition~\citep{viskari_2019_influence}.
 
 In this study, the vegetation composition at each site (including the PFT distribution and size-age structure) was prescribed in detail based on inventory data.
 This allowed us to focus the calibration on model parameters related canopy radiative transfer model parameters.
@@ -27,6 +22,11 @@ However, ED2 is a dynamic vegetation model whose core purpose is to predict how 
 An important future direction of this work is to evaluate such dynamic ED2 simulations where vegetation composition and structure and predicted with some uncertainty.
 In doing so, there is an opportunity to further tighten the link between canopy radiative transfer and other model processes.
 For example, the PROSPECT leaf water content parameter (\emph{Cw}) provides a physical link between leaf optical properties and hydraulics and could therefore be used as a constraint in ED2's recently developed dynamic hydraulics module~\citep{xu2021leaf}.
+
+Cross-validation and out-of-sample validation are useful tests of model performance, and we recommend these activities as future directions for this and similar work.
+However, because our calibration was joint across all sites, the marginal benefit of a separate validation at other sites not used in the calibration was relatively low.
+With 54 sites in our calibration, any single site represents <2\% of the data, and for a joint calibration without site random effects, we have every reason to believe that the calibration is not overfitting to any individual site.
+Trying to fit any one site well would cause others to do worse (especially given the large observed variability in forest structure) unless the EDR model structure was reasonable and the parameters chosen were genuinely good choices.
 
 The canopy radiative transfer model in ED2 is derived from the two-stream model of \citet{sellers1985canopy} and adapted to a multi-level canopy.
 Similar versions of this two-stream formulation are present in other land surface models, including CLM~\citep{clm45_note}, SiB~\citep{baker2008seasonal}, Noah~\citep{niu2011community}, tRIBS-VEGGIE~\citep{ivanov2008vegetationhydrology}, IMOGEN~\citep{huntingford2008quantifying}, and JULES~\citep{best_2011_joint}.
@@ -43,10 +43,11 @@ In future work, we suggest combining our approach with additional kinds of remot
 
 That being said, one major advantage of the Bayesian calibration approach is that its output is a joint posterior distribution that includes not only fully quantified uncertainties for each parameter but also the variance-covariance matrix of each parameter.
 Equifinality in parameters would manifest as strong pairwise correlation between parameters in the posterior distribution.
-Examining this correlation matrix shows that there are some parameter pairs with strong correlations, such as the hypothesized negative correlations between leaf allometry and clumping factor across most PFTs (Figure~\ref{fig:posterior-correlations}).
+Examining this correlation matrix shows that there are some parameter pairs with strong correlations, such as the hypothesized negative correlations between leaf allometry and clumping factor across some PFTs (Figure~\ref{fig:posterior-correlations}).
 However, these correlations do not occur in all parameters that exhibited edge-hitting behavior.
-For instance, clumping factor also exhibited edge-hitting behavior for mid-successional hardwood PFTs (Figure~\ref{fig:posterior-pft}), but the corresponding correlation coefficient was only weakly negative (Figure~\ref{fig:posterior-correlations}).
-Strong correlations also occurred among some of the PROSPECT parameters, and between PROSPECT and structural parameters, but contributed little to equifinality because the strong constraints on PROSPECT led to overall small covariance terms (results not shown).
+For instance, clumping factor also exhibited edge-hitting behavior for the mid-successional hardwood PFT (Figure~\ref{fig:posterior-pft}), but the corresponding correlation coefficient was \emph{positive} (Figure~\ref{fig:posterior-correlations}).
+Strong correlations also occurred among some of the PROSPECT parameters, and between PROSPECT and structural parameters,
+but contributed little to equifinality because the strong constraints on PROSPECT led to overall small covariance terms (results not shown).
 Finally, because our calibration captured all of these covariances, the presence of moderate equifinality did not preclude ecologically meaningful parameter constraints or accurate predictions because these covariances are being propagated into predictions.
 This is directly analogous to how a linear regression can have a tight confidence interval, despite high correlations between the slope and intercept, with that equifinality driving the characteristic hourglass shape of a regression confidence interval.
 
