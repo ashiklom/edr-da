@@ -13,6 +13,7 @@ library(tidyr)
 library(patchwork)
 library(forcats)
 library(stringr)
+library(paletteer)
 
 stopifnot(
   requireNamespace("fst", quietly = TRUE),

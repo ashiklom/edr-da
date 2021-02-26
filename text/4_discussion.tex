@@ -23,10 +23,10 @@ An important future direction of this work is to evaluate such dynamic ED2 simul
 In doing so, there is an opportunity to further tighten the link between canopy radiative transfer and other model processes.
 For example, the PROSPECT leaf water content parameter (\emph{Cw}) provides a physical link between leaf optical properties and hydraulics and could therefore be used as a constraint in ED2's recently developed dynamic hydraulics module~\citep{xu2021leaf}.
 
-Cross-validation and out-of-sample validation are useful tests of model performance, and we recommend these activities as future directions for this and similar work.
-However, because our calibration was joint across all sites, the marginal benefit of a separate validation at other sites not used in the calibration was relatively low.
 With 54 sites in our calibration, any single site represents $<2\%$ of the data, and for a joint calibration without site random effects, we have every reason to believe that the calibration is not overfitting to any individual site.
 Trying to fit any one site well would cause others to do worse (especially given the large observed variability in forest structure) unless the EDR model structure was reasonable and the parameters chosen were genuinely good choices.
+That said, we recognize that cross-validation and out-of-sample validation are useful tests of model performance,
+and we recommend these activities as future directions for this and similar work.
 
 The canopy radiative transfer model in ED2 is derived from the two-stream model of \citet{sellers1985canopy} and adapted to a multi-level canopy.
 Similar versions of this two-stream formulation are present in other land surface models, including CLM~\citep{clm45_note}, SiB~\citep{baker2008seasonal}, Noah~\citep{niu2011community}, tRIBS-VEGGIE~\citep{ivanov2008vegetationhydrology}, IMOGEN~\citep{huntingford2008quantifying}, and JULES~\citep{best_2011_joint}.
@@ -74,7 +74,7 @@ more horizontal leaf distributions (i.e., higher leaf orientation factor; e.g., 
 
 Meanwhile, the SAIL definition of direct backscatter is a more simple function of leaf scattering, leaf angle distribution, and canopy optical depth that also produces a more accurate albedo estimate~\citep{yuan2017reexamination}.
 Given that underestimating albedo can have significant consequences for the biological, ecological, and physical predictions of ED2~\citep{viskari_2019_influence}, incorporating this fix into the ED2 canopy RTM is an important future direction of our work.
-However, doing so is outside the scope of this work because doing so would require propagating the different coefficients through the complex, multiple-canopy-layer solution of EDR (Section~\ref{subsubsec:multi-canopy-solution})---a non-trivial task.
+However, doing so is outside the scope of this work because it would require propagating the different coefficients through the complex, multiple-canopy-layer solution of EDR (Section~\ref{subsubsec:multi-canopy-solution})---a non-trivial task.
 
 A significant caveat to the broader application of our approach is that there is a subtle but significant difference between the physical quantity EDR predicts and the quantities typically measured by optical remote sensing.
 Specifically, EDR predicts the hemispherical reflectance---the ratio of total radiation leaving the surface to the total radiation incident upon the surface, integrated over all viewing angles (a.k.a, ``blue-sky albedo'').

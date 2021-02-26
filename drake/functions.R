@@ -110,8 +110,10 @@ soil_moisture_plot <- function(tidy_posteriors, site_structure_data) {
                linetype = "dashed") +
     geom_text(aes(x = x, y = 0, label = lab), data = site_posterior_summary,
               inherit.aes = FALSE) +
-    scale_color_viridis_c(
+    scale_color_paletteer_c(
+      palette = "pals::isol",
       aesthetics = c("color", "fill"),
+      direction = -1,
       guide = guide_colorbar(title = "Weighted evergreen fraction")
     ) +
     labs(x = "Site code", y = "Soil moisture fraction (0 - 1)") +
