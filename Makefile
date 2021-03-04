@@ -19,3 +19,6 @@ clean:
 
 response:
 	cd text/comments-and-submissions/2021-03-05-response && make pdf
+
+diff:
+	cd text && make diff
