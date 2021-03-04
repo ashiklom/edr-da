@@ -73,13 +73,11 @@ Finally, the calibration was able to constrain site-specific soil optical proper
 \end{figure}
 
 The accuracy and precision of EDR simulated spectra relative to AVIRIS observations varied across sites (Figures~\ref{fig:spec-error-aggregate},~\ref{fig:bias-boxplot-pft},~\ref{fig:spec-error-all}, and~\ref{fig:spec-error-allsites}).
-On average, EDR tended to accurately (within 0.01) reproduce reflectance in the 400--750 \unit{nm} range, underpredict AVIRIS reflectance by \~0.03 in the 750--1100 \unit{nm} range, and overpredict AVIRIS reflectance by \~0.04 in the 1100--1300 \unit{nm} range.
-However, only the latter behavior was mostly consistent across sites;
-below 1100 \unit{nm}, sites of any dominant PFT could have low, accurate, or high estimates relative to AVIRIS.\@
-The only consistent biases (expressed as interquartile range in bias not overlapping zero) we observed with respect to PFT were
-overestimates of reflectance in the 400--750 \unit{nm} range for late conifer
-and
-underestimates of reflectance in the 750--1100 \unit{nm} range for northern pine;
+On average, EDR tended to accurately (within 0.01) reproduce reflectance in the 400--750 \unit{nm} range, underpredict AVIRIS reflectance by \~0.02 in the 750--1100 \unit{nm} range, and overpredict AVIRIS reflectance by \~0.03 in the 1100--1300 \unit{nm} range.
+However, only the latter behavior was consistent across sites;
+below 1100 \unit{nm}, sites dominated by any PFT could have low, accurate, or high estimates relative to the AVIRIS observations.\@
+The only consistent bias (expressed as interquartile range in bias not overlapping zero) we observed with respect to PFT was an
+underestimate of reflectance in the 750--1100 \unit{nm} range for northern pine;
 otherwise, we did not observe any consistent patterns in mismatch between AVIRIS observed and EDR predicted reflectance with respect to tree size, stem density, or composition (Figures~\ref{fig:bias-boxplot-pft} and~\ref{fig:bias-density-pft}--\ref{fig:tree-sites-LC}).
 The EDR posterior predictive interval overlapped AVIRIS observations in all but a few individual cases (Figure~\ref{fig:spec-error-allsites}), suggesting that our estimates of model uncertainty are realistic.
 
@@ -113,8 +111,8 @@ The EDR posterior predictive interval overlapped AVIRIS observations in all but 
   }\label{fig:lai-bias-dens-bypft}
 \end{figure}
 
-Leaf area index predicted from calibrated EDR parameters captured 53\% of the variability in the observations (Figure~\ref{fig:lai-pred-obs}).
-The observed vs.\ predicted line had a slope of 0.40 and an intercept of 2.82, indicating that EDR calibration underpredicted true LAI on average but exaggerated across-site LAI variability.
+Leaf area index predicted from calibrated EDR parameters captured 46\% of the variability in the observations (Figure~\ref{fig:lai-pred-obs}).
+The observed vs.\ predicted line had a slope of 0.35 and an intercept of 3.09, indicating that EDR calibration underpredicted true LAI on average but exaggerated LAI variability across sites.
 In general, EDR tended to underpredict LAI at high-density sites with low mean DBH and overpredict LAI at low-density sites with high mean DBH (Figures~\ref{fig:lai-bias-dbh-bypft} and~\ref{fig:lai-bias-dens-bypft}).
 The trend with mean DBH was generally true across all PFTs but was most pronounced for early hardwood- and late conifer-dominated sites (Figure~\ref{fig:lai-bias-dbh-bypft}),
 while the trend with stand density was most pronounced for late conifer-dominated sites (Figure~\ref{fig:lai-bias-dens-bypft}).
