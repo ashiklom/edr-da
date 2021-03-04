@@ -1,4 +1,6 @@
 # Interactive code for evaluating relative constraints
+library(conflicted)
+library(dplyr)
 
 drake::loadd(tidy_posteriors)
 drake::loadd(tidy_priors)

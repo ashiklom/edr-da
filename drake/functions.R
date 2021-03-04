@@ -49,7 +49,7 @@ pft_posterior_plot <- function(tidy_priors, tidy_posteriors, ncol = 2) {
     dplyr::filter(
       # Clipped because priors are much wider than posteriors
       !(variable == "b1Bl" & value > 0.2),
-      !(variable == "b1Bw" & value > 0.2),
+      !(variable == "b1Bw" & value > 0.1),
       !is.na(pft)
     ) %>%
     dplyr::mutate(variable = factor(variable, lvls, lbls))
