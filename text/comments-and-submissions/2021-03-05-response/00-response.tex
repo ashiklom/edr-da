@@ -36,13 +36,13 @@ Reviewer T.\ Quaife remarked that we did not mention how our inversion algorithm
 In our original submission, we did not account for this spectral autocorrelation, and our likelihood expression assumed all bands were independent.
 However, we recognize that this was flawed.
 In our revision, we have updated our inversion algorithm to account for autocorrelation in the residuals by imposing an order-1 autogregressive (AR1) correlation structure on the residual covariance matrix in our likelihood expression (calculated exogenously, with the AR1 correlation coefficient calculated from the residuals from the original simulation).
-This is described in our revised methods (lines 326--334).
+This is described in our revised methods (lines 329--337).
 
 While implementing this, we made several other changes to our inversion algorithm as well (all documented in the revised methods).
 For one, rather than prescribing a common set of illumination conditions (direct vs.\ diffuse radiation and solar zenith angle) for all observations,
 we now fully account for variability in both across all observations by extracting the solar geometry from the AVIRIS metadata and
-prescribing radiation conditions (direct-diffuse fraction) based on the hourly MERRA-2 meteorological reanalysis product (lines 304--307).
-In addition, we have replaced our original lognormal likelihood penalty for LAI predictions with a uniform distribution that guarantees that LAI predictions do not exceed a reasonable threshold but also does not differentiate between LAI values below that threshold (lines 337--344).
+prescribing radiation conditions (direct-diffuse fraction) based on the hourly MERRA-2 meteorological reanalysis product (lines 307--310).
+In addition, we have replaced our original lognormal likelihood penalty for LAI predictions with a uniform distribution that guarantees that LAI predictions do not exceed a reasonable threshold but also does not differentiate between LAI values below that threshold (lines 345--348).
 We have updated all of our results figures and text accordingly.
 The impact of these methodological changes on our results was relatively minor, and none of the core conclusions have changed.
 
@@ -51,13 +51,13 @@ The impact of these methodological changes on our results was relatively minor, 
 Reviewer T.\ Quaife remarked that our original manuscript incorrectly downplayed the important differences between directional reflectance factor (which is observed by most optical remote sensing instruments) and hemispherical reflectance (a.k.a., ``albedo''; the quantity simulated by EDR and related models).
 We fully agree that these are two distinct (albeit related) physical quantities that, in general, cannot be compared.
 We also recognize that our original discussion of this topic was flawed and, as stated, misleading.
-To address this comment, we have completely rewritten our discussion of reflectance fluxes, taking care to emphasize that surface reflectance factors estimated by AVIRIS and similar sensors cannot be directly compared to hemispherical reflectance simulations from EDR and similar models without additional processing steps (lines TODO).
+To address this comment, we have completely rewritten our discussion of reflectance fluxes, taking care to emphasize that surface reflectance factors estimated by AVIRIS and similar sensors cannot be directly compared to hemispherical reflectance simulations from EDR and similar models without additional processing steps (lines 564--594).
 
 That said, because we were using AVIRIS classic imagery that underwent additional processing for the NASA Forest Functional Types (FFT) project~\citep{singh2015imaging}, we feel that our analysis is still valid.
 In addition to the standard atmospheric correction and orthorectification conducted by NASA JPL, the AVIRIS data we used for model calibration were also cross-track illumination corrected, as well as BRDF-corrected, following the procedure of \citet{lucht2000algorithm}.
 Briefly, the latter approach estimates “intrinsic surface albedo” --- the precise quantity that is simulated by EDR --- from angular reflectance data through application of a polynomial approximation to the Ross-Li semiempirical BRDF model.
 The full AVIRIS processing pipeline for the  AVIRIS data (including the BRDF approximation) we used is described in \citet{singh2015imaging}.
-This information was absent in our original submission, but now appears in our expanded ``Site and data description'' section (lines 554--578).
+This information was absent in our original submission, but now appears in our expanded ``Site and data description'' section (lines 293--302).
 
 \subsection{Structural issues in EDR}\label{subsec:structural}
 
@@ -70,15 +70,15 @@ This can be attributed to a difference in how EDR and SAIL define the direct rad
 This underestimation of hemispherical reflectance by EDR may help explain some of the calibration issues identified by Reviewer 1.
 Specifically, both increasing canopy clumping (which increases effective leaf area index) and increasing the leaf orientation factor (more horizontal leaves) increase the simulated canopy albedo,
 so pushing these parameters up against their physical upper bounds may be a way for our inversion to compensate for EDR's underestimation of albedo.
-We have included a discussion of this in our revised Discussion section (lines 533--554).
+We have included a discussion of this in our revised Discussion section (lines 544--557).
 
 \subsection{Discussion of equifinality}\label{subsec:equifinality}
 
 Reviewer 1 noted that, while we mentioned in our Introduction the equifinality between leaf biochemistry and canopy structure in canopy radiative transfer, we did not revisit this important issue in in the rest of our manuscript.
 We agree that the topic of equifinality in canopy radiative transfer is worth additional discussion.
 In our analysis, equifinality was reduced by using informative priors for the leaf parameters.
-We note in our revised discussion that, in future work, this prior information could also come from other kinds of remote sensing measurements (lines 506--508)
-as well as through the ecophysiological mechanisms embedded in the model itself --- i.e., some combinations of model parameters and states that are consistent with a given surface reflectance may be excluded because they imply ecologically unrealistic states in previous time steps or result in ecologically unrealistic outcomes in future time steps (lines 468--473).
+We note in our revised discussion that, in future work, this prior information could also come from other kinds of remote sensing measurements (lines 512--514)
+as well as through the ecophysiological mechanisms embedded in the model itself --- i.e., some combinations of model parameters and states that are consistent with a given surface reflectance may be excluded because they imply ecologically unrealistic states in previous time steps or result in ecologically unrealistic outcomes in future time steps (lines 475--482).
 
 \subsection{Revised model description}\label{subsec:model}
 

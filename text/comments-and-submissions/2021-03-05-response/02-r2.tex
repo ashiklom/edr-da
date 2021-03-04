@@ -48,7 +48,7 @@ See Section~\ref{subsec:brdf}.
   I would be happy to iterate on the experimental procedure with the authors.
 \end{reviewer}
 
-We have added to the results a comparison of simulations between EDR and PRO4SAIL, parameterized identically (Figures 10; lines 436--439).
+We have added to the results a comparison of simulations between EDR and PRO4SAIL, parameterized identically (Figures 10; lines 442--445).
 Lower albedo predictions from EDR than SAIL can be attributed primarily to differences in how each model defines the direct radiation backscatter coefficient in the radiative transfer equation --- see our main response (Section~\ref{subsec:structural}).
 
 The reason that we ultimately did not include SAIL simulations is that there is no obvious way to convert the complex, multi-PFT canopies simulated by EDR into the single homogeneous inputs expected by SAIL.\@
@@ -64,7 +64,7 @@ However, the results of this analysis can be used directly to parameterize ED2.
 The R version of the ED2 canopy radiative transfer model is mathematically identical to the actual Fortran version and was only extracted for analytical convenience and computationally efficiency
 (since running the original version of ED2, which is what we initially implemented, incurred significant computational overhead for initializing ED2’s many variables).
 
-We have kept the title as-is, but have added additional text to the discussion highlighting how this approach could be used directly with the ED2 model (lines 467--473).
+We have kept the title as-is, but have added additional text to the discussion highlighting how this approach could be used directly with the ED2 model (lines 475--482).
 
 \begin{reviewer}
   3. How are correlations between spectral channels dealt with? Do the authors use all of the AVRIS observations in the domain 400-1300nm? The errors in spectrally adjacent bands will be very highly correlated and the overall information content will be much lower the same number of independent observations.
@@ -106,7 +106,7 @@ EDR models fluxes not at canopy layers, but at the boundaries between layers.
 Boundary $i$ is defined as the air space immediately below the i$^{th}$ canopy layer (counting from the bottom of the canopy).
 For $n$ canopy layers, $i = n$ refers to the space immediately below the tallest cohort layer, while $i = n+1$ is the (imaginary) boundary above the tallest cohort (i.e., between the canopy and the atmosphere).
 Therefore, $r_{n+1}$ refers to the reflectance at the top of the canopy.
-We have added this clarification to the methods (lines 218--225).
+We have added this clarification to the methods (lines 221--228).
 
 \begin{reviewer}
 L102 “tau” should presumably be the Greek symbol $\tau$.
