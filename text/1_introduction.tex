@@ -3,13 +3,13 @@
 Dynamic vegetation models play a vital role in modern terrestrial ecology, and Earth science more generally.
 The terrestrial carbon cycle is a major biogeochemical feedback in the global climate system~\citep{heinze_2019_esd_reviews}, and accurate predictions of terrestrial carbon cycling rely on accurate representations of vegetation dynamics~\citep{pacala_1995_details_that_matter}.
 Vegetation also plays an important role in the water cycle and surface energy balance, with major climate implications~\citep{bonan2008forests}.
-In addition, the distribution of tree species, the structure of plant canopies, and many other variables simulated by dynamic vegetation models are also important predictors of biodiversity, making vegetation models an important tool for conservation~\citep{mcmahon2011improving}.
-Effective calibration and validation of model projections is therefore of broad concern.
+In addition, the distribution of tree species, the structure of plant canopies, and many other variables simulated by dynamic vegetation models are also important predictors of biodiversity, making vegetation models an important tool for conservation management~\citep{mcmahon2011improving}.
+Robust calibration and validation of model projections is therefore of broad concern.
 
-Many previous efforts have used various data streams to calibrate or constrain dynamic vegetation model parameters and states.
-Among these data streams, remote sensing is particularly promising due to its consistent measurement methodology and largely uninterrupted global coverage.
+Past efforts to calibrate or constrain dynamic vegetation model parameters and states used a variety of data streams.
+Among these data streams, remote sensing is particularly promising due to its consistent measurement methodology and largely uninterrupted global coverage in recent decades.
 Data products derived from remote sensing observations have been used to inform, among others,
-phenology~\citep{knorr2010carbon, viskari2015modeldata}
+vegetation phenology~\citep{knorr2010carbon, viskari2015modeldata}
 and absorbed photosynthetically-active radiation~\citep{peylin2016new, schurmann2016constraining, zobitz_2014_joint}.
 However, there are issues with using derived remote sensing products to calibrate vegetation models.
 The relationships between remotely sensed surface reflectance and vegetation structure and function are complex and multifaceted.
@@ -27,7 +27,7 @@ Such an approach draws on decades of research on simulation of vegetation optica
 Instead of coupling a dynamic vegetation model to an external canopy radiative transfer model, we propose a more direct approach of using a vegetation model's own internal representation of canopy radiative transfer.
 Radiative transfer models have long been an important component of land surface models~\citep{dickinson1983land, sellers1985canopy}.
 Canopy radiative transfer is the primary mechanism by which models relate vegetation composition and state to the surface energy balance.
-This is important to both the plants themselves---as many plant processes (including evaporation and enzyme kinetics) are sensitive to temperature~\citep{serbin2011leaf}---and to the impact of plants on local, regional, and global climate~\citep{bonan2008forests}.
+This is important to both the plants themselves---as many plant processes (including evaporation and enzyme kinetics) are sensitive to temperature~\citep{serbin2012leaf}---and to the impact of plants on local, regional, and global climate~\citep{bonan2008forests}.
 Canopy radiative transfer also controls how much light is available to plants for photosynthesis and is therefore a first-order driver of plant function~\citep{hikosaka1995model, robakowski_2004_growth, niinemets2016withincanopy, keenan2016global}.
 Canopy radiative transfer is particularly important to the current generation of demographically-enabled dynamic vegetation models, where differences in canopy radiative transfer representations and parameters have major impacts on predicted community composition and biogeochemistry~\citep{loew_2014_do, fisher2018vegetation, viskari_2019_influence}.
 Finally, parameters to which vegetation models are known to be highly sensitive---namely, those related to leaf biochemistry and canopy structure~\citep{dietze2014quantitative, raczka_2018_what, shiklomanov2020structurea}---play an important role in canopy radiative transfer.

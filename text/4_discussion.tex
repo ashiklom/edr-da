@@ -1,8 +1,9 @@
 \section{Discussion}
 
-Calibrating and validating vegetation models using optical remote sensing data typically involves derived data products (e.g., MODIS GPP) that rely on their own models;
+Calibrating and validating vegetation models using optical remote sensing data has typically involved derived data products (e.g., MODIS GPP) that rely on their own models;
 in other words, ``bringing the observations closer to the models''.
-In this study, we presented an alternative approach whereby we bring the models closer to the observations by training a vegetation model to simulate full-range hyperspectral surface reflectance that is closer to the measurements made by optical remote sensing instruments.
+In this study, we presented an alternative approach whereby we ``bring the models closer to the observations'' by training a vegetation model to simulate full-range hyperspectral surface reflectance that is closer to the measurements made by optical remote sensing instruments.
+We argue this is a more generalized approach, as many dynamic vegetation models already contain their own internal representations of canopy radiative transfer and thus can be modified to provide outputs that can mimic optical remote sensing (i.e., can be used as ``satellite simulators'' to connect underlying model state to emergent reflectance).
 We then demonstrated how this approach could be used to calibrate the model against airborne imaging spectroscopy data from AVIRIS-Classic.
 We found that such calibration reduced uncertainties in parameters related to leaf biochemistry and canopy structure, even for parameters with well-informed priors (Figure~\ref{fig:posterior-pft}).
 Moreover, we found that that the calibrated model was able to reproduce observed surface albedo
