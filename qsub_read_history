@@ -1,9 +1,0 @@
-#!/bin/bash
-#$ -l h_rt=03:00:00
-#$ -j y
-#$ -o logs_readhist
-#$ -t 1-50
-
-/usr3/graduate/ashiklom/.singularity/Rscript scripts/ensemble/05_read_history_ts.R \
-    --ens=$SGE_TASK_ID \
-    $@

@@ -1,8 +1,9 @@
 #!/bin/bash
-#SBATCH --ntasks=1
-#SBATCH --cpus-per-task=8
 #SBATCH --time=12:00:00
 #SBATCH --account=s3673
+#SBATCH --constraint='sky|hasw'
+#SBATCH --output=logs/edr-da-revised-%j.log
+#SBATCH --job-name=edr-da
 
 source /home/ashiklom/.bash_functions
 mod_r
@@ -11,4 +12,4 @@ module list
 
 pwd; hostname; date
 
-Rscript scripts/inversion_r_multi_site.R $@
+Rscript scripts/04-run-inversion.R $@

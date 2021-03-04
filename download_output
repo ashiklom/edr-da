@@ -1,3 +1,0 @@
-#!/bin/bash
-
-rsync -avz --progress geo:~/dietzelab/edr-da/ed-outputs/ ed-outputs-remote --exclude "*.h5" --exclude "*.dat" --exclude "met_*"

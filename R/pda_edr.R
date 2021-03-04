@@ -1,6 +1,5 @@
 #' Run EDR parameter data assimilation
 #'
-#' @inheritParams run_simulation_edr
 #' @param observed Observation vector or matrix (see [PEcAnRTM::invert_bt()])
 #' @param observation_operator Function for aligning EDR output with observation
 #' @param custom_settings Custom settings list for [PEcAnRTM::invert_bt()]
