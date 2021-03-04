@@ -91,3 +91,7 @@ msp_figures
 
 # Preprint version
 _preprint-version
+/other_site_data/aviris-processed.csv
+/other_site_data/merra-radiation.csv
+/other_site_data/merra/
+/data-raw/inversion-data/

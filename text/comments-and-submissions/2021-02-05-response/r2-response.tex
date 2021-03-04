@@ -1,0 +1,159 @@
+\begin{quote}
+The manuscript “Cutting out the middleman: Calibrating and validating a dynamic vegetation model (ED2-PROSPECT5) using remotely sensed surface reflectance” by Shiklomanov et al. illustrates the assimilation of reflectance data observed from aircraft into a component of the ED2 model. In many respects this is an excellent paper. The Bayesian approach taken is state-of-the-art and the use of forward modelling of reflectance for assimilation purposes is desirable for many reasons (and yet surprisingly little progress has been made in this area for land surface studies, making this paper especially welcome). The text is also well written on the whole.
+
+Unfortunately I do have one rather significant concern about this paper, which may at first seem like a subtlety, but really is not. The authors are not “cutting out the middleman” so much as choosing to ignore them. I am concerned that the take home message of the paper for people less familiar with the underlying physics will be that it’s OK to take this approach.
+
+1. Assimilation of BRF and HDRFs.
+
+[Note: I am using the definitions of reflectance quantities from Schaepman-Strub et al.
+(2006; hereafter S06), which the authors have also done.]
+
+My major concern with this paper is the authors’ misuse of different reflectance quantities. They are not comparing like with like and I do not agree that it is OK to assimilate quantities that are not physically consistent with those being modelled. The Sellers two-stream model predicts reflectances (BHR and DHR), whereas the AVRIS data are reflectance factors (BRF and HDRF). Although they are both unitless they are fundamentally different quantities and have different scales.
+
+The authors do devote a paragraph to discussing this, but it is misleading and I am not convinced by the arguments they make. The statement that the ED radiative transfer model predicts BHR is only partly correct. It also simulates DHR and the predicted reflectance is a weighted mean of the two. The authors go on to state the AVRIS observations are most related to HDRFs. This would only be true for overcast skies. AVRIS observations are best represented as a mix of HDRFs and BRFs (although the reality is more complex of course as the down-welling diffuse flux is rarely isotropic). I argue that for most cases the AVRIS data will be most closely related to BRFs as most flight campaigns are under relatively clear skies.
+
+I think part of the problem here arises because S06 define anything with more than 0
+
+Using the Hogan et al (2018) paper to defend this position is disingenuous. One of the things that paper shows quite clearly is that solar geometry effects are not well dealt with by classic two-stream formulations for complex canopies. The adjustments to the two-stream scheme made in that paper are required to make the model predicted DHR match the reference 3D model.
+
+I am prepared to accept that in the specific experiment in this paper the limited angular sampling of AVRIS may mean that the overall effect will be small. However, when the authors make statements such as the one at Line 300 (“We therefore conclude that additional computational and conceptual challenges (as well as parameter uncertainties) associated with treatment of angular effects in similar models are unwarranted”) it is very misleading: the take home message is that it is, in general, OK to take this approach. It is most definitely not.
+
+On a related note I also don’t accept the statements on lines 269 and 299 that seem to imply that it’s necessary to have additional parameters to predict directional reflectances. This is not the case and hence also not a valid defence of the approach taken. The set of parameters required to define a two stream model can be used also to define a BRDF model derived from the same underlying assumptions (i.e. semi-infinite, plane parallel turbid media with point scatterers).
+\end{quote}
+
+We thank the reviewer for their insightful and valuable comments on this topic. We fully agree that there is a subtle but important difference between reflectance simulated by EDR and reflectance factors measured by AVIRIS that precludes a direct comparison between the two. We also recognize that our original discussion of this topic was flawed, and as stated, misleading.
+
+That said, because we were using AVIRIS classic imagery that underwent additional processing for the NASA Forest Functional Types (FFT) project (Singh et al 2015), we feel that our analysis is still valid. In addition to the standard atmospheric correction and orthorectification conducted by NASA JPL, the AVIRIS data we used for model calibration were also cross-track illumination corrected, as well as BRDF-corrected, following the procedure of Lucht et al. (2000, doi:10.1109/36.841980). Briefly, the latter approach estimates “intrinsic surface albedo” --- the precise quantity that is simulated by EDR --- from angular reflectance data through application of a polynomial approximation to the Ross-Li semiempirical BRDF model. The full AVIRIS processing pipeline for the  AVIRIS data (including the BRDF approximation) we used is described in Singh et al. (2015, doi:10.1890/14-2098.1).
+
+We have addressed this comment in the following ways: First, we have added additional information about our AVIRIS processing pipeline (including the BRDF correction) to the “Site and data description” of the Methods, along with a reference to the Singh et al. (2015) paper from which our data originated.
+
+Second, and more importantly, we have completely rewritten our discussion of BRDF effects, taking care to emphasize that surface reflectance factors from AVIRIS and similar sensors cannot be directly compared to intrinsic albedo / reflectance simulations from EDR and similar models without BRDF correction. The revised discussion now reads as follows:
+
+A significant caveat to the broader application of our approach is that there is a subtle but significant difference between the physical quantity EDR predicts and the quantities typically measured by optical remote sensing. Specifically, EDR predicts the hemispherical reflectance---the ratio of total radiation leaving the surface to the total radiation incident upon the surface, integrated over all viewing angles (a.k.a, blue-sky albedo). On the other hand, optical remote sensing platforms typically measure the directional reflectance factor---the ratio of actual radiation reflected by a surface to the radiation reflected from an ideal diffuse scattering source (e.g., a Spectralon calibration panel) subject to the same illumination, in a specific viewing direction (Schaepman-Strub et al. 2006). These two quantities are numerically equivalent only for ideal Lambertian surfaces or, for non-Lambertian surfaces, under specific sun-sensor geometries. However, vegetation canopies---the focus of this study---are known to exhibit reflectance with very strong angular dependence, so a comparison of canopy hemispherical reflectance with a remotely sensed directional reflectance factor is invalid.
+
+Our specific analysis is valid because---as described in the Methods---we used AVIRIS data that were also BRDF-corrected, whereby the directional reflectance estimates from the atmospheric correction process were further converted to estimates of hemispherical reflectance (“intrinsic surface albedo”, sensu Lucht et al. 2000) via a polynomial approximation of the Ross-Li semiempirical BRDF model (Lucht et al. 2000). Another dataset that would have been valid for our analysis (albeit, one with much lower spatial and spectral resolution) is the MODIS albedo product (MOD43), which takes advantage of the angular sampling of the MODIS instrument to quantify the surface BRDF characteristics and therefore more precisely estimate the albedo (Wang et al. 2004; Schaaf \& Wang 2015). However, our approach as described here would not be valid for the surface reflectance products produced by nadir-viewing instruments like Landsat, Sentinel-2, or most airborne platforms, at least without additional processing steps on the data, or, preferably, modification of the underlying radiative transfer models to allow for the prediction of directional reflectance. Fortunately, the assumptions and parameters that comprise two-stream radiative transfer models like EDR and its parent model (Sellers 1985) are readily adaptable to prediction of directional reflectance. For example, the SAIL model (Verhoef 1984)---which predicts both hemispherical and directional reflectance, and which has a long history of successful application to remote sensing---makes the same general assumptions as EDR and even shares many of the underlying coefficients (c.f., Yuan et al. 2017). Alternatively, land surface models can take advantage of recent advances in radiative transfer theory to improve their accuracy without significant computational penalty (e.g., Hogan et al. 2018).
+
+\medskip
+\noindent Singh A, Serbin SP, McNeil BE, Kingdon CC, Townsend PA. 2015. Imaging spectroscopy algorithms for mapping canopy foliar chemical and morphological traits and their uncertainties. Ecological Applications 25(8): 2180-2197.
+
+\medskip
+\noindent Wang, Z., Zeng, X., Barlage, M., Dickinson, R. E., Gao, F., \& Schaaf, C. B. (2004). Using MODIS BRDF and Albedo Data to Evaluate Global Model Land Surface Albedo. Journal of Hydrometeorology, 5(1), 3–14. https://doi.org/10.1175/1525-7541(2004)005<0003:UMBAAD>2.0.CO;2
+
+\medskip
+\noindent Schaaf, C., Wang. (2015). MCD43A1 MODIS/Terra+Aqua BRDF/Albedo Model Parameters Daily L3 Global - 500m V006. NASA EOSDIS Land Processes DAAC.
+http://doi.org/10.5067/MODIS/MCD43A1.006
+
+% DONE
+
+\begin{quote}
+I propose the following modifications to address these issues:
+
+a) Change the title to remove “cutting out the middleman.”
+\end{quote}
+
+We respectfully disagree. The “middleman” in the title refers to the modeling activities typically used to derive level 3 and 4 products such as GPP and LAI, and in targeting lower-level reflectance data products, we have successfully “cut this middleman out”. Taking into account the significant re-framing of the discussion (see above response) in this revision, we feel this title is still accurate.
+
+% DONE
+
+\begin{quote}
+b) Modify the discussion around this point, including stating clearly that the reflectances and reflectance factors are physically different things and that, in general, it is not appropriate to do assimilate one into a model that predicts the other.
+\end{quote}
+
+See earlier response.
+
+% DONE
+
+\begin{quote}
+c) Quantify the differences between the BRFs and the modelled BHRs. I noticed, poking around in the github repository, that the SAIL model is included and hence, presumably, it is trivial to take representative posterior parameters values and model both BRF (from SAIL) and BHRs. If the authors’ assertion that it shouldn’t make any difference is correct then this will help to defend that. The observed reflectance factors should also be compared against SAIL predictions. I would be happy to iterate on the experimental procedure with the authors.
+\end{quote}
+
+We have added to the supplement some comparisons of simulations between EDR and PRO4SAIL, parameterized identically (see attached figures, which will appear in the revised supplement). For canopies with only one homogenous layer (the only canopies PRO4SAIL can simulate) and solar geometry typical of our region (cos(Solar zenith angle) = 0.85), EDR agrees very closely with PRO4SAIL directional reflectance over a wide range of LAI values (0.1 to 5), but PRO4SAIL hemispherical reflectance is higher than EDR. However, EDR is more sensitive to solar geometry than any of the SAIL reflectance streams: When the sun is directly overhead (solar zenith angle = 0; cos(Solar zenith angle) = 1), EDR predicts lower reflectance than even the darkest SAIL bi-directional reflectance, but as solar angle increases, EDR predictions asymptotically approach (but don’t quite reach) the brightest SAIL bi-hemispherical reflectance.
+
+Lower albedo predictions from EDR than SAIL can be attributed primarily to differences in how each model defines the direct radiation backscatter coefficient in the radiative transfer equation. A detailed description of the discrepancy is provided in Yuan et al. (2017). Briefly, EDR (and the Sellers, 1985, model from which EDR is derived) define direct radiation backscatter as a function of the single-scattering albedo, which in turn is a challenging integral involving the leaf scattering phase function and leaf projected area function. The Sellers (1985) analytical solution to this integral assumes a uniform scattering phase function, which is appropriate for point scatterers but less so for horizontal surfaces like leaves. The practical consequence of this assumption is a lower value of the direct radiation backscatter and therefore a lower albedo; this is consistent with the results of our sensitivity analysis above. Meanwhile, the SAIL definition---and the one Yuan et al. (2017) recommend for land surface modeling applications---is a more simple function of leaf scattering, leaf angle distribution, and canopy optical depth that also produces a more accurate result.
+
+The underestimation of albedo described above may also help explain some of the calibration issues identified by reviewer 1. Specifically, this may at least partially explain the tendency of our EDR calibration to prefer higher effective LAI values (in particular, the tendency towards higher values of leaf biomass allometry and clumping factor for some PFTs) and more horizontal leaf distributions (i.e., higher leaf orientation factor).
+
+Given that underestimating albedo can have significant consequences for the biological, ecological, and physical predictions of ED2 (c.f., Viskari et al. 2019), incorporating this fix into the ED2 canopy RTM is an important future direction of our work. However, this activity is outside the scope of this work because doing so would require propagating the different coefficients through the complex, multiple-canopy-layer solution of EDR---a non-trivial task.
+
+The reason that we ultimately did not include SAIL simulations is that there is no obvious way (at least, to us) to convert the complex, multi-PFT canopies simulated by EDR into the single homogeneous inputs expected by SAIL. Even if we performed an analogous multi-site calibration of PRO4SAIL, the only calibrated parameters we could compare directly would be the total LAI (and even that wouldn’t be a fully apples-to-apples comparison because a PRO4SAIL would optimize that parameter directly for each site, whereas in EDR, we are targeting multiple parameters that interact to give LAI)---for the remaining parameters, we would still have to aggregate the multi-PFT EDR parameters in a non-trivial, non-obvious way.
+
+We have revised our discussion to incorporate all of the information above.
+
+\medskip
+\noindent Yuan, H., Dai, Y., Dickinson, R. E., Pinty, B., Shangguan, W., Zhang, S., et al. (2017). Reexamination and further development of two-stream canopy radiative transfer models for global land modeling. Journal of Advances in Modeling Earth Systems, 9(1), 113–129. https://doi.org/10.1002/2016MS000773
+
+% DONE
+
+\begin{quote}
+  2. Is ED2 actually used in this paper? It seems that it is only a relatively small component of the model (i.e. the canopy radiative transfer scheme) that has been extracted. I think the title is slightly misleading in this respect. More important, I am not sure calling the code ED2-PROSPECT5 is appropriate. Perhaps EDR-PROSPECT5 would be better?
+\end{quote}
+
+No, ED2 is not used directly in this analysis. However, the results of this analysis can be used directly to parameterize ED2. The R version of the ED canopy radiative transfer model is mathematically identical to the actual Fortran version and was only extracted for analytical convenience and computationally efficiency (since running the original version of ED2, which is what we initially implemented, incurred significant computational overhead for initializing ED2’s many variables).
+
+We have kept the title as-is, but have added additional text to the discussion highlighting how this approach could be used directly with the ED2 model.
+
+% DONE
+
+\begin{quote}
+  3. How are correlations between spectral channels dealt with? Do the authors use all of the AVRIS observations in the domain 400-1300nm? The errors in spectrally adjacent bands will be very highly correlated and the overall information content will be much lower the same number of independent observations.
+\end{quote}
+
+We did not account for correlations across spectral channels, but we agree that they are significant (especially for hyperspectral data) and could therefore influence the results. To address this issue, we have rerun our analysis using a multivariate normal likelihood with an AR1 autocorrelation matrix to capture the covariance between bands. To avoid introducing new uncertainty into the inversion, we fixed the correlation coefficient (rho) of this model to the average of the lag-1 autocorrelation calculated from the residuals from our current results. In our revision, we added text describing this process to the methods and updated all of our results figures.
+
+% DONE -- Methods; pending updates to results
+
+\begin{quote}
+Minor comments:
+
+L27 The MacBean et al. (2018) paper referenced here does not assimilate a derived product in the sense the authors mean it. The assimilated data in that paper is solar induced fluorescence which, whilst it is “derived” in the sense that it is not what is being measured by the sensor, is no more derived that the surface reflectance data used in the manuscript under review. I suggest finding another reference here.
+\end{quote}
+
+We have revised this accordingly.
+
+\begin{quote}
+L35 “Meanwhile, the estimating” -> “Meanwhile, estimating”
+\end{quote}
+
+We have revised this accordingly.
+
+\begin{quote}
+L61 Surface reflectance is not assimilated in Zobbitz et al., (2014). The title is misleading (and I regret not standing my ground on that issue when we submitted that paper!); in fact fAPAR data is assimilated.
+\end{quote}
+
+We have revised this accordingly.
+
+\begin{quote}
+L85 Not sure this line should finish with a colon.
+\end{quote}
+
+We have revised this accordingly.
+
+\begin{quote}
+Eqn 3 What is meant by $r_{n+1}$ (and other variables with that subscript)? If I have understood correctly this is there are $n$ layers, so what is the reflectance of the $n + 1$ layer? (I am sure I have just missed something here, but it was not obvious).
+\end{quote}
+
+EDR models fluxes not at canopy layers, but at the boundaries between layers. Boundary $i$ is defined as the air space immediately below the i$^{th}$ canopy layer (counting from the bottom of the canopy). For $n$ canopy layers, $i = n$ refers to the space immediately below the tallest cohort layer, while $i = n+1$ is the (imaginary) boundary above the tallest cohort (i.e., between the canopy and the atmosphere). Therefore, $r_{n+1}$ refers to the reflectance at the top of the canopy. We have added this clarification to the methods.
+
+\begin{quote}
+L102 “tau” should presumably be the Greek symbol $\tau$.
+\end{quote}
+
+We have revised this accordingly.
+
+\begin{quote}
+Eqn 7 I am confused by this, why is forward scattering defined by the sum of R+T? This is just the total scattering isn’t it?
+\end{quote}
+
+We agree that this is just total scattering. We have revised this sentence to say “scattering (nu) and backscattering (omega) of canopy elements…”.
+
+\begin{quote}
+L188 This a different definition of X from earlier in the paper. I suggest finding a different symbol.
+\end{quote}
+
+We have replaced the earlier definition of X (in the EDR matrix equation MX = Y) with the symbol A to eliminate this ambiguity.
+
+\begin{quote}
+L273 “DALEC-predicted foliar biomass, which required introducing an additional fixed parameter (grams of leaf carbon per leaf area) present in neither model.” This statement is incorrect – that parameter already existed DALEC.
+\end{quote}
+
+We have removed this sentence from our discussion.

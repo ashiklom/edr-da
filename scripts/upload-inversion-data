@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+rsync -avz --progress data-raw/inversion-data discover:~/projects/phd/edr-da/data-raw/.
