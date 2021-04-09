@@ -148,17 +148,16 @@
 
 \begin{abstract}
   Canopy radiative transfer is the primary mechanism by which models relate vegetation composition and state to the surface energy balance, which is important to light- and temperature-sensitive plant processes as well as understanding land-atmosphere feedbacks.
-  In addition, parameters to which vegetation models are known to be highly sensitive play an important role in canopy radiative transfer.
-  Calibration and validation of vegetation models based on their shortwave (300 to 2500 \unit{nm}) radiative transfer outputs can be an effective constraint on a variety of model processes.
+  In addition, certain parameters (e.g., SLA) that have an outsized influence on vegetation model behavior can be constrained by observations of shortwave reflectance, thus reducing model predictive uncertainty.
   Importantly, calibrating against radiative transfer outputs allows models to directly use remote sensing reflectance products without relying on highly derived products (such as MODIS leaf area index) whose assumptions may be incompatible with the target vegetation model and whose uncertainties are usually not well quantified.
   Here, we coupled the two-stream representation of canopy radiative transfer in the Ecosystem Demography model (ED2) with a leaf radiative transfer model (PROSPECT 5) and a simple soil reflectance model to predict full-range, high spectral resolution surface reflectance that is dependent on the underlying ED2 model state.
   We then calibrated this model against estimates of hemispherical reflectance (corrected for directional effects) from the NASA Airborne VIsible/InfraRed Imaging Spectrometer (AVIRIS) and survey data from 54 temperate forest plots in the northeastern United States.
-  The calibration successfully constrained the posterior distributions of model parameters related to leaf biochemistry and morphology and canopy structure for five plant functional types.
+  The calibration significantly reduced uncertainty in model parameters related to leaf biochemistry and morphology and canopy structure for five plant functional types.
   Using a single common set of parameters across all sites, the calibrated model was able to accurately reproduce surface reflectance for sites with highly varied forest composition and structure.
   However, the calibrated model's predictions of leaf area index (LAI) were less robust, capturing only 46\% of the variability in the observations.
   Comparing the ED2 radiative transfer model with a similar model commonly used in remote sensing studies (PRO4SAIL) illustrated structural errors in the ED2 representation of direct radiation backscatter that resulted in systematic underestimation of reflectance.
-  In addition, we also highlight that our specific implementation is only valid for hemispherical reflectance data (a.k.a., albedo), whereas most surface reflectance products actually estimate the directional reflectance factor.
-  Fortunately, the assumptions and parameters that define our hemispherical reflectance model and many others in the vegetation modeling community are readily adaptable to the prediction of directional reflectance, and we recommend that these adaptations be incorporated into the next generation of vegetation models.
+  In addition, we also highlight that, to directly compare with a two-stream radiative transfer model like EDR, we had to perform an additional processing step to convert the directional reflectance estimates of AVIRIS to hemispherical reflectance (a.k.a., ``albedo'').
+  In future work, we recommend that vegetation models add the capability to predict directional reflectance, to allow them to more directly assimilate a wide range of airborne and satellite reflectance products.
   We ultimately conclude that despite these challenges, using dynamic vegetation models to predict surface reflectance is a promising avenue for model calibration and validation using remote sensing data.
 \end{abstract}
 
