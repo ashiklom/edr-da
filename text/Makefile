@@ -2,6 +2,7 @@
 
 all:
 	latexmk -pdf main.tex
+	latexpand main.tex > main-expanded.tex
 
 diff:
 	latexdiff --config="PICTUREENV=(?:picture|DIFnomarkup|align)[\w\d*@]*" \

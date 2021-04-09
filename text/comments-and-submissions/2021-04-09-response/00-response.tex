@@ -1,0 +1,174 @@
+\documentclass{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[dvipsnames]{xcolor}
+
+\newenvironment{reviewer}{\par\color{Mahogany}\vspace{6pt}}{\par\vspace{6pt}}
+
+\title{Response to reviewers}
+\author{}
+\date{April 9, 2021}
+
+\begin{document}
+\maketitle
+
+We are pleased to present a minor revision of our manuscript titled ``Cutting out the middleman: Calibrating and validating a dynamic vegetation model (ED2-PROSPECT5) using remotely sensed surface reflectance'' for consideration for publication in \emph{Geoscientific Model Development}.
+We are very grateful to the two reviewers for their constructive feedback on our revised manuscript.
+
+\section{Reviewer 1}\label{sec:r1}
+
+\begin{reviewer}
+  This reviewer was generally very pleased with the detailed nature of the response to this reviewers comments related to edge hitting parameters and equifinality. Below are a few follow up questions based on the author response.
+
+  Author Response:
+  ``As shown in equation 48, observation error in the reflectance data was not estimated a priori based on the instrument itself, but was modeled as the residual error between the model and the data, analogous to what is done for any linear or nonlinear regression model.''
+  ``Furthermore, because the variance slope and intercept are fit parameters, whose parametric uncertainty is being quantified and propagated, this makes it even less likely that our uncertainty estimate is overconfident. That said, the current approach does not formally account for any possible systematic errors in the observations, which could have a more serious impact on inferences. However, we would note that we are unaware of any derived data products that account for these systematic errors either.''
+
+  Response: This reviewer is well aware of this challenge, and recognizes in the absence of uncertainty estimates provided by the data product, end users are forced to make assumptions, or guess at how this may influence their assimilation. It is a bit concerning that this approach conflates potential instrument error and (known) model structural error. Perhaps use this as recommendation or call for data providers to give more quantitative estimate of uncertainty.
+
+\end{reviewer}
+
+While we agree that uncertainty estimates in reflectance products are important, there is no obvious place to add this recommendation without adding another paragraph to what is already a long and multifaceted discussion.
+Therefore, we have decided not to add any additional recommendations to our discussion.
+
+\begin{reviewer}
+  Specific comments on edited manuscript, using line-numbers as shown in tracked changes manuscript:
+
+  Line 4-7: ``In addition parameters to which vegetation models are known to be highly sensitive to\ldots'',
+
+  Maybe simplify these 2-3 lengthy sentences to something more concise: “In addition certain parameters (e.g. SLA) that provide an outsized influence on vegetation model behavior, can be constrained by observations of shortwave radiation, thus reducing model forecast uncertainty.” For example.
+\end{reviewer}
+
+We have revised this accordingly.
+This section now reads as follows:
+
+\begin{quote}
+  In addition, certain parameters (e.g., SLA) that have an outsized influence on vegetation model behavior can be constrained by observations of shortwave reflectance, thus reducing model predictive uncertainty.
+\end{quote}
+
+\begin{reviewer}
+  Line 16-17: ‘Successfully constrained’ This is a bit vague, maybe say something like: ‘significantly reduced the parameter uncertainty’
+\end{reviewer}
+
+We have revised this accordingly.
+This sentence now reads as follows (in both the Abstract and Conclusions):
+
+\begin{quote}
+  The calibration significantly reduced uncertainty in model parameters related to leaf biochemistry and morphology and canopy structure for five plant functional types.
+\end{quote}
+
+\begin{reviewer}
+  Line 25: ``In addition, we also highlight that our specific implementation is only valid for hemispherical reflectance data (a.k.a., albedo), whereas most surface reflectance products actually estimate the directional reflectance factor. Fortunately, the assumptions and parameters that define our hemispherical reflectance model and many others in the vegetation modeling community are readily adaptable to the prediction of directional reflectance, and we recommend that these adaptations be incorporated into the next generation of vegetation models.''
+
+  This paragraph seems a bit strange without clarifying. Need something like: ``In this work the reflectance product was converted to hemispherical reflectance in order to directly compare with the model, however, in future work, we recommend that vegetation models add the capability to predict directional reflectance.''
+  Understandably bringing the observations closer to the model output goes against the grain of the manuscript, and tempers some of the ‘novelty’ in this manuscript, but is necessary.
+\end{reviewer}
+
+We have revised this accordingly.
+This section now reads as follows:
+
+\begin{quote}
+  In addition, we also highlight that, to directly compare with a two-stream radiative transfer model like EDR, we had to perform an additional processing step to convert the directional reflectance estimates of AVIRIS to hemispherical reflectance (a.k.a., ``albedo'').
+  In future work, we recommend that vegetation models add the capability to predict directional reflectance, to allow them to more directly assimilate a wide range of airborne and satellite reflectance products.
+\end{quote}
+
+\begin{reviewer}
+  Line 465: “our work is novel because it uses a canopy radiative transfer formulation that already exists inside the model itself.”
+
+  It’s unclear in this context if you are considering PROSPECT-5 internal or external to the model. Clearly it is internal to EDR, but external to ED2. In this context you are referring to the two-stream approach within ED2 as being internal to the model. PROSPECT-5 is tacked on to simulate leaf reflectance and transmittance. There is nothing ‘magical’ about being internal or external to a certain model, but it must be internal to the data assimilation system – which in this case includes ED2 and PROSPECT-5. Suggest reframing internal/external terminology to mean internal to the data assimilation system – internal to the model terminology is a bit confusing.
+\end{reviewer}
+
+Considering this comment together with Reveiwer T.\ Quaife's comment about the same paragraph, we have decided to cut this paragraph and expand the subsequent paragraph, which now reads as follows:
+
+\begin{quote}
+  In this study, the vegetation composition at each site (including the PFT distribution and size-age structure) was prescribed in detail based on inventory data.
+  This allowed us to focus the calibration on model parameters related canopy radiative transfer model parameters.
+  However, ED2 is a dynamic vegetation model whose core purpose is to predict how vegetation composition and structure evolve through time.
+  An important future direction of this work is to evaluate such dynamic ED2 simulations where vegetation composition and structure are predicted with some uncertainty.
+  In ED2, shortwave canopy radiative transfer is already linked (through shared parameters and state variables) to other important model processes, including thermal radiative transfer, micrometeorology, photosynthesis, respiration, and competition (Longo et al.\ 2019),
+  and therefore, changes in canopy radiative transfer parameters have profound consequences for ED2 predictions of ecosystem fluxes and composition (Viskari et al.\ 2019).
+  Future work could further strengthen this link by embedding the PROSPECT coupling demonstrated in this study into ED2 itself, replacing ED2's currently prescribed leaf optical properties with simulated optical properties that change with leaf morphology and biochemistry.
+  For example, the PROSPECT leaf water content parameter (\emph{Cw}) provides a physical link between leaf optical properties and hydraulics, so such a configuration could allow surface reflectance information to constrain ED2's recently developed dynamic hydraulics module (Xu et al.\ 2021).
+\end{quote}
+
+\begin{reviewer}
+  Line 515-530: This is an appropriate discussion in response to edge hitting parameters.
+\end{reviewer}
+
+We are pleased that our revision addressed this comment.
+
+\begin{reviewer}
+  Line 565-585: I am generally satisfied with this explanation for how AVIRIS data is valid for comparison with reflectance simulated by EDR. I do think – a schematic that compares the extra steps required to bring AVIRIS data to something resembling reflectance would be helpful. Also bringing the observations closer to the model goes against the main advice posed by the authors -- that is include as much of the model as possible to bring it closer to the observations. Include the model within the data assimilation system.
+\end{reviewer}
+
+
+\section{Reviewer 2}\label{sec:r2}
+
+\begin{reviewer}
+  The authors have done a commendable job in responding to comments and improving what was already an excellent paper. In particular I appreciate the rewriting of the equations for the RT scheme which is now much clearer and, I think, has dealt with a couple of inconsistencies that I alluded to in my original review. There is also some important discussion added in response to my comments and I am thankful to the authors for that.
+
+  I still have some concerns although hopefully this is now just down to nomenclature. As with my original review these centre around what the AVRIS data actually represents.
+
+  1. Around line 255, the manuscript describes a BRDF ``correction'' applied to the AVRIS data, which apparently produces albedo values. Assuming this is correct then it satisfies a lot of my original issues with the manuscript, but it is not entirely clear from the text. Typically a BRDF correction produces directional reflectance values that have been normalised to a common geometry --- not albedo values --- and indeed this is a common application of the Ross-Li kernel models. Of course it is also possible to integrate the kernel BRDF models to estimate albedo and quite possibly that is what has been done in the AVRIS processing chain. Doing this would also represent a geometric correction of sorts. The sentence that says ``a polynomial approximation to the Ross-Li semi-empirical BRDF model'' provides some hope that it is the latter, as the operational MODIS algorithm used to predict albedo from the kernel BRDF model approximates the integral of the kernels using a polynomial. Note that the MODIS BRDF correction (the Nadir BRDF-Adjusted Reflectance in MCD43) is not produced that way however.
+
+  I have read the relevant parts of the Singh et al.\ paper and it does not really shed any light on this unless the detail is hidden elsewhere (and I note that in that paper only the volumetric kernel is mentioned, which could be the case but would be a poor choice to represent the types of forest that are being used in the current paper --- I actually suspect that what the Singh paper describes is not an accurate reflection of the BRDF processing).
+
+  Please can the authors clarify exactly what has been done here? Hopefully the BRDF correction has produced albedo values that can legitimately be compared to a two-stream model. If not then I think much of the authors rebuttal of my original review is invalid.
+\end{reviewer}
+
+We have clarified that that we used the hemispherical integral of the fitted BRDF kernel to estimate the albedo.
+The revised sentence reads as follows:
+
+\begin{quote}
+  Briefly, this BRDF correction estimates ``intrinsic surface albedo''---the quantity that is simulated by EDR---from directional reflectance data by fitting a polynomial approximation to the Ross-Li semiempirical BRDF model and then integrating this model over all angles.
+\end{quote}
+
+We agree that exact choice of BRDF kernel is important in such a processing procedure.
+However, rather than devoting significant additional discussion to choice of BRDF kernels, we feel a much better recommendation that avoids all of these pitfalls is for vegetation models to use canopy RTMs capable of simulating directional reflectance.
+We already made this recommendation in our discussion, and we state this more clearly in our revised abstract, which how has the following sentences:
+
+\begin{quote}
+  In addition, we also highlight that, to directly compare with a two-stream radiative transfer model like EDR, we had to perform an additional processing step to convert the directional reflectance estimates of AVIRIS to hemispherical reflectance (a.k.a., ``albedo'').
+  In future work, we recommend that vegetation models add the capability to predict directional reflectance, to allow them to more
+\end{quote}
+
+\begin{reviewer}
+  2. A related but minor point at line 250: ``Atmospheric correction routines use this level 1 radiance product to estimate the surface reflectance (technically, hemispherical-directional reflectance factor, HDRF, sensu Schaepman-Strub et al. 2006)—a quantity that is (in theory) independent of illumination conditions and therefore can be more directly related to intrinsic physical properties of the surface.''
+
+  I think this rather depends on how you define a HDRF. In the Schaepman-Strub paper it is defined as having a component of direct radiation and hence it is not true to say that it is independent of illumination conditions (their equation 14 is a clear example of this). I can, however, believe that this is what's produced in the AVRIS processing chain. Assuming I am correct about this the authors just need to delete the second half of the sentence and I think nothing else is affected.
+
+  On the other hand, if I am wrong and this really is under perfectly diffuse illumination conditions (and hence independent of sun angle) then it is unclear why the processing also includes a BRDF correction. That would need very careful explaining in the manuscript.
+
+  Please clarify.
+\end{reviewer}
+
+We have taken the reviewer's first suggestion and eliminated part of this sentence.
+The revised sentence now reads as follows:
+
+\begin{quote}
+  Atmospheric correction routines use this level 1 radiance product to estimate the surface reflectance (technically, hemispherical-directional reflectance factor, HDRF, sensu Schaepman-Strub et al.\ 2006)---a quantity that can be more directly related to intrinsic physical properties of the surface.
+\end{quote}
+
+\begin{reviewer}
+  3. Around line 400: ``This reduces the number of new assumptions and variables we have to introduce and increases the extent to which constraint on canopy radiative transfer parameters propagates to other related processes in the model (Viskari et al., 2019). More importantly, in an external RTM, the only way that observed reflectance constrains the model is through the foliar biomass, and additional information from the reflectance on canopy structure is confined to the external RTM parameters.''
+
+  I mentioned these points in my original review and I am not sure I saw a response (which is not a complaint, I realise there was a lot to deal with). However, I think these sentences are best deleted. It isn't true that using an RT model that is inside an ecosystem model necessarily reduces the number of assumptions and variables; that depends entirely on one's choice of RT model (both the internal and external ones). It is possible to define a full BRDF model using exactly the same variables and assumptions as those in a two-stream model.
+
+  It is also not true that the only way an external RT model can influence the process based model is via foliar biomass. It is entirely possible to build additional connections between them, to the extent where one has encompassed all the processes that they have in common.
+
+  Overall I find this part of the discussion unconvincing and I suggest it is removed.
+\end{reviewer}
+
+Taking this comment together with a similar comment from Reviewer 1, we have removed this paragraph and revised the subsequent paragraph to read as follows:
+
+\begin{quote}
+  In this study, the vegetation composition at each site (including the PFT distribution and size-age structure) was prescribed in detail based on inventory data.
+  This allowed us to focus the calibration on model parameters related canopy radiative transfer model parameters.
+  However, ED2 is a dynamic vegetation model whose core purpose is to predict how vegetation composition and structure evolve through time.
+  An important future direction of this work is to evaluate such dynamic ED2 simulations where vegetation composition and structure are predicted with some uncertainty.
+  In ED2, shortwave canopy radiative transfer is already linked (through shared parameters and state variables) to other important model processes, including thermal radiative transfer, micrometeorology, photosynthesis, respiration, and competition (Longo et al.\ 2019),
+  and therefore, changes in canopy radiative transfer parameters have profound consequences for ED2 predictions of ecosystem fluxes and composition (Viskari et al.\ 2019).
+  Future work could further strengthen this link by embedding the PROSPECT coupling demonstrated in this study into ED2 itself, replacing ED2's currently prescribed leaf optical properties with simulated optical properties that change with leaf morphology and biochemistry.
+  For example, the PROSPECT leaf water content parameter (\emph{Cw}) provides a physical link between leaf optical properties and hydraulics, so such a configuration could allow surface reflectance information to constrain ED2's recently developed dynamic hydraulics module (Xu et al.\ 2021).
+\end{quote}
+
+\end{document}
