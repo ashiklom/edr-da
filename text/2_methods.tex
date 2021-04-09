@@ -310,10 +310,10 @@ The mappings of tree species onto these PFTs are provided as a CSV-formatted tab
 \end{figure}
 
 AVIRIS-Classic measures the directional radiance of a surface from 365 to 2500 \unit{nm} at approximately 10 \unit{nm} increments.
-Atmospheric correction routines use this level 1 radiance product to estimate the surface reflectance (technically, hemispherical-directional reflectance factor, HDRF, sensu \citealt{schaepman-strub2006reflectance})---a quantity that is (in theory) independent of illumination conditions and therefore can be more directly related to intrinsic physical properties of the surface.
-For this study, in addition to the standard atmospheric correction and orthorectification conducted by NASA JPL,
-the AVIRIS data were also cross-track illumination corrected and BRDF-corrected, following the procedure of \citet{lucht2000algorithm}.
-Briefly, this BRDF correction estimates ``intrinsic surface albedo''---the quantity that is simulated by EDR---from directional reflectance data through application of a polynomial approximation to the Ross-Li semiempirical BRDF model.
+Atmospheric correction routines use this level 1 radiance product to estimate the surface reflectance (technically, hemispherical-directional reflectance factor, HDRF, sensu \citealt{schaepman-strub2006reflectance})---a quantity that can be more directly related to intrinsic physical properties of the surface.
+For this study, in addition to the standard atmospheric correction and orthorectification conducted by NASA Jet Propulsion Laboratory (JPL),
+the AVIRIS data were also cross-track illumination corrected and bidirectional reflectance distribution function (BRDF) corrected, following the procedure of \citet{lucht2000algorithm}.
+Briefly, this BRDF correction estimates ``intrinsic surface albedo''---the quantity that is simulated by EDR---from directional reflectance data by fitting a polynomial approximation to the Ross-Li semiempirical BRDF model and then integrating this model over all angles.
 The full AVIRIS processing pipeline for the  AVIRIS data (including the BRDF approximation) we used is described in \citet{singh2015imaging}.
 
 Because of unrealistic values in the shortwave infrared spectral region (>1300 \unit{nm}) in the AVIRIS observations (likely caused by faulty atmospheric correction), we only used observations from 400 to 1300 \unit{nm} for model calibration and validation.
